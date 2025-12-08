@@ -1,0 +1,279 @@
+/////// WEB PERUSAHAAN
+
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Bimbel Rumah Anak</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    /* RESET SEDERHANA */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      color: #1f2933;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 40px;
+      background: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .navbar-logo {
+      font-weight: bold;
+      font-size: 20px;
+    }
+    .navbar-menu {
+      display: flex;
+      gap: 24px;
+      font-size: 14px;
+    }
+    .navbar-menu a {
+      text-decoration: none;
+      color: #4b5563;
+    }
+    .navbar-menu a:hover {
+      color: #2563eb;
+    }
+
+    /* HERO SECTION */
+    .hero {
+      position: relative;
+      padding: 80px 40px 60px;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-image: url("https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg");
+      background-size: cover;
+      background-position: center;
+      filter: brightness(0.5);
+      z-index: -2;
+    }
+    .hero::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(to bottom, rgba(15,23,42,0.7), rgba(15,23,42,0.8));
+      z-index: -1;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border-radius: 999px;
+      background: rgba(15,118,110,0.2);
+      font-size: 12px;
+      margin-bottom: 16px;
+    }
+    .hero-title {
+      font-size: 34px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .hero-subtitle-main {
+      font-size: 20px;
+      margin-bottom: 8px;
+    }
+    .hero-subtitle {
+      font-size: 14px;
+      max-width: 520px;
+      margin: 0 auto 24px;
+      color: #e5e7eb;
+    }
+    .hero-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 32px;
+      flex-wrap: wrap;
+    }
+    .btn-primary, .btn-outline {
+      padding: 10px 22px;
+      border-radius: 8px;
+      border: 2px solid transparent;
+      font-size: 14px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+    .btn-primary {
+      background: #2563eb;
+      color: white;
+      border-color: #2563eb;
+    }
+    .btn-primary:hover {
+      background: #1d4ed8;
+    }
+    .btn-outline {
+      background: transparent;
+      color: white;
+      border-color: #bfdbfe;
+    }
+    .btn-outline:hover {
+      background: rgba(191,219,254,0.12);
+    }
+
+    /* STAT CARDS */
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 16px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .stat-card {
+      background: white;
+      padding: 18px 12px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(15,23,42,0.25);
+    }
+    .stat-number {
+      font-size: 22px;
+      font-weight: 700;
+      color: #2563eb;
+      margin-bottom: 6px;
+    }
+    .stat-label {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    /* PROMO BANNER */
+    .promo {
+      background: #fb923c;
+      color: white;
+      text-align: center;
+      padding: 40px 20px;
+    }
+    .promo-badge {
+      display: inline-block;
+      margin-bottom: 10px;
+      padding: 6px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.8);
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+    .promo-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .promo-text {
+      font-size: 14px;
+      opacity: 0.95;
+    }
+
+    /* RESPONSIVE */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 12px 16px;
+      }
+      .navbar-menu {
+        display: none; /* biar simpel, menu di-hide di HP */
+      }
+      .hero {
+        padding: 60px 16px 40px;
+      }
+      .hero-title {
+        font-size: 26px;
+      }
+      .hero-subtitle-main {
+        font-size: 18px;
+      }
+      .stats {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="navbar-logo">Bimbel Rumah Anak</div>
+    <nav class="navbar-menu">
+      <a href="#beranda">Beranda</a>
+      <a href="#program">Program</a>
+      <a href="#galeri">Galeri</a>
+      <a href="#area-siswa">Area Siswa</a>
+      <a href="#kontak">Kontak</a>
+    </nav>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="beranda">
+    <div class="hero-badge">
+      <span>✔</span>
+      <span>DIPERCAYA SEJAK 2012</span>
+    </div>
+
+    <h1 class="hero-title">Bimbel Rumah Anak</h1>
+    <p class="hero-subtitle-main">Rumah Setiap Anak</p>
+    <p class="hero-subtitle">
+      Bersama menuju generasi cerdas dan pembelajaran berkarakter.
+    </p>
+
+    <div class="hero-buttons">
+      <a href="#kontak" class="btn-primary">Daftar Sekarang</a>
+      <a href="#program" class="btn-outline">Pelajari Lebih Lanjut</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat-card">
+        <div class="stat-number">100+</div>
+        <div class="stat-label">Siswa Diterima di Sekolah Favorit</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">10+</div>
+        <div class="stat-label">Program Tersedia</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">95%</div>
+        <div class="stat-label">Tingkat Kepuasan</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">12+</div>
+        <div class="stat-label">Tahun Pengalaman</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROMO -->
+  <section class="promo">
+    <div class="promo-badge">LIMITED TIME OFFER</div>
+    <h2 class="promo-title">Diskon 30% untuk Pendaftaran Hari Ini!</h2>
+    <p class="promo-text">
+      Penawaran terbatas, buruan daftar sekarang dan dapatkan fasilitas terbaik untuk putra-putri Anda.
+    </p>
+  </section>
+
+  <!-- Section lain (program, galeri, dll) tinggal kamu tambahkan di bawah sini -->
+
+</body>
+</html>
+
