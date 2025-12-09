@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Kontak - PT PUTRA TIMUR JAYA BDB1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body {
+      font-family:"Poppins",sans-serif;
+      background:#f9fafb;
+      color:#0f172a;
+    }
+    a { text-decoration:none; color:inherit; }
+
+    .navbar {
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:#ffffff;
+      box-shadow:0 1px 4px rgba(15,23,42,0.08);
+    }
+    .nav-inner {
+      max-width:1100px;
+      margin:0 auto;
+      padding:12px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .nav-brand {
+      font-weight:700;
+      font-size:16px;
+      letter-spacing:0.04em;
+    }
+    .nav-menu {
+      display:flex;
+      gap:18px;
+      font-size:14px;
+    }
+    .nav-menu a {
+      padding:6px 10px;
+      border-radius:999px;
+      transition:background 0.15s, color 0.15s;
+    }
+    .nav-menu a:hover {
+      background:#2563eb;
+      color:#ffffff;
+    }
+    .nav-menu a.active { background:#2563eb; color:#ffffff; }
+
+    .wrapper {
+      max-width:1100px;
+      margin:0 auto;
+      padding:24px 16px 40px;
+      display:grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap:20px;
+    }
+    @media (max-width:880px) {
+      .wrapper { grid-template-columns:1fr; }
+    }
+
+    h1.page-title {
+      grid-column:1 / -1;
+      font-size:24px;
+      font-weight:700;
+      margin-bottom:6px;
+    }
+    .page-subtitle {
+      grid-column:1 / -1;
+      font-size:14px;
+      color:#4b5563;
+      margin-bottom:18px;
+    }
+
+    .card {
+      background:#ffffff;
+      border-radius:18px;
+      padding:18px 18px 22px;
+      box-shadow:0 10px 20px rgba(15,23,42,0.08);
+      border:1px solid #e5e7eb;
+    }
+    .card h2 {
+      font-size:18px;
+      margin-bottom:10px;
+    }
+    .list {
+      list-style:none;
+      font-size:14px;
+      color:#374151;
+    }
+    .list li {
+      margin-bottom:8px;
+    }
+    .label {
+      font-weight:600;
+      color:#111827;
+    }
+    .whatsapp {
+      color:#16a34a;
+      font-weight:600;
+    }
+
+    .map-frame {
+      width:100%;
+      height:260px;
+      border:0;
+      border-radius:16px;
+      box-shadow:0 8px 18px rgba(15,23,42,0.18);
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-inner">
+      <div class="nav-brand">PT PUTRA TIMUR JAYA BDB1</div>
+      <nav class="nav-menu">
+        <a href="index.html">Beranda</a>
+        <a href="program.html">Program</a>
+        <a href="galeri.html">Galeri</a>
+        <a href="teknisi.html">Area Teknisi</a>
+        <a href="kontak.html" class="active">Kontak</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrapper">
+    <h1 class="page-title">Kontak Perusahaan</h1>
+    <p class="page-subtitle">
+      Hubungi kami untuk kebutuhan kerjasama, informasi layanan, maupun koordinasi teknis.
+    </p>
+
+    <!-- INFO KONTAK -->
+    <section class="card">
+      <h2>PT PUTRA TIMUR JAYA BANDUNG BARAT 1</h2>
+      <ul class="list">
+        <li><span class="label">Alamat:</span> Jln Komplek Puri Kahuripan Residence Blok G No. 9 (contoh, silakan sesuaikan)</li>
+        <li><span class="label">Telepon Kantor:</span> (022) 0000 0000</li>
+        <li><span class="label">Email Resmi:</span> info@ptputratimurjaya.co.id</li>
+        <li><span class="label">Admin Teknisi:</span> <span class="whatsapp">WhatsApp 08xx-xxxx-xxxx</span></li>
+        <li><span class="label">Jam Operasional:</span> Senin - Sabtu, 08.00 - 17.00 WIB</li>
+      </ul>
+    </section>
+
+    <!-- MAP / LOKASI -->
+    <section class="card">
+      <h2>Lokasi Kantor</h2>
+      <p style="font-size:13px; color:#6b7280; margin-bottom:10px;">
+        Sematkan peta Google Maps di bawah ini. Ganti atribut <code>src</code> dengan iframe Maps kantor yang sebenarnya.
+      </p>
+      <!-- GANTI src di bawah dengan embed map kantor -->
+      <iframe
+        class="map-frame"
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3959.902435966383!2d107.5!3d-6.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNsKwNTQnMDAtUyAxMDfCsDMwJzAwIkU!5e0!3m2!1sid!2sid!4v0000000000000"
+        allowfullscreen=""
+        loading="lazy"
+        referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </section>
+  </main>
+</body>
+</html>

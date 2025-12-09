@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Area Teknisi - PT PUTRA TIMUR JAYA BDB1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body {
+      font-family:"Poppins",sans-serif;
+      background:#e5e7eb;
+      color:#0f172a;
+    }
+    a { text-decoration:none; color:inherit; }
+
+    .navbar {
+      position:sticky;
+      top:0;
+      z-index:50;
+      background:#ffffff;
+      box-shadow:0 1px 4px rgba(15,23,42,0.08);
+    }
+    .nav-inner {
+      max-width:1100px;
+      margin:0 auto;
+      padding:12px 16px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+    }
+    .nav-brand {
+      font-weight:700;
+      font-size:16px;
+      letter-spacing:0.04em;
+    }
+    .nav-menu {
+      display:flex;
+      gap:18px;
+      font-size:14px;
+    }
+    .nav-menu a {
+      padding:6px 10px;
+      border-radius:999px;
+      transition:background 0.15s, color 0.15s;
+    }
+    .nav-menu a:hover {
+      background:#2563eb;
+      color:#ffffff;
+    }
+    .nav-menu a.active { background:#2563eb; color:#ffffff; }
+
+    .wrapper {
+      max-width:1100px;
+      margin:0 auto;
+      padding:24px 16px 40px;
+      display:grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
+      gap:20px;
+    }
+    @media (max-width:880px) {
+      .wrapper { grid-template-columns:1fr; }
+    }
+
+    h1.page-title {
+      grid-column:1 / -1;
+      font-size:24px;
+      font-weight:700;
+      margin-bottom:6px;
+    }
+    .page-subtitle {
+      grid-column:1 / -1;
+      font-size:14px;
+      color:#4b5563;
+      margin-bottom:16px;
+    }
+
+    .card {
+      background:#ffffff;
+      border-radius:18px;
+      padding:18px 18px 20px;
+      box-shadow:0 10px 20px rgba(15,23,42,0.08);
+      border:1px solid #e5e7eb;
+    }
+    .card h2 {
+      font-size:18px;
+      margin-bottom:4px;
+    }
+    .card p.small {
+      font-size:12px;
+      color:#6b7280;
+      margin-bottom:12px;
+    }
+
+    label {
+      display:block;
+      font-size:13px;
+      margin-bottom:4px;
+    }
+    input, select, textarea {
+      width:100%;
+      padding:8px 10px;
+      font-size:13px;
+      border-radius:10px;
+      border:1px solid #d1d5db;
+      margin-bottom:8px;
+      outline:none;
+      background:#f9fafb;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color:#2563eb;
+      background:#ffffff;
+      box-shadow:0 0 0 1px #2563eb33;
+    }
+    textarea { resize:vertical; }
+
+    .btn {
+      display:inline-block;
+      padding:9px 16px;
+      border-radius:999px;
+      border:none;
+      font-size:13px;
+      font-weight:600;
+      cursor:pointer;
+    }
+    .btn-primary {
+      background:#2563eb;
+      color:#ffffff;
+    }
+    .btn-outline {
+      background:#ffffff;
+      color:#2563eb;
+      border:1px solid #2563eb;
+      margin-left:6px;
+    }
+
+    .info-link {
+      font-size:12px;
+      color:#2563eb;
+      margin-top:6px;
+    }
+  </style>
+</head>
+<body>
+  <header class="navbar">
+    <div class="nav-inner">
+      <div class="nav-brand">PT PUTRA TIMUR JAYA BDB1</div>
+      <nav class="nav-menu">
+        <a href="index.html">Beranda</a>
+        <a href="program.html">Program</a>
+        <a href="galeri.html">Galeri</a>
+        <a href="teknisi.html" class="active">Area Teknisi</a>
+        <a href="kontak.html">Kontak</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrapper">
+    <h1 class="page-title">Area Teknisi</h1>
+    <p class="page-subtitle">
+      Halaman khusus untuk teknisi PT PUTRA TIMUR JAYA BDB1. Gunakan akun yang telah terdaftar.
+    </p>
+
+    <!-- LOGIN TEKNISI -->
+    <section class="card">
+      <h2>Login Teknisi</h2>
+      <p class="small">
+        Login ini hanya tampilan (front-end). Jika ingin dihubungkan dengan sistem absensi yang sudah kita buat,
+        cukup arahkan tombol di bawah ke URL halaman absensi.
+      </p>
+
+      <label for="loginUser">User ID</label>
+      <input id="loginUser" placeholder="Masukkan user ID">
+
+      <label for="loginPass">Password</label>
+      <input id="loginPass" type="password" placeholder="Masukkan password">
+
+      <button class="btn btn-primary" type="button" onclick="alert('Contoh saja. Untuk login sebenarnya, arahkan ke halaman absensi.');">
+        🔑 Login (contoh)
+      </button>
+
+      <!-- GANTI href INI dengan URL absensi sebenarnya -->
+      <a class="btn btn-outline" href="https://absensi-teknisi-url-kamu.com" target="_blank">
+        🔗 Buka Halaman Absensi
+      </a>
+
+      <div class="info-link">
+        *Ganti link "Buka Halaman Absensi" dengan URL aplikasi absensi teknisi yang sudah kamu punya.
+      </div>
+    </section>
+
+    <!-- FORM BIODATA -->
+    <section class="card">
+      <h2>Form Biodata Teknisi</h2>
+      <p class="small">
+        Form ini bisa digunakan untuk pendataan teknisi. Untuk menyimpan data,
+        kamu bisa menghubungkan ke Google Form, Google Apps Script, atau backend lain.
+      </p>
+
+      <!--
+        NOTE:
+        - Saat ini form tidak benar-benar mengirim ke mana-mana (action="#" dan onsubmit di-handle JS).
+        - Jika ingin kirim ke Google Form, ganti action="" dan method="" sesuai URL Google Form.
+      -->
+      <form onsubmit="event.preventDefault(); alert('Contoh submit biodata. Hubungkan ke backend/Google Form jika ingin menyimpan.');">
+        <label>Nama Lengkap</label>
+        <input required>
+
+        <label>NIK / ID Teknisi</label>
+        <input required>
+
+        <label>Divisi</label>
+        <select required>
+          <option value="">-- Pilih Divisi --</option>
+          <option>IOAN</option>
+          <option>PSB</option>
+          <option>PROJEK</option>
+          <option>PIC</option>
+        </select>
+
+        <label>Area Kerja</label>
+        <select required>
+          <option value="">-- Pilih Area --</option>
+          <option>CMI</option>
+          <option>NJG</option>
+          <option>CLL</option>
+          <option>BTJ</option>
+          <option>GNH</option>
+          <option>KNG</option>
+        </select>
+
+        <label>No. HP</label>
+        <input type="tel">
+
+        <label>Pengalaman / Keahlian</label>
+        <textarea rows="3" placeholder="Contoh: Instalasi FTTH, PSB, Maintenance ODP, dsb."></textarea>
+
+        <button class="btn btn-primary" type="submit">💾 Simpan Biodata (contoh)</button>
+      </form>
+    </section>
+  </main>
+</body>
+</html>
