@@ -154,6 +154,8 @@
       margin-left: 6px;
     }
 
+    .hidden { display: none; }
+
     /* PREVIEW BIODATA */
     .preview-wrapper {
       max-width: 1100px;
@@ -187,9 +189,7 @@
       gap: 18px;
     }
     @media (max-width: 800px) {
-      .preview-grid {
-        grid-template-columns: 1fr;
-      }
+      .preview-grid { grid-template-columns: 1fr; }
     }
     .preview-photo-box {
       border: 1px solid #e5e7eb;
@@ -226,7 +226,6 @@
       margin-bottom: 2px;
       text-decoration: underline;
     }
-
     .note-info {
       font-size: 11px;
       color: #6b7280;
@@ -252,16 +251,16 @@
   <main class="wrapper">
     <h1 class="page-title">Area Teknisi</h1>
     <p class="page-subtitle">
-      Halaman khusus untuk teknisi PT PUTRA TIMUR JAYA BDB1. Silakan login dan lengkapi biodata.
+      Halaman khusus untuk teknisi PT PUTRA TIMUR JAYA BDB1. Teknisi harus login dulu sebelum mengisi biodata.
     </p>
 
     <div class="grid-two">
       <!-- LOGIN TEKNISI -->
-      <section class="card">
+      <section class="card" id="loginCard">
         <h2>Login Teknisi</h2>
         <p class="small">
-          Login ini hanya tampilan (front-end). Jika ingin dihubungkan dengan sistem absensi,
-          arahkan tombol di bawah ke URL aplikasi absensi yang sudah digunakan.
+          Gunakan user & password yang sama dengan aplikasi absensi teknisi.
+          Setelah login berhasil, form biodata akan muncul.
         </p>
 
         <label for="loginUser">User ID</label>
@@ -270,27 +269,26 @@
         <label for="loginPass">Password</label>
         <input id="loginPass" type="password" placeholder="Masukkan password" />
 
-        <button class="btn btn-primary" type="button"
-          onclick="alert('Ini hanya contoh login. Untuk login asli silakan gunakan aplikasi absensi.');">
-          🔑 Login (contoh)
+        <button class="btn btn-primary" type="button" id="btnLogin">
+          🔑 Login
         </button>
 
-        <!-- GANTI href DI BAWAH dengan URL absensi teknisi -->
+        <!-- GANTI href DI BAWAH dengan URL absensi teknisi kalau mau -->
         <a class="btn btn-outline" href="https://absen-pttj.netlify.app" target="_blank">
           🔗 Buka Halaman Absensi
         </a>
 
         <p class="note-info">
-          *Ganti link "Buka Halaman Absensi" dengan URL aplikasi absensi teknisi yang sebenarnya.
+          *Data user diambil dari daftar user absensi (USER_LINES). Kalau ada teknisi baru, cukup tambah di daftar itu.
         </p>
       </section>
 
-      <!-- FORM BIODATA -->
-      <section class="card">
+      <!-- FORM BIODATA (disembunyikan sebelum login) -->
+      <section class="card hidden" id="bioCard">
         <h2>Form Biodata Teknisi</h2>
         <p class="small">
-          Data berikut diisi oleh teknisi. Hasilnya akan ditampilkan sebagai biodata pegawai
-          di bagian bawah halaman. Untuk penyimpanan permanen, nanti bisa dihubungkan ke Google Sheet / Apps Script.
+          Data berikut diisi oleh teknisi setelah login. Hasilnya akan ditampilkan sebagai biodata pegawai
+          di bagian bawah halaman.
         </p>
 
         <form id="bioForm">
@@ -449,7 +447,7 @@
 
   <!-- PREVIEW BIODATA -->
   <section class="preview-wrapper">
-    <div id="previewCard" class="preview-card" style="display:none;">
+    <div id="previewCard" class="preview-card hidden">
       <div class="preview-header">
         <div class="title-main">BIODATA PEGAWAI</div>
         <div class="title-sub">PT. PUTRA TIMUR JAYA</div>
@@ -525,33 +523,202 @@
 
       <p class="note-info" style="margin-top: 10px;">
         *Ini hanya tampilan biodata. Untuk download sebagai PDF atau menyimpan otomatis ke Google Drive,
-        nanti bisa ditambah langkah berikutnya.
+        nanti bisa ditambahkan langkah berikutnya.
       </p>
     </div>
   </section>
 
   <script>
+    /*********** USER ABSENSI (SAMAKAN DENGAN APLIKASI ABSEN) ***********/
+    // Format tiap baris:
+    // "username|password|nik|nama|divisi|defaultArea"
+    const USER_LINES = [
+      // CONTOH:
+    "PTJ_Arip007|alvaro007|15889311|ARIP RAHMATULLOH|PIC|CMI",
+    "PTJ_15889310|30223023|15889310|UUS SETIADI|PIC|BTJ",
+    "PTJ_Bob1990|TE1990|BELUM ADA|ASEP SAEPUDIN|PIC|CMI",
+	  "PTJ_Du2ng|Aisha221011|BELUM ADA|DUDUNG SUKMANA|PIC|CMI",
+  	"PTJ_Endi1994|Ardila06@@|15889307|ENDI HENDRIANA|PIC|CMI",
+	  "PTJ_FirmanFirdaus013|FirmanFirdaus013|16990042|MUHAMMAD FIRMAN DAUD FIRDAUS|PIC|CMI",
+	  "PTJ_Vikri012|Vikri0012|BELUM ADA|VIKRI FADHI RAHMAN|PIC|BTJ",
+	  "PTJ_Agus25|Ajiz1989|16891202|AGUS|IOAN|NJG",
+	  "PTJ_Alfian07|Fianape7|16004674|ALFIAN PERMADI HERDIANSYAH|IOAN|CMI",
+	  "PTJ_Anggi13|Zhafran02|15892036|ANGGI SETIAWAN|IOAN|BTJ",
+	  "PTJ_Asep125|4sep5ule|15889318|ASEP SULAEMAN|IOAN|NJG",
+	  "PTJ_Asep006|Bacilu01|15889328|ASEP SUTARYAT|IOAN|BTJ",
+  	"PTJ_Mardian67|Mardian67|16012066|DANDI MARDIANSYAH|IOAN|GNH",
+  	"PTJ_Deni017|Denok017|16050949|DENI EGI SAPUTRA|IOAN|CMI",
+  	"PTJ_Deni699|Deni@699|16850259|DENI WARDANI|IOAN|BTJ",
+  	"PTJ_Deniec15889321|Nanjung2025|15889321|DENIEC GORO SULISTYANTO|IOAN|NJG",
+  	"PTJ_DODIMARDANI004|Putija004|15889324|DODI MARDANI|IOAN|CLL",
+  	"PTJ_Engkos270|Kostaman80|15889334|ENGKOS KOSTAMAN|IOAN|NJG",
+  	"PTJ_Fakhri95|Fakhr1995|15889339|FAKHRI RASYAD RAMDHANI|IOAN|CMI",
+  	"PTJ_Giant77|Telkom77|15889330|GIAN KRISTAL|IOAN|NJG",
+  	"PTJ_INDRA999|270310Aa|16921681|INDRA PRATAMA|IOAN|NJG",
+  	"PTJ_Nugraha24|Street24|15882130|INSAN NUGRAHA|IOAN|CMI",
+  	"PTJ_Irfanm019|putija@1|16950710|IRFAN MAULANA|IOAN|CMI",
+  	"PTJ_Irfan16022301|Bacilu01|16022301|IRFAN NURJAMAN|IOAN|BTJ",
+  	"PTJ_Juli86|juli0786|15889309|JULI SURYANA|IOAN|NJG",
+  	"PTJ_Nazli313|arkan2015|15889313|NAZLI RUDI YANTO|IOAN|CMI",
+  	"PTJ_Rendyherwansyah|putija@2025|15902465|RENDI HERWANSYAH|IOAN|GNH",
+  	"PTJ_Galing28|galing2810|15901086|RIDWAN RISWANDI|IOAN|NJG",
+  	"PTJ_Sahibul87|ahyad87|15889319|SAHIBUL AHYAD|IOAN|CMI",
+  	"PTJ_Taryana2004|atar2004|15889316|TARYANA|IOAN|CMI",
+  	"PTJ_TAUFIK046|PUTIJA046|15889345|TAUFIK HIDAYAT|IOAN|NJG",
+  	"PTJ_Tisna05|241103rm|15889326|TISNA|IOAN|BTJ",
+  	"PTJ_Ujang77|uchin2877|15889333|UJANG MUKSIN|IOAN|CMI",
+  	"PTJ_Yogi28|Yogi2828|16950715|YOGI TJANDRA FERNANDO|IOAN|CMI",
+  	"PTJ_YUNUS696|Absen696|15900696|YUNUS HITOTUN|IOAN|CMI",
+    "PTJ_Aditya129|aditya0707|BELUM ADA|ADITYA RAMDAN SYARIF|PSB|BTJ",
+    "PTJ_Yusup16942254|putija@2028|16942254|AHMAD MAULANA YUSUP|PSB|BTJ",
+    "PTJ_Ahmad29040|zaki290406|BELUM ADA|AHMAD ZAQI|PSB|CMI",
+    "PTJ_Andi027|mspeed27|16952753|ANDI RAMDANI|PSB|CMI",
+    "PTJ_ANDIAN666|123Asik#|BELUM ADA|ANDIAN WAHYUDI|PSB|CLL",
+    "PTJ_Ardian17|deci12345|BELUM ADA|ARDIAN HAFIDZ|PSB|BTJ",
+    "PTJ_Arga003|Arga1603|16901188|ARGA ALI SANTIAJI|PSB|NJG",
+    "PTJ_Aria015|Aria2025|16911316|ARIA RIDWANTO|PSB|CLL",
+    "PTJ_Asep0797|Telkom0797|16974185|ASEP SAEPUL HIDAYAT|PSB|GNH",
+    "PTJ_Dedi08|RizkiRizam12|16820493|DEDI WINARDI|PSB|NJG",
+    "PTJ_Enjang93|Hardi1993|16931851|ENJANG HARDI|PSB|CMI",
+    "PTJ_Febby90|putija25|16901210|FEBBY REZA NURHUDA|PSB|CLL",
+    "PTJ_IbnuDcs|Kududiuye|16022542|IBNU DZAHABI|PSB|CMI",
+    "PTJ_Bowo182|makemanah85|16850029|KHOERUDIN PRABOWO|PSB|CMI",
+    "PTJ_Ilyas1289|Rilkay2018|15891521|KM ILYAS AKBAR|PSB|NJG",
+    "PTJ_PadiiiL7|padilada22|BELUM ADA|LUTFHIAN ALFADHILA SURYANA|PSB|CMI",
+    "PTJ_Mahpud0611|rendekidul01|16022545|MAHPUD SOPIAN|PSB|CMI",
+    "PTJ_MARTONO13|INDONESIA#2024|16004766|MARTONO|PSB|CMI",
+    "PTJ_MASKUR13|Maskur130700|16002023|MASKUR|PSB|CLL",
+    "PTJ_rifan07|cimahicity5|Belum Ada|MOCH RIFAN FAKHRIZAL|PSB|CMI",
+    "PTJ_Hasan001|Hasan123|BELUM ADA|MUHAMMAD HASAN|PSB|CMI",
+    "PTJ_Imam202002|Ghozali2002|16022546|MUHAMMAD IMAM GHOZALI|PSB|CLL",
+    "PTJ_NRyadi33|Nryadi0303|16995419|NURYADI|PSB|NJG",
+    "PTJ_Purnama07|Purnama76|BELUM ADA|PURNAMA RAMDANI|PSB|CLL",
+    "PTJ_Resky022|Telkom2296|16963327|RESKY ARDIANSYAH|PSB|CMI",
+    "PTJ_rmaulana952|bedahciwok001|16953587|RIZWAN MAULANA|PSB|BTJ",
+    "PTJ_Sandi014|sandiwah45|BELUM ADA|SANDI WAHYUDI|PSB|BTJ",
+    "PTJ_Sanji017|qweasd123|BELUM ADA|SANJI|PSB|CMI",
+    "PTJ_Sarijan01|Sarijan12|16901534|SARIJAN|PSB|CLL",
+    "PTJ_SOLIHIN1933|PERSIB1933|16942904|SOLIHIN|PSB|GNH",
+    "PTJ_Syamsul382|BantuFO38|16022056|SYAMSUL BAHRI|PSB|CMI",
+    "PTJ_Tubagus13|Tubagus13|16963926|TUBAGUS BUKIYANTORO|PSB|BTJ",
+     "PTJ_Ujang9933|Almera0607|Belum ada|UJANG ROHIMAT|PSB|BTJ",
+  	"PTJ_BILAL23|bilal1234|16994703|BILAL FISSABILILLAH|PSB|BTJ",
+  	"PTJ_Robi1121|slipknot.1960|BELUM ADA|AZIS ROBIANSYAH|PSB|CLL",
+  	"PTJ_@PilihanHelaWeh|16870758|16870758|UJANG SUMPENA|PSB|CMI",
+  	"PTJ_Zacky123|Kadungora05|BELUM ADA|MOCH ZACKY AZKARI|PSB|BTJ",
+  	"PTJ_Ryanfir72|ryanfi72|BELUM ADA|RIYAN FIRMANSAH|PSB|CMI",
+  	"PTJ_Alva30|Sunang30|16991540|MUHAMMAD ALVA RIZKY|IOAN|CMI",
+  	"PTJ_Dikiw15|Dikiw12345|BELUM ADA|DIKI WAHYUDI SETIAWAN|PSB|CLL",
+  	"PTJ_Hermawan19|persija19|BELUM ADA|HERMAWAN|PSB|CLL",
+  	"PTJ_rasyid2007|satusampai9|BELUM ADA|ABDUL RASYID AHMADI RAZZAQ|PSB|NJG",
+  	"PTJ_Hendra303|PTJ_Hendra303|15889332|HENDRA PERMANA|IOAN|NJG",
+  	"PTJ_Heri2025|cimahi2025|16770224|HERI NURDIANA SANTOSA|PSB|NJG",
+  	"PTJ_WAHENDRA|Project01|BELUM ADA|WAHENDRA|PIC|CMI",
+  	"PTJ_ADI SOPIAN|Project01|15889303|ADI SOPIAN|PIC|CMI",
+  	"PTJ_Dicky029|Dicky029|16974122|DICKY IRAWAN SONJAYA|PSB|CMI",
+  	"PTJ_GAGAN SUHERMAN|Project01|BELUM ADA|GAGAN SUHERMAN|PROJEK|CMI",
+  	"PTJ_DEDE YUSUP|Project01|BELUM ADA|DEDE YUSUP|PROJEK|BTJ",
+  	"PTJ_RAIHAN|Project01|BELUM ADA|MOCHAMAD RAIHAN ARYA AGUNG|PROJEK|BTJ",
+  	"PTJ_RESTU|Project01|BELUM ADA|RESTU|PROJEK|CMI",
+  	"PTJ_RIFKI|Project01|BELUM ADA|RIFKI|PROJEK|CMI",
+  	"PTJ_Ambar71R|Rawing71|15889320|AMBARYADI GUNAWAN|PSB|NJG",
+  	"PTJ_AGUNGINDRA014|agungindra041498|16982268|AGUNG INDRA LESMANA|PSB|BTJ",
+  	"PTJ_bilalfajri27|bilalfajri2005|belum ada|MUHAMAD BILAL FAJRI|PSB|CMI",
+  	"PTJ_Pentingberkah|Ganjar83|15889317|GANJAR SAEPUDIN|IOAN|CMI",
+  	"PTJ_ADE22|layadmos2312|16002299|ADE SOPIYAN|IOAN|KNG",
+  	"PTJ_Nana007|tamanana6661|16022091|NANA ADITAMA|IOAN|KNG",
+  	"PTJ_Zul78|Aqi11aram|16780156|ZULHAM EFFENDI ZAS|PSB|NJG",
+  	"PTJ_Opi012|Toren1234|16942370|OPIK IRAWAN|IOAN|KNG",
+  	"PTJ_Refli012|Putija@12|16023016|REFLI PITDATULLOH|PSB|CMI",
+  	"PTJ_Puad98|Telkom123|16983641|PUAD TOHAWI|PSB|CLL",
+  	"PTJ_Pathudin013|Azalea13|16962281|Pathudin|IOAN|KNG",
+  	"PTJ_Azmi15|Telkom123|16962282|Azmi rifai|IOAN|KNG",
+  	"PTJ_ErikoRamdani001|Telkom123|BELUM ADA|ERICO RAMDANI|PSB|CLL",
+  	"PTJ_Febri24|Annuaink100|16900564|FEBRI RIYANDI|IOAN|KNG",
+  	"PTJ_Ari0079|11223344|16050178|ARI ANGGARA|IOAN|KNG",
+  	"PTJ_Zahdan17|461147zz|16800322|AGUS SAHDAN|IOAN|KNG",
+  	"PTJ_DANI001|PTJKNG001|16022092|MUHAMAD RAMDANI|PSB|KNG",
+	  "PTJ_IMAM001|PTJKNG001|16901520|MOCHAMMAD IMAM TAOFIK|PSB|KNG",
+  	"PTJ_IPAN001|PTJKNG001|16050679|IPAN GILANG RAMADAN|PSB|KNG",
+  	"PTJ_RAFI001|PTJKNG001|16050313|RAFI ARIEL NUGRAHA|PSB|KNG",
+  	"PTJ_SECHAN001|PTJKNG001|16040915|SECHAN BUKHORI|PSB|KNG",
+  	"PTJ_AGUS001|PTJKNG001|16031512|AGUS HAMDANI|PSB|KNG",
+  	"PTJ_BAGUS001|PTJKNG001|16003512|BAGUS PRASETIO|PSB|KNG",
+  	"PTJ_FAHRY001|PTJKNG001|Belum Ada|FAHRY ADITYA ASRIZAL|PSB|KNG",
+  	"PTJ_DADI001|PTJKNG001|16952927|DADI APRIADI|PSB|KNG",
+  	"PTJ_IRFAN001|PTJKNG001|16060537|MOHAMMAD IRFAN HAKIM|PSB|KNG",
+  	"PTJ_SYAHRUL001|PTJKNG001|16050886|SYAHRUL RAMDHAN AT'THORIQ|PSB|KNG",
+  	"PTJ_DONI001|PTJKNG001|16974498|MUHAMAD RAMDONI|PSB|KNG",
+  	"PTJ_APRI001|PTJKNG001|Belum Ada|A CANDRA KOSWARA|PROJEK|KNG",
+  	"PTJ_AZHAR001|PTJKNG001|16973839|M. CHOIRUL AZHARI ROSID|PIC|KNG",
+  	"PTJ_DADINUR001|PTJKNG001|16890989|DADI NURYADI|PIC|KNG",
+  	"PTJ_Dendi@01|1052002|BELUM ADA|DENDI MANDIRI|PSB|BTJ",
+  	"PTJ_Miky11|Saya171194|16942855|MICKY MARDIANA|IOAN|KNG",
+  	"PTJ_Taufik024|Kuningan24|15893582|TAUFIK AKBAR|IOAN|KNG",
+  	"PTJ_ZEMMY|putija2025|BELUM ADA|ZEEMY|PIC|CMI",
+  	"PTJ_DANI|Project01|16850676|DANI|PROJEK|CMI",
+  	"PTJ_ADITTIYA08|80621|16013886|ADITTIYA HERDI|PSB|CMI"
+      // >>>>>>> GANTI / TAMBAH dengan daftar user asli dari aplikasi absensi <<<<<<
+    ];
+    const USERS = USER_LINES.map(line => {
+      const [username, password, nik, nama, divisi, defaultArea] = line.split("|");
+      return { username, password, nik, nama, divisi, defaultArea };
+    });
+
+    let loggedUser = null;
+
+    const loginUserInput = document.getElementById("loginUser");
+    const loginPassInput = document.getElementById("loginPass");
+    const loginCard = document.getElementById("loginCard");
+    const bioCard = document.getElementById("bioCard");
+
+    document.getElementById("btnLogin").addEventListener("click", () => {
+      const u = loginUserInput.value.trim();
+      const p = loginPassInput.value.trim();
+
+      if (!u || !p) {
+        alert("User ID dan password tidak boleh kosong.");
+        return;
+      }
+
+      const found = USERS.find(
+        x => x.username.toLowerCase() === u.toLowerCase() && x.password === p
+      );
+
+      if (!found) {
+        alert("User ID atau password salah.");
+        return;
+      }
+
+      loggedUser = found;
+      alert("Login berhasil. Selamat datang, " + found.nama + "!");
+
+      // tampilkan form biodata, sembunyikan card login
+      loginCard.classList.add("hidden");
+      bioCard.classList.remove("hidden");
+
+      // isi otomatis beberapa field
+      document.getElementById("f_nama").value = found.nama || "";
+      document.getElementById("f_lokasi_kerja").value = found.defaultArea || "";
+      document.getElementById("f_divisi").value = found.divisi || "";
+    });
+
     // Preview foto teknisi
     const fotoInput = document.getElementById("f_foto_teknisi");
     const fotoPreview = document.getElementById("p_foto_teknisi");
-
     fotoInput.addEventListener("change", () => {
       const file = fotoInput.files[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = e => {
-        fotoPreview.src = e.target.result;
-      };
+      reader.onload = e => { fotoPreview.src = e.target.result; };
       reader.readAsDataURL(file);
     });
 
     // Handle submit biodata -> isi preview
     document.getElementById("bioForm").addEventListener("submit", function (e) {
       e.preventDefault();
-
       const get = id => document.getElementById(id).value || "";
 
-      // Isi teks ke preview
       document.getElementById("p_nama").textContent = get("f_nama");
       document.getElementById("p_ttl").textContent = get("f_ttl");
       document.getElementById("p_jk").textContent = get("f_jk");
@@ -591,9 +758,11 @@
       document.getElementById("p_faskes").textContent = get("f_faskes");
       document.getElementById("p_kk").textContent = get("f_kk");
 
-      // Tampilkan card preview
-      document.getElementById("previewCard").style.display = "block";
-      window.scrollTo({ top: document.getElementById("previewCard").offsetTop - 80, behavior: "smooth" });
+      document.getElementById("previewCard").classList.remove("hidden");
+      window.scrollTo({
+        top: document.getElementById("previewCard").offsetTop - 80,
+        behavior: "smooth"
+      });
     });
   </script>
 </body>
