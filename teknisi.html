@@ -529,14 +529,15 @@
   </section>
 
   <script>
-    /*********** USER ABSENSI (SAMAKAN DENGAN APLIKASI ABSEN) ***********/
-    // Format tiap baris:
-    // "username|password|nik|nama|divisi|defaultArea"
-    const USER_LINES = [
-      // CONTOH:
-    "PTJ_Arip007|alvaro007|15889311|ARIP RAHMATULLOH|PIC|CMI",
-    "PTJ_15889310|30223023|15889310|UUS SETIADI|PIC|BTJ",
-    "PTJ_Bob1990|TE1990|BELUM ADA|ASEP SAEPUDIN|PIC|CMI",
+<script>
+  /*********** USER ABSENSI (SAMAKAN DENGAN APLIKASI ABSEN) ***********/
+  // Format tiap baris:
+  // "username|password|nik|nama|divisi|defaultArea"
+  const USER_LINES = [
+    // CONTOH:
+        "PTJ_Arip007|alvaro007|15889311|ARIP RAHMATULLOH|PIC|CMI",
+    	"PTJ_15889310|30223023|15889310|UUS SETIADI|PIC|BTJ",
+   		 "PTJ_Bob1990|TE1990|BELUM ADA|ASEP SAEPUDIN|PIC|CMI",
 	  "PTJ_Du2ng|Aisha221011|BELUM ADA|DUDUNG SUKMANA|PIC|CMI",
   	"PTJ_Endi1994|Ardila06@@|15889307|ENDI HENDRIANA|PIC|CMI",
 	  "PTJ_FirmanFirdaus013|FirmanFirdaus013|16990042|MUHAMMAD FIRMAN DAUD FIRDAUS|PIC|CMI",
@@ -658,112 +659,224 @@
   	"PTJ_ZEMMY|putija2025|BELUM ADA|ZEEMY|PIC|CMI",
   	"PTJ_DANI|Project01|16850676|DANI|PROJEK|CMI",
   	"PTJ_ADITTIYA08|80621|16013886|ADITTIYA HERDI|PSB|CMI"
-      // >>>>>>> GANTI / TAMBAH dengan daftar user asli dari aplikasi absensi <<<<<<
-    ];
-    const USERS = USER_LINES.map(line => {
-      const [username, password, nik, nama, divisi, defaultArea] = line.split("|");
-      return { username, password, nik, nama, divisi, defaultArea };
-    });
+    // >>>>>>> GANTI / TAMBAH dengan daftar user asli dari aplikasi absensi <<<<<<
+  ];
+  const USERS = USER_LINES.map(line => {
+    const [username, password, nik, nama, divisi, defaultArea] = line.split("|");
+    return { username, password, nik, nama, divisi, defaultArea };
+  });
 
-    let loggedUser = null;
+  // URL web app Apps Script BIODATA (langkah 1)
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxAnoRfp3dIUiKJT9KF03RweouXnXUVFvSgetOUmvnnOm7eOrdqKVFjfna75TIg4Vg/exec";
 
-    const loginUserInput = document.getElementById("loginUser");
-    const loginPassInput = document.getElementById("loginPass");
-    const loginCard = document.getElementById("loginCard");
-    const bioCard = document.getElementById("bioCard");
+  let loggedUser = null;
 
-    document.getElementById("btnLogin").addEventListener("click", () => {
-      const u = loginUserInput.value.trim();
-      const p = loginPassInput.value.trim();
+  const loginUserInput = document.getElementById("loginUser");
+  const loginPassInput = document.getElementById("loginPass");
+  const loginCard = document.getElementById("loginCard");
+  const bioCard = document.getElementById("bioCard");
 
-      if (!u || !p) {
-        alert("User ID dan password tidak boleh kosong.");
+  document.getElementById("btnLogin").addEventListener("click", () => {
+    const u = loginUserInput.value.trim();
+    const p = loginPassInput.value.trim();
+
+    if (!u || !p) {
+      alert("User ID dan password tidak boleh kosong.");
+      return;
+    }
+
+    const found = USERS.find(
+      x => x.username.toLowerCase() === u.toLowerCase() && x.password === p
+    );
+
+    if (!found) {
+      alert("User ID atau password salah.");
+      return;
+    }
+
+    loggedUser = found;
+    alert("Login berhasil. Selamat datang, " + found.nama + "!");
+
+    // tampilkan form biodata, sembunyikan card login
+    loginCard.classList.add("hidden");
+    bioCard.classList.remove("hidden");
+
+    // isi otomatis beberapa field
+    document.getElementById("f_nama").value = found.nama || "";
+    document.getElementById("f_lokasi_kerja").value = found.defaultArea || "";
+    document.getElementById("f_divisi").value = found.divisi || "";
+  });
+
+  // ------- Helper: convert file input ke base64 (tanpa prefix data:...) -------
+  function fileToBase64(inputEl) {
+    return new Promise(resolve => {
+      const file = inputEl.files && inputEl.files[0];
+      if (!file) {
+        resolve("");
         return;
       }
-
-      const found = USERS.find(
-        x => x.username.toLowerCase() === u.toLowerCase() && x.password === p
-      );
-
-      if (!found) {
-        alert("User ID atau password salah.");
-        return;
-      }
-
-      loggedUser = found;
-      alert("Login berhasil. Selamat datang, " + found.nama + "!");
-
-      // tampilkan form biodata, sembunyikan card login
-      loginCard.classList.add("hidden");
-      bioCard.classList.remove("hidden");
-
-      // isi otomatis beberapa field
-      document.getElementById("f_nama").value = found.nama || "";
-      document.getElementById("f_lokasi_kerja").value = found.defaultArea || "";
-      document.getElementById("f_divisi").value = found.divisi || "";
-    });
-
-    // Preview foto teknisi
-    const fotoInput = document.getElementById("f_foto_teknisi");
-    const fotoPreview = document.getElementById("p_foto_teknisi");
-    fotoInput.addEventListener("change", () => {
-      const file = fotoInput.files[0];
-      if (!file) return;
       const reader = new FileReader();
-      reader.onload = e => { fotoPreview.src = e.target.result; };
+      reader.onload = e => {
+        const result = e.target.result || "";
+        const base64 = result.split(",")[1] || "";
+        resolve(base64);
+      };
       reader.readAsDataURL(file);
     });
+  }
 
-    // Handle submit biodata -> isi preview
-    document.getElementById("bioForm").addEventListener("submit", function (e) {
-      e.preventDefault();
-      const get = id => document.getElementById(id).value || "";
+  // Preview foto teknisi di kartu biodata
+  const fotoInput = document.getElementById("f_foto_teknisi");
+  const fotoPreview = document.getElementById("p_foto_teknisi");
+  fotoInput.addEventListener("change", () => {
+    const file = fotoInput.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = e => { fotoPreview.src = e.target.result; };
+    reader.readAsDataURL(file);
+  });
 
-      document.getElementById("p_nama").textContent = get("f_nama");
-      document.getElementById("p_ttl").textContent = get("f_ttl");
-      document.getElementById("p_jk").textContent = get("f_jk");
-      document.getElementById("p_pendidikan").textContent = get("f_pendidikan");
-      document.getElementById("p_pendidikan_formal").textContent = get("f_pendidikan_formal");
-      document.getElementById("p_pendidikan_non").textContent = get("f_pendidikan_non");
+  // ------- Submit form biodata -------
+  document.getElementById("bioForm").addEventListener("submit", async function (e) {
+    e.preventDefault();
 
-      document.getElementById("p_status").textContent = get("f_status");
-      document.getElementById("p_lokasi_kerja").textContent = get("f_lokasi_kerja");
-      document.getElementById("p_posisi").textContent = get("f_posisi");
-      document.getElementById("p_divisi").textContent = get("f_divisi");
+    const get = id => document.getElementById(id).value || "";
 
-      document.getElementById("p_alamat_domisili").textContent = get("f_alamat_domisili");
-      document.getElementById("p_kel_domisili").textContent = get("f_kel_domisili");
-      document.getElementById("p_kec_domisili").textContent = get("f_kec_domisili");
-      document.getElementById("p_kota_domisili").textContent = get("f_kota_domisili");
+    // 1) Isi preview biodata di halaman (seperti sebelumnya)
+    document.getElementById("p_nama").textContent = get("f_nama");
+    document.getElementById("p_ttl").textContent = get("f_ttl");
+    document.getElementById("p_jk").textContent = get("f_jk");
+    document.getElementById("p_pendidikan").textContent = get("f_pendidikan");
+    document.getElementById("p_pendidikan_formal").textContent = get("f_pendidikan_formal");
+    document.getElementById("p_pendidikan_non").textContent = get("f_pendidikan_non");
 
-      document.getElementById("p_hp").textContent = get("f_hp");
-      document.getElementById("p_email").textContent = get("f_email");
-      document.getElementById("p_ktp").textContent = get("f_ktp");
-      document.getElementById("p_npwp").textContent = get("f_npwp");
-      document.getElementById("p_ibu").textContent = get("f_ibu");
-      document.getElementById("p_norek").textContent = get("f_norek");
-      document.getElementById("p_bank").textContent = get("f_bank");
+    document.getElementById("p_status").textContent = get("f_status");
+    document.getElementById("p_lokasi_kerja").textContent = get("f_lokasi_kerja");
+    document.getElementById("p_posisi").textContent = get("f_posisi");
+    document.getElementById("p_divisi").textContent = get("f_divisi");
 
-      document.getElementById("p_alamat_ktp").textContent = get("f_alamat_ktp");
-      document.getElementById("p_kel_ktp").textContent = get("f_kel_ktp");
-      document.getElementById("p_kec_ktp").textContent = get("f_kec_ktp");
-      document.getElementById("p_kota_ktp").textContent = get("f_kota_ktp");
+    document.getElementById("p_alamat_domisili").textContent = get("f_alamat_domisili");
+    document.getElementById("p_kel_domisili").textContent = get("f_kel_domisili");
+    document.getElementById("p_kec_domisili").textContent = get("f_kec_domisili");
+    document.getElementById("p_kota_domisili").textContent = get("f_kota_domisili");
 
-      document.getElementById("p_bpjs_ket").textContent = get("f_bpjs_ket");
-      document.getElementById("p_bpjs_kes").textContent = get("f_bpjs_kes");
-      document.getElementById("p_pasangan").textContent = get("f_pasangan");
-      document.getElementById("p_bpjs_pasangan").textContent = get("f_bpjs_pasangan");
-      document.getElementById("p_telp_kerabat").textContent = get("f_telp_kerabat");
-      document.getElementById("p_anak").textContent = get("f_anak");
-      document.getElementById("p_faskes").textContent = get("f_faskes");
-      document.getElementById("p_kk").textContent = get("f_kk");
+    document.getElementById("p_hp").textContent = get("f_hp");
+    document.getElementById("p_email").textContent = get("f_email");
+    document.getElementById("p_ktp").textContent = get("f_ktp");
+    document.getElementById("p_npwp").textContent = get("f_npwp");
+    document.getElementById("p_ibu").textContent = get("f_ibu");
+    document.getElementById("p_norek").textContent = get("f_norek");
+    document.getElementById("p_bank").textContent = get("f_bank");
 
-      document.getElementById("previewCard").classList.remove("hidden");
-      window.scrollTo({
-        top: document.getElementById("previewCard").offsetTop - 80,
-        behavior: "smooth"
+    document.getElementById("p_alamat_ktp").textContent = get("f_alamat_ktp");
+    document.getElementById("p_kel_ktp").textContent = get("f_kel_ktp");
+    document.getElementById("p_kec_ktp").textContent = get("f_kec_ktp");
+    document.getElementById("p_kota_ktp").textContent = get("f_kota_ktp");
+
+    document.getElementById("p_bpjs_ket").textContent = get("f_bpjs_ket");
+    document.getElementById("p_bpjs_kes").textContent = get("f_bpjs_kes");
+    document.getElementById("p_pasangan").textContent = get("f_pasangan");
+    document.getElementById("p_bpjs_pasangan").textContent = get("f_bpjs_pasangan");
+    document.getElementById("p_telp_kerabat").textContent = get("f_telp_kerabat");
+    document.getElementById("p_anak").textContent = get("f_anak");
+    document.getElementById("p_faskes").textContent = get("f_faskes");
+    document.getElementById("p_kk").textContent = get("f_kk");
+
+    document.getElementById("previewCard").classList.remove("hidden");
+
+    // 2) Siapkan payload untuk dikirim ke Google Apps Script
+    if (!loggedUser) {
+      alert("Data tetap dipreview, tapi login belum terdeteksi. Biodata belum dikirim ke Google Sheet.");
+      return;
+    }
+
+    const [
+      b64FotoTeknisi,
+      b64FotoKtp,
+      b64FotoBpjsKes,
+      b64FotoBpjsKet,
+      b64FotoNpwp,
+      b64FotoKk
+    ] = await Promise.all([
+      fileToBase64(document.getElementById("f_foto_teknisi")),
+      fileToBase64(document.getElementById("f_foto_ktp")),
+      fileToBase64(document.getElementById("f_foto_bpjs_kes")),
+      fileToBase64(document.getElementById("f_foto_bpjs_ket")),
+      fileToBase64(document.getElementById("f_foto_npwp")),
+      fileToBase64(document.getElementById("f_foto_kk"))
+    ]);
+
+    const payload = {
+      mode: "biodata",
+      user: {
+        username: loggedUser.username,
+        nik: loggedUser.nik,
+        nama: loggedUser.nama,
+        divisi: loggedUser.divisi,
+        defaultArea: loggedUser.defaultArea
+      },
+      fields: {
+        nama: get("f_nama"),
+        ttl: get("f_ttl"),
+        jk: get("f_jk"),
+        pendidikan: get("f_pendidikan"),
+        pendidikanFormal: get("f_pendidikan_formal"),
+        pendidikanNon: get("f_pendidikan_non"),
+        status: get("f_status"),
+        lokasiKerja: get("f_lokasi_kerja"),
+        posisi: get("f_posisi"),
+        divisi: get("f_divisi"),
+        alamatDomisili: get("f_alamat_domisili"),
+        kelDomisili: get("f_kel_domisili"),
+        kecDomisili: get("f_kec_domisili"),
+        kotaDomisili: get("f_kota_domisili"),
+        hp: get("f_hp"),
+        email: get("f_email"),
+        ktp: get("f_ktp"),
+        npwp: get("f_npwp"),
+        ibu: get("f_ibu"),
+        norek: get("f_norek"),
+        bank: get("f_bank"),
+        alamatKtp: get("f_alamat_ktp"),
+        kelKtp: get("f_kel_ktp"),
+        kecKtp: get("f_kec_ktp"),
+        kotaKtp: get("f_kota_ktp"),
+        bpjsKet: get("f_bpjs_ket"),
+        bpjsKes: get("f_bpjs_kes"),
+        pasangan: get("f_pasangan"),
+        bpjsPasangan: get("f_bpjs_pasangan"),
+        telpKerabat: get("f_telp_kerabat"),
+        anak: get("f_anak"),
+        faskes: get("f_faskes"),
+        kk: get("f_kk")
+      },
+      photos: {
+        fotoTeknisi: b64FotoTeknisi,
+        fotoKtp: b64FotoKtp,
+        fotoBpjsKes: b64FotoBpjsKes,
+        fotoBpjsKet: b64FotoBpjsKet,
+        fotoNpwp: b64FotoNpwp,
+        fotoKk: b64FotoKk
+      }
+    };
+
+    if (!WEB_APP_URL || WEB_APP_URL.startsWith("GANTI_DENGAN")) {
+      alert("WEB_APP_URL biodata belum diisi di teknisi.html");
+      return;
+    }
+
+    try {
+      const res = await fetch(WEB_APP_URL, {
+        method: "POST",
+        body: JSON.stringify(payload)
       });
-    });
-  </script>
+      const text = await res.text();
+      alert("Respon server: " + text);
+    } catch (err) {
+      alert("Gagal kirim ke Google Sheet: " + err.message);
+    }
+  });
+</script>
 </body>
 </html>
+
