@@ -12,24 +12,6 @@
       background: #e5e7eb;
       color: #0f172a;
     }
-	.btn-row {
-	display: flex;
-	flex-wrap: wrap;
-	gap: 8px;
-	margin-top: 10px;
-	}
-
-	.btn-secondary {
-	background: #0ea5e9;
-	color: #ffffff;
-	}
-
-	.btn-outline-red {
-	background: #ffffff;
-	color: #dc2626;
-	border: 1px solid #dc2626;
-	}
-
     a { text-decoration: none; color: inherit; }
 
     /* NAVBAR */
@@ -169,9 +151,24 @@
       background: #ffffff;
       color: #2563eb;
       border: 1px solid #2563eb;
-      margin-left: 6px;
+    }
+    .btn-secondary {
+      background: #0ea5e9;
+      color: #ffffff;
+    }
+    .btn-outline-red {
+      background: #ffffff;
+      color: #dc2626;
+      border: 1px solid #dc2626;
+    }
+    .btn-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 10px;
     }
 
+    .small { font-size: 12px; color: #6b7280; }
     .hidden { display: none; }
 
     /* PREVIEW BIODATA */
@@ -249,6 +246,34 @@
       color: #6b7280;
       margin-top: 6px;
     }
+
+    .preview-actions {
+      margin-top: 12px;
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    /* PRINT MODE */
+    @media print {
+      body {
+        background: #ffffff;
+      }
+      .navbar,
+      .wrapper,
+      .preview-actions {
+        display: none !important;
+      }
+      .preview-wrapper {
+        margin: 0;
+        padding: 0;
+      }
+      .preview-card {
+        box-shadow: none;
+        border: none;
+        border-radius: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -267,7 +292,7 @@
   </header>
 
   <main class="wrapper">
-    <h1 class="page-title">Area Teknisi</h1>
+    <h1 class="page-title">Login Teknisi</h1>
     <p class="page-subtitle">
       Halaman khusus untuk teknisi PT PUTRA TIMUR JAYA BDB1. Teknisi harus login dulu sebelum mengisi biodata.
     </p>
@@ -277,7 +302,7 @@
       <section class="card" id="loginCard">
         <h2>Login Teknisi</h2>
         <p class="small">
-          Gunakan user & password yang sama dengan aplikasi absensi teknisi.
+          Gunakan user &amp; password yang sama dengan aplikasi absensi teknisi.
           Setelah login berhasil, form biodata akan muncul.
         </p>
 
@@ -287,14 +312,15 @@
         <label for="loginPass">Password</label>
         <input id="loginPass" type="password" placeholder="Masukkan password" />
 
-        <button class="btn btn-primary" type="button" id="btnLogin">
-          🔑 Login
-        </button>
-
-        <!-- GANTI href DI BAWAH dengan URL absensi teknisi kalau mau -->
-        <a class="btn btn-outline" href="https://putijabdb1-create.github.io/Absen-ptptjbdb1/" target="_blank">
-          🔗 Buka Halaman Absensi
-        </a>
+        <div class="btn-row">
+          <button class="btn btn-primary" type="button" id="btnLogin">
+            🔑 Login
+          </button>
+          <!-- GANTI href ini kalau mau arahkan ke halaman absensi lain -->
+          <a class="btn btn-outline" href="https://putijabdb1-create.github.io/Absen-ptptjbdb1/" target="_blank">
+            🔗 Buka Halaman Absensi
+          </a>
+        </div>
 
         <p class="note-info">
           *Data user diambil dari daftar user absensi (USER_LINES). Kalau ada teknisi baru, cukup tambah di daftar itu.
@@ -337,7 +363,7 @@
             <div>
               <label>Pendidikan Formal (SD - SMP - SMA - PT)</label>
               <textarea id="f_pendidikan_formal" rows="3"
-                placeholder="Nama Sekolah Semua: SDN..., SMP..., SMA..., Perguruan Tinggi..."></textarea>
+                placeholder="Nama Sekolah: SDN..., SMP..., SMA..., Perguruan Tinggi..."></textarea>
             </div>
             <div>
               <label>Pendidikan Non Formal</label>
@@ -376,7 +402,7 @@
           <!-- ALAMAT DOMISILI -->
           <div class="section-title">Alamat Tempat Tinggal (Domisili)</div>
           <label>Alamat Lengkap</label>
-          <input id="f_alamat_domisili" placeholder="Alamat Sesuai KTP, RT/RW, dll." />
+          <input id="f_alamat_domisili" placeholder="Nama jalan, RT/RW, dll." />
           <div class="field-row">
             <div><label>Kelurahan / Desa</label><input id="f_kel_domisili" /></div>
             <div><label>Kecamatan</label><input id="f_kec_domisili" /></div>
@@ -413,7 +439,7 @@
           <input id="f_kota_ktp" />
 
           <!-- BPJS & KELUARGA -->
-          <div class="section-title">BPJS & Data Keluarga</div>
+          <div class="section-title">BPJS &amp; Keluarga</div>
           <div class="field-row">
             <div><label>Nomor BPJS Ketenagakerjaan</label><input id="f_bpjs_ket" /></div>
             <div><label>Nomor BPJS Kesehatan</label><input id="f_bpjs_kes" /></div>
@@ -429,7 +455,7 @@
 
           <label>Data Anak (Nama / Tanggal Lahir / No BPJS)</label>
           <textarea id="f_anak" rows="3"
-            placeholder="Isi Semua Anak: 1. Syahril Muhamad Zaelani / Bandung, 10 Februari 2016 / 0002xxx"></textarea>
+            placeholder="Semua Anak: 1.Syahril Muhamad Zaelani / Bandung, 10 Februari 2016 / 0002xxx"></textarea>
 
           <div class="field-row">
             <div><label>Nama Faskes</label><input id="f_faskes" /></div>
@@ -452,25 +478,24 @@
           <input id="f_foto_kk" type="file" accept="image/*" />
 
           <div class="btn-row">
-		<button class="btn btn-primary" type="button" id="btnSave">
-			💾 Simpan
-		</button>
-		<button class="btn btn-secondary" type="button" id="btnPreview">
-			👁 Preview Biodata
-		</button>
-		<button class="btn btn-outline" type="button" id="btnEdit">
-			✏️ Edit
-		</button>
-		<button class="btn btn-outline-red" type="button" id="btnLogout">
-			🚪 Logout
-		</button>
-		</div>
+            <button class="btn btn-primary" type="button" id="btnSave">
+              💾 Simpan
+            </button>
+            <button class="btn btn-secondary" type="button" id="btnPreview">
+              👁 Preview Biodata
+            </button>
+            <button class="btn btn-outline" type="button" id="btnEdit">
+              ✏️ Edit
+            </button>
+            <button class="btn btn-outline-red" type="button" id="btnLogout">
+              🚪 Logout
+            </button>
+          </div>
 
-		<p class="note-info">
-		*Simpan = kirim data ke Google Sheet. Preview = lihat kartu biodata di bawah.
-		Edit = kembali ke form. Logout = kembali ke halaman login teknisi.
-		</p>
-
+          <p class="note-info">
+            *Simpan = kirim data ke Google Sheet. Preview = lihat kartu biodata di bawah.
+            Edit = kembali ke form. Logout = kembali ke halaman login teknisi.
+          </p>
         </form>
       </section>
     </div>
@@ -514,7 +539,7 @@
             <tr><td>Kota / Kabupaten</td><td id="p_kota_domisili"></td></tr>
           </table>
 
-          <div class="preview-subtitle">Kontak & Rekening</div>
+          <div class="preview-subtitle">Kontak &amp; Rekening</div>
           <table class="preview-table">
             <tr><td>Nomor Handphone</td><td id="p_hp"></td></tr>
             <tr><td>Alamat Email</td><td id="p_email"></td></tr>
@@ -533,7 +558,7 @@
             <tr><td>Kota</td><td id="p_kota_ktp"></td></tr>
           </table>
 
-          <div class="preview-subtitle">BPJS & Keluarga</div>
+          <div class="preview-subtitle">BPJS &amp; Keluarga</div>
           <table class="preview-table">
             <tr><td>BPJS Ketenagakerjaan</td><td id="p_bpjs_ket"></td></tr>
             <tr><td>BPJS Kesehatan</td><td id="p_bpjs_kes"></td></tr>
@@ -552,19 +577,26 @@
         </div>
       </div>
 
+      <div class="preview-actions">
+        <button class="btn btn-primary" type="button" id="btnPrint">
+          🖨 Print / PDF
+        </button>
+      </div>
+
       <p class="note-info" style="margin-top: 10px;">
-        *Ini hanya tampilan biodata. Data lengkap + link foto sudah tersimpan di Google Sheet / Drive.
+        *Untuk menyimpan sebagai PDF: klik tombol Print, lalu pilih "Save as PDF" di dialog printer.
       </p>
     </div>
   </section>
 
   <script>
-    /*********** USER ABSENSI (SAMAKAN DENGAN APLIKASI ABSEN) ***********/
-    // Format tiap baris:
-    // "username|password|nik|nama|divisi|defaultArea"
-    const USER_LINES = [
-      // CONTOH:
-    "PTJ_Arip007|alvaro007|15889311|ARIP RAHMATULLOH|PIC|CMI",
+    window.addEventListener("DOMContentLoaded", function () {
+      /*********** USER ABSENSI (SAMAKAN DENGAN APLIKASI ABSEN) ***********/
+      // Format tiap baris:
+      // "username|password|nik|nama|divisi|defaultArea"
+      const USER_LINES = [
+        // CONTOH:
+            "PTJ_Arip007|alvaro007|15889311|ARIP RAHMATULLOH|PIC|CMI",
     "PTJ_15889310|30223023|15889310|UUS SETIADI|PIC|BTJ",
     "PTJ_Bob1990|TE1990|BELUM ADA|ASEP SAEPUDIN|PIC|CMI",
 	  "PTJ_Du2ng|Aisha221011|BELUM ADA|DUDUNG SUKMANA|PIC|CMI",
@@ -688,269 +720,266 @@
   	"PTJ_ZEMMY|putija2025|BELUM ADA|ZEEMY|PIC|CMI",
   	"PTJ_DANI|Project01|16850676|DANI|PROJEK|CMI",
   	"PTJ_ADITTIYA08|80621|16013886|ADITTIYA HERDI|PSB|CMI"
-      // >>>>>>> GANTI / TAMBAH dengan daftar user asli dari aplikasi absensi <<<<<<
-    ];
-    const USERS = USER_LINES.map(line => {
-      const [username, password, nik, nama, divisi, defaultArea] = line.split("|");
-      return { username, password, nik, nama, divisi, defaultArea };
-    });
+        // >>>>>>> GANTI / TAMBAH dengan daftar user asli dari aplikasi absensi <<<<<<
+      ];
+      const USERS = USER_LINES.map(line => {
+        const [username, password, nik, nama, divisi, defaultArea] = line.split("|");
+        return { username, password, nik, nama, divisi, defaultArea };
+      });
 
-    // URL web app Apps Script BIODATA
-    const WEB_APP_URL =
-      "https://script.google.com/macros/s/AKfycbxAnoRfp3dIUiKJT9KF03RweouXnXUVFvSgetOUmvnnOm7eOrdqKVFjfna75TIg4Vg/exec";
+      // URL web app Apps Script BIODATA
+      const WEB_APP_URL =
+        "https://script.google.com/macros/s/AKfycbxAnoRfp3dIUiKJT9KF03RweouXnXUVFvSgetOUmvnnOm7eOrdqKVFjfna75TIg4Vg/exec";
 
-    let loggedUser = null;
+      let loggedUser = null;
 
-    const loginUserInput = document.getElementById("loginUser");
-    const loginPassInput = document.getElementById("loginPass");
-    const loginCard = document.getElementById("loginCard");
-    const bioCard = document.getElementById("bioCard");
+      const loginUserInput = document.getElementById("loginUser");
+      const loginPassInput = document.getElementById("loginPass");
+      const loginCard = document.getElementById("loginCard");
+      const bioCard = document.getElementById("bioCard");
+      const btnLogin = document.getElementById("btnLogin");
 
-    document.getElementById("btnLogin").addEventListener("click", () => {
-      const u = loginUserInput.value.trim();
-      const p = loginPassInput.value.trim();
+      btnLogin.addEventListener("click", () => {
+        const u = loginUserInput.value.trim();
+        const p = loginPassInput.value.trim();
 
-      if (!u || !p) {
-        alert("User ID dan password tidak boleh kosong.");
-        return;
-      }
-
-      const found = USERS.find(
-        x => x.username.toLowerCase() === u.toLowerCase() && x.password === p
-      );
-
-      if (!found) {
-        alert("User ID atau password salah.");
-        return;
-      }
-
-      loggedUser = found;
-      alert("Login berhasil. Selamat datang, " + found.nama + "!");
-
-      // tampilkan form biodata, sembunyikan card login
-      loginCard.classList.add("hidden");
-      bioCard.classList.remove("hidden");
-
-      // isi otomatis beberapa field
-      document.getElementById("f_nama").value = found.nama || "";
-      document.getElementById("f_lokasi_kerja").value = found.defaultArea || "";
-      document.getElementById("f_divisi").value = found.divisi || "";
-    });
-
-    // Helper: convert file input ke base64
-    function fileToBase64(inputEl) {
-      return new Promise(resolve => {
-        const file = inputEl.files && inputEl.files[0];
-        if (!file) {
-          resolve("");
+        if (!u || !p) {
+          alert("User ID dan password tidak boleh kosong.");
           return;
         }
+
+        const found = USERS.find(
+          x => x.username.toLowerCase() === u.toLowerCase() && x.password === p
+        );
+
+        if (!found) {
+          alert("User ID atau password salah.");
+          return;
+        }
+
+        loggedUser = found;
+        alert("Login berhasil. Selamat datang, " + found.nama + "!");
+
+        loginCard.classList.add("hidden");
+        bioCard.classList.remove("hidden");
+
+        document.getElementById("f_nama").value = found.nama || "";
+        document.getElementById("f_lokasi_kerja").value = found.defaultArea || "";
+        document.getElementById("f_divisi").value = found.divisi || "";
+      });
+
+      // helper: file ke base64
+      function fileToBase64(inputEl) {
+        return new Promise(resolve => {
+          const file = inputEl.files && inputEl.files[0];
+          if (!file) {
+            resolve("");
+            return;
+          }
+          const reader = new FileReader();
+          reader.onload = e => {
+            const result = e.target.result || "";
+            const base64 = result.split(",")[1] || "";
+            resolve(base64);
+          };
+          reader.readAsDataURL(file);
+        });
+      }
+
+      // preview foto teknisi
+      const fotoInput = document.getElementById("f_foto_teknisi");
+      const fotoPreview = document.getElementById("p_foto_teknisi");
+      fotoInput.addEventListener("change", () => {
+        const file = fotoInput.files[0];
+        if (!file) return;
         const reader = new FileReader();
-        reader.onload = e => {
-          const result = e.target.result || "";
-          const base64 = result.split(",")[1] || "";
-          resolve(base64);
-        };
+        reader.onload = e => { fotoPreview.src = e.target.result; };
         reader.readAsDataURL(file);
       });
-    }
 
-    // Preview foto teknisi di kartu biodata
-    const fotoInput = document.getElementById("f_foto_teknisi");
-    const fotoPreview = document.getElementById("p_foto_teknisi");
-    fotoInput.addEventListener("change", () => {
-      const file = fotoInput.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = e => { fotoPreview.src = e.target.result; };
-      reader.readAsDataURL(file);
-    });
+      const bioForm = document.getElementById("bioForm");
+      const previewCard = document.getElementById("previewCard");
+      const btnSave = document.getElementById("btnSave");
+      const btnPreview = document.getElementById("btnPreview");
+      const btnEdit = document.getElementById("btnEdit");
+      const btnLogout = document.getElementById("btnLogout");
+      const btnPrint = document.getElementById("btnPrint");
 
-    // Submit form biodata
-	window.addEventListener("DOMContentLoaded", function(){ ... });
+      const getVal = id => (document.getElementById(id)?.value || "").trim();
 
-         const bioForm = document.getElementById("bioForm");
-    const previewCard = document.getElementById("previewCard");
-    const btnSave = document.getElementById("btnSave");
-    const btnPreview = document.getElementById("btnPreview");
-    const btnEdit = document.getElementById("btnEdit");
-    const btnLogout = document.getElementById("btnLogout");
-
-    // helper ambil nilai field
-    const getVal = id => (document.getElementById(id)?.value || "").trim();
-
-    // kumpulkan semua field biodata
-    function collectFields() {
-      return {
-        nama: getVal("f_nama"),
-        ttl: getVal("f_ttl"),
-        jk: getVal("f_jk"),
-        pendidikan: getVal("f_pendidikan"),
-        pendidikanFormal: getVal("f_pendidikan_formal"),
-        pendidikanNon: getVal("f_pendidikan_non"),
-        status: getVal("f_status"),
-        lokasiKerja: getVal("f_lokasi_kerja"),
-        posisi: getVal("f_posisi"),
-        divisi: getVal("f_divisi"),
-        alamatDomisili: getVal("f_alamat_domisili"),
-        kelDomisili: getVal("f_kel_domisili"),
-        kecDomisili: getVal("f_kec_domisili"),
-        kotaDomisili: getVal("f_kota_domisili"),
-        hp: getVal("f_hp"),
-        email: getVal("f_email"),
-        ktp: getVal("f_ktp"),
-        npwp: getVal("f_npwp"),
-        ibu: getVal("f_ibu"),
-        norek: getVal("f_norek"),
-        bank: getVal("f_bank"),
-        alamatKtp: getVal("f_alamat_ktp"),
-        kelKtp: getVal("f_kel_ktp"),
-        kecKtp: getVal("f_kec_ktp"),
-        kotaKtp: getVal("f_kota_ktp"),
-        bpjsKet: getVal("f_bpjs_ket"),
-        bpjsKes: getVal("f_bpjs_kes"),
-        pasangan: getVal("f_pasangan"),
-        bpjsPasangan: getVal("f_bpjs_pasangan"),
-        telpKerabat: getVal("f_telp_kerabat"),
-        anak: getVal("f_anak"),
-        faskes: getVal("f_faskes"),
-        kk: getVal("f_kk")
-      };
-    }
-
-    // isi kartu preview dari object fields
-    function fillPreview(fields) {
-      document.getElementById("p_nama").textContent = fields.nama;
-      document.getElementById("p_ttl").textContent = fields.ttl;
-      document.getElementById("p_jk").textContent = fields.jk;
-      document.getElementById("p_pendidikan").textContent = fields.pendidikan;
-      document.getElementById("p_pendidikan_formal").textContent = fields.pendidikanFormal;
-      document.getElementById("p_pendidikan_non").textContent = fields.pendidikanNon;
-
-      document.getElementById("p_status").textContent = fields.status;
-      document.getElementById("p_lokasi_kerja").textContent = fields.lokasiKerja;
-      document.getElementById("p_posisi").textContent = fields.posisi;
-      document.getElementById("p_divisi").textContent = fields.divisi;
-
-      document.getElementById("p_alamat_domisili").textContent = fields.alamatDomisili;
-      document.getElementById("p_kel_domisili").textContent = fields.kelDomisili;
-      document.getElementById("p_kec_domisili").textContent = fields.kecDomisili;
-      document.getElementById("p_kota_domisili").textContent = fields.kotaDomisili;
-
-      document.getElementById("p_hp").textContent = fields.hp;
-      document.getElementById("p_email").textContent = fields.email;
-      document.getElementById("p_ktp").textContent = fields.ktp;
-      document.getElementById("p_npwp").textContent = fields.npwp;
-      document.getElementById("p_ibu").textContent = fields.ibu;
-      document.getElementById("p_norek").textContent = fields.norek;
-      document.getElementById("p_bank").textContent = fields.bank;
-
-      document.getElementById("p_alamat_ktp").textContent = fields.alamatKtp;
-      document.getElementById("p_kel_ktp").textContent = fields.kelKtp;
-      document.getElementById("p_kec_ktp").textContent = fields.kecKtp;
-      document.getElementById("p_kota_ktp").textContent = fields.kotaKtp;
-
-      document.getElementById("p_bpjs_ket").textContent = fields.bpjsKet;
-      document.getElementById("p_bpjs_kes").textContent = fields.bpjsKes;
-      document.getElementById("p_pasangan").textContent = fields.pasangan;
-      document.getElementById("p_bpjs_pasangan").textContent = fields.bpjsPasangan;
-      document.getElementById("p_telp_kerabat").textContent = fields.telpKerabat;
-      document.getElementById("p_anak").textContent = fields.anak;
-      document.getElementById("p_faskes").textContent = fields.faskes;
-      document.getElementById("p_kk").textContent = fields.kk;
-    }
-
-    // ambil semua foto sebagai base64
-    async function collectPhotos() {
-      const [
-        b64FotoTeknisi,
-        b64FotoKtp,
-        b64FotoBpjsKes,
-        b64FotoBpjsKet,
-        b64FotoNpwp,
-        b64FotoKk
-      ] = await Promise.all([
-        fileToBase64(document.getElementById("f_foto_teknisi")),
-        fileToBase64(document.getElementById("f_foto_ktp")),
-        fileToBase64(document.getElementById("f_foto_bpjs_kes")),
-        fileToBase64(document.getElementById("f_foto_bpjs_ket")),
-        fileToBase64(document.getElementById("f_foto_npwp")),
-        fileToBase64(document.getElementById("f_foto_kk"))
-      ]);
-
-      return {
-        fotoTeknisi: b64FotoTeknisi,
-        fotoKtp: b64FotoKtp,
-        fotoBpjsKes: b64FotoBpjsKes,
-        fotoBpjsKet: b64FotoBpjsKet,
-        fotoNpwp: b64FotoNpwp,
-        fotoKk: b64FotoKk
-      };
-    }
-
-    // --- PREVIEW ---
-    btnPreview.addEventListener("click", () => {
-      const fields = collectFields();
-      fillPreview(fields);
-      previewCard.classList.remove("hidden");
-      // scroll ke preview
-      window.scrollTo({ top: previewCard.offsetTop - 80, behavior: "smooth" });
-    });
-
-    // --- SIMPAN KE GOOGLE SHEET ---
-    btnSave.addEventListener("click", async () => {
-      if (!loggedUser) {
-        alert("Silakan login teknisi terlebih dahulu.");
-        return;
+      function collectFields() {
+        return {
+          nama: getVal("f_nama"),
+          ttl: getVal("f_ttl"),
+          jk: getVal("f_jk"),
+          pendidikan: getVal("f_pendidikan"),
+          pendidikanFormal: getVal("f_pendidikan_formal"),
+          pendidikanNon: getVal("f_pendidikan_non"),
+          status: getVal("f_status"),
+          lokasiKerja: getVal("f_lokasi_kerja"),
+          posisi: getVal("f_posisi"),
+          divisi: getVal("f_divisi"),
+          alamatDomisili: getVal("f_alamat_domisili"),
+          kelDomisili: getVal("f_kel_domisili"),
+          kecDomisili: getVal("f_kec_domisili"),
+          kotaDomisili: getVal("f_kota_domisili"),
+          hp: getVal("f_hp"),
+          email: getVal("f_email"),
+          ktp: getVal("f_ktp"),
+          npwp: getVal("f_npwp"),
+          ibu: getVal("f_ibu"),
+          norek: getVal("f_norek"),
+          bank: getVal("f_bank"),
+          alamatKtp: getVal("f_alamat_ktp"),
+          kelKtp: getVal("f_kel_ktp"),
+          kecKtp: getVal("f_kec_ktp"),
+          kotaKtp: getVal("f_kota_ktp"),
+          bpjsKet: getVal("f_bpjs_ket"),
+          bpjsKes: getVal("f_bpjs_kes"),
+          pasangan: getVal("f_pasangan"),
+          bpjsPasangan: getVal("f_bpjs_pasangan"),
+          telpKerabat: getVal("f_telp_kerabat"),
+          anak: getVal("f_anak"),
+          faskes: getVal("f_faskes"),
+          kk: getVal("f_kk")
+        };
       }
 
-      const fields = collectFields();
-      const photos = await collectPhotos();
+      function fillPreview(fields) {
+        document.getElementById("p_nama").textContent = fields.nama;
+        document.getElementById("p_ttl").textContent = fields.ttl;
+        document.getElementById("p_jk").textContent = fields.jk;
+        document.getElementById("p_pendidikan").textContent = fields.pendidikan;
+        document.getElementById("p_pendidikan_formal").textContent = fields.pendidikanFormal;
+        document.getElementById("p_pendidikan_non").textContent = fields.pendidikanNon;
 
-      const payload = {
-        mode: "biodata",
-        user: {
-          username: loggedUser.username,
-          nik: loggedUser.nik,
-          nama: loggedUser.nama,
-          divisi: loggedUser.divisi,
-          defaultArea: loggedUser.defaultArea
-        },
-        fields,
-        photos
-      };
+        document.getElementById("p_status").textContent = fields.status;
+        document.getElementById("p_lokasi_kerja").textContent = fields.lokasiKerja;
+        document.getElementById("p_posisi").textContent = fields.posisi;
+        document.getElementById("p_divisi").textContent = fields.divisi;
 
-      try {
-        const res = await fetch(WEB_APP_URL, {
-          method: "POST",
-          body: JSON.stringify(payload)
-        });
-        const text = await res.text();
-        alert("Respon server: " + text);
-      } catch (err) {
-        alert("Gagal kirim ke Google Sheet: " + err.message);
+        document.getElementById("p_alamat_domisili").textContent = fields.alamatDomisili;
+        document.getElementById("p_kel_domisili").textContent = fields.kelDomisili;
+        document.getElementById("p_kec_domisili").textContent = fields.kecDomisili;
+        document.getElementById("p_kota_domisili").textContent = fields.kotaDomisili;
+
+        document.getElementById("p_hp").textContent = fields.hp;
+        document.getElementById("p_email").textContent = fields.email;
+        document.getElementById("p_ktp").textContent = fields.ktp;
+        document.getElementById("p_npwp").textContent = fields.npwp;
+        document.getElementById("p_ibu").textContent = fields.ibu;
+        document.getElementById("p_norek").textContent = fields.norek;
+        document.getElementById("p_bank").textContent = fields.bank;
+
+        document.getElementById("p_alamat_ktp").textContent = fields.alamatKtp;
+        document.getElementById("p_kel_ktp").textContent = fields.kelKtp;
+        document.getElementById("p_kec_ktp").textContent = fields.kecKtp;
+        document.getElementById("p_kota_ktp").textContent = fields.kotaKtp;
+
+        document.getElementById("p_bpjs_ket").textContent = fields.bpjsKet;
+        document.getElementById("p_bpjs_kes").textContent = fields.bpjsKes;
+        document.getElementById("p_pasangan").textContent = fields.pasangan;
+        document.getElementById("p_bpjs_pasangan").textContent = fields.bpjsPasangan;
+        document.getElementById("p_telp_kerabat").textContent = fields.telpKerabat;
+        document.getElementById("p_anak").textContent = fields.anak;
+        document.getElementById("p_faskes").textContent = fields.faskes;
+        document.getElementById("p_kk").textContent = fields.kk;
       }
-    });
 
-    // --- EDIT (sembunyikan preview, tetap di form) ---
-    btnEdit.addEventListener("click", () => {
-      previewCard.classList.add("hidden");
-      window.scrollTo({ top: bioCard.offsetTop - 80, behavior: "smooth" });
-    });
+      async function collectPhotos() {
+        const [
+          b64FotoTeknisi,
+          b64FotoKtp,
+          b64FotoBpjsKes,
+          b64FotoBpjsKet,
+          b64FotoNpwp,
+          b64FotoKk
+        ] = await Promise.all([
+          fileToBase64(document.getElementById("f_foto_teknisi")),
+          fileToBase64(document.getElementById("f_foto_ktp")),
+          fileToBase64(document.getElementById("f_foto_bpjs_kes")),
+          fileToBase64(document.getElementById("f_foto_bpjs_ket")),
+          fileToBase64(document.getElementById("f_foto_npwp")),
+          fileToBase64(document.getElementById("f_foto_kk"))
+        ]);
 
-    // --- LOGOUT ---
-    btnLogout.addEventListener("click", () => {
-      loggedUser = null;
-      bioForm.reset();
-      if (fotoPreview) fotoPreview.src = "";
-      previewCard.classList.add("hidden");
+        return {
+          fotoTeknisi: b64FotoTeknisi,
+          fotoKtp: b64FotoKtp,
+          fotoBpjsKes: b64FotoBpjsKes,
+          fotoBpjsKet: b64FotoBpjsKet,
+          fotoNpwp: b64FotoNpwp,
+          fotoKk: b64FotoKk
+        };
+      }
 
-      // tampilkan lagi form login
-      loginCard.classList.remove("hidden");
-      bioCard.classList.add("hidden");
-      loginUserInput.value = "";
-      loginPassInput.value = "";
-      alert("Anda sudah logout.");
+      // PREVIEW
+      btnPreview.addEventListener("click", () => {
+        const fields = collectFields();
+        fillPreview(fields);
+        previewCard.classList.remove("hidden");
+        window.scrollTo({ top: previewCard.offsetTop - 80, behavior: "smooth" });
+      });
+
+      // SIMPAN KE GOOGLE SHEET
+      btnSave.addEventListener("click", async () => {
+        if (!loggedUser) {
+          alert("Silakan login teknisi terlebih dahulu.");
+          return;
+        }
+
+        const fields = collectFields();
+        const photos = await collectPhotos();
+
+        const payload = {
+          mode: "biodata",
+          user: {
+            username: loggedUser.username,
+            nik: loggedUser.nik,
+            nama: loggedUser.nama,
+            divisi: loggedUser.divisi,
+            defaultArea: loggedUser.defaultArea
+          },
+          fields,
+          photos
+        };
+
+        try {
+          const res = await fetch(WEB_APP_URL, {
+            method: "POST",
+            body: JSON.stringify(payload)
+          });
+          const text = await res.text();
+          alert("Respon server: " + text);
+        } catch (err) {
+          alert("Gagal kirim ke Google Sheet: " + err.message);
+        }
+      });
+
+      // EDIT
+      btnEdit.addEventListener("click", () => {
+        previewCard.classList.add("hidden");
+        window.scrollTo({ top: bioCard.offsetTop - 80, behavior: "smooth" });
+      });
+
+      // LOGOUT
+      btnLogout.addEventListener("click", () => {
+        loggedUser = null;
+        bioForm.reset();
+        if (fotoPreview) fotoPreview.src = "";
+        previewCard.classList.add("hidden");
+
+        loginCard.classList.remove("hidden");
+        bioCard.classList.add("hidden");
+        loginUserInput.value = "";
+        loginPassInput.value = "";
+        alert("Anda sudah logout.");
+      });
+
+      // PRINT
+      btnPrint.addEventListener("click", () => {
+        window.print();
+      });
     });
   </script>
 </body>
