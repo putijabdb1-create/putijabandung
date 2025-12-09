@@ -1,243 +1,600 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Area Teknisi - PT PUTRA TIMUR JAYA BDB1</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet" />
   <style>
-    * { box-sizing:border-box; margin:0; padding:0; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family:"Poppins",sans-serif;
-      background:#e5e7eb;
-      color:#0f172a;
+      font-family: "Poppins", sans-serif;
+      background: #e5e7eb;
+      color: #0f172a;
     }
-    a { text-decoration:none; color:inherit; }
+    a { text-decoration: none; color: inherit; }
 
+    /* NAVBAR */
     .navbar {
-      position:sticky;
-      top:0;
-      z-index:50;
-      background:#ffffff;
-      box-shadow:0 1px 4px rgba(15,23,42,0.08);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: #ffffff;
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
     }
     .nav-inner {
-      max-width:1100px;
-      margin:0 auto;
-      padding:12px 16px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
     }
-    .nav-brand {
-      font-weight:700;
-      font-size:16px;
-      letter-spacing:0.04em;
+    .navbar-logo {
+      font-weight: 700;
+      font-size: 16px;
+      letter-spacing: 0.04em;
     }
-    .nav-menu {
-      display:flex;
-      gap:18px;
-      font-size:14px;
+    .navbar-nav {
+      display: flex;
+      gap: 18px;
+      list-style: none;
+      font-size: 14px;
     }
-    .nav-menu a {
-      padding:6px 10px;
-      border-radius:999px;
-      transition:background 0.15s, color 0.15s;
+    .navbar-nav a {
+      padding: 6px 10px;
+      border-radius: 999px;
+      transition: background 0.15s, color 0.15s;
     }
-    .nav-menu a:hover {
-      background:#2563eb;
-      color:#ffffff;
+    .navbar-nav a:hover {
+      background: #2563eb;
+      color: #ffffff;
     }
-    .nav-menu a.active { background:#2563eb; color:#ffffff; }
+    .navbar-nav a.active {
+      background: #2563eb;
+      color: #ffffff;
+    }
 
+    /* LAYOUT */
     .wrapper {
-      max-width:1100px;
-      margin:0 auto;
-      padding:24px 16px 40px;
-      display:grid;
-      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.1fr);
-      gap:20px;
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 24px 16px 40px;
     }
-    @media (max-width:880px) {
-      .wrapper { grid-template-columns:1fr; }
-    }
-
-    h1.page-title {
-      grid-column:1 / -1;
-      font-size:24px;
-      font-weight:700;
-      margin-bottom:6px;
+    .page-title {
+      font-size: 24px;
+      font-weight: 700;
+      margin-bottom: 6px;
     }
     .page-subtitle {
-      grid-column:1 / -1;
-      font-size:14px;
-      color:#4b5563;
-      margin-bottom:16px;
+      font-size: 14px;
+      color: #4b5563;
+      margin-bottom: 16px;
+    }
+    .grid-two {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(0, 1.3fr);
+      gap: 20px;
+    }
+    @media (max-width: 880px) {
+      .grid-two { grid-template-columns: 1fr; }
     }
 
     .card {
-      background:#ffffff;
-      border-radius:18px;
-      padding:18px 18px 20px;
-      box-shadow:0 10px 20px rgba(15,23,42,0.08);
-      border:1px solid #e5e7eb;
+      background: #ffffff;
+      border-radius: 18px;
+      padding: 18px 18px 20px;
+      box-shadow: 0 10px 20px rgba(15, 23, 42, 0.08);
+      border: 1px solid #e5e7eb;
     }
     .card h2 {
-      font-size:18px;
-      margin-bottom:4px;
+      font-size: 18px;
+      margin-bottom: 4px;
     }
     .card p.small {
-      font-size:12px;
-      color:#6b7280;
-      margin-bottom:12px;
+      font-size: 12px;
+      color: #6b7280;
+      margin-bottom: 12px;
     }
 
     label {
-      display:block;
-      font-size:13px;
-      margin-bottom:4px;
+      display: block;
+      font-size: 13px;
+      margin-bottom: 4px;
     }
     input, select, textarea {
-      width:100%;
-      padding:8px 10px;
-      font-size:13px;
-      border-radius:10px;
-      border:1px solid #d1d5db;
-      margin-bottom:8px;
-      outline:none;
-      background:#f9fafb;
+      width: 100%;
+      padding: 8px 10px;
+      font-size: 13px;
+      border-radius: 10px;
+      border: 1px solid #d1d5db;
+      margin-bottom: 8px;
+      outline: none;
+      background: #f9fafb;
     }
     input:focus, select:focus, textarea:focus {
-      border-color:#2563eb;
-      background:#ffffff;
-      box-shadow:0 0 0 1px #2563eb33;
+      border-color: #2563eb;
+      background: #ffffff;
+      box-shadow: 0 0 0 1px #2563eb33;
     }
-    textarea { resize:vertical; }
+    textarea { resize: vertical; }
+
+    .field-row {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+    }
+    @media (max-width: 640px) {
+      .field-row { grid-template-columns: 1fr; }
+    }
+
+    .section-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin: 10px 0 6px;
+      color: #111827;
+      border-top: 1px dashed #e5e7eb;
+      padding-top: 8px;
+    }
 
     .btn {
-      display:inline-block;
-      padding:9px 16px;
-      border-radius:999px;
-      border:none;
-      font-size:13px;
-      font-weight:600;
-      cursor:pointer;
+      display: inline-block;
+      padding: 9px 16px;
+      border-radius: 999px;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
     }
-    .btn-primary {
-      background:#2563eb;
-      color:#ffffff;
-    }
+    .btn-primary { background: #2563eb; color: #ffffff; }
     .btn-outline {
-      background:#ffffff;
-      color:#2563eb;
-      border:1px solid #2563eb;
-      margin-left:6px;
+      background: #ffffff;
+      color: #2563eb;
+      border: 1px solid #2563eb;
+      margin-left: 6px;
     }
 
-    .info-link {
-      font-size:12px;
-      color:#2563eb;
-      margin-top:6px;
+    /* PREVIEW BIODATA */
+    .preview-wrapper {
+      max-width: 1100px;
+      margin: 0 auto 40px;
+      padding: 0 16px;
+    }
+    .preview-card {
+      margin-top: 24px;
+      background: #ffffff;
+      border-radius: 16px;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.12);
+      border: 1px solid #e5e7eb;
+      padding: 20px 24px 26px;
+    }
+    .preview-header {
+      text-align: center;
+      margin-bottom: 14px;
+      font-size: 15px;
+    }
+    .preview-header .title-main {
+      font-weight: 700;
+      letter-spacing: 0.08em;
+    }
+    .preview-header .title-sub {
+      font-weight: 600;
+      font-size: 13px;
+    }
+    .preview-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 2.3fr) 170px;
+      gap: 18px;
+    }
+    @media (max-width: 800px) {
+      .preview-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+    .preview-photo-box {
+      border: 1px solid #e5e7eb;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #f9fafb;
+      height: 200px;
+    }
+    .preview-photo-box img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .preview-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    .preview-table td {
+      padding: 2px 4px;
+      vertical-align: top;
+    }
+    .preview-table td:first-child {
+      width: 180px;
+      font-weight: 600;
+    }
+    .preview-subtitle {
+      font-size: 12px;
+      font-weight: 600;
+      margin-top: 8px;
+      margin-bottom: 2px;
+      text-decoration: underline;
+    }
+
+    .note-info {
+      font-size: 11px;
+      color: #6b7280;
+      margin-top: 6px;
     }
   </style>
 </head>
 <body>
+  <!-- NAVBAR -->
   <header class="navbar">
     <div class="nav-inner">
-      <div class="nav-brand">PT PUTRA TIMUR JAYA BDB1</div>
-      <nav class="nav-menu">
-        <a href="index.html">Beranda</a>
-        <a href="program.html">Program</a>
-        <a href="galeri.html">Galeri</a>
-        <a href="teknisi.html" class="active">Area Teknisi</a>
-        <a href="kontak.html">Kontak</a>
-      </nav>
+      <div class="navbar-logo">PT PUTRA TIMUR JAYA BDB1</div>
+      <ul class="navbar-nav">
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="program.html">Program</a></li>
+        <li><a href="galeri.html">Galeri</a></li>
+        <li><a href="teknisi.html" class="active">Area Teknisi</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+      </ul>
     </div>
   </header>
 
   <main class="wrapper">
     <h1 class="page-title">Area Teknisi</h1>
     <p class="page-subtitle">
-      Halaman khusus untuk teknisi PT PUTRA TIMUR JAYA BDB1. Gunakan akun yang telah terdaftar.
+      Halaman khusus untuk teknisi PT PUTRA TIMUR JAYA BDB1. Silakan login dan lengkapi biodata.
     </p>
 
-    <!-- LOGIN TEKNISI -->
-    <section class="card">
-      <h2>Login Teknisi</h2>
-      <p class="small">
-        Login ini hanya tampilan (front-end). Jika ingin dihubungkan dengan sistem absensi yang sudah kita buat,
-        cukup arahkan tombol di bawah ke URL halaman absensi.
-      </p>
+    <div class="grid-two">
+      <!-- LOGIN TEKNISI -->
+      <section class="card">
+        <h2>Login Teknisi</h2>
+        <p class="small">
+          Login ini hanya tampilan (front-end). Jika ingin dihubungkan dengan sistem absensi,
+          arahkan tombol di bawah ke URL aplikasi absensi yang sudah digunakan.
+        </p>
 
-      <label for="loginUser">User ID</label>
-      <input id="loginUser" placeholder="Masukkan user ID">
+        <label for="loginUser">User ID</label>
+        <input id="loginUser" placeholder="Contoh: PTJ_Arip007" />
 
-      <label for="loginPass">Password</label>
-      <input id="loginPass" type="password" placeholder="Masukkan password">
+        <label for="loginPass">Password</label>
+        <input id="loginPass" type="password" placeholder="Masukkan password" />
 
-      <button class="btn btn-primary" type="button" onclick="alert('Contoh saja. Untuk login sebenarnya, arahkan ke halaman absensi.');">
-        🔑 Login (contoh)
-      </button>
+        <button class="btn btn-primary" type="button"
+          onclick="alert('Ini hanya contoh login. Untuk login asli silakan gunakan aplikasi absensi.');">
+          🔑 Login (contoh)
+        </button>
 
-      <!-- GANTI href INI dengan URL absensi sebenarnya -->
-      <a class="btn btn-outline" href="https://absensi-teknisi-url-kamu.com" target="_blank">
-        🔗 Buka Halaman Absensi
-      </a>
+        <!-- GANTI href DI BAWAH dengan URL absensi teknisi -->
+        <a class="btn btn-outline" href="https://absen-pttj.netlify.app" target="_blank">
+          🔗 Buka Halaman Absensi
+        </a>
 
-      <div class="info-link">
-        *Ganti link "Buka Halaman Absensi" dengan URL aplikasi absensi teknisi yang sudah kamu punya.
-      </div>
-    </section>
+        <p class="note-info">
+          *Ganti link "Buka Halaman Absensi" dengan URL aplikasi absensi teknisi yang sebenarnya.
+        </p>
+      </section>
 
-    <!-- FORM BIODATA -->
-    <section class="card">
-      <h2>Form Biodata Teknisi</h2>
-      <p class="small">
-        Form ini bisa digunakan untuk pendataan teknisi. Untuk menyimpan data,
-        kamu bisa menghubungkan ke Google Form, Google Apps Script, atau backend lain.
-      </p>
+      <!-- FORM BIODATA -->
+      <section class="card">
+        <h2>Form Biodata Teknisi</h2>
+        <p class="small">
+          Data berikut diisi oleh teknisi. Hasilnya akan ditampilkan sebagai biodata pegawai
+          di bagian bawah halaman. Untuk penyimpanan permanen, nanti bisa dihubungkan ke Google Sheet / Apps Script.
+        </p>
 
-      <!--
-        NOTE:
-        - Saat ini form tidak benar-benar mengirim ke mana-mana (action="#" dan onsubmit di-handle JS).
-        - Jika ingin kirim ke Google Form, ganti action="" dan method="" sesuai URL Google Form.
-      -->
-      <form onsubmit="event.preventDefault(); alert('Contoh submit biodata. Hubungkan ke backend/Google Form jika ingin menyimpan.');">
-        <label>Nama Lengkap</label>
-        <input required>
+        <form id="bioForm">
+          <!-- DATA PRIBADI -->
+          <div class="section-title">Data Pribadi</div>
+          <label>Nama Pegawai</label>
+          <input id="f_nama" required />
 
-        <label>NIK / ID Teknisi</label>
-        <input required>
+          <div class="field-row">
+            <div>
+              <label>Tempat / Tanggal Lahir</label>
+              <input id="f_ttl" placeholder="Contoh: Bandung, 12 Juni 1985" />
+            </div>
+            <div>
+              <label>Jenis Kelamin</label>
+              <select id="f_jk">
+                <option value="">-- Pilih --</option>
+                <option>Laki - Laki</option>
+                <option>Perempuan</option>
+              </select>
+            </div>
+          </div>
 
-        <label>Divisi</label>
-        <select required>
-          <option value="">-- Pilih Divisi --</option>
-          <option>IOAN</option>
-          <option>PSB</option>
-          <option>PROJEK</option>
-          <option>PIC</option>
-        </select>
+          <label>Pendidikan Terakhir</label>
+          <input id="f_pendidikan" placeholder="Contoh: SMA / D3 / S1" />
 
-        <label>Area Kerja</label>
-        <select required>
-          <option value="">-- Pilih Area --</option>
-          <option>CMI</option>
-          <option>NJG</option>
-          <option>CLL</option>
-          <option>BTJ</option>
-          <option>GNH</option>
-          <option>KNG</option>
-        </select>
+          <div class="field-row">
+            <div>
+              <label>Pendidikan Formal (SD - SMP - SMA - PT)</label>
+              <textarea id="f_pendidikan_formal" rows="3"
+                placeholder="Contoh: SDN..., SMP..., SMA..., Perguruan Tinggi..."></textarea>
+            </div>
+            <div>
+              <label>Pendidikan Non Formal</label>
+              <textarea id="f_pendidikan_non" rows="3"
+                placeholder="Pelatihan, kursus, sertifikasi, dll."></textarea>
+            </div>
+          </div>
 
-        <label>No. HP</label>
-        <input type="tel">
+          <div class="field-row">
+            <div>
+              <label>Status Perkawinan</label>
+              <select id="f_status">
+                <option value="">-- Pilih --</option>
+                <option>Belum Menikah</option>
+                <option>Menikah</option>
+                <option>Cerai</option>
+              </select>
+            </div>
+            <div>
+              <label>Lokasi Kerja</label>
+              <input id="f_lokasi_kerja" placeholder="Contoh: Bandung / Cimahi / dll" />
+            </div>
+          </div>
 
-        <label>Pengalaman / Keahlian</label>
-        <textarea rows="3" placeholder="Contoh: Instalasi FTTH, PSB, Maintenance ODP, dsb."></textarea>
+          <div class="field-row">
+            <div>
+              <label>Posisi Kerja Sebagai</label>
+              <input id="f_posisi" placeholder="Contoh: BASIC_TEHNIK" />
+            </div>
+            <div>
+              <label>Divisi</label>
+              <input id="f_divisi" placeholder="Contoh: POJ - IOAN" />
+            </div>
+          </div>
 
-        <button class="btn btn-primary" type="submit">💾 Simpan Biodata (contoh)</button>
-      </form>
-    </section>
+          <!-- ALAMAT DOMISILI -->
+          <div class="section-title">Alamat Tempat Tinggal (Domisili)</div>
+          <label>Alamat Lengkap</label>
+          <input id="f_alamat_domisili" placeholder="Nama jalan, RT/RW, dll." />
+          <div class="field-row">
+            <div><label>Kelurahan / Desa</label><input id="f_kel_domisili" /></div>
+            <div><label>Kecamatan</label><input id="f_kec_domisili" /></div>
+          </div>
+          <label>Kota / Kabupaten</label>
+          <input id="f_kota_domisili" />
+
+          <!-- KONTAK & REKENING -->
+          <div class="section-title">Kontak & Rekening</div>
+          <div class="field-row">
+            <div><label>Nomor Handphone</label><input id="f_hp" /></div>
+            <div><label>Alamat Email</label><input id="f_email" type="email" /></div>
+          </div>
+          <div class="field-row">
+            <div><label>Nomor KTP</label><input id="f_ktp" /></div>
+            <div><label>Nomor NPWP</label><input id="f_npwp" /></div>
+          </div>
+          <div class="field-row">
+            <div><label>Nama Ibu Kandung</label><input id="f_ibu" /></div>
+            <div><label>Nomor Rekening</label><input id="f_norek" /></div>
+          </div>
+          <label>Nama Bank</label>
+          <input id="f_bank" />
+
+          <!-- ALAMAT KTP -->
+          <div class="section-title">Alamat Sesuai KTP</div>
+          <label>Alamat KTP</label>
+          <input id="f_alamat_ktp" />
+          <div class="field-row">
+            <div><label>Kelurahan</label><input id="f_kel_ktp" /></div>
+            <div><label>Kecamatan</label><input id="f_kec_ktp" /></div>
+          </div>
+          <label>Kota</label>
+          <input id="f_kota_ktp" />
+
+          <!-- BPJS & KELUARGA -->
+          <div class="section-title">BPJS & Data Keluarga</div>
+          <div class="field-row">
+            <div><label>Nomor BPJS Ketenagakerjaan</label><input id="f_bpjs_ket" /></div>
+            <div><label>Nomor BPJS Kesehatan</label><input id="f_bpjs_kes" /></div>
+          </div>
+
+          <div class="field-row">
+            <div><label>Nama Istri / Suami</label><input id="f_pasangan" /></div>
+            <div><label>Nomor BPJS Istri / Suami</label><input id="f_bpjs_pasangan" /></div>
+          </div>
+
+          <label>Nomor Telepon Kerabat</label>
+          <input id="f_telp_kerabat" />
+
+          <label>Data Anak (Nama / Tanggal Lahir / No BPJS)</label>
+          <textarea id="f_anak" rows="3"
+            placeholder="Contoh: Syahril Muhamad Zaelani / Bandung, 10 Februari 2016 / 0002xxx"></textarea>
+
+          <div class="field-row">
+            <div><label>Nama Faskes</label><input id="f_faskes" /></div>
+            <div><label>Nomor Kartu Keluarga</label><input id="f_kk" /></div>
+          </div>
+
+          <!-- FOTO DOKUMEN -->
+          <div class="section-title">Upload Foto Dokumen</div>
+          <label>Foto Teknisi</label>
+          <input id="f_foto_teknisi" type="file" accept="image/*" />
+          <label>Foto KTP</label>
+          <input id="f_foto_ktp" type="file" accept="image/*" />
+          <label>Foto BPJS Kesehatan</label>
+          <input id="f_foto_bpjs_kes" type="file" accept="image/*" />
+          <label>Foto BPJS Ketenagakerjaan</label>
+          <input id="f_foto_bpjs_ket" type="file" accept="image/*" />
+          <label>Foto NPWP</label>
+          <input id="f_foto_npwp" type="file" accept="image/*" />
+          <label>Foto Kartu Keluarga (KK)</label>
+          <input id="f_foto_kk" type="file" accept="image/*" />
+
+          <button class="btn btn-primary" type="submit" style="margin-top: 10px;">
+            📄 Simpan & Preview Biodata
+          </button>
+          <p class="note-info">
+            *Saat ini tombol hanya membuat tampilan BIODATA di bawah. Untuk simpan ke database/Google Sheet,
+            nanti kita hubungkan ke Google Apps Script.
+          </p>
+        </form>
+      </section>
+    </div>
   </main>
+
+  <!-- PREVIEW BIODATA -->
+  <section class="preview-wrapper">
+    <div id="previewCard" class="preview-card" style="display:none;">
+      <div class="preview-header">
+        <div class="title-main">BIODATA PEGAWAI</div>
+        <div class="title-sub">PT. PUTRA TIMUR JAYA</div>
+      </div>
+      <div class="preview-grid">
+        <div>
+          <table class="preview-table">
+            <tr><td>Nama Pegawai</td><td id="p_nama"></td></tr>
+            <tr><td>Tempat / Tanggal Lahir</td><td id="p_ttl"></td></tr>
+            <tr><td>Jenis Kelamin</td><td id="p_jk"></td></tr>
+            <tr><td>Pendidikan Terakhir</td><td id="p_pendidikan"></td></tr>
+          </table>
+
+          <div class="preview-subtitle">Pendidikan</div>
+          <table class="preview-table">
+            <tr><td>Formal</td><td id="p_pendidikan_formal"></td></tr>
+            <tr><td>Non Formal</td><td id="p_pendidikan_non"></td></tr>
+          </table>
+
+          <div class="preview-subtitle">Data Pekerjaan</div>
+          <table class="preview-table">
+            <tr><td>Status Perkawinan</td><td id="p_status"></td></tr>
+            <tr><td>Lokasi Kerja</td><td id="p_lokasi_kerja"></td></tr>
+            <tr><td>Posisi Kerja Sebagai</td><td id="p_posisi"></td></tr>
+            <tr><td>Divisi</td><td id="p_divisi"></td></tr>
+          </table>
+
+          <div class="preview-subtitle">Alamat Tempat Tinggal</div>
+          <table class="preview-table">
+            <tr><td>Alamat</td><td id="p_alamat_domisili"></td></tr>
+            <tr><td>Kelurahan / Desa</td><td id="p_kel_domisili"></td></tr>
+            <tr><td>Kecamatan</td><td id="p_kec_domisili"></td></tr>
+            <tr><td>Kota / Kabupaten</td><td id="p_kota_domisili"></td></tr>
+          </table>
+
+          <div class="preview-subtitle">Kontak & Rekening</div>
+          <table class="preview-table">
+            <tr><td>Nomor Handphone</td><td id="p_hp"></td></tr>
+            <tr><td>Alamat Email</td><td id="p_email"></td></tr>
+            <tr><td>Nomor KTP</td><td id="p_ktp"></td></tr>
+            <tr><td>Nomor NPWP</td><td id="p_npwp"></td></tr>
+            <tr><td>Nama Ibu Kandung</td><td id="p_ibu"></td></tr>
+            <tr><td>Nomor Rekening</td><td id="p_norek"></td></tr>
+            <tr><td>Nama Bank</td><td id="p_bank"></td></tr>
+          </table>
+
+          <div class="preview-subtitle">Alamat Sesuai KTP</div>
+          <table class="preview-table">
+            <tr><td>Alamat</td><td id="p_alamat_ktp"></td></tr>
+            <tr><td>Kelurahan</td><td id="p_kel_ktp"></td></tr>
+            <tr><td>Kecamatan</td><td id="p_kec_ktp"></td></tr>
+            <tr><td>Kota</td><td id="p_kota_ktp"></td></tr>
+          </table>
+
+          <div class="preview-subtitle">BPJS & Keluarga</div>
+          <table class="preview-table">
+            <tr><td>BPJS Ketenagakerjaan</td><td id="p_bpjs_ket"></td></tr>
+            <tr><td>BPJS Kesehatan</td><td id="p_bpjs_kes"></td></tr>
+            <tr><td>Nama Istri / Suami</td><td id="p_pasangan"></td></tr>
+            <tr><td>Nomor BPJS Istri / Suami</td><td id="p_bpjs_pasangan"></td></tr>
+            <tr><td>Nomor Telepon Kerabat</td><td id="p_telp_kerabat"></td></tr>
+            <tr><td>Data Anak</td><td id="p_anak"></td></tr>
+            <tr><td>Nama Faskes</td><td id="p_faskes"></td></tr>
+            <tr><td>Nomor Kartu Keluarga</td><td id="p_kk"></td></tr>
+          </table>
+        </div>
+
+        <!-- FOTO TEKNISI -->
+        <div class="preview-photo-box">
+          <img id="p_foto_teknisi" alt="Foto Teknisi" />
+        </div>
+      </div>
+
+      <p class="note-info" style="margin-top: 10px;">
+        *Ini hanya tampilan biodata. Untuk download sebagai PDF atau menyimpan otomatis ke Google Drive,
+        nanti bisa ditambah langkah berikutnya.
+      </p>
+    </div>
+  </section>
+
+  <script>
+    // Preview foto teknisi
+    const fotoInput = document.getElementById("f_foto_teknisi");
+    const fotoPreview = document.getElementById("p_foto_teknisi");
+
+    fotoInput.addEventListener("change", () => {
+      const file = fotoInput.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = e => {
+        fotoPreview.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    });
+
+    // Handle submit biodata -> isi preview
+    document.getElementById("bioForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const get = id => document.getElementById(id).value || "";
+
+      // Isi teks ke preview
+      document.getElementById("p_nama").textContent = get("f_nama");
+      document.getElementById("p_ttl").textContent = get("f_ttl");
+      document.getElementById("p_jk").textContent = get("f_jk");
+      document.getElementById("p_pendidikan").textContent = get("f_pendidikan");
+      document.getElementById("p_pendidikan_formal").textContent = get("f_pendidikan_formal");
+      document.getElementById("p_pendidikan_non").textContent = get("f_pendidikan_non");
+
+      document.getElementById("p_status").textContent = get("f_status");
+      document.getElementById("p_lokasi_kerja").textContent = get("f_lokasi_kerja");
+      document.getElementById("p_posisi").textContent = get("f_posisi");
+      document.getElementById("p_divisi").textContent = get("f_divisi");
+
+      document.getElementById("p_alamat_domisili").textContent = get("f_alamat_domisili");
+      document.getElementById("p_kel_domisili").textContent = get("f_kel_domisili");
+      document.getElementById("p_kec_domisili").textContent = get("f_kec_domisili");
+      document.getElementById("p_kota_domisili").textContent = get("f_kota_domisili");
+
+      document.getElementById("p_hp").textContent = get("f_hp");
+      document.getElementById("p_email").textContent = get("f_email");
+      document.getElementById("p_ktp").textContent = get("f_ktp");
+      document.getElementById("p_npwp").textContent = get("f_npwp");
+      document.getElementById("p_ibu").textContent = get("f_ibu");
+      document.getElementById("p_norek").textContent = get("f_norek");
+      document.getElementById("p_bank").textContent = get("f_bank");
+
+      document.getElementById("p_alamat_ktp").textContent = get("f_alamat_ktp");
+      document.getElementById("p_kel_ktp").textContent = get("f_kel_ktp");
+      document.getElementById("p_kec_ktp").textContent = get("f_kec_ktp");
+      document.getElementById("p_kota_ktp").textContent = get("f_kota_ktp");
+
+      document.getElementById("p_bpjs_ket").textContent = get("f_bpjs_ket");
+      document.getElementById("p_bpjs_kes").textContent = get("f_bpjs_kes");
+      document.getElementById("p_pasangan").textContent = get("f_pasangan");
+      document.getElementById("p_bpjs_pasangan").textContent = get("f_bpjs_pasangan");
+      document.getElementById("p_telp_kerabat").textContent = get("f_telp_kerabat");
+      document.getElementById("p_anak").textContent = get("f_anak");
+      document.getElementById("p_faskes").textContent = get("f_faskes");
+      document.getElementById("p_kk").textContent = get("f_kk");
+
+      // Tampilkan card preview
+      document.getElementById("previewCard").style.display = "block";
+      window.scrollTo({ top: document.getElementById("previewCard").offsetTop - 80, behavior: "smooth" });
+    });
+  </script>
 </body>
 </html>
