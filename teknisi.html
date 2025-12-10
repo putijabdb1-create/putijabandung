@@ -708,12 +708,25 @@
       <div style="margin-top:10px;text-align:right;">
         <button type="button" class="btn btn-primary" onclick="window.print()">🖨 Cetak / PDF</button>
       </div>
+
+      <!-- LINK ADMIN: SHEET & DRIVE -->
+      <div style="margin-top:8px;text-align:right;">
+        <a id="sheetLink" class="btn btn-secondary" style="margin-right:6px;" target="_blank">📄 Buka Google Sheet</a>
+        <a id="driveLink" class="btn btn-secondary" target="_blank">🗂 Buka Folder Google Drive</a>
+        <div style="margin-top:4px;font-size:10px;color:#9ca3af;">
+          *Link hanya untuk admin / pengelola data.
+        </div>
+      </div>
     </div>
   </main>
 
   <script>
     /* ========= KONFIGURASI ========= */
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxAnoRfp3dIUiKJT9KF03RweouXnXUVFvSgetOUmvnnOm7eOrdqKVFjfna75TIg4Vg/exec";
+
+    /* 👉 GANTI DUA LINK DI BAWAH INI DENGAN LINK PUNYAMU */
+    const SHEET_URL = "https://docs.google.com/spreadsheets/d/1uACE2nd-2E8CNtG-nQUiTUd4x5C2sFfKdZJeb1D_sbM/edit?gid=0#gid=0";
+    const DRIVE_FOLDER_URL = "https://drive.google.com/drive/folders/1xW5TQYUgpHRbFTdL8nFIxAQA9aJfP7uK?usp=drive_link";
 
     // Format: username|password|nik|nama|divisi|defaultArea
     const USER_LINES = [
@@ -860,6 +873,14 @@
     let fotoNpwpDataUrl = "";
     let fotoBpjsKetDataUrl = "";
     let fotoBpjsKesDataUrl = "";
+
+    /* Set link Sheet & Drive di tombol admin */
+    (function setAdminLinks(){
+      const s = document.getElementById("sheetLink");
+      const d = document.getElementById("driveLink");
+      if (s) s.href = SHEET_URL;
+      if (d) d.href = DRIVE_FOLDER_URL;
+    })();
 
     /* ========= LOGIN ========= */
     function loginTeknisi() {
