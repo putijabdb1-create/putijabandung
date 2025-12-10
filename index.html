@@ -2,280 +2,512 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>PT PUTRA TIMUR JAYA BANDUNG BARAT 1</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PT PUTRA TIMUR JAYA BDB1</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-    /* RESET SEDERHANA */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
     body {
-      font-family: Arial, sans-serif;
-      background: #f4f4f4;
-      color: #1f2933;
+      font-family: "Poppins", sans-serif;
+      background: radial-gradient(circle at top left, #22c55e22, transparent 50%),
+                  radial-gradient(circle at bottom right, #4f46e522, transparent 55%),
+                  linear-gradient(135deg, #020617, #020617 40%, #020617);
+      color: #f9fafb;
+      min-height: 100vh;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* WRAPPER */
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 18px 18px 40px;
     }
 
     /* NAVBAR */
     .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 16px 40px;
-      background: white;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.05);
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 50;
+      backdrop-filter: blur(20px);
+      background: linear-gradient(to right, #020617cc, #020617dd);
+      border-bottom: 1px solid #1f2937;
     }
-    .navbar-logo {
-      font-weight: bold;
-      font-size: 20px;
-    }
-    .navbar-menu {
+    .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 10px 18px;
       display: flex;
-      gap: 24px;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .nav-brand-logo {
+      width: 34px;
+      height: 34px;
+      border-radius: 999px;
+      background: radial-gradient(circle, #4ade80, #22c55e);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      border: 1px solid #22c55e88;
+    }
+    .nav-brand-logo img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+    .nav-brand-title {
+      display: flex;
+      flex-direction: column;
+    }
+    .nav-brand-title span:first-child {
+      font-size: 11px;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: #9ca3af;
+    }
+    .nav-brand-title span:last-child {
       font-size: 14px;
-    }
-    .navbar-menu a {
-      text-decoration: none;
-      color: #4b5563;
-    }
-    .navbar-menu a:hover {
-      color: #2563eb;
+      font-weight: 600;
     }
 
-    /* HERO SECTION */
+    .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 14px;
+      font-size: 13px;
+    }
+    .nav-links a {
+      padding: 6px 12px;
+      border-radius: 999px;
+      color: #e5e7eb;
+      transition: background 0.18s, color 0.18s, transform 0.15s;
+    }
+    .nav-links a:hover {
+      background: #2563eb;
+      color: #f9fafb;
+      transform: translateY(-1px);
+    }
+    .nav-links a.active {
+      background: #2563eb;
+      color: #f9fafb;
+    }
+
+    @media (max-width: 768px) {
+      .nav-inner {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+      }
+      .nav-links {
+        flex-wrap: wrap;
+      }
+    }
+
+    /* HERO */
     .hero {
-      position: relative;
-      padding: 80px 40px 60px;
-      color: white;
-      text-align: center;
-      overflow: hidden;
+      display: grid;
+      grid-template-columns: minmax(0, 1.2fr) minmax(0, 0.9fr);
+      gap: 26px;
+      margin-top: 26px;
+      align-items: center;
     }
-    .hero::before {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background-image: url("https://images.pexels.com/photos/3184398/pexels-photo-3184398.jpeg");
-      background-size: cover;
-      background-position: center;
-      filter: brightness(0.5);
-      z-index: -2;
+    @media (max-width: 900px) {
+      .hero {
+        grid-template-columns: 1fr;
+        margin-top: 24px;
+      }
     }
-    .hero::after {
-      content: "";
-      position: absolute;
-      inset: 0;
-      background: linear-gradient(to bottom, rgba(15,23,42,0.7), rgba(15,23,42,0.8));
-      z-index: -1;
-    }
-    .hero-badge {
+
+    .hero-left-badge {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      padding: 6px 14px;
+      padding: 4px 10px;
       border-radius: 999px;
-      background: rgba(15,118,110,0.2);
-      font-size: 12px;
-      margin-bottom: 16px;
+      font-size: 11px;
+      background: linear-gradient(90deg, #22c55e33, #2563eb33);
+      border: 1px solid #22c55e66;
+      margin-bottom: 10px;
     }
+    .hero-left-badge span {
+      font-size: 11px;
+    }
+    .hero-left-badge .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 12px #22c55e;
+    }
+
     .hero-title {
-      font-size: 34px;
+      font-size: 28px;
       font-weight: 700;
-      margin-bottom: 6px;
+      line-height: 1.2;
+      margin-bottom: 10px;
     }
-    .hero-subtitle-main {
-      font-size: 20px;
-      margin-bottom: 8px;
+    @media (max-width: 600px) {
+      .hero-title {
+        font-size: 22px;
+      }
     }
     .hero-subtitle {
-      font-size: 14px;
-      max-width: 520px;
-      margin: 0 auto 24px;
+      font-size: 13px;
       color: #e5e7eb;
+      margin-bottom: 20px;
+      max-width: 520px;
     }
+    .hero-subtitle span {
+      color: #22c55e;
+      font-weight: 500;
+    }
+
     .hero-buttons {
       display: flex;
-      justify-content: center;
-      gap: 16px;
-      margin-bottom: 32px;
       flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 22px;
     }
-    .btn-primary, .btn-outline {
-      padding: 10px 22px;
-      border-radius: 8px;
-      border: 2px solid transparent;
-      font-size: 14px;
+    .btn {
+      padding: 9px 16px;
+      border-radius: 999px;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
       cursor: pointer;
-      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      transition: transform 0.15s, box-shadow 0.15s, background 0.15s;
     }
     .btn-primary {
-      background: #2563eb;
-      color: white;
-      border-color: #2563eb;
+      background: linear-gradient(135deg, #2563eb, #1d4ed8);
+      color: #f9fafb;
+      box-shadow: 0 15px 35px rgba(37, 99, 235, 0.35);
     }
     .btn-primary:hover {
-      background: #1d4ed8;
+      transform: translateY(-1px);
+      box-shadow: 0 18px 40px rgba(37, 99, 235, 0.5);
     }
-    .btn-outline {
+    .btn-ghost {
       background: transparent;
-      color: white;
-      border-color: #bfdbfe;
+      color: #e5e7eb;
+      border: 1px solid #4b5563;
     }
-    .btn-outline:hover {
-      background: rgba(191,219,254,0.12);
+    .btn-ghost:hover {
+      border-color: #22c55e;
+      background: #0f172a;
+    }
+
+    .hero-note {
+      font-size: 11px;
+      color: #9ca3af;
+    }
+
+    /* HERO RIGHT - ILLUSTRATION */
+    .hero-right {
+      position: relative;
+      min-height: 230px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .hero-card {
+      width: 100%;
+      max-width: 380px;
+      border-radius: 24px;
+      padding: 16px 18px 18px;
+      background: radial-gradient(circle at top left, #22c55e11, transparent 50%),
+                  radial-gradient(circle at bottom right, #2563eb22, transparent 55%),
+                  linear-gradient(145deg, #020617dd, #020617f0);
+      border: 1px solid #1f2937;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.85);
+    }
+    .hero-card-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .hero-card-sub {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 12px;
+    }
+    .hero-card-chip-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+    .chip {
+      font-size: 10px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      border: 1px solid #374151;
+      background: #020617;
+      color: #e5e7eb;
+    }
+    .chip.green { border-color: #22c55e; color: #bbf7d0; }
+    .chip.blue { border-color: #38bdf8; color: #bae6fd; }
+
+    .hero-card-metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px;
+      margin-bottom: 8px;
+      font-size: 11px;
+    }
+    .hero-card-metric {
+      padding: 8px 8px;
+      border-radius: 12px;
+      background: #020617;
+      border: 1px solid #111827;
+    }
+    .hero-card-metric span.value {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .hero-card-metric span.label {
+      display: block;
+      color: #9ca3af;
+      margin-top: 2px;
+    }
+    .hero-card-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-top: 10px;
+      font-size: 10px;
+      color: #9ca3af;
+    }
+    .hero-card-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      color: #bbf7d0;
+    }
+    .hero-card-indicator span.dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background: #22c55e;
+      box-shadow: 0 0 8px #22c55e;
     }
 
     /* STAT CARDS */
-    .stats {
+    .stats-grid {
       display: grid;
       grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 16px;
-      max-width: 900px;
-      margin: 0 auto;
+      gap: 14px;
+      margin-top: 32px;
     }
-    .stat-card {
-      background: white;
-      padding: 18px 12px;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(15,23,42,0.25);
-    }
-    .stat-number {
-      font-size: 22px;
-      font-weight: 700;
-      color: #2563eb;
-      margin-bottom: 6px;
-    }
-    .stat-label {
-      font-size: 12px;
-      color: #6b7280;
-    }
-
-    /* PROMO BANNER */
-    .promo {
-      background: #fb923c;
-      color: white;
-      text-align: center;
-      padding: 40px 20px;
-    }
-    .promo-badge {
-      display: inline-block;
-      margin-bottom: 10px;
-      padding: 6px 16px;
-      border-radius: 999px;
-      border: 1px solid rgba(255,255,255,0.8);
-      font-size: 11px;
-      letter-spacing: 1px;
-    }
-    .promo-title {
-      font-size: 22px;
-      font-weight: 700;
-      margin-bottom: 8px;
-    }
-    .promo-text {
-      font-size: 14px;
-      opacity: 0.95;
-    }
-
-    /* RESPONSIVE */
-    @media (max-width: 768px) {
-      .navbar {
-        padding: 12px 16px;
-      }
-      .navbar-menu {
-        display: none; /* biar simpel, menu di-hide di HP */
-      }
-      .hero {
-        padding: 60px 16px 40px;
-      }
-      .hero-title {
-        font-size: 26px;
-      }
-      .hero-subtitle-main {
-        font-size: 18px;
-      }
-      .stats {
+    @media (max-width: 900px) {
+      .stats-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
       }
     }
-
-    @media (max-width: 480px) {
-      .stats {
+    @media (max-width: 600px) {
+      .stats-grid {
         grid-template-columns: 1fr;
       }
+    }
+    .stat-card {
+      border-radius: 18px;
+      padding: 16px 14px;
+      background: linear-gradient(145deg, #020617, #020617ee);
+      border: 1px solid #1f2937;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.7);
+    }
+    .stat-label {
+      font-size: 11px;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+    .stat-value {
+      font-size: 22px;
+      font-weight: 700;
+    }
+
+    /* ABOUT SECTION */
+    .about {
+      margin-top: 32px;
+      border-radius: 18px;
+      padding: 18px 18px 20px;
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #111827;
+      box-shadow: 0 18px 42px rgba(0,0,0,0.35);
+    }
+    .about-title {
+      font-size: 15px;
+      font-weight: 700;
+      margin-bottom: 6px;
+    }
+    .about-text {
+      font-size: 12px;
+      color: #111827;
+      margin-bottom: 4px;
+    }
+    .about-address {
+      font-size: 11px;
+      color: #1f2937;
+    }
+
+    .footer-note {
+      margin-top: 18px;
+      font-size: 10px;
+      color: #6b7280;
+      text-align: center;
     }
   </style>
 </head>
 <body>
-
   <!-- NAVBAR -->
-
-    <header class="navbar">
-    <div class="navbar-logo">PT PUTRA TIMUR JAYA BANDUNG BARAT 1</div>
-    <ul class="navbar-nav">
-    <li><a href="index.html">Beranda</a></li>
-    <li><a href="program.html">Program</a></li>
-    <li><a href="galeri.html">Galeri</a></li>
-    <li><a href="teknisi.html">Area Teknisi</a></li>
-    <li><a href="kontak.html">Kontak</a></li>
-    </ul>
+  <header class="navbar">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <div class="nav-brand-logo">
+          <!-- GANTI src jika nama file logo berbeda -->
+          <img src="logo-pttj.png" alt="Logo PT PUTRA TIMUR JAYA" />
+        </div>
+        <div class="nav-brand-title">
+          <span>PT PUTRA TIMUR JAYA</span>
+          <span>BANDUNG BARAT 1</span>
+        </div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html" class="active">Beranda</a></li>
+        <li><a href="program.html">Program</a></li>
+        <li><a href="galeri.html">Galeri</a></li>
+        <li><a href="teknisi.html">Login Teknisi</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+      </ul>
+    </div>
   </header>
 
-  <!-- HERO -->
-  <section class="hero" id="beranda">
-    <div class="hero-badge">
-      <span>✔</span>
-      <span>DIPERCAYA SEJAK 2012</span>
-    </div>
+  <!-- CONTENT -->
+  <main class="page">
+    <section class="hero">
+      <div>
+        <div class="hero-left-badge">
+          <span class="dot"></span>
+          <span>Dipercaya sejak 2012 • Kontraktor Telekomunikasi</span>
+        </div>
 
-    <h1 class="hero-title">PT PUTRA TIMUR JAYA BANDUNG BARAT 1</h1>
-    <p class="hero-subtitle-main">Perusahaan Kontraktor dan Telekomunikasi</p>
-    <p class="hero-subtitle">
-      Bersama Kita Wujudkan Indondesia Emas.
-    </p>
+        <h1 class="hero-title">
+          PT PUTRA TIMUR JAYA BANDUNG BARAT 1
+        </h1>
+        <p class="hero-subtitle">
+          Perusahaan <span>kontraktor dan telekomunikasi</span> yang berfokus pada pembangunan,
+          pemeliharaan dan peningkatan infrastruktur jaringan untuk mendukung konektivitas digital.
+        </p>
 
-    <div class="hero-buttons">
-      <a href="#kontak" class="btn-primary">Bergabung Sekarang</a>
-      <a href="#program" class="btn-outline">Bidang Jasa</a>
-    </div>
+        <div class="hero-buttons">
+          <a href="kontak.html" class="btn btn-primary">
+            <span>👉 Bergabung Sekarang</span>
+          </a>
+          <a href="program.html" class="btn btn-ghost">
+            <span>📡 Bidang Jasa</span>
+          </a>
+        </div>
 
-    <div class="stats">
+        <p class="hero-note">
+          Kami mendukung program digitalisasi dan ekspansi jaringan fiber optik di wilayah Bandung Barat dan sekitarnya.
+        </p>
+      </div>
+
+      <div class="hero-right">
+        <div class="hero-card">
+          <div class="hero-card-title">Dashboard Operasional</div>
+          <div class="hero-card-sub">Ringkasan singkat aktivitas teknis & kapasitas tim.</div>
+
+          <div class="hero-card-chip-row">
+            <div class="chip green">Realtime Monitoring</div>
+            <div class="chip blue">Field Technician</div>
+            <div class="chip">Fiber Optic</div>
+            <div class="chip">Maintenance</div>
+          </div>
+
+          <div class="hero-card-metric-grid">
+            <div class="hero-card-metric">
+              <span class="value">5</span>
+              <span class="label">Lokasi STO Aktif</span>
+            </div>
+            <div class="hero-card-metric">
+              <span class="value">90</span>
+              <span class="label">Teknisi Kompeten</span>
+            </div>
+            <div class="hero-card-metric">
+              <span class="value">4</span>
+              <span class="label">Divisi Project</span>
+            </div>
+            <div class="hero-card-metric">
+              <span class="value">12+</span>
+              <span class="label">Tahun Pengalaman</span>
+            </div>
+          </div>
+
+          <div class="hero-card-footer">
+            <div class="hero-card-indicator">
+              <span class="dot"></span>
+              <span>Network uptime &gt; 99%</span>
+            </div>
+            <div>Area: BDB1 • Jawa Barat</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- STAT CARDS (bawah hero) -->
+    <section class="stats-grid">
       <div class="stat-card">
-        <div class="stat-number">5</div>
         <div class="stat-label">Lokasi STO</div>
+        <div class="stat-value">5</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number">90</div>
         <div class="stat-label">Teknisi Kopeten</div>
+        <div class="stat-value">90</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number">4</div>
         <div class="stat-label">Divisi</div>
+        <div class="stat-value">4</div>
       </div>
       <div class="stat-card">
-        <div class="stat-number">12+</div>
-        <div class="stat-label">Tahun Pengalaman Dibidang Telekomunikasi</div>
+        <div class="stat-label">Tahun Pengalaman di Bidang Telekomunikasi</div>
+        <div class="stat-value">12+</div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- PROMO -->
-  <section class="promo">
-    <div class="promo-badge">PUTIJA</div>
-    <h2 class="promo-title">Perusahaan PT. Putra Timur Jaya Bandung Barat 1</h2>
-    <p class="promo-text">
-      Jln Komplek Puri Kahuripan Residence Blok G NO 9 Ngamprah Kab. Bandung Barat 40552
+    <!-- ABOUT -->
+    <section class="about">
+      <div class="about-title">Perusahaan PT. Putra Timur Jaya Bandung Barat 1</div>
+      <p class="about-text">
+        PT Putra Timur Jaya Bandung Barat 1 adalah mitra kerja berbagai operator telekomunikasi
+        dalam pembangunan dan perawatan jaringan, mulai dari instalasi FTTH, PSB, pemeliharaan ODP/ODC,
+        hingga upgrade jaringan berbasis fiber.
+      </p>
+      <p class="about-address">
+        Jln Komplek Puri Kahuripan Residence Blok G No 9 Ngamprah, Kab. Bandung Barat 40552
+      </p>
+    </section>
+
+    <p class="footer-note">
+      © PT PUTRA TIMUR JAYA BANDUNG BARAT 1 • Infrastruktur & Layanan Telekomunikasi.
     </p>
-  </section>
-
-  <!-- Section lain (program, galeri, dll) tinggal kamu tambahkan di bawah sini -->
-
+  </main>
 </body>
 </html>
-
-
-
-
-
