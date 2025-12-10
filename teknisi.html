@@ -1001,42 +1001,46 @@
 
   /* ========= KUMPUL DATA FORM ========= */
   function collectFormData() {
-    const get = id => document.getElementById(id)?.value || "";
-    return {
-      namaPegawai: get("namaPegawai"),
-      ttl: get("ttl"),
-      jenisKelamin: get("jenisKelamin"),
-      pendidikanAkhir: get("pendidikanAkhir"),
-      pendFormal: get("pendFormal"),
-      pendNonFormal: get("pendNonFormal"),
-      statusPerkawinan: get("statusPerkawinan"),
-      lokasiKerja: get("lokasiKerja"),
-      posisiKerja: get("posisiKerja"),
-      divisi: get("divisi"),
-      alamatDomisili: get("alamatDomisili"),
-      domKel: get("domKel"),
-      domKec: get("domKec"),
-      domKota: get("domKota"),
-      noHp: get("noHp"),
-      email: get("email"),
-      noKtp: get("noKtp"),
-      noNpwp: get("noNpwp"),
-      namaIbu: get("namaIbu"),
-      noRekening: get("noRekening"),
-      namaBank: get("namaBank"),
-      ktpAlamat: get("ktpAlamat"),
-      ktpKel: get("ktpKel"),
-      ktpKec: get("ktpKec"),
-      ktpKota: get("ktpKota"),
-      bpjsKet: get("bpjsKet"),
-      bpjsKes: get("bpjsKes"),
-      namaPasangan: get("namaPasangan"),
-      bpjsPasangan: get("bpjsPasangan"),
-      telpKerabat: get("telpKerabat"),
-      dataAnak: get("dataAnak"),
-      namaFaskes: get("namaFaskes"),
-      noKk: get("noKk")
-    };
+  function get(id) {
+    var el = document.getElementById(id);
+    return el ? el.value : "";
+  }
+
+  return {
+    namaPegawai: get("namaPegawai"),
+    ttl: get("ttl"),
+    jenisKelamin: get("jenisKelamin"),
+    pendidikanAkhir: get("pendidikanAkhir"),
+    pendFormal: get("pendFormal"),
+    pendNonFormal: get("pendNonFormal"),
+    statusPerkawinan: get("statusPerkawinan"),
+    lokasiKerja: get("lokasiKerja"),
+    posisiKerja: get("posisiKerja"),
+    divisi: get("divisi"),
+    alamatDomisili: get("alamatDomisili"),
+    domKel: get("domKel"),
+    domKec: get("domKec"),
+    domKota: get("domKota"),
+    noHp: get("noHp"),
+    email: get("email"),
+    noKtp: get("noKtp"),
+    noNpwp: get("noNpwp"),
+    namaIbu: get("namaIbu"),
+    noRekening: get("noRekening"),
+    namaBank: get("namaBank"),
+    ktpAlamat: get("ktpAlamat"),
+    ktpKel: get("ktpKel"),
+    ktpKec: get("ktpKec"),
+    ktpKota: get("ktpKota"),
+    bpjsKet: get("bpjsKet"),
+    bpjsKes: get("bpjsKes"),
+    namaPasangan: get("namaPasangan"),
+    bpjsPasangan: get("bpjsPasangan"),
+    telpKerabat: get("telpKerabat"),
+    dataAnak: get("dataAnak"),
+    namaFaskes: get("namaFaskes"),
+    noKk: get("noKk")
+  };
   }
 
   /* ========= PREVIEW BIODATA ========= */
