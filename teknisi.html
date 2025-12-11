@@ -967,6 +967,23 @@ document.addEventListener("DOMContentLoaded", () => {
   if (el("loginUser")) el("loginUser").addEventListener("keydown", e => { if (e.key === "Enter") loginTeknisi(); });
   if (el("loginPass")) el("loginPass").addEventListener("keydown", e => { if (e.key === "Enter") loginTeknisi(); });
 });
+
+// STUB sementara supaya tombol "Simpan" tidak melempar error
+// (Mode repair: fungsi ini hanya menampilkan pesan. Nanti ganti dengan fungsi saveBiodata yang asli)
+function saveBiodata() {
+  try {
+    alert("Fungsi Simpan sementara dinonaktifkan di mode perbaikan. Preview dan login tetap aktif.");
+    // jika ingin, set juga pesan status pada halaman:
+    const fs = document.getElementById("formStatus");
+    if (fs) {
+      fs.style.color = "#f59e0b";
+      fs.textContent = "Simpan dinonaktifkan sementara (mode repair).";
+    }
+  } catch(e) {
+    console.error("saveBiodata stub error:", e);
+  }
+}
+
 </script>
 </body>
 </html>
