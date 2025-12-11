@@ -1,6 +1,3 @@
-
-/* ==== SUDAH OK NAMUN PHOTO TIDAK MUNCUL (A4) ==== */ ( jangan di copy )
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -304,7 +301,7 @@
   <header class="navbar">
     <div class="nav-inner">
       <div class="nav-brand">
-		<div class="navbar-logo">PT PUTRA TIMUR JAYA BANDUNG BARAT 1</div>
+        <div class="nav-brand-logo">P</div>
         <div class="nav-brand-title">
           <span>PT PUTRA TIMUR JAYA</span>
           <span>BANDUNG BARAT 1</span>
@@ -718,16 +715,18 @@
     </div>
   </main>
 
-<script>
-/* ================== KONFIG ================== */
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzfYMYq83BYCNxITAK-CbGQ0uA5diRWuFw1-kyd7zzqmcFR_3hwWnHtNNDLTF4mUHc/exec";
-const SHEET_URL = "https://docs.google.com/spreadsheets/d/1uACE2nd-2E8CNtG-nQUiTUd4x5C2sFfKdZJeb1D_sbM/edit?gid=0#gid=0";
-const DRIVE_FOLDER_URL = "https://drive.google.com/drive/folders/1xW5TQYUgpHRbFTdL8nFIxAQA9aJfP7uK?usp=drive_link";
-const MAX_FILE_BYTES = 5 * 1024 * 1024; // 5 MB
+  <script>
+    /* ========= KONFIGURASI ========= */
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzfYMYq83BYCNxITAK-CbGQ0uA5diRWuFw1-kyd7zzqmcFR_3hwWnHtNNDLTF4mUHc/exec";
 
-/* ========== USER LINES (paste user list asli) ========== */
-const USER_LINES = [
-  "PTJ_Arip007|alvaro007|15889311|ARIP RAHMATULLOH|PIC|CMI",
+    /* 👉 GANTI DUA LINK DI BAWAH INI DENGAN LINK PUNYAMU */
+    const SHEET_URL = "https://docs.google.com/spreadsheets/d/1uACE2nd-2E8CNtG-nQUiTUd4x5C2sFfKdZJeb1D_sbM/edit?gid=0#gid=0";
+    const DRIVE_FOLDER_URL = "https://drive.google.com/drive/folders/1xW5TQYUgpHRbFTdL8nFIxAQA9aJfP7uK?usp=drive_link";
+	
+
+    // Format: username|password|nik|nama|divisi|defaultArea
+    const USER_LINES = [
+      "PTJ_Arip007|alvaro007|15889311|ARIP RAHMATULLOH|PIC|CMI",
       "PTJ_15889310|30223023|15889310|UUS SETIADI|PIC|BTJ",
       "PTJ_Bob1990|TE1990|BELUM ADA|ASEP SAEPUDIN|PIC|CMI",
       "PTJ_Du2ng|Aisha221011|BELUM ADA|DUDUNG SUKMANA|PIC|CMI",
@@ -851,415 +850,323 @@ const USER_LINES = [
       "PTJ_ZEMMY|putija2025|BELUM ADA|ZEEMY|PIC|CMI",
       "PTJ_DANI|Project01|16850676|DANI|PROJEK|CMI",
       "PTJ_ADITTIYA08|80621|16013886|ADITTIYA HERDI|PSB|CMI"
-];
+      // tambahkan user lain di sini
+    ];
 
-let USERS = [];
-USER_LINES.forEach(line => {
-  const [username,password,nik,nama,divisi,defaultArea] = line.split("|");
-  USERS.push({username,password,nik,nama,divisi,defaultArea});
-});
-
-/* ========== STATE GLOBAL ========== */
-let currentUser = null;
-let fotoDataUrl = "";
-let fotoKtpDataUrl = "";
-let fotoKkDataUrl = "";
-let fotoNpwpDataUrl = "";
-let fotoBpjsKetDataUrl = "";
-let fotoBpjsKesDataUrl = "";
-
-/* ================== UTIL ================== */
-function norm(u){ return (u||"").toString().trim().toLowerCase(); }
-
-function normalizeDriveUrl(url) {
-  if (!url) return "";
-  if (url.indexOf("uc?export=") !== -1) return url;
-  var m = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-  if (m && m[1]) return "https://drive.google.com/uc?export=view&id=" + m[1];
-  var mm = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-  if (mm && mm[1]) return "https://drive.google.com/uc?export=view&id=" + mm[1];
-  return url;
-}
-
-/* ================== UI LINKS ================== */
-(function setAdminLinks(){
-  const s = document.getElementById("sheetLink");
-  const d = document.getElementById("driveLink");
-  if (s) s.href = SHEET_URL;
-  if (d) d.href = DRIVE_FOLDER_URL;
-})();
-
-/* ================== FILE PREVIEW with size check ================== */
-function attachFilePreview(inputId, imgId, setter) {
-  const input = document.getElementById(inputId);
-  const img   = document.getElementById(imgId);
-  if (!input || !img) return;
-  input.addEventListener("change", e => {
-    const file = e.target.files[0];
-    if (!file) return;
-    if (file.size > MAX_FILE_BYTES) {
-      alert("File terlalu besar (>5MB). Pilih file lebih kecil atau kompres gambar.");
-      input.value = "";
-      return;
-    }
-    const reader = new FileReader();
-    reader.onerror = () => { console.error("Gagal membaca file:", file); alert("Gagal membaca file. Coba ulang."); };
-    reader.onload = ev => {
-      const url = ev.target.result;
-      setter(url);
-      img.src = url;
-      img.style.display = "block";
-    };
-    reader.readAsDataURL(file);
-  });
-
-  img.addEventListener("click", () => {
-    if (!confirm("Hapus gambar ini dari form?")) return;
-    input.value = "";
-    img.removeAttribute("src");
-    img.style.display = "none";
-    setter("");
-  });
-}
-
-/* Pasang preview listener setelah DOM siap */
-document.addEventListener("DOMContentLoaded", () => {
-  attachFilePreview("fotoTeknisi", "previewFotoForm", url => fotoDataUrl = url);
-  attachFilePreview("fotoKtp", "previewFotoKtp", url => fotoKtpDataUrl = url);
-  attachFilePreview("fotoKk", "previewFotoKk", url => fotoKkDataUrl = url);
-  attachFilePreview("fotoNpwp", "previewFotoNpwp", url => fotoNpwpDataUrl = url);
-  attachFilePreview("fotoBpjsKet", "previewFotoBpjsKet", url => fotoBpjsKetDataUrl = url);
-  attachFilePreview("fotoBpjsKes", "previewFotoBpjsKes", url => fotoBpjsKesDataUrl = url);
-
-  const lu = document.getElementById("loginUser");
-  const lp = document.getElementById("loginPass");
-  if (lu) lu.addEventListener("keydown", e => { if (e.key === "Enter") loginTeknisi(); });
-  if (lp) lp.addEventListener("keydown", e => { if (e.key === "Enter") loginTeknisi(); });
-});
-
-/* ================== LOGIN / LOGOUT ================== */
-function loginTeknisi() {
-  const userId = document.getElementById("loginUser").value.trim();
-  const pass  = document.getElementById("loginPass").value.trim();
-  const statusEl = document.getElementById("loginStatus");
-
-  const user = USERS.find(u => norm(u.username) === norm(userId) && u.password === pass);
-  if (!user) {
-    statusEl.textContent = "Login gagal: user ID atau password salah.";
-    statusEl.style.color = "#fca5a5";
-    return;
-  }
-
-  currentUser = user;
-  statusEl.textContent = "Login berhasil sebagai " + user.nama + ". Memuat data...";
-  statusEl.style.color = "#bbf7d0";
-
-  document.getElementById("namaPegawai").value = user.nama || "";
-  document.getElementById("divisi").value = user.divisi || "";
-  document.getElementById("lokasiKerja").value = user.defaultArea || "";
-
-  document.getElementById("formCard").style.display = "block";
-  document.getElementById("formCard").scrollIntoView({behavior:"smooth"});
-
-  fetchExistingBiodata(norm(user.username));
-}
-
-function logoutTeknisi() {
-  currentUser = null;
-  document.getElementById("loginUser").value = "";
-  document.getElementById("loginPass").value = "";
-  document.getElementById("loginStatus").textContent = "";
-  document.getElementById("formStatus").textContent = "";
-  document.getElementById("formCard").style.display = "none";
-  document.getElementById("previewWrapper").style.display = "none";
-  clearPreviewAndData();
-}
-
-/* ================== HELPERS ================== */
-function clearPreviewAndData() {
-  fotoDataUrl = fotoKtpDataUrl = fotoKkDataUrl = fotoNpwpDataUrl = fotoBpjsKetDataUrl = fotoBpjsKesDataUrl = "";
-  const previews = ["previewFotoForm","previewFotoKtp","previewFotoKk","previewFotoNpwp","previewFotoBpjsKet","previewFotoBpjsKes"];
-  previews.forEach(id => {
-    const el = document.getElementById(id);
-    if (el) { el.removeAttribute("src"); el.style.display = "none"; }
-  });
-}
-
-function collectFormData() {
-  const get = id => document.getElementById(id)?.value || "";
-  return {
-    namaPegawai: get("namaPegawai"),
-    ttl: get("ttl"),
-    jenisKelamin: get("jenisKelamin"),
-    pendidikanAkhir: get("pendidikanAkhir"),
-    pendFormal: get("pendFormal"),
-    pendNonFormal: get("pendNonFormal"),
-    statusPerkawinan: get("statusPerkawinan"),
-    lokasiKerja: get("lokasiKerja"),
-    posisiKerja: get("posisiKerja"),
-    divisi: get("divisi"),
-    alamatDomisili: get("alamatDomisili"),
-    domKel: get("domKel"),
-    domKec: get("domKec"),
-    domKota: get("domKota"),
-    noHp: get("noHp"),
-    email: get("email"),
-    noKtp: get("noKtp"),
-    noNpwp: get("noNpwp"),
-    namaIbu: get("namaIbu"),
-    noRekening: get("noRekening"),
-    namaBank: get("namaBank"),
-    ktpAlamat: get("ktpAlamat"),
-    ktpKel: get("ktpKel"),
-    ktpKec: get("ktpKec"),
-    ktpKota: get("ktpKota"),
-    bpjsKet: get("bpjsKet"),
-    bpjsKes: get("bpjsKes"),
-    namaPasangan: get("namaPasangan"),
-    bpjsPasangan: get("bpjsPasangan"),
-    telpKerabat: get("telpKerabat"),
-    dataAnak: get("dataAnak"),
-    namaFaskes: get("namaFaskes"),
-    noKk: get("noKk")
-  };
-}
-
-/* ================== FETCH EXISTING BIODATA (with cache) ================== */
-const BIODATA_CACHE = {};
-async function fetchExistingBiodata(usernameNorm) {
-  if (!usernameNorm) return;
-  const statusEl = document.getElementById("loginStatus");
-
-  if (BIODATA_CACHE[usernameNorm]) {
-    const cached = BIODATA_CACHE[usernameNorm];
-    fillFormFromServerData(cached.biodata, cached.photos);
-    statusEl.textContent = "Biodata dimuat dari cache.";
-    statusEl.style.color = "#bbf7d0";
-    return;
-  }
-
-  try {
-    const res = await fetch(WEB_APP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({ mode: "getBiodata", username: usernameNorm })
+    let USERS = [];
+    USER_LINES.forEach(line => {
+      const [username,password,nik,nama,divisi,defaultArea] = line.split("|");
+      USERS.push({username,password,nik,nama,divisi,defaultArea});
     });
-    // jika status bukan 200 → anggap gagal
-    if (!res.ok) throw new Error("HTTP " + res.status);
-    const j = await res.json();
-    if (j && j.ok && j.found) {
-      BIODATA_CACHE[usernameNorm] = { biodata: j.biodata, photos: j.photos, ts: Date.now() };
-      fillFormFromServerData(j.biodata, j.photos);
-      statusEl.textContent = "Biodata ditemukan & dimuat.";
-      statusEl.style.color = "#bbf7d0";
-    } else {
-      // tidak ditemukan — jangan kosongkan form, tanda saja
-      statusEl.textContent = "Biodata belum ada di server.";
-      statusEl.style.color = "#f59e0b";
-    }
-  } catch (err) {
-    console.warn("fetchExistingBiodata error (fallback ke lokal):", err);
-    statusEl.textContent = "Tidak dapat ambil server, gunakan form lokal.";
-    statusEl.style.color = "#f59e0b";
-    // TIDAK melakukan fillFormFromServerData(null) — biarkan form yang ada 
-  }
-}
 
-function fillFormFromServerData(b, photos) {
-  if (!b) return;
-  Object.keys(b).forEach(k => {
-    const el = document.getElementById(k);
-    if (el) el.value = b[k] || "";
-  });
-  if (photos) {
-    if (photos.fotoTeknisi) { document.getElementById("previewFotoForm").src = normalizeDriveUrl(photos.fotoTeknisi) + "&t=" + Date.now(); document.getElementById("previewFotoForm").style.display = "block"; }
-    if (photos.fotoKtp)     { document.getElementById("previewFotoKtp").src = normalizeDriveUrl(photos.fotoKtp) + "&t=" + Date.now(); document.getElementById("previewFotoKtp").style.display = "block"; }
-    if (photos.fotoNpwp)    { document.getElementById("previewFotoNpwp").src = normalizeDriveUrl(photos.fotoNpwp) + "&t=" + Date.now(); document.getElementById("previewFotoNpwp").style.display = "block"; }
-    if (photos.fotoBpjsKet) { document.getElementById("previewFotoBpjsKet").src = normalizeDriveUrl(photos.fotoBpjsKet) + "&t=" + Date.now(); document.getElementById("previewFotoBpjsKet").style.display = "block"; }
-    if (photos.fotoBpjsKes) { document.getElementById("previewFotoBpjsKes").src = normalizeDriveUrl(photos.fotoBpjsKes) + "&t=" + Date.now(); document.getElementById("previewFotoBpjsKes").style.display = "block"; }
-    if (photos.fotoKk)      { document.getElementById("previewFotoKk").src = normalizeDriveUrl(photos.fotoKk) + "&t=" + Date.now(); document.getElementById("previewFotoKk").style.display = "block"; }
-  }
-}
+    let currentUser = null;
 
-/* ================== SAVE BIODATA ================== */
-function setFormStatus(text, color) {
-  const fs = document.getElementById("formStatus");
-  if (!fs) return;
-  fs.textContent = text;
-  if (color) fs.style.color = color;
-}
+    // foto base64
+    let fotoDataUrl = "";
+    let fotoKtpDataUrl = "";
+    let fotoKkDataUrl = "";
+    let fotoNpwpDataUrl = "";
+    let fotoBpjsKetDataUrl = "";
+    let fotoBpjsKesDataUrl = "";
 
-async function saveBiodata() {
-  if (!currentUser) { alert("Silakan login terlebih dahulu."); return; }
-  setFormStatus("Menyimpan biodata ke Google Sheet...", "#9ca3af");
+    /* Set link Sheet & Drive di tombol admin */
+    (function setAdminLinks(){
+      const s = document.getElementById("sheetLink");
+      const d = document.getElementById("driveLink");
+      if (s) s.href = SHEET_URL;
+      if (d) d.href = DRIVE_FOLDER_URL;
+    })();
 
-  const data = collectFormData();
+    /* ========= LOGIN ========= */
+    function loginTeknisi() {
+      const userId = document.getElementById("loginUser").value.trim();
+      const pass  = document.getElementById("loginPass").value.trim();
+      const statusEl = document.getElementById("loginStatus");
 
-  try {
-    const res = await fetch(WEB_APP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({
-        mode: "saveBiodata",
-        user: { username: norm(currentUser.username), nik: currentUser.nik, nama: currentUser.nama },
-        biodata: data,
-        foto: fotoDataUrl,
-        fotoKtp: fotoKtpDataUrl,
-        fotoKk: fotoKkDataUrl,
-        fotoNpwp: fotoNpwpDataUrl,
-        fotoBpjsKet: fotoBpjsKetDataUrl,
-        fotoBpjsKes: fotoBpjsKesDataUrl
-      })
-    });
-    const j = await res.json();
-
-    if (!j || !j.ok) {
-      const errMsg = j && j.error ? j.error : "Unknown error";
-      setFormStatus("Gagal menyimpan: " + errMsg, "#fca5a5");
-      console.error("saveBiodata fail:", j);
-      return;
-    }
-
-    BIODATA_CACHE[norm(currentUser.username)] = { biodata: data, photos: j.photos || {}, ts: Date.now() };
-
-    if (j.photos) {
-      function setPreview(id, url) {
-        if (!url) return;
-        const el = document.getElementById(id);
-        if (!el) return;
-        el.src = normalizeDriveUrl(url) + "&t=" + Date.now();
-        el.style.display = "block";
+      const user = USERS.find(u => u.username === userId && u.password === pass);
+      if (!user) {
+        statusEl.textContent = "Login gagal: user ID atau password salah.";
+        statusEl.style.color = "#fca5a5";
+        return;
       }
-      setPreview("previewFotoForm", j.photos.fotoTeknisi);
-      setPreview("previewFotoKtp", j.photos.fotoKtp);
-      setPreview("previewFotoNpwp", j.photos.fotoNpwp);
-      setPreview("previewFotoBpjsKet", j.photos.fotoBpjsKet);
-      setPreview("previewFotoBpjsKes", j.photos.fotoBpjsKes);
-      setPreview("previewFotoKk", j.photos.fotoKk);
+
+      currentUser = user;
+      statusEl.textContent = "Login berhasil sebagai " + user.nama + ". Silakan isi biodata.";
+      statusEl.style.color = "#bbf7d0";
+
+      document.getElementById("namaPegawai").value = user.nama || "";
+      document.getElementById("divisi").value = user.divisi || "";
+      document.getElementById("lokasiKerja").value = user.defaultArea || "";
+
+      document.getElementById("formCard").style.display = "block";
+      document.getElementById("formCard").scrollIntoView({behavior:"smooth"});
     }
 
-    setFormStatus("Biodata tersimpan (" + (j.action||"") + ").", "#bbf7d0");
-    console.log("save response:", j);
+    function logoutTeknisi() {
+      currentUser = null;
+      document.getElementById("loginUser").value = "";
+      document.getElementById("loginPass").value = "";
+      document.getElementById("loginStatus").textContent = "";
+      document.getElementById("formCard").style.display = "none";
+      document.getElementById("previewWrapper").style.display = "none";
+      document.getElementById("formStatus").textContent = "";
+    }
 
-    fetchExistingBiodata(norm(currentUser.username));
-  } catch (err) {
-    console.error("saveBiodata error:", err);
-    setFormStatus("Gagal menyimpan biodata: " + (err.message || err), "#fca5a5");
-  }
-}
+    function scrollToForm() {
+      document.getElementById("formCard").scrollIntoView({behavior:"smooth"});
+    }
 
-/* ================== PREVIEW CETAK ================== */
-async function showPreviewBiodata(){
+    /* ========= FOTO INPUT ========= */
+    function attachFilePreview(inputId, imgId, setter) {
+      const input = document.getElementById(inputId);
+      const img   = document.getElementById(imgId);
+      if (!input || !img) return;
+      input.addEventListener("change", e => {
+        const file = e.target.files[0];
+        if (!file) return;
+        const reader = new FileReader();
+        reader.onload = ev => {
+          const url = ev.target.result;
+          setter(url);
+          img.src = url;
+          img.style.display = "block";
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    attachFilePreview("fotoTeknisi", "previewFotoForm", url => fotoDataUrl = url);
+    attachFilePreview("fotoKtp", "previewFotoKtp", url => fotoKtpDataUrl = url);
+    attachFilePreview("fotoKk", "previewFotoKk", url => fotoKkDataUrl = url);
+    attachFilePreview("fotoNpwp", "previewFotoNpwp", url => fotoNpwpDataUrl = url);
+    attachFilePreview("fotoBpjsKet", "previewFotoBpjsKet", url => fotoBpjsKetDataUrl = url);
+    attachFilePreview("fotoBpjsKes", "previewFotoBpjsKes", url => fotoBpjsKesDataUrl = url);
+
+    /* ========= SIMPAN BIODATA ========= */
+    async function saveBiodata() {
+      if (!currentUser) {
+        alert("Silakan login terlebih dahulu.");
+        return;
+      }
+      const statusEl = document.getElementById("formStatus");
+      statusEl.style.color = "#9ca3af";
+      statusEl.textContent = "Menyimpan biodata ke Google Sheet...";
+
+      const data = collectFormData();
+
+      try {
+        const res = await fetch(WEB_APP_URL, {
+          method: "POST",
+          // penting: pakai text/plain supaya tidak kena CORS / preflight
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            mode: "saveBiodata",
+            user: currentUser,
+            biodata: data,
+            foto: fotoDataUrl,
+            fotoKtp: fotoKtpDataUrl,
+            fotoKk: fotoKkDataUrl,
+            fotoNpwp: fotoNpwpDataUrl,
+            fotoBpjsKet: fotoBpjsKetDataUrl,
+            fotoBpjsKes: fotoBpjsKesDataUrl
+          })
+        });
+        const text = await res.text();
+        statusEl.style.color = "#bbf7d0";
+        statusEl.textContent = "Biodata berhasil dikirim. Respon server: " + text;
+        console.log("Respon server:", text);
+      } catch (err) {
+        statusEl.style.color = "#fca5a5";
+        statusEl.textContent = "Gagal menyimpan biodata: " + err.message;
+        console.error("Error fetch:", err);
+      }
+    }
+
+    /* ========= KUMPUL DATA FORM ========= */
+    function collectFormData() {
+      const get = id => document.getElementById(id)?.value || "";
+      return {
+        namaPegawai: get("namaPegawai"),
+        ttl: get("ttl"),
+        jenisKelamin: get("jenisKelamin"),
+        pendidikanAkhir: get("pendidikanAkhir"),
+        pendFormal: get("pendFormal"),
+        pendNonFormal: get("pendNonFormal"),
+        statusPerkawinan: get("statusPerkawinan"),
+        lokasiKerja: get("lokasiKerja"),
+        posisiKerja: get("posisiKerja"),
+        divisi: get("divisi"),
+        alamatDomisili: get("alamatDomisili"),
+        domKel: get("domKel"),
+        domKec: get("domKec"),
+        domKota: get("domKota"),
+        noHp: get("noHp"),
+        email: get("email"),
+        noKtp: get("noKtp"),
+        noNpwp: get("noNpwp"),
+        namaIbu: get("namaIbu"),
+        noRekening: get("noRekening"),
+        namaBank: get("namaBank"),
+        ktpAlamat: get("ktpAlamat"),
+        ktpKel: get("ktpKel"),
+        ktpKec: get("ktpKec"),
+        ktpKota: get("ktpKota"),
+        bpjsKet: get("bpjsKet"),
+        bpjsKes: get("bpjsKes"),
+        namaPasangan: get("namaPasangan"),
+        bpjsPasangan: get("bpjsPasangan"),
+        telpKerabat: get("telpKerabat"),
+        dataAnak: get("dataAnak"),
+        namaFaskes: get("namaFaskes"),
+        noKk: get("noKk")
+      };
+    }
+
+    /* ========= PREVIEW BIODATA ========= */
+    function isiText(id, val) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val || "-";
+    }
+
+    function setImgSrc(id, url) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      if (url) {
+        el.src = url;
+      } else {
+        el.removeAttribute("src");
+      }
+    }
+
+    async function showPreviewBiodata() {
   const statusEl = document.getElementById("formStatus");
   statusEl.style.color = "#9ca3af";
   statusEl.textContent = "Menyiapkan preview...";
 
-  let serverData = null, serverPhotos = null;
+  // Jika ada user yang login, coba ambil data tersimpan dari server
+  let serverData = null;
   if (currentUser && currentUser.username) {
     try {
       const res = await fetch(WEB_APP_URL, {
         method: "POST",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ mode: "getBiodata", username: norm(currentUser.username) })
+        body: JSON.stringify({ mode: "getBiodata", username: (currentUser.username||"").toString().trim().toLowerCase() })
       });
-      if (res.ok) {
-        const j = await res.json();
-        if (j && j.ok && j.found) {
-          serverData = j.biodata || null;
-          serverPhotos = j.photos || null;
-        }
-      } else {
-        console.warn("showPreviewBiodata: server returned", res.status);
+      const j = await res.json();
+      if (j && j.ok && j.found) {
+        serverData = j.biodata || null;
       }
-    } catch (e) {
-      console.warn("Preview: tidak bisa ambil server, gunakan form lokal.", e);
+    } catch (err) {
+      console.error("Error fetch getBiodata:", err);
+      // proceed to use form data if server not reachable
     }
   }
 
+  // primaryData: kalau serverData ada -> pakai itu; kalau tidak -> pakai data form saat ini
   const primary = serverData || collectFormData();
 
-  // isi preview seperti biasa...
-  // ... (pakai kode isiText & setImgSrc yang sudah ada)
-}
-
-  const primary = serverData || collectFormData();
-
-  function isiText(id, val) { const el = document.getElementById(id); if (el) el.textContent = val || "-"; }
-
-  isiText("pvNamaPegawai", primary.namaPegawai);
-  isiText("pvTtl", primary.ttl);
-  isiText("pvJenisKelamin", primary.jenisKelamin);
-  isiText("pvPendidikanAkhir", primary.pendidikanAkhir);
-  isiText("pvPendidikanFormal", primary.pendFormal);
-  isiText("pvPendidikanNonFormal", primary.pendNonFormal);
-
-  isiText("pvStatusPerkawinan", primary.statusPerkawinan);
-  isiText("pvLokasiKerja", primary.lokasiKerja);
-  isiText("pvPosisiKerja", primary.posisiKerja);
-  isiText("pvDivisi", primary.divisi);
-
-  isiText("pvAlamatDomisili", primary.alamatDomisili);
-  isiText("pvDomKel", primary.domKel);
-  isiText("pvDomKec", primary.domKec);
-  isiText("pvDomKota", primary.domKota);
-
-  isiText("pvNoHp", primary.noHp);
-  isiText("pvEmail", primary.email);
-  isiText("pvNoKtp", primary.noKtp);
-  isiText("pvNoNpwp", primary.noNpwp);
-  isiText("pvNamaIbu", primary.namaIbu);
-  isiText("pvNoRekening", primary.noRekening);
-  isiText("pvNamaBank", primary.namaBank);
-
-  isiText("pvKtpAlamat", primary.ktpAlamat);
-  isiText("pvKtpKel", primary.ktpKel);
-  isiText("pvKtpKec", primary.ktpKec);
-  isiText("pvKtpKota", primary.ktpKota);
-
-  isiText("pvBpjsKet", primary.bpjsKet);
-  isiText("pvBpjsKes", primary.bpjsKes);
-  isiText("pvNamaPasangan", primary.namaPasangan);
-  isiText("pvBpjsPasangan", primary.bpjsPasangan);
-  isiText("pvTelpKerabat", primary.telpKerabat);
-  isiText("pvDataAnak", primary.dataAnak);
-  isiText("pvNamaFaskes", primary.namaFaskes);
-  isiText("pvNoKk", primary.noKk);
-
-  function pickSrc(serverUrl, localUrl, previewId) {
-    if (serverUrl) return normalizeDriveUrl(serverUrl) + "&t=" + Date.now();
-    if (localUrl) return localUrl;
-    const el = document.getElementById(previewId);
-    return (el && el.src) ? el.src : "";
+  // helper untuk isi text pada preview
+  function isiTextLocal(id, val) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val || "-";
   }
 
-  setImgSrc("bioFotoInline", pickSrc(serverPhotos?.fotoTeknisi, fotoDataUrl, "previewFotoForm"));
-  setImgSrc("bioFotoKtp", pickSrc(serverPhotos?.fotoKtp, fotoKtpDataUrl, "previewFotoKtp"));
-  setImgSrc("bioFotoNpwp", pickSrc(serverPhotos?.fotoNpwp, fotoNpwpDataUrl, "previewFotoNpwp"));
-  setImgSrc("bioFotoBpjsKet", pickSrc(serverPhotos?.fotoBpjsKet, fotoBpjsKetDataUrl, "previewFotoBpjsKet"));
-  setImgSrc("bioFotoBpjsKes", pickSrc(serverPhotos?.fotoBpjsKes, fotoBpjsKesDataUrl, "previewFotoBpjsKes"));
-  setImgSrc("bioFotoKk", pickSrc(serverPhotos?.fotoKk, fotoKkDataUrl, "previewFotoKk"));
+  isiTextLocal("pvNamaPegawai", primary.namaPegawai);
+  isiTextLocal("pvTtl", primary.ttl);
+  isiTextLocal("pvJenisKelamin", primary.jenisKelamin);
+  isiTextLocal("pvPendidikanAkhir", primary.pendidikanAkhir);
+  isiTextLocal("pvPendidikanFormal", primary.pendFormal);
+  isiTextLocal("pvPendidikanNonFormal", primary.pendNonFormal);
 
-  document.getElementById("pvPrintedAt").textContent = new Date().toLocaleString("id-ID", {dateStyle:"short", timeStyle:"short"});
+  isiTextLocal("pvStatusPerkawinan", primary.statusPerkawinan);
+  isiTextLocal("pvLokasiKerja", primary.lokasiKerja);
+  isiTextLocal("pvPosisiKerja", primary.posisiKerja);
+  isiTextLocal("pvDivisi", primary.divisi);
+
+  isiTextLocal("pvAlamatDomisili", primary.alamatDomisili);
+  isiTextLocal("pvDomKel", primary.domKel);
+  isiTextLocal("pvDomKec", primary.domKec);
+  isiTextLocal("pvDomKota", primary.domKota);
+
+  isiTextLocal("pvNoHp", primary.noHp);
+  isiTextLocal("pvEmail", primary.email);
+  isiTextLocal("pvNoKtp", primary.noKtp);
+  isiTextLocal("pvNoNpwp", primary.noNpwp);
+  isiTextLocal("pvNamaIbu", primary.namaIbu);
+  isiTextLocal("pvNoRekening", primary.noRekening);
+  isiTextLocal("pvNamaBank", primary.namaBank);
+
+  isiTextLocal("pvKtpAlamat", primary.ktpAlamat);
+  isiTextLocal("pvKtpKel", primary.ktpKel);
+  isiTextLocal("pvKtpKec", primary.ktpKec);
+  isiTextLocal("pvKtpKota", primary.ktpKota);
+
+  isiTextLocal("pvBpjsKet", primary.bpjsKet);
+  isiTextLocal("pvBpjsKes", primary.bpjsKes);
+  isiTextLocal("pvNamaPasangan", primary.namaPasangan);
+  isiTextLocal("pvBpjsPasangan", primary.bpjsPasangan);
+  isiTextLocal("pvTelpKerabat", primary.telpKerabat);
+  isiTextLocal("pvDataAnak", primary.dataAnak);
+  isiTextLocal("pvNamaFaskes", primary.namaFaskes);
+  isiTextLocal("pvNoKk", primary.noKk);
+
+  // FOTO: prioritas = serverData.photos -> local preview dataUrl -> preview image src
+  // Ambil photos dari server response jika ada
+  let photosFromServer = null;
+  if (serverData && typeof serverData === "object") {
+    // note: when serverData present we should have received j.photos earlier; fetch it separately:
+    try {
+      const res2 = await fetch(WEB_APP_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({ mode: "getBiodata", username: (currentUser.username||"").toString().trim().toLowerCase() })
+      });
+      const j2 = await res2.json();
+      if (j2 && j2.ok && j2.found && j2.photos) photosFromServer = j2.photos;
+    } catch (e) {
+      // ignore
+    }
+  }
+
+  // helper pilih src foto
+  function pickSrc(serverUrl, localDataUrl, previewElId) {
+    if (serverUrl) return serverUrl;
+    if (localDataUrl) return localDataUrl;
+    const previewEl = document.getElementById(previewElId);
+    if (previewEl && previewEl.src) return previewEl.src;
+    return "";
+  }
+
+  const srcFotoMain = pickSrc(photosFromServer?.fotoTeknisi, fotoDataUrl, "previewFotoForm");
+  const srcKtp = pickSrc(photosFromServer?.fotoKtp, fotoKtpDataUrl, "previewFotoKtp");
+  const srcNpwp = pickSrc(photosFromServer?.fotoNpwp, fotoNpwpDataUrl, "previewFotoNpwp");
+  const srcBpjsKet = pickSrc(photosFromServer?.fotoBpjsKet, fotoBpjsKetDataUrl, "previewFotoBpjsKet");
+  const srcBpjsKes = pickSrc(photosFromServer?.fotoBpjsKes, fotoBpjsKesDataUrl, "previewFotoBpjsKes");
+  const srcKk = pickSrc(photosFromServer?.fotoKk, fotoKkDataUrl, "previewFotoKk");
+
+  setImgSrc("bioFotoInline", srcFotoMain);
+  setImgSrc("bioFotoKtp", srcKtp);
+  setImgSrc("bioFotoNpwp", srcNpwp);
+  setImgSrc("bioFotoBpjsKet", srcBpjsKet);
+  setImgSrc("bioFotoBpjsKes", srcBpjsKes);
+  setImgSrc("bioFotoKk", srcKk);
+
+  document.getElementById("pvPrintedAt").textContent =
+    new Date().toLocaleString("id-ID", {dateStyle:"short", timeStyle:"short"});
+
   const wrapper = document.getElementById("previewWrapper");
   wrapper.style.display = "block";
   wrapper.scrollIntoView({behavior:"smooth"});
 
+  // Update status
   if (serverData) {
-    statusEl.textContent = "Preview menampilkan data tersimpan (primary).";
+    statusEl.textContent = "Preview menampilkan data tersimpan di server (primary).";
     statusEl.style.color = "#bbf7d0";
   } else {
-    statusEl.textContent = "Preview berdasarkan isi formulir (belum tersimpan).";
+    statusEl.textContent = "Preview berdasarkan isi formulir (data belum tersimpan).";
     statusEl.style.color = "#f59e0b";
   }
 }
-
-function setImgSrc(id, url) {
-  const el = document.getElementById(id);
-  if (!el) return;
-  if (url) { el.src = url; el.style.display = "block"; } else { el.removeAttribute("src"); el.style.display = "none"; }
-}
-</script>
+  </script>
 </body>
 </html>
-
-
