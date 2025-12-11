@@ -1,9 +1,6 @@
 
 /* ==== SUDAH OK NAMUN PHOTO TIDAK MUNCUL (A4) ==== */
 
-
-
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -1047,6 +1044,8 @@ async function fetchExistingBiodata(usernameNorm) {
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify({ mode: "getBiodata", username: usernameNorm })
     });
+    // jika status bukan 200 → anggap gagal
+    if (!res.ok) throw new Error("HTTP " + res.status);
     const j = await res.json();
     if (j && j.ok && j.found) {
       BIODATA_CACHE[usernameNorm] = { biodata: j.biodata, photos: j.photos, ts: Date.now() };
@@ -1054,13 +1053,15 @@ async function fetchExistingBiodata(usernameNorm) {
       statusEl.textContent = "Biodata ditemukan & dimuat.";
       statusEl.style.color = "#bbf7d0";
     } else {
+      // tidak ditemukan — jangan kosongkan form, tanda saja
       statusEl.textContent = "Biodata belum ada di server.";
       statusEl.style.color = "#f59e0b";
     }
   } catch (err) {
-    statusEl.textContent = "Gagal mengambil biodata: " + err.message;
-    statusEl.style.color = "#fca5a5";
-    console.error("fetchExistingBiodata error:", err);
+    console.warn("fetchExistingBiodata error (fallback ke lokal):", err);
+    statusEl.textContent = "Tidak dapat ambil server, gunakan form lokal.";
+    statusEl.style.color = "#f59e0b";
+    // TIDAK melakukan fillFormFromServerData(null) — biarkan form yang ada 
   }
 }
 
@@ -1148,7 +1149,7 @@ async function saveBiodata() {
 }
 
 /* ================== PREVIEW CETAK ================== */
-async function showPreviewBiodata() {
+async function showPreviewBiodata(){
   const statusEl = document.getElementById("formStatus");
   statusEl.style.color = "#9ca3af";
   statusEl.textContent = "Menyiapkan preview...";
@@ -1161,15 +1162,25 @@ async function showPreviewBiodata() {
         headers: { "Content-Type": "text/plain;charset=utf-8" },
         body: JSON.stringify({ mode: "getBiodata", username: norm(currentUser.username) })
       });
-      const j = await res.json();
-      if (j && j.ok && j.found) {
-        serverData = j.biodata || null;
-        serverPhotos = j.photos || null;
+      if (res.ok) {
+        const j = await res.json();
+        if (j && j.ok && j.found) {
+          serverData = j.biodata || null;
+          serverPhotos = j.photos || null;
+        }
+      } else {
+        console.warn("showPreviewBiodata: server returned", res.status);
       }
     } catch (e) {
       console.warn("Preview: tidak bisa ambil server, gunakan form lokal.", e);
     }
   }
+
+  const primary = serverData || collectFormData();
+
+  // isi preview seperti biasa...
+  // ... (pakai kode isiText & setImgSrc yang sudah ada)
+}
 
   const primary = serverData || collectFormData();
 
@@ -1250,4 +1261,5 @@ function setImgSrc(id, url) {
 </script>
 </body>
 </html>
+
 
