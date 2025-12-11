@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin Biodata – PT PUTRA TIMUR JAYA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    * { box-sizing:border-box; margin:0; padding:0; }
+    body {
+      font-family:"Poppins",sans-serif;
+      background:#020617;
+      color:#f9fafb;
+      min-height:100vh;
+      padding:20px;
+    }
+    .container {
+      max-width:1100px;
+      margin:0 auto;
+    }
+    h1 { font-size:20px; margin-bottom:4px; }
+    p.small { font-size:12px; color:#9ca3af; margin-bottom:14px; }
+
+    .card {
+      background:#020617;
+      border-radius:16px;
+      border:1px solid #1f2937;
+      padding:16px 18px 18px;
+      box-shadow:0 18px 40px rgba(15,23,42,0.9);
+      margin-bottom:18px;
+    }
+
+    label { font-size:12px; display:block; margin-bottom:4px; }
+    input, select {
+      width:100%;
+      padding:8px 10px;
+      border-radius:10px;
+      border:1px solid #374151;
+      background:#020617;
+      color:#f9fafb;
+      font-size:12px;
+      outline:none;
+      margin-bottom:8px;
+    }
+    input:focus, select:focus {
+      border-color:#2563eb;
+      box-shadow:0 0 0 1px #2563eb55;
+    }
+
+    .btn {
+      padding:8px 12px;
+      border-radius:999px;
+      border:none;
+      font-size:12px;
+      font-weight:600;
+      cursor:pointer;
+      display:inline-flex;
+      align-items:center;
+      gap:6px;
+      margin-right:6px;
+      margin-top:4px;
+    }
+    .btn-primary {
+      background:#2563eb;
+      color:#f9fafb;
+    }
+    .btn-secondary {
+      background:transparent;
+      color:#e5e7eb;
+      border:1px solid #4b5563;
+    }
+
+    table {
+      width:100%;
+      border-collapse:collapse;
+      font-size:11px;
+      margin-top:6px;
+    }
+    th, td {
+      border:1px solid #1f2937;
+      padding:4px 6px;
+    }
+    th {
+      background:#0f172a;
+      font-weight:500;
+    }
+    tr:nth-child(even) {
+      background:#020617;
+    }
+
+    .status-text {
+      font-size:11px;
+      margin-top:6px;
+      color:#9ca3af;
+    }
+
+    .detail-box {
+      margin-top:10px;
+      border-top:1px dashed #4b5563;
+      padding-top:10px;
+      font-size:12px;
+    }
+
+    @media print {
+      body { background:#ffffff; color:#000000; }
+      .card-login, .card-list { display:none !important; }
+      .card-detail {
+        box-shadow:none;
+        border:none;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="container">
+  <h1>Admin Biodata Teknisi</h1>
+  <p class="small">
+    Halaman ini hanya untuk admin PT PUTRA TIMUR JAYA. Bisa melihat seluruh biodata teknisi yang sudah mengisi.
+  </p>
+
+  <!-- LOGIN ADMIN -->
+  <div class="card card-login">
+    <h2 style="font-size:16px;margin-bottom:6px;">Login Admin</h2>
+    <p class="small">Masukkan user &amp; password admin.</p>
+
+    <label for="adminUser">Admin User</label>
+    <input id="adminUser" placeholder="Contoh: admin" />
+
+    <label for="adminPass">Admin Password</label>
+    <input id="adminPass" type="password" placeholder="Password admin" />
+
+    <button class="btn btn-primary" type="button" onclick="loginAdmin()">🔑 Login Admin</button>
+    <p id="adminLoginStatus" class="status-text"></p>
+  </div>
+
+  <!-- LIST DATA -->
+  <div class="card card-list" id="cardList" style="display:none;">
+    <h2 style="font-size:16px;margin-bottom:6px;">Daftar Biodata Teknisi</h2>
+    <button class="btn btn-secondary" type="button" onclick="loadAllBiodata()">🔄 Ambil Data Biodata</button>
+    <p id="listStatus" class="status-text"></p>
+
+    <div style="margin-top:8px;">
+      <label for="selectTeknisi">Pilih Teknisi (untuk lihat detail):</label>
+      <select id="selectTeknisi" onchange="onSelectTeknisiChange()">
+        <option value="">-- Pilih --</option>
+      </select>
+    </div>
+
+    <div style="max-height:260px;overflow:auto;margin-top:8px;">
+      <table id="tableBiodata">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Tanggal</th>
+            <th>Username</th>
+            <th>NIK</th>
+            <th>Nama</th>
+            <th>Divisi</th>
+            <th>Lokasi</th>
+          </tr>
+        </thead>
+        <tbody id="tbodyBiodata">
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- DETAIL BIODATA -->
+  <div class="card card-detail" id="cardDetail" style="display:none;">
+    <h2 style="font-size:16px;margin-bottom:6px;">Detail Biodata Teknisi</h2>
+    <p class="small" id="detailHeader"></p>
+
+    <div class="detail-box" id="detailBody">
+      <!-- akan diisi via JS -->
+    </div>
+
+    <button class="btn btn-primary" type="button" onclick="window.print()">🖨 Cetak / PDF</button>
+  </div>
+</div>
+
+<script>
+  // SAMAKAN dengan WEB_APP_URL & ADMIN_KEY di Code.gs
+  const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzfYMYq83BYCNxITAK-CbGQ0uA5diRWuFw1-kyd7zzqmcFR_3hwWnHtNNDLTF4mUHc/exec";
+  const ADMIN_KEY   = "ADMIN_BIODATA_PTTJ";
+
+  // Admin user simple
+  const ADMIN_USER = "EdiS";
+  const ADMIN_PASS = "Putija2026";
+
+  var isAdminLoggedIn = false;
+  var allItems = []; // list semua biodata (ringkas)
+
+  function loginAdmin() {
+    var u = document.getElementById("adminUser").value.trim();
+    var p = document.getElementById("adminPass").value.trim();
+    var st= document.getElementById("adminLoginStatus");
+
+    if (u === ADMIN_USER && p === ADMIN_PASS) {
+      isAdminLoggedIn = true;
+      st.textContent = "Login admin berhasil.";
+      st.style.color = "#bbf7d0";
+      document.getElementById("cardList").style.display = "block";
+    } else {
+      isAdminLoggedIn = false;
+      st.textContent = "User atau password admin salah.";
+      st.style.color = "#fecaca";
+    }
+  }
+
+  async function loadAllBiodata() {
+    if (!isAdminLoggedIn) {
+      alert("Silakan login admin dulu.");
+      return;
+    }
+
+    var listStatus = document.getElementById("listStatus");
+    listStatus.textContent = "Mengambil data dari Google Sheet...";
+    listStatus.style.color = "#e5e7eb";
+
+    try {
+      var res = await fetch(WEB_APP_URL, {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify({
+          mode    : "getAllBiodata",
+          adminKey: ADMIN_KEY
+        })
+      });
+      var text = await res.text();
+      var data = JSON.parse(text);
+
+      if (!data.ok) {
+        listStatus.textContent = "Gagal: " + (data.error || "Tidak diketahui");
+        listStatus.style.color = "#fecaca";
+        return;
+      }
+
+      allItems = data.items || [];
+      listStatus.textContent = "Berhasil ambil " + allItems.length + " data biodata.";
+      listStatus.style.color = "#bbf7d0";
+
+      // isi tabel
+      var tbody = document.getElementById("tbodyBiodata");
+      tbody.innerHTML = "";
+      var select = document.getElementById("selectTeknisi");
+      select.innerHTML = '<option value="">-- Pilih --</option>';
+
+      allItems.forEach(function(item, index) {
+        var tr = document.createElement("tr");
+        var tglStr = "";
+        if (item.timestamp) {
+          try {
+            tglStr = new Date(item.timestamp).toLocaleString("id-ID", { dateStyle:"short" });
+          } catch(e) {
+            tglStr = String(item.timestamp);
+          }
+        }
+
+        tr.innerHTML =
+          "<td>" + (index+1) + "</td>" +
+          "<td>" + tglStr + "</td>" +
+          "<td>" + (item.username || "") + "</td>" +
+          "<td>" + (item.nik || "") + "</td>" +
+          "<td>" + (item.namaPegawai || "") + "</td>" +
+          "<td>" + (item.divisi || "") + "</td>" +
+          "<td>" + (item.lokasiKerja || "") + "</td>";
+        tbody.appendChild(tr);
+
+        var opt = document.createElement("option");
+        opt.value = item.username;
+        opt.textContent = (item.namaPegawai || "(Tanpa Nama)") + " [" + item.username + "]";
+        select.appendChild(opt);
+      });
+
+    } catch (err) {
+      listStatus.textContent = "Error: " + err.message;
+      listStatus.style.color = "#fecaca";
+    }
+  }
+
+  async function onSelectTeknisiChange() {
+    var sel = document.getElementById("selectTeknisi");
+    var username = sel.value;
+    if (!username) {
+      document.getElementById("cardDetail").style.display = "none";
+      return;
+    }
+
+    await loadDetailBiodata(username);
+  }
+
+  async function loadDetailBiodata(username) {
+    try {
+      var res = await fetch(WEB_APP_URL, {
+        method:"POST",
+        headers:{ "Content-Type":"application/json" },
+        body: JSON.stringify({
+          mode    : "getBiodata",
+          username: username
+        })
+      });
+      var text = await res.text();
+      var data = JSON.parse(text);
+
+      if (!data.ok || !data.found) {
+        alert("Biodata untuk user " + username + " tidak ditemukan.");
+        return;
+      }
+
+      var b = data.biodata || {};
+      var p = data.photos  || {};
+
+      var header = document.getElementById("detailHeader");
+      header.textContent = (b.namaPegawai || "(Tanpa Nama)") + " - " + username;
+
+      var html = "";
+      html += "<strong>Nama:</strong> " + (b.namaPegawai || "-") + "<br/>";
+      html += "<strong>NIK:</strong> " + (findNikByUsername(username) || "-") + "<br/>";
+      html += "<strong>Divisi:</strong> " + (b.divisi || "-") + "<br/>";
+      html += "<strong>Lokasi Kerja:</strong> " + (b.lokasiKerja || "-") + "<br/><br/>";
+
+      html += "<strong>TTL:</strong> " + (b.ttl || "-") + "<br/>";
+      html += "<strong>Jenis Kelamin:</strong> " + (b.jenisKelamin || "-") + "<br/>";
+      html += "<strong>Status Perkawinan:</strong> " + (b.statusPerkawinan || "-") + "<br/><br/>";
+
+      html += "<strong>Alamat Domisili:</strong> " + (b.alamatDomisili || "-") + "<br/>";
+      html += "<strong>Kota Domisili:</strong> " + (b.domKota || "-") + "<br/>";
+      html += "<strong>No HP:</strong> " + (b.noHp || "-") + "<br/>";
+      html += "<strong>Email:</strong> " + (b.email || "-") + "<br/><br/>";
+
+      html += "<strong>Nomor KTP:</strong> " + (b.noKtp || "-") + "<br/>";
+      html += "<strong>Nomor NPWP:</strong> " + (b.noNpwp || "-") + "<br/>";
+      html += "<strong>Nomor KK:</strong> " + (b.noKk || "-") + "<br/><br/>";
+
+      html += "<strong>BPJS Ketenagakerjaan:</strong> " + (b.bpjsKet || "-") + "<br/>";
+      html += "<strong>BPJS Kesehatan:</strong> " + (b.bpjsKes || "-") + "<br/>";
+      html += "<strong>Nama Faskes:</strong> " + (b.namaFaskes || "-") + "<br/><br/>";
+
+      html += "<strong>Foto:</strong><br/>";
+      if (p.fotoTeknisi) {
+        html += '<img src="' + p.fotoTeknisi + '" style="max-width:120px;border:1px solid #111;margin:4px 4px 4px 0;" />';
+      }
+      if (p.fotoKtp) {
+        html += '<img src="' + p.fotoKtp + '" style="max-width:120px;border:1px solid #111;margin:4px 4px 4px 0;" />';
+      }
+      if (p.fotoNpwp) {
+        html += '<img src="' + p.fotoNpwp + '" style="max-width:120px;border:1px solid #111;margin:4px 4px 4px 0;" />';
+      }
+      if (p.fotoBpjsKet) {
+        html += '<img src="' + p.fotoBpjsKet + '" style="max-width:120px;border:1px solid #111;margin:4px 4px 4px 0;" />';
+      }
+      if (p.fotoBpjsKes) {
+        html += '<img src="' + p.fotoBpjsKes + '" style="max-width:120px;border:1px solid #111;margin:4px 4px 4px 0;" />';
+      }
+      if (p.fotoKk) {
+        html += '<img src="' + p.fotoKk + '" style="max-width:120px;border:1px solid #111;margin:4px 4px 4px 0;" />';
+      }
+
+      var body = document.getElementById("detailBody");
+      body.innerHTML = html;
+
+      document.getElementById("cardDetail").style.display = "block";
+      document.getElementById("cardDetail").scrollIntoView({ behavior:"smooth" });
+
+    } catch (err) {
+      alert("Error saat ambil detail biodata: " + err.message);
+    }
+  }
+
+  // optional: cari NIK dari list ringkas
+  function findNikByUsername(username) {
+    for (var i=0; i<allItems.length; i++) {
+      if (allItems[i].username === username) {
+        return allItems[i].nik;
+      }
+    }
+    return "";
+  }
+</script>
+</body>
+</html>
