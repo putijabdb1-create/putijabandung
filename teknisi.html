@@ -282,15 +282,8 @@
 
     @media print {
       body { background: #ffffff !important; }
-      .navbar,
-      .login-card,
-      .form-card,
-      .btn,
-      .page > h1,
-      .page > p:first-of-type {
-        display:none !important;
-      }
-      .page { padding:0 !important; }
+      .navbar, .page { box-shadow: none !important; background:#ffffff !important; }
+      .card { box-shadow:none !important; background:#ffffff !important; border:none !important; }
       .biodata-page {
         box-shadow:none;
         margin:0;
@@ -299,6 +292,7 @@
         padding:10mm 12mm;
       }
       #previewWrapper { margin:0; }
+      .btn, .login-card, .form-card { display:none !important; }
     }
   </style>
 </head>
@@ -729,6 +723,8 @@
   <script>
     /* ========= KONFIGURASI ========= */
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzfYMYq83BYCNxITAK-CbGQ0uA5diRWuFw1-kyd7zzqmcFR_3hwWnHtNNDLTF4mUHc/exec";
+
+    /* 👉 GANTI DUA LINK DI BAWAH INI DENGAN LINK PUNYAMU */
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/1uACE2nd-2E8CNtG-nQUiTUd4x5C2sFfKdZJeb1D_sbM/edit?gid=0#gid=0";
     const DRIVE_FOLDER_URL = "https://drive.google.com/drive/folders/1xW5TQYUgpHRbFTdL8nFIxAQA9aJfP7uK?usp=drive_link";
 
@@ -858,6 +854,7 @@
       "PTJ_ZEMMY|putija2025|BELUM ADA|ZEEMY|PIC|CMI",
       "PTJ_DANI|Project01|16850676|DANI|PROJEK|CMI",
       "PTJ_ADITTIYA08|80621|16013886|ADITTIYA HERDI|PSB|CMI"
+      // tambahkan user lain di sini
     ];
 
     let USERS = [];
@@ -949,6 +946,46 @@
     attachFilePreview("fotoBpjsKet", "previewFotoBpjsKet", url => fotoBpjsKetDataUrl = url);
     attachFilePreview("fotoBpjsKes", "previewFotoBpjsKes", url => fotoBpjsKesDataUrl = url);
 
+    /* ========= SIMPAN BIODATA ========= */
+    async function saveBiodata() {
+      if (!currentUser) {
+        alert("Silakan login terlebih dahulu.");
+        return;
+      }
+      const statusEl = document.getElementById("formStatus");
+      statusEl.style.color = "#9ca3af";
+      statusEl.textContent = "Menyimpan biodata ke Google Sheet...";
+
+      const data = collectFormData();
+
+      try {
+        const res = await fetch(WEB_APP_URL, {
+          method: "POST",
+          // penting: pakai text/plain supaya tidak kena CORS / preflight
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            mode: "saveBiodata",
+            user: currentUser,
+            biodata: data,
+            foto: fotoDataUrl,
+            fotoKtp: fotoKtpDataUrl,
+            fotoKk: fotoKkDataUrl,
+            fotoNpwp: fotoNpwpDataUrl,
+            fotoBpjsKet: fotoBpjsKetDataUrl,
+            fotoBpjsKes: fotoBpjsKesDataUrl
+          })
+        });
+        const text = await res.text();
+        statusEl.style.color = "#bbf7d0";
+        statusEl.textContent = "Biodata berhasil dikirim. Respon server: " + text;
+        console.log("Respon server:", text);
+      } catch (err) {
+        statusEl.style.color = "#fca5a5";
+        statusEl.textContent = "Gagal menyimpan biodata: " + err.message;
+        console.error("Error fetch:", err);
+      }
+    }
+
     /* ========= KUMPUL DATA FORM ========= */
     function collectFormData() {
       const get = id => document.getElementById(id)?.value || "";
@@ -987,48 +1024,6 @@
         namaFaskes: get("namaFaskes"),
         noKk: get("noKk")
       };
-    }
-
-    /* ========= SIMPAN BIODATA ========= */
-    async function saveBiodata() {
-      if (!currentUser) {
-        alert("Silakan login terlebih dahulu.");
-        return;
-      }
-      const statusEl = document.getElementById("formStatus");
-      statusEl.style.color = "#9ca3af";
-      statusEl.textContent = "Menyimpan biodata ke Google Sheet...";
-
-      const data = collectFormData();
-
-      try {
-        const res = await fetch(WEB_APP_URL, {
-          method: "POST",
-          headers: {"Content-Type":"application/json"},
-          body: JSON.stringify({
-            mode: "saveBiodata",
-            user: currentUser,
-            biodata: data,
-            foto: fotoDataUrl,
-            fotoKtp: fotoKtpDataUrl,
-            fotoKk: fotoKkDataUrl,
-            fotoNpwp: fotoNpwpDataUrl,
-            fotoBpjsKet: fotoBpjsKetDataUrl,
-            fotoBpjsKes: fotoBpjsKesDataUrl
-          })
-        });
-        const text = await res.text();
-        let msg = text;
-        try {
-          const j = JSON.parse(text);
-          if (j.ok) msg = "OK (" + j.action + ")";
-        } catch(e){}
-        statusEl.style.color = "#bbf7d0";
-        statusEl.textContent = "Biodata berhasil dikirim. Respon server: " + msg;
-      } catch (err) {
-        statusEl.style.color = "#fca5a5";
-        statusEl.textContent = "Gagal menyimpan biodata: " + err.message;
-      }
     }
 
     /* ========= PREVIEW BIODATA ========= */
@@ -1089,6 +1084,7 @@
       isiText("pvNamaFaskes", data.namaFaskes);
       isiText("pvNoKk", data.noKk);
 
+      // Foto utama & dokumen
       setImgSrc("bioFoto", fotoDataUrl);
       setImgSrc("bioFotoInline", fotoDataUrl);
       setImgSrc("bioFotoKtp", fotoKtpDataUrl);
