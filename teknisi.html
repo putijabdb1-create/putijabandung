@@ -656,39 +656,34 @@
     }
 
     /* ========= UTILS: normalize Drive URL & set image ========= */
-    function normalizeDriveUrl(url) {
-      if (!url) return "";
-      // already uc?export
-      if (url.indexOf("uc?export=") !== -1) return url;
-      // /d/FILEID/...
-      var m = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-      if (m && m[1]) return "https://drive.google.com/uc?export=view&id=" + m[1];
-      // ?id=FILEID
-      var mm = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-      if (mm && mm[1]) return "https://drive.google.com/uc?export=view&id=" + mm[1];
-      // fallback: return original
-      return url;
-    }
+function normalizeDriveUrl(url) {
+  if (!url) return "";
 
-    function setImgSrc(id, rawUrl) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      if (!rawUrl) {
-        el.removeAttribute("src");
-        el.style.display = "none";
-        return;
-      }
-      // dataURL (local preview) => langsung pakai
-      if (typeof rawUrl === "string" && rawUrl.indexOf("data:") === 0) {
-        el.src = rawUrl;
-        el.style.display = "block";
-        return;
-      }
-      const norm = normalizeDriveUrl(rawUrl);
-      const sep = norm.indexOf("?") === -1 ? "?" : "&";
-      el.src = norm + sep + "t=" + Date.now(); // cache-buster
-      el.style.display = "block";
-    }
+  // sudah uc? -> langsung pakai
+  if (url.indexOf("drive.google.com/uc?export=") !== -1) return url;
+
+  // drive.usercontent download?id=...
+  var m = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
+  if (m && m[1]) {
+    return "https://drive.google.com/uc?export=view&id=" + m[1];
+  }
+
+  // /file/d/ID/...
+  m = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
+  if (m && m[1]) {
+    return "https://drive.google.com/uc?export=view&id=" + m[1];
+  }
+
+  // /d/ID/ (varian)
+  m = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+  if (m && m[1]) {
+    return "https://drive.google.com/uc?export=view&id=" + m[1];
+  }
+
+  // open?id=ID atau any ?id=ID handled above
+  // fallback: kembalikan apa adanya (mungkin sudah direct)
+  return url;
+}
 
     /* ========= Ambil biodata dari server & isi form kecil (dipanggil setelah login) ========= */
     async function fetchBiodataAndFillForm(skipStatus) {
@@ -864,3 +859,4 @@
   </script>
 </body>
 </html>
+
