@@ -667,91 +667,107 @@
       }
     }
 
-    /* ===== Helpers untuk preview & normalisasi Drive URL ===== */
-    function normalizeDriveUrlClient(url) {
-      if (!url) return "";
-      try {
-        if (url.indexOf("drive.google.com/uc?export=") !== -1) return url;
-        var m = url.match(/[?&]id=([a-zA-Z0-9_-]+)/);
-        if (m && m[1]) return "https://drive.google.com/uc?export=view&id=" + m[1];
-        m = url.match(/\/file\/d\/([a-zA-Z0-9_-]+)/);
-        if (m && m[1]) return "https://drive.google.com/uc?export=view&id=" + m[1];
-        m = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
-        if (m && m[1]) return "https://drive.google.com/uc?export=view&id=" + m[1];
-      } catch(e){ console.warn("normalizeDriveUrlClient err", e); }
-      return url;
+   async function showPreviewBiodata() {
+  const statusEl = document.getElementById("formStatus");
+  statusEl.textContent = "Menyiapkan preview...";
+  statusEl.style.color = "#9ca3af";
+
+  let primary = collectFormData();
+  let photos = {};
+
+  if (currentUser && currentUser.username) {
+    try {
+      const res = await fetch(WEB_APP_URL, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain;charset=utf-8" },
+        body: JSON.stringify({
+          mode: "getBiodata",
+          username: currentUser.username.toString().trim()
+        })
+      });
+
+      const j = await res.json();
+
+      if (j && j.ok && j.found) {
+        primary = j.biodata || primary;
+        photos  = j.photos  || {};
+        statusEl.textContent = "Preview menampilkan data tersimpan di server (primary).";
+        statusEl.style.color = "#bbf7d0";
+      } else {
+        statusEl.textContent = "Data belum tersimpan, preview dari form.";
+        statusEl.style.color = "#f59e0b";
+      }
+    } catch (err) {
+      console.error("Preview fetch error:", err);
+      statusEl.textContent = "Gagal ambil server, preview dari form.";
+      statusEl.style.color = "#f59e0b";
     }
+  }
 
-    /* ===== Show Preview (robust + fallback) ===== */
-    async function showPreviewBiodata() {
-      const statusEl = document.getElementById("formStatus");
-      statusEl.style.color = "#9ca3af";
-      statusEl.textContent = "Menyiapkan preview...";
+  /* ===== ISI TEXT ===== */
+  const fill = (id, v) => document.getElementById(id).textContent = v || "-";
 
-      try {
-        let serverData = null;
-        if (currentUser && currentUser.username) {
-          try {
-            console.log("Fetching server biodata for", currentUser.username);
-            const res = await fetch(WEB_APP_URL, {
-              method: "POST",
-              headers: { "Content-Type": "text/plain;charset=utf-8" },
-              body: JSON.stringify({ mode: "getBiodata", username: (currentUser.username||"").toString().trim() })
-            });
-            if (!res.ok) throw new Error("HTTP " + res.status);
-            const j = await res.json();
-            console.log("getBiodata response:", j);
-            if (j && j.ok && j.found) {
-              serverData = j.biodata || {};
-              if (j.photos) serverData.photos = j.photos;
-            }
-          } catch(fetchErr) {
-            console.error("fetch getBiodata failed:", fetchErr);
+  fill("pvNamaPegawai", primary.namaPegawai);
+  fill("pvTtl", primary.ttl);
+  fill("pvJenisKelamin", primary.jenisKelamin);
+  fill("pvPendidikanAkhir", primary.pendidikanAkhir);
+  fill("pvPendidikanFormal", primary.pendFormal);
+  fill("pvPendidikanNonFormal", primary.pendNonFormal);
+
+  fill("pvStatusPerkawinan", primary.statusPerkawinan);
+  fill("pvLokasiKerja", primary.lokasiKerja);
+  fill("pvPosisiKerja", primary.posisiKerja);
+  fill("pvDivisi", primary.divisi);
+
+  fill("pvAlamatDomisili", primary.alamatDomisili);
+  fill("pvDomKel", primary.domKel);
+  fill("pvDomKec", primary.domKec);
+  fill("pvDomKota", primary.domKota);
+
+  fill("pvNoHp", primary.noHp);
+  fill("pvEmail", primary.email);
+  fill("pvNoKtp", primary.noKtp);
+  fill("pvNoNpwp", primary.noNpwp);
+  fill("pvNamaIbu", primary.namaIbu);
+  fill("pvNoRekening", primary.noRekening);
+  fill("pvNamaBank", primary.namaBank);
+
+  fill("pvKtpAlamat", primary.ktpAlamat);
+  fill("pvKtpKel", primary.ktpKel);
+  fill("pvKtpKec", primary.ktpKec);
+  fill("pvKtpKota", primary.ktpKota);
+
+  fill("pvBpjsKet", primary.bpjsKet);
+  fill("pvBpjsKes", primary.bpjsKes);
+  fill("pvNamaPasangan", primary.namaPasangan);
+  fill("pvBpjsPasangan", primary.bpjsPasangan);
+  fill("pvTelpKerabat", primary.telpKerabat);
+  fill("pvDataAnak", primary.dataAnak);
+  fill("pvNamaFaskes", primary.namaFaskes);
+  fill("pvNoKk", primary.noKk);
+
+      /* ===== FOTO ===== */
+      const setImg = (id, url) => {
+          const img = document.getElementById(id);
+          if (img && url) {
+            img.src = url;
+            img.style.display = "block";
           }
-        }
-
-        const primary = serverData || collectFormData();
-
-        // fill text fields
-        const map = {
-          pvNamaPegawai: primary.namaPegawai,
-          pvTtl: primary.ttl,
-          pvJenisKelamin: primary.jenisKelamin,
-          pvPendidikanAkhir: primary.pendidikanAkhir,
-          pvPendidikanFormal: primary.pendFormal,
-          pvPendidikanNonFormal: primary.pendNonFormal,
-          pvStatusPerkawinan: primary.statusPerkawinan,
-          pvLokasiKerja: primary.lokasiKerja,
-          pvPosisiKerja: primary.posisiKerja,
-          pvDivisi: primary.divisi,
-          pvAlamatDomisili: primary.alamatDomisili,
-          pvDomKel: primary.domKel,
-          pvDomKec: primary.domKec,
-          pvDomKota: primary.domKota,
-          pvNoHp: primary.noHp,
-          pvEmail: primary.email,
-          pvNoKtp: primary.noKtp,
-          pvNoNpwp: primary.noNpwp,
-          pvNamaIbu: primary.namaIbu,
-          pvNoRekening: primary.noRekening,
-          pvNamaBank: primary.namaBank,
-          pvKtpAlamat: primary.ktpAlamat,
-          pvKtpKel: primary.ktpKel,
-          pvKtpKec: primary.ktpKec,
-          pvKtpKota: primary.ktpKota,
-          pvBpjsKet: primary.bpjsKet,
-          pvBpjsKes: primary.bpjsKes,
-          pvNamaPasangan: primary.namaPasangan,
-          pvBpjsPasangan: primary.bpjsPasangan,
-          pvTelpKerabat: primary.telpKerabat,
-          pvDataAnak: primary.dataAnak,
-          pvNamaFaskes: primary.namaFaskes,
-          pvNoKk: primary.noKk
         };
-        Object.keys(map).forEach(k => {
-          const el = document.getElementById(k);
-          if (el) el.textContent = map[k] || "-";
-        });
+
+        setImg("bioFotoInline", photos.fotoTeknisi);
+        setImg("bioFotoKtp", photos.fotoKtp);
+        setImg("bioFotoNpwp", photos.fotoNpwp);
+         setImg("bioFotoBpjsKet", photos.fotoBpjsKet);
+        setImg("bioFotoBpjsKes", photos.fotoBpjsKes);
+        setImg("bioFotoKk", photos.fotoKk);
+
+        document.getElementById("pvPrintedAt").textContent =
+        new Date().toLocaleString("id-ID");
+
+        document.getElementById("previewWrapper").style.display = "block";
+        document.getElementById("previewWrapper").scrollIntoView({ behavior: "smooth" });
+      }
 
         // photos priority: server -> local dataUrl -> preview img
         const photosServer = (serverData && serverData.photos) ? serverData.photos : null;
@@ -817,3 +833,4 @@
   </script>
 </body>
 </html>
+
