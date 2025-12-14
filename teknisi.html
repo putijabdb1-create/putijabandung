@@ -821,6 +821,17 @@ async function saveBiodata(){
 }
 
 /* ================= PREVIEW ================= */
+function normalizeDriveImage(url){
+  if(!url) return "";
+  // ubah /file/d/ID/view → uc?export=view&id=ID
+  const m = url.match(/\/d\/([^\/]+)/);
+  if(m && m[1]){
+    return "https://drive.google.com/uc?export=view&id=" + m[1];
+  }
+  return url;
+}
+
+
 async function showPreviewBiodata(){
   formStatus.textContent="Menyiapkan preview...";
   let data = collectFormData();
@@ -853,12 +864,13 @@ async function showPreviewBiodata(){
     else x.style.display="none";
   };
 
-  si("bioFotoInline", photos.fotoTeknisi || "");
-  si("bioFotoKtp", photos.fotoKtp || "");
-  si("bioFotoNpwp", photos.fotoNpwp || "");
-  si("bioFotoBpjsKet", photos.fotoBpjsKet || "");
-  si("bioFotoBpjsKes", photos.fotoBpjsKes || "");
-  si("bioFotoKk", photos.fotoKk || "");
+	si("bioFotoInline", normalizeDriveImage(photos.fotoTeknisi));
+	si("bioFotoKtp", normalizeDriveImage(photos.fotoKtp));
+	si("bioFotoNpwp", normalizeDriveImage(photos.fotoNpwp));
+	si("bioFotoBpjsKet", normalizeDriveImage(photos.fotoBpjsKet));
+	si("bioFotoBpjsKes", normalizeDriveImage(photos.fotoBpjsKes));
+	si("bioFotoKk", normalizeDriveImage(photos.fotoKk));
+
 
   pvPrintedAt.textContent=new Date().toLocaleString("id-ID");
   previewWrapper.style.display="block";
@@ -889,7 +901,7 @@ attach("fotoKk","previewFotoKk",v=>fotoKkDataUrl=v);
 sheetLink.href=SHEET_URL;
 driveLink.href=DRIVE_FOLDER_URL;
 </script>
-
 </body>
 </html>
+
 
