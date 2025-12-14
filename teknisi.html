@@ -1,6 +1,3 @@
-
-/* ==== SUDAH OK NAMUN PHOTO TIDAK MUNCUL (A4) ==== */ ( jangan di copy )
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -718,18 +715,22 @@
     </div>
   </main>
 
-  <script>
-<script>
+ <script>
 /* ================= KONFIG ================= */
 const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzfYMYq83BYCNxITAK-CbGQ0uA5diRWuFw1-kyd7zzqmcFR_3hwWnHtNNDLTF4mUHc/exec";
 const SHEET_URL = "https://docs.google.com/spreadsheets/d/1uACE2nd-2E8CNtG-nQUiTUd4x5C2sFfKdZJeb1D_sbM/edit";
 const DRIVE_FOLDER_URL = "https://drive.google.com/drive/folders/1xW5TQYUgpHRbFTdL8nFIxAQA9aJfP7uK";
 
 /* ================= USERS ================= */
-// ⛔ JANGAN DIUBAH
-const USERS = USER_LINES.map(line => {
+let USERS = [
+  "PTJ_Arip007|alvaro007|15889311|ARIP RAHMATULLOH|PIC|CMI"
+  // 🔹 user lain biarkan seperti punyamu
+];
+
+// ubah jadi object (WAJIB)
+USERS = USERS.map(line => {
   const [username,password,nik,nama,divisi,defaultArea] = line.split("|");
-  return {username,password,nik,nama,divisi,defaultArea};
+  return { username,password,nik,nama,divisi,defaultArea };
 });
 
 let currentUser = null;
@@ -747,13 +748,13 @@ function loginTeknisi(){
   const user = USERS.find(x => x.username===u && x.password===p);
   if(!user){
     s.textContent="Login gagal: user / password salah";
-    s.style.color="#fca5a5";
+    s.style.color="red";
     return;
   }
 
   currentUser = user;
   s.textContent="Login berhasil: " + user.nama;
-  s.style.color="#bbf7d0";
+  s.style.color="green";
 
   namaPegawai.value = user.nama || "";
   divisi.value = user.divisi || "";
@@ -812,51 +813,52 @@ async function saveBiodata(){
       })
     });
     formStatus.textContent="Data berhasil disimpan";
-    formStatus.style.color="#bbf7d0";
+    formStatus.style.color="green";
   }catch(e){
     formStatus.textContent="Gagal menyimpan";
-    formStatus.style.color="#fca5a5";
+    formStatus.style.color="red";
   }
 }
 
 /* ================= PREVIEW ================= */
 async function showPreviewBiodata(){
   formStatus.textContent="Menyiapkan preview...";
-
   let data = collectFormData();
   let photos = {};
 
   if(currentUser){
-    try{
-      const r = await fetch(WEB_APP_URL,{
-        method:"POST",
-        headers:{"Content-Type":"text/plain;charset=utf-8"},
-        body:JSON.stringify({mode:"getBiodata",username:currentUser.username})
-      });
-      const j = await r.json();
-      if(j.ok && j.found){
-        data = j.biodata || data;
-        photos = j.photos || {};
-      }
-    }catch(e){}
+    const r = await fetch(WEB_APP_URL,{
+      method:"POST",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({mode:"getBiodata",username:currentUser.username})
+    });
+    const j = await r.json();
+    if(j.ok && j.found){
+      data = j.biodata || data;
+      photos = j.photos || {};
+    }
   }
 
   const f=(i,v)=>document.getElementById(i).textContent=v||"-";
-  Object.entries({
-    pvNamaPegawai:data.namaPegawai,pvTtl:data.ttl,
-    pvJenisKelamin:data.jenisKelamin,pvPendidikanAkhir:data.pendidikanAkhir,
-    pvPendidikanFormal:data.pendFormal,pvPendidikanNonFormal:data.pendNonFormal,
-    pvStatusPerkawinan:data.statusPerkawinan,pvLokasiKerja:data.lokasiKerja,
-    pvPosisiKerja:data.posisiKerja,pvDivisi:data.divisi
-  }).forEach(([k,v])=>f(k,v));
+  f("pvNamaPegawai",data.namaPegawai);
+  f("pvTtl",data.ttl);
+  f("pvJenisKelamin",data.jenisKelamin);
+  f("pvPendidikanAkhir",data.pendidikanAkhir);
+  f("pvPendidikanFormal",data.pendFormal);
+  f("pvPendidikanNonFormal",data.pendNonFormal);
 
-  const si=(i,u)=>{ if(u){const x=document.getElementById(i);x.src=u;x.style.display="block";}};
-  si("bioFotoInline",photos.fotoTeknisi);
-  si("bioFotoKtp",photos.fotoKtp);
-  si("bioFotoNpwp",photos.fotoNpwp);
-  si("bioFotoBpjsKet",photos.fotoBpjsKet);
-  si("bioFotoBpjsKes",photos.fotoBpjsKes);
-  si("bioFotoKk",photos.fotoKk);
+  const si=(i,u)=>{
+    const x=document.getElementById(i);
+    if(u){ x.src=u; x.style.display="block"; }
+    else x.style.display="none";
+  };
+
+  si("bioFotoInline", photos.fotoTeknisi || "");
+  si("bioFotoKtp", photos.fotoKtp || "");
+  si("bioFotoNpwp", photos.fotoNpwp || "");
+  si("bioFotoBpjsKet", photos.fotoBpjsKet || "");
+  si("bioFotoBpjsKes", photos.fotoBpjsKes || "");
+  si("bioFotoKk", photos.fotoKk || "");
 
   pvPrintedAt.textContent=new Date().toLocaleString("id-ID");
   previewWrapper.style.display="block";
@@ -887,5 +889,7 @@ attach("fotoKk","previewFotoKk",v=>fotoKkDataUrl=v);
 sheetLink.href=SHEET_URL;
 driveLink.href=DRIVE_FOLDER_URL;
 </script>
+
 </body>
 </html>
+
