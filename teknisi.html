@@ -821,19 +821,9 @@ async function saveBiodata(){
 }
 
 /* ================= PREVIEW ================= */
-function normalizeDriveImage(url){
-  if(!url) return "";
-  // ubah /file/d/ID/view → uc?export=view&id=ID
-  const m = url.match(/\/d\/([^\/]+)/);
-  if(m && m[1]){
-    return "https://drive.google.com/uc?export=view&id=" + m[1];
-  }
-  return url;
-}
-
-
 async function showPreviewBiodata(){
-  formStatus.textContent="Menyiapkan preview...";
+  formStatus.textContent = "Menyiapkan preview...";
+
   let data = collectFormData();
   let photos = {};
 
@@ -841,7 +831,10 @@ async function showPreviewBiodata(){
     const r = await fetch(WEB_APP_URL,{
       method:"POST",
       headers:{"Content-Type":"text/plain;charset=utf-8"},
-      body:JSON.stringify({mode:"getBiodata",username:currentUser.username})
+      body:JSON.stringify({
+        mode:"getBiodata",
+        username:currentUser.username
+      })
     });
     const j = await r.json();
     if(j.ok && j.found){
@@ -850,6 +843,38 @@ async function showPreviewBiodata(){
     }
   }
 
+  const setText = (id,val)=>{
+    document.getElementById(id).textContent = val || "-";
+  };
+
+  setText("pvNamaPegawai",data.namaPegawai);
+  setText("pvTtl",data.ttl);
+  setText("pvJenisKelamin",data.jenisKelamin);
+  setText("pvPendidikanAkhir",data.pendidikanAkhir);
+  setText("pvPendidikanFormal",data.pendFormal);
+  setText("pvPendidikanNonFormal",data.pendNonFormal);
+
+  const setImg = (id,url)=>{
+    const img = document.getElementById(id);
+    if(url){
+      img.src = url;
+      img.style.display = "block";
+    }else{
+      img.style.display = "none";
+    }
+  };
+
+  setImg("bioFotoInline", photos.fotoTeknisi);
+  setImg("bioFotoKtp", photos.fotoKtp);
+  setImg("bioFotoNpwp", photos.fotoNpwp);
+  setImg("bioFotoBpjsKet", photos.fotoBpjsKet);
+  setImg("bioFotoBpjsKes", photos.fotoBpjsKes);
+  setImg("bioFotoKk", photos.fotoKk);
+
+  pvPrintedAt.textContent = new Date().toLocaleString("id-ID");
+  previewWrapper.style.display = "block";
+  previewWrapper.scrollIntoView({behavior:"smooth"});
+}
   const f=(i,v)=>document.getElementById(i).textContent=v||"-";
   f("pvNamaPegawai",data.namaPegawai);
   f("pvTtl",data.ttl);
@@ -903,5 +928,6 @@ driveLink.href=DRIVE_FOLDER_URL;
 </script>
 </body>
 </html>
+
 
 
