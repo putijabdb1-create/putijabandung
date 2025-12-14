@@ -82,7 +82,8 @@ button{padding:8px 14px;border-radius:20px;border:none;font-weight:600;cursor:po
 <tr><td>Nama</td><td id="pvNamaPegawai"></td></tr>
 <tr><td>TTL</td><td id="pvTtl"></td></tr>
 <tr><td>Jenis Kelamin</td><td id="pvJenisKelamin"></td></tr>
-<tr><td>Foto</td><td><img id="bioFotoInline" style="max-width:120px"></td></tr>
+<tr><td>Foto</td><td><<img id="bioFotoInline"style="max-width:120px; display:none; border:1px solid #000;">
+></td></tr>
 </table>
 <p id="pvPrintedAt"></p>
 </div>
@@ -182,8 +183,11 @@ pvNamaPegawai.textContent=data.namaPegawai||"-";
 pvTtl.textContent=data.ttl||"-";
 pvJenisKelamin.textContent=data.jenisKelamin||"-";
 
-if(photos.fotoTeknisi){
-bioFotoInline.src=photos.fotoTeknisi;
+if (photos.fotoTeknisi) {
+  bioFotoInline.src = photos.fotoTeknisi;
+  bioFotoInline.style.display = "block";
+} else {
+  bioFotoInline.style.display = "none";
 }
 
 pvPrintedAt.textContent=new Date().toLocaleString("id-ID");
@@ -193,3 +197,4 @@ previewWrapper.style.display="block";
 
 </body>
 </html>
+
