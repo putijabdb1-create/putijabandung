@@ -2,199 +2,201 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Login Teknisi – PT PUTRA TIMUR JAYA BDB1</title>
+<title>Login Teknisi – PT PUTRA TIMUR JAYA</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
 
 <style>
-body{font-family:Poppins,sans-serif;background:#020617;color:#fff;margin:0}
-.page{max-width:1100px;margin:auto;padding:20px}
-.card{background:#020617;border:1px solid #1f2937;border-radius:16px;padding:18px}
-.grid{display:grid;grid-template-columns:1fr 1.5fr;gap:20px}
-@media(max-width:900px){.grid{grid-template-columns:1fr}}
-label{font-size:12px}
-input,select,textarea{width:100%;margin:6px 0 10px;padding:8px;border-radius:8px;border:1px solid #374151;background:#020617;color:#fff}
-button{padding:8px 14px;border-radius:20px;border:none;font-weight:600;cursor:pointer}
-.primary{background:#2563eb;color:#fff}
-.secondary{background:transparent;border:1px solid #555;color:#fff}
-.danger{background:#dc2626;color:#fff}
+body{font-family:Poppins,sans-serif;background:#020617;color:#f9fafb;margin:0}
+.container{max-width:1100px;margin:auto;padding:20px}
+.card{background:#020617;border:1px solid #1f2937;border-radius:16px;padding:16px;margin-bottom:20px}
+input,select,textarea{width:100%;padding:8px;border-radius:8px;border:1px solid #374151;background:#020617;color:#fff;margin-bottom:8px}
+button{padding:8px 14px;border-radius:999px;border:none;font-weight:600;cursor:pointer}
+.btn-primary{background:#2563eb;color:#fff}
+.btn-secondary{background:#111827;color:#fff;border:1px solid #374151}
+.btn-danger{background:#dc2626;color:#fff}
 .preview-small{max-width:120px;margin-top:6px;border-radius:8px;display:none}
-.biodata-page{background:#fff;color:#000;padding:20px}
-.bio-table{width:100%;border-collapse:collapse;font-size:11px}
-.bio-table td{border:1px solid #ccc;padding:4px}
+h2{margin:0 0 6px}
+.section{margin-top:14px;font-weight:600;border-bottom:1px solid #374151}
+.biodata{background:#fff;color:#000;padding:20px}
+table{width:100%;border-collapse:collapse;font-size:12px}
+td{border:1px solid #000;padding:4px;vertical-align:top}
+img.bio{max-width:120px;border:1px solid #000}
 </style>
 </head>
 
 <body>
-<main class="page">
+<div class="container">
 
-<h2>Login Teknisi</h2>
-
-<div class="grid">
 <!-- LOGIN -->
 <div class="card">
-<label>User ID</label>
-<input id="loginUser">
-<label>Password</label>
-<input id="loginPass" type="password">
-<button class="primary" onclick="loginTeknisi()">Login</button>
+<h2>Login Teknisi</h2>
+<input id="loginUser" placeholder="User ID">
+<input id="loginPass" type="password" placeholder="Password">
+<button class="btn-primary" onclick="login()">Login</button>
 <p id="loginStatus"></p>
 </div>
 
 <!-- FORM -->
-<div class="card" id="formCard" style="display:none">
-<label>Nama Pegawai</label>
-<input id="namaPegawai">
+<div class="card" id="formBox" style="display:none">
+<h2>Form Biodata Teknisi</h2>
 
-<label>Tempat / Tanggal Lahir</label>
-<input id="ttl">
-
-<label>Jenis Kelamin</label>
+<input id="namaPegawai" placeholder="Nama Pegawai">
+<input id="ttl" placeholder="TTL">
 <select id="jenisKelamin">
-<option value="">-- pilih --</option>
+<option value="">Pilih</option>
 <option>Laki-laki</option>
 <option>Perempuan</option>
 </select>
 
-<label>Divisi</label>
-<input id="divisi">
-
-<label>Lokasi Kerja</label>
-<input id="lokasiKerja">
-
+<div class="section">Foto</div>
 <label>Foto Teknisi</label>
 <input type="file" id="fotoTeknisi">
-<img id="previewFotoForm" class="preview-small">
+<img id="pFotoTeknisi" class="preview-small">
 
-<button class="primary" onclick="saveBiodata()">Simpan</button>
-<button class="secondary" onclick="showPreviewBiodata()">Preview</button>
-<button class="danger" onclick="logoutTeknisi()">Logout</button>
+<label>KTP</label>
+<input type="file" id="fotoKtp">
+<img id="pFotoKtp" class="preview-small">
 
+<label>NPWP</label>
+<input type="file" id="fotoNpwp">
+<img id="pFotoNpwp" class="preview-small">
+
+<label>BPJS Ketenagakerjaan</label>
+<input type="file" id="fotoBpjsKet">
+<img id="pFotoBpjsKet" class="preview-small">
+
+<label>BPJS Kesehatan</label>
+<input type="file" id="fotoBpjsKes">
+<img id="pFotoBpjsKes" class="preview-small">
+
+<label>KK</label>
+<input type="file" id="fotoKk">
+<img id="pFotoKk" class="preview-small">
+
+<br>
+<button class="btn-primary" onclick="save()">Simpan</button>
+<button class="btn-secondary" onclick="preview()">Preview</button>
+<button class="btn-danger" onclick="logout()">Logout</button>
 <p id="formStatus"></p>
-</div>
 </div>
 
 <!-- PREVIEW -->
-<div id="previewWrapper" style="display:none;margin-top:30px">
-<div class="biodata-page">
-<h3>BIODATA PEGAWAI</h3>
-<table class="bio-table">
-<tr><td>Nama</td><td id="pvNamaPegawai"></td></tr>
+<div id="previewBox" class="biodata" style="display:none">
+<h2 style="text-align:center">BIODATA PEGAWAI<br>PT PUTRA TIMUR JAYA</h2>
+
+<table>
+<tr><td>Nama</td><td id="pvNama"></td></tr>
 <tr><td>TTL</td><td id="pvTtl"></td></tr>
-<tr><td>Jenis Kelamin</td><td id="pvJenisKelamin"></td></tr>
-<tr><td>Foto</td><td><<img id="bioFotoInline"style="max-width:120px; display:none; border:1px solid #000;">
-></td></tr>
+<tr><td>Jenis Kelamin</td><td id="pvJk"></td></tr>
+<tr><td>Foto</td><td><img id="bioFotoTeknisi" class="bio"></td></tr>
 </table>
-<p id="pvPrintedAt"></p>
-</div>
+
+<h3>Foto Dokumen</h3>
+<table>
+<tr><td>KTP</td><td><img id="bioFotoKtp" class="bio"></td></tr>
+<tr><td>NPWP</td><td><img id="bioFotoNpwp" class="bio"></td></tr>
+<tr><td>BPJS Ketenagakerjaan</td><td><img id="bioFotoBpjsKet" class="bio"></td></tr>
+<tr><td>BPJS Kesehatan</td><td><img id="bioFotoBpjsKes" class="bio"></td></tr>
+<tr><td>KK</td><td><img id="bioFotoKk" class="bio"></td></tr>
+</table>
 </div>
 
-</main>
+</div>
 
 <script>
-/* ================= KONFIG ================= */
-const WEB_APP_URL="https://script.google.com/macros/s/AKfycbzfYMYq83BYCNxITAK-CbGQ0uA5diRWuFw1-kyd7zzqmcFR_3hwWnHtNNDLTF4mUHc/exec";
+/* ===== CONFIG ===== */
+const WEB_APP_URL = "PASTE_WEB_APP_URL_KAMU";
 
-/* ================= USERS ================= */
-let USERS=[
-"PTJ_Arip007|alvaro007|15889311|ARIP RAHMATULLOH|PIC|CMI"
-].map(l=>{
-const[a,b,c,d,e,f]=l.split("|");
-return{username:a,password:b,nik:c,nama:d,divisi:e,defaultArea:f};
-});
+/* ===== USERS ===== */
+const USERS = [
+ {u:"PTJ_Arip007",p:"alvaro007",nama:"ARIP RAHMATULLOH"}
+];
 
-let currentUser=null;
-let fotoDataUrl="";
+let current=null;
+let foto={};
 
-/* ================= LOGIN ================= */
-function loginTeknisi(){
-const u=loginUser.value.trim();
-const p=loginPass.value.trim();
-const s=loginStatus;
-
-const user=USERS.find(x=>x.username===u&&x.password===p);
-if(!user){s.textContent="Login gagal";s.style.color="red";return;}
-
-currentUser=user;
-s.textContent="Login berhasil";
-s.style.color="green";
-
-namaPegawai.value=user.nama;
-divisi.value=user.divisi;
-lokasiKerja.value=user.defaultArea;
-formCard.style.display="block";
+/* ===== LOGIN ===== */
+function login(){
+ const u=loginUser.value,p=loginPass.value;
+ const user=USERS.find(x=>x.u===u&&x.p===p);
+ if(!user){loginStatus.textContent="Login gagal";return;}
+ current=user;
+ namaPegawai.value=user.nama;
+ formBox.style.display="block";
+ loginStatus.textContent="Login berhasil";
 }
 
-function logoutTeknisi(){
-currentUser=null;
-formCard.style.display="none";
-previewWrapper.style.display="none";
+/* ===== LOGOUT ===== */
+function logout(){
+ current=null;
+ formBox.style.display="none";
+ previewBox.style.display="none";
 }
 
-/* ================= FOTO ================= */
-fotoTeknisi.onchange=e=>{
-const r=new FileReader();
-r.onload=x=>{
-fotoDataUrl=x.target.result;
-previewFotoForm.src=x.target.result;
-previewFotoForm.style.display="block";
-};
-r.readAsDataURL(e.target.files[0]);
-};
+/* ===== FILE ===== */
+function read(id,key,preview){
+ document.getElementById(id).onchange=e=>{
+  const r=new FileReader();
+  r.onload=x=>{
+   foto[key]=x.target.result;
+   preview.src=x.target.result;
+   preview.style.display="block";
+  };
+  r.readAsDataURL(e.target.files[0]);
+ };
+}
+read("fotoTeknisi","fotoTeknisi",pFotoTeknisi);
+read("fotoKtp","fotoKtp",pFotoKtp);
+read("fotoNpwp","fotoNpwp",pFotoNpwp);
+read("fotoBpjsKet","fotoBpjsKet",pFotoBpjsKet);
+read("fotoBpjsKes","fotoBpjsKes",pFotoBpjsKes);
+read("fotoKk","fotoKk",pFotoKk);
 
-/* ================= SAVE ================= */
-async function saveBiodata(){
-if(!currentUser) return alert("Login dulu");
-formStatus.textContent="Menyimpan...";
-
-await fetch(WEB_APP_URL,{
-method:"POST",
-headers:{"Content-Type":"text/plain;charset=utf-8"},
-body:JSON.stringify({
-mode:"saveBiodata",
-user:currentUser,
-biodata:{
-namaPegawai:namaPegawai.value,
-ttl:ttl.value,
-jenisKelamin:jenisKelamin.value,
-divisi:divisi.value,
-lokasiKerja:lokasiKerja.value
-},
-foto:fotoDataUrl
-})
-});
-
-formStatus.textContent="Tersimpan";
+/* ===== SAVE ===== */
+async function save(){
+ formStatus.textContent="Menyimpan...";
+ await fetch(WEB_APP_URL,{
+  method:"POST",
+  headers:{"Content-Type":"text/plain;charset=utf-8"},
+  body:JSON.stringify({
+   mode:"saveBiodata",
+   user:{username:current.u,nama:current.nama},
+   biodata:{
+    namaPegawai:namaPegawai.value,
+    ttl:ttl.value,
+    jenisKelamin:jenisKelamin.value
+   },
+   ...foto
+  })
+ });
+ formStatus.textContent="Tersimpan";
 }
 
-/* ================= PREVIEW ================= */
-async function showPreviewBiodata(){
-let data={},photos={};
+/* ===== PREVIEW ===== */
+async function preview(){
+ const r=await fetch(WEB_APP_URL,{
+  method:"POST",
+  headers:{"Content-Type":"text/plain;charset=utf-8"},
+  body:JSON.stringify({mode:"getBiodata",username:current.u})
+ });
+ const j=await r.json();
+ if(!j.found)return;
 
-const r=await fetch(WEB_APP_URL,{
-method:"POST",
-headers:{"Content-Type":"text/plain;charset=utf-8"},
-body:JSON.stringify({mode:"getBiodata",username:currentUser.username})
-});
-const j=await r.json();
-if(j.ok&&j.found){data=j.biodata;photos=j.photos;}
+ pvNama.textContent=j.biodata.namaPegawai;
+ pvTtl.textContent=j.biodata.ttl;
+ pvJk.textContent=j.biodata.jenisKelamin;
 
-pvNamaPegawai.textContent=data.namaPegawai||"-";
-pvTtl.textContent=data.ttl||"-";
-pvJenisKelamin.textContent=data.jenisKelamin||"-";
+ const s=(id,u)=>{if(u){id.src=u;id.style.display="block"}};
+ s(bioFotoTeknisi,j.photos.fotoTeknisi);
+ s(bioFotoKtp,j.photos.fotoKtp);
+ s(bioFotoNpwp,j.photos.fotoNpwp);
+ s(bioFotoBpjsKet,j.photos.fotoBpjsKet);
+ s(bioFotoBpjsKes,j.photos.fotoBpjsKes);
+ s(bioFotoKk,j.photos.fotoKk);
 
-if (photos.fotoTeknisi) {
-  bioFotoInline.src = photos.fotoTeknisi;
-  bioFotoInline.style.display = "block";
-} else {
-  bioFotoInline.style.display = "none";
-}
-
-pvPrintedAt.textContent=new Date().toLocaleString("id-ID");
-previewWrapper.style.display="block";
+ previewBox.style.display="block";
 }
 </script>
-
 </body>
 </html>
-
