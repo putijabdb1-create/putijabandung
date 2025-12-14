@@ -1038,94 +1038,108 @@
       }
     }
 
-    async function showPreviewBiodata() {
+async function showPreviewBiodata() {
   const statusEl = document.getElementById("formStatus");
-  statusEl.style.color = "#9ca3af";
   statusEl.textContent = "Menyiapkan preview...";
+  statusEl.style.color = "#9ca3af";
 
-  // Jika ada user yang login, coba ambil data tersimpan dari server
-  let serverData = null;
+  let primary = collectFormData();
+  let photos = {};
+
   if (currentUser && currentUser.username) {
     try {
       const res = await fetch(WEB_APP_URL, {
         method: "POST",
         headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ mode: "getBiodata", username: (currentUser.username||"").toString().trim().toLowerCase() })
+        body: JSON.stringify({
+          mode: "getBiodata",
+          username: currentUser.username.toString().trim()
+        })
       });
+
       const j = await res.json();
+
       if (j && j.ok && j.found) {
-        serverData = j.biodata || null;
+        primary = j.biodata || primary;
+        photos  = j.photos  || {};
+        statusEl.textContent = "Preview menampilkan data tersimpan di server (primary).";
+        statusEl.style.color = "#bbf7d0";
+      } else {
+        statusEl.textContent = "Data belum tersimpan, preview dari form.";
+        statusEl.style.color = "#f59e0b";
       }
     } catch (err) {
-      console.error("Error fetch getBiodata:", err);
-      // proceed to use form data if server not reachable
+      console.error("Preview fetch error:", err);
+      statusEl.textContent = "Gagal ambil server, preview dari form.";
+      statusEl.style.color = "#f59e0b";
     }
   }
 
-  // primaryData: kalau serverData ada -> pakai itu; kalau tidak -> pakai data form saat ini
-  const primary = serverData || collectFormData();
+  /* ===== ISI TEXT ===== */
+  const fill = (id, v) => document.getElementById(id).textContent = v || "-";
 
-  // helper untuk isi text pada preview
-  function isiTextLocal(id, val) {
-    const el = document.getElementById(id);
-    if (el) el.textContent = val || "-";
-  }
+  fill("pvNamaPegawai", primary.namaPegawai);
+  fill("pvTtl", primary.ttl);
+  fill("pvJenisKelamin", primary.jenisKelamin);
+  fill("pvPendidikanAkhir", primary.pendidikanAkhir);
+  fill("pvPendidikanFormal", primary.pendFormal);
+  fill("pvPendidikanNonFormal", primary.pendNonFormal);
 
-  isiTextLocal("pvNamaPegawai", primary.namaPegawai);
-  isiTextLocal("pvTtl", primary.ttl);
-  isiTextLocal("pvJenisKelamin", primary.jenisKelamin);
-  isiTextLocal("pvPendidikanAkhir", primary.pendidikanAkhir);
-  isiTextLocal("pvPendidikanFormal", primary.pendFormal);
-  isiTextLocal("pvPendidikanNonFormal", primary.pendNonFormal);
+  fill("pvStatusPerkawinan", primary.statusPerkawinan);
+  fill("pvLokasiKerja", primary.lokasiKerja);
+  fill("pvPosisiKerja", primary.posisiKerja);
+  fill("pvDivisi", primary.divisi);
 
-  isiTextLocal("pvStatusPerkawinan", primary.statusPerkawinan);
-  isiTextLocal("pvLokasiKerja", primary.lokasiKerja);
-  isiTextLocal("pvPosisiKerja", primary.posisiKerja);
-  isiTextLocal("pvDivisi", primary.divisi);
+  fill("pvAlamatDomisili", primary.alamatDomisili);
+  fill("pvDomKel", primary.domKel);
+  fill("pvDomKec", primary.domKec);
+  fill("pvDomKota", primary.domKota);
 
-  isiTextLocal("pvAlamatDomisili", primary.alamatDomisili);
-  isiTextLocal("pvDomKel", primary.domKel);
-  isiTextLocal("pvDomKec", primary.domKec);
-  isiTextLocal("pvDomKota", primary.domKota);
+  fill("pvNoHp", primary.noHp);
+  fill("pvEmail", primary.email);
+  fill("pvNoKtp", primary.noKtp);
+  fill("pvNoNpwp", primary.noNpwp);
+  fill("pvNamaIbu", primary.namaIbu);
+  fill("pvNoRekening", primary.noRekening);
+  fill("pvNamaBank", primary.namaBank);
 
-  isiTextLocal("pvNoHp", primary.noHp);
-  isiTextLocal("pvEmail", primary.email);
-  isiTextLocal("pvNoKtp", primary.noKtp);
-  isiTextLocal("pvNoNpwp", primary.noNpwp);
-  isiTextLocal("pvNamaIbu", primary.namaIbu);
-  isiTextLocal("pvNoRekening", primary.noRekening);
-  isiTextLocal("pvNamaBank", primary.namaBank);
+  fill("pvKtpAlamat", primary.ktpAlamat);
+  fill("pvKtpKel", primary.ktpKel);
+  fill("pvKtpKec", primary.ktpKec);
+  fill("pvKtpKota", primary.ktpKota);
 
-  isiTextLocal("pvKtpAlamat", primary.ktpAlamat);
-  isiTextLocal("pvKtpKel", primary.ktpKel);
-  isiTextLocal("pvKtpKec", primary.ktpKec);
-  isiTextLocal("pvKtpKota", primary.ktpKota);
+  fill("pvBpjsKet", primary.bpjsKet);
+  fill("pvBpjsKes", primary.bpjsKes);
+  fill("pvNamaPasangan", primary.namaPasangan);
+  fill("pvBpjsPasangan", primary.bpjsPasangan);
+  fill("pvTelpKerabat", primary.telpKerabat);
+  fill("pvDataAnak", primary.dataAnak);
+  fill("pvNamaFaskes", primary.namaFaskes);
+  fill("pvNoKk", primary.noKk);
 
-  isiTextLocal("pvBpjsKet", primary.bpjsKet);
-  isiTextLocal("pvBpjsKes", primary.bpjsKes);
-  isiTextLocal("pvNamaPasangan", primary.namaPasangan);
-  isiTextLocal("pvBpjsPasangan", primary.bpjsPasangan);
-  isiTextLocal("pvTelpKerabat", primary.telpKerabat);
-  isiTextLocal("pvDataAnak", primary.dataAnak);
-  isiTextLocal("pvNamaFaskes", primary.namaFaskes);
-  isiTextLocal("pvNoKk", primary.noKk);
-
-  // FOTO: prioritas = serverData.photos -> local preview dataUrl -> preview image src
-  // Ambil photos dari server response jika ada
-  let photosFromServer = null;
-  if (serverData && typeof serverData === "object") {
-    // note: when serverData present we should have received j.photos earlier; fetch it separately:
-    try {
-      const res2 = await fetch(WEB_APP_URL, {
-        method: "POST",
-        headers: { "Content-Type": "text/plain;charset=utf-8" },
-        body: JSON.stringify({ mode: "getBiodata", username: (currentUser.username||"").toString().trim().toLowerCase() })
-      });
-      const j2 = await res2.json();
-      if (j2 && j2.ok && j2.found && j2.photos) photosFromServer = j2.photos;
-    } catch (e) {
-      // ignore
+  /* ===== FOTO ===== */
+  const setImg = (id, url) => {
+    const img = document.getElementById(id);
+    if (img && url) {
+      img.src = url;
+      img.style.display = "block";
     }
+  };
+
+  setImg("bioFotoInline", photos.fotoTeknisi);
+  setImg("bioFotoKtp", photos.fotoKtp);
+  setImg("bioFotoNpwp", photos.fotoNpwp);
+  setImg("bioFotoBpjsKet", photos.fotoBpjsKet);
+  setImg("bioFotoBpjsKes", photos.fotoBpjsKes);
+  setImg("bioFotoKk", photos.fotoKk);
+
+  document.getElementById("pvPrintedAt").textContent =
+    new Date().toLocaleString("id-ID");
+
+  document.getElementById("previewWrapper").style.display = "block";
+  document.getElementById("previewWrapper").scrollIntoView({ behavior: "smooth" });
+}
+
   }
 
   // helper pilih src foto
