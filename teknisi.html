@@ -530,10 +530,6 @@
               <label for="noKk">Nomor Kartu Keluarga</label>
               <input id="noKk" />
             </div>
-			<div>
-              <label for="nosimc">Nomor SIM C</label>
-              <input id="nosimc" />
-            </div>
           </div>
 
           <div class="section-title">Foto Teknisi</div>
@@ -541,7 +537,7 @@
           <img id="previewFotoForm" class="preview-small" />
 
           <div class="section-title">Foto Dokumen (opsional)</div>
-          <!-- URUTAN: KTP, NPWP, BPJS KET, BPJS KES, KK,SIM C -->
+          <!-- URUTAN: KTP, NPWP, BPJS KET, BPJS KES, KK -->
           <div class="field-row-2">
             <div>
               <label for="fotoKtp">Foto KTP</label>
@@ -572,12 +568,6 @@
             <label for="fotoKk">Foto KK</label>
             <input id="fotoKk" type="file" accept="image/*" />
             <img id="previewFotoKk" class="preview-small" />
-          </div>
-		  
-		  <div>
-            <label for="fotoKk">Foto SIM C</label>
-            <input id="fotoKk" type="file" accept="image/*" />
-            <img id="previewFotosimc" class="preview-small" />
           </div>
 
           <div class="btn-group">
@@ -675,7 +665,6 @@
             <tr><td class="label">Data Anak</td><td class="value" id="pvDataAnak"></td></tr>
             <tr><td class="label">Nama Faskes</td><td class="value" id="pvNamaFaskes"></td></tr>
             <tr><td class="label">Nomor Kartu Keluarga</td><td class="value" id="pvNoKk"></td></tr>
-			<tr><td class="label">Nomor SIM C</td><td class="value" id="pvNosimc"></td></tr>
           </table>
         </div>
 
@@ -702,10 +691,6 @@
             <tr>
               <td class="label">KK</td>
               <td class="value"><img id="bioFotoKk" alt="Foto KK" /></td>
-            </tr>
-			<tr>
-              <td class="label">SIM C</td>
-              <td class="value"><img id="bioFotosimc" alt="Foto SIM C" /></td>
             </tr>
           </table>
         </div>
@@ -883,7 +868,6 @@
     let fotoNpwpDataUrl = "";
     let fotoBpjsKetDataUrl = "";
     let fotoBpjsKesDataUrl = "";
-	let fotoSimcDataUrl = "";
 
     /* Set link Sheet & Drive di tombol admin */
     (function setAdminLinks(){
@@ -957,8 +941,7 @@
     attachFilePreview("fotoNpwp", "previewFotoNpwp", url => fotoNpwpDataUrl = url);
     attachFilePreview("fotoBpjsKet", "previewFotoBpjsKet", url => fotoBpjsKetDataUrl = url);
     attachFilePreview("fotoBpjsKes", "previewFotoBpjsKes", url => fotoBpjsKesDataUrl = url);
-    attachFilePreview("fotosimc", "previewFotosimc", url => fotosimcDataUrl = url);
-	
+
     /* ========= SIMPAN BIODATA ========= */
     async function saveBiodata() {
       if (!currentUser) {
@@ -983,7 +966,6 @@
             foto: fotoDataUrl,
             fotoKtp: fotoKtpDataUrl,
             fotoKk: fotoKkDataUrl,
-		    fotosimc: fotosimcDataUrl,
             fotoNpwp: fotoNpwpDataUrl,
             fotoBpjsKet: fotoBpjsKetDataUrl,
             fotoBpjsKes: fotoBpjsKesDataUrl
@@ -1063,7 +1045,6 @@
   t("pvDataAnak", v("dataAnak"));
   t("pvNamaFaskes", v("namaFaskes"));
   t("pvNoKk", v("noKk"));
-  t("pvNosimc", v("nosimc"));
 
   /* ==== FOTO ==== */
   i("bioFotoInline", fotoDataUrl);
@@ -1072,7 +1053,6 @@
   i("bioFotoBpjsKet", fotoBpjsKetDataUrl);
   i("bioFotoBpjsKes", fotoBpjsKesDataUrl);
   i("bioFotoKk", fotoKkDataUrl);
-  i("bioFotosimc", fotosimcDataUrl);
 
   document.getElementById("pvPrintedAt").textContent =
     new Date().toLocaleString("id-ID", { dateStyle: "short", timeStyle: "short" });
@@ -1125,7 +1105,6 @@ function collectFormData() {
     dataAnak: document.getElementById("dataAnak").value || "",
     namaFaskes: document.getElementById("namaFaskes").value || "",
     noKk: document.getElementById("noKk").value || ""
-    nosimc: document.getElementById("nosimc").value || ""
   };
 }
   </script>
