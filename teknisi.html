@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -1064,6 +1063,49 @@
   document.getElementById("formStatus").textContent =
     "Preview berdasarkan isi formulir.";
   document.getElementById("formStatus").style.color = "#22c55e";
+}
+/* ========= KUMPUL DATA FORM (FIX) ========= */
+function collectFormData() {
+  return {
+    namaPegawai: document.getElementById("namaPegawai").value || "",
+    ttl: document.getElementById("ttl").value || "",
+    jenisKelamin: document.getElementById("jenisKelamin").value || "",
+    pendidikanAkhir: document.getElementById("pendidikanAkhir").value || "",
+    pendFormal: document.getElementById("pendFormal").value || "",
+    pendNonFormal: document.getElementById("pendNonFormal").value || "",
+
+    statusPerkawinan: document.getElementById("statusPerkawinan").value || "",
+    lokasiKerja: document.getElementById("lokasiKerja").value || "",
+    posisiKerja: document.getElementById("posisiKerja").value || "",
+    divisi: document.getElementById("divisi").value || "",
+
+    alamatDomisili: document.getElementById("alamatDomisili").value || "",
+    domKel: document.getElementById("domKel").value || "",
+    domKec: document.getElementById("domKec").value || "",
+    domKota: document.getElementById("domKota").value || "",
+
+    noHp: document.getElementById("noHp").value || "",
+    email: document.getElementById("email").value || "",
+    noKtp: document.getElementById("noKtp").value || "",
+    noNpwp: document.getElementById("noNpwp").value || "",
+    namaIbu: document.getElementById("namaIbu").value || "",
+    noRekening: document.getElementById("noRekening").value || "",
+    namaBank: document.getElementById("namaBank").value || "",
+
+    ktpAlamat: document.getElementById("ktpAlamat").value || "",
+    ktpKel: document.getElementById("ktpKel").value || "",
+    ktpKec: document.getElementById("ktpKec").value || "",
+    ktpKota: document.getElementById("ktpKota").value || "",
+
+    bpjsKet: document.getElementById("bpjsKet").value || "",
+    bpjsKes: document.getElementById("bpjsKes").value || "",
+    namaPasangan: document.getElementById("namaPasangan").value || "",
+    bpjsPasangan: document.getElementById("bpjsPasangan").value || "",
+    telpKerabat: document.getElementById("telpKerabat").value || "",
+    dataAnak: document.getElementById("dataAnak").value || "",
+    namaFaskes: document.getElementById("namaFaskes").value || "",
+    noKk: document.getElementById("noKk").value || ""
+  };
 }
   </script>
 </body>
