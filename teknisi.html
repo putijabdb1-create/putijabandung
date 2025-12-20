@@ -2,268 +2,340 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Login Teknisi – PT PUTRA TIMUR JAYA</title>
+<title>Login Teknisi – PT Putra Timur Jaya</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+/* ================== GLOBAL ================== */
 *{box-sizing:border-box}
 body{
   margin:0;
-  font-family:Poppins,system-ui;
+  font-family:'Poppins',sans-serif;
   background:
-    radial-gradient(circle at top left,#22c55e22,transparent 50%),
-    radial-gradient(circle at bottom right,#2563eb22,transparent 55%),
+    radial-gradient(circle at top left,#22c55e22,transparent 45%),
+    radial-gradient(circle at bottom right,#2563eb22,transparent 50%),
     linear-gradient(135deg,#020617,#020617);
-  color:#f9fafb;
+  color:#e5e7eb;
+  min-height:100vh;
 }
-.container{max-width:1100px;margin:auto;padding:20px}
-.card{
-  background:#020617;
-  border:1px solid #1f2937;
-  border-radius:16px;
-  padding:18px;
-  margin-bottom:18px;
-  box-shadow:0 20px 40px rgba(0,0,0,.6)
+
+/* ================== LAYOUT ================== */
+.container{
+  max-width:1200px;
+  margin:auto;
+  padding:24px;
 }
-h1,h2{margin:0 0 10px}
-label{font-size:12px;color:#9ca3af}
+
+.grid-2{
+  display:grid;
+  grid-template-columns:1fr 1.3fr;
+  gap:20px;
+}
+@media(max-width:900px){
+  .grid-2{grid-template-columns:1fr}
+}
+
+/* ================== CARD ================== */
+.glass{
+  background:linear-gradient(180deg,rgba(2,6,23,.85),rgba(2,6,23,.75));
+  backdrop-filter:blur(16px);
+  border:1px solid rgba(148,163,184,.18);
+  border-radius:22px;
+  padding:22px;
+  box-shadow:0 25px 60px rgba(0,0,0,.6);
+}
+
+/* ================== FORM ================== */
+label{
+  font-size:12px;
+  color:#93c5fd;
+  margin-bottom:4px;
+  display:block;
+}
 input,select,textarea{
   width:100%;
-  background:#020617;
-  border:1px solid #374151;
-  border-radius:10px;
-  padding:8px 10px;
-  color:#fff;
-  margin-bottom:8px;
-  font-size:12px
+  padding:10px 12px;
+  border-radius:12px;
+  border:1px solid rgba(148,163,184,.25);
+  background:rgba(2,6,23,.6);
+  color:#f9fafb;
+  font-size:13px;
 }
-input[readonly]{opacity:.6}
-textarea{min-height:60px}
-.row{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+textarea{min-height:70px;resize:vertical}
+input:focus,select:focus,textarea:focus{
+  outline:none;
+  border-color:#2563eb;
+  box-shadow:0 0 0 2px rgba(37,99,235,.35);
+}
+.readonly{
+  background:rgba(15,23,42,.9);
+  color:#94a3b8;
+}
+
+/* ================== SECTION ================== */
+.section{
+  margin-top:22px;
+}
+.section-title{
+  font-size:13px;
+  font-weight:600;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:#93c5fd;
+  margin-bottom:10px;
+  border-bottom:1px solid rgba(148,163,184,.2);
+  padding-bottom:4px;
+}
+
+/* ================== BUTTON ================== */
 .btn{
   border:none;
+  padding:10px 16px;
   border-radius:999px;
-  padding:8px 14px;
-  font-size:12px;
+  font-size:13px;
+  font-weight:600;
   cursor:pointer;
-  font-weight:600
 }
-.btn-primary{background:#2563eb;color:#fff}
-.btn-danger{background:#dc2626;color:#fff}
-.btn-secondary{background:#020617;border:1px solid #374151;color:#fff}
-.preview-img{max-width:120px;margin-top:6px;border-radius:8px;border:1px solid #1f2937}
-.section{margin-top:14px;border-top:1px solid #1f2937;padding-top:10px}
-.hidden{display:none}
+.btn-primary{
+  background:linear-gradient(135deg,#2563eb,#1d4ed8);
+  color:white;
+}
+.btn-danger{
+  background:#dc2626;
+  color:white;
+}
+.btn-secondary{
+  background:transparent;
+  border:1px solid rgba(148,163,184,.4);
+  color:#e5e7eb;
+}
+.btn-group{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:14px;
+}
 
-/* A4 Preview */
-#printArea{
-  background:#fff;
-  color:#000;
-  padding:18mm 20mm;
+/* ================== PHOTO ================== */
+.photo-box{
+  background:rgba(15,23,42,.85);
+  border:1px dashed rgba(148,163,184,.35);
+  border-radius:14px;
+  padding:12px;
+  margin-bottom:10px;
+}
+.photo-box img{
+  max-width:120px;
+  margin-top:8px;
+  border-radius:10px;
+  border:1px solid #334155;
+}
+
+/* ================== PREVIEW A4 ================== */
+#previewWrapper{display:none;margin-top:40px}
+.a4{
   width:210mm;
   min-height:297mm;
-  margin:20px auto;
-  box-shadow:0 10px 30px rgba(0,0,0,.3);
-  font-size:11px
+  background:white;
+  color:black;
+  padding:18mm;
+  margin:auto;
+  box-shadow:0 15px 40px rgba(0,0,0,.35);
+  font-size:11px;
 }
-#printArea table{width:100%;border-collapse:collapse}
-#printArea td{border:1px solid #00000033;padding:4px}
+.a4 h1{text-align:center;font-size:15px}
+.a4 h2{text-align:center;font-size:12px;margin-top:4px}
+.table{
+  width:100%;
+  border-collapse:collapse;
+  margin-top:8px;
+}
+.table td{
+  border:1px solid #00000033;
+  padding:4px 6px;
+}
+.page-number{
+  text-align:right;
+  font-size:10px;
+  margin-top:10px;
+}
+@media print{
+  body{background:white}
+  .glass,.btn,.grid-2{display:none!important}
+  #previewWrapper{display:block}
+  .a4{box-shadow:none;margin:0}
+}
 </style>
 </head>
 
 <body>
 <div class="container">
 
-<h1>Login Teknisi</h1>
+<h2>Login Teknisi</h2>
+<p style="color:#94a3b8;font-size:12px">Gunakan akun absensi teknisi</p>
 
-<div class="card">
+<div class="grid-2">
+
+<!-- LOGIN -->
+<div class="glass">
   <label>User ID</label>
   <input id="loginUser">
+
   <label>Password</label>
   <input id="loginPass" type="password">
-  <button class="btn btn-primary" onclick="login()">Login</button>
-  <div id="loginStatus"></div>
+
+  <button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="login()">🔐 Login</button>
+  <p id="loginStatus"></p>
 </div>
 
-<div class="card hidden" id="formCard">
-
-<h2>Form Biodata Teknisi</h2>
-
-<div class="section">
-<h3>Data Utama</h3>
-<label>User ID</label><input id="userId" readonly>
-<label>Nama Pegawai</label><input id="namaPegawai" readonly>
-<div class="row">
-  <div><label>Lokasi Kerja</label><input id="lokasiKerja" readonly></div>
-  <div><label>Divisi</label><input id="divisi" readonly></div>
-</div>
-<label>Posisi Kerja</label><input id="posisiKerja" readonly>
-</div>
+<!-- FORM -->
+<div class="glass" id="formBox" style="display:none">
 
 <div class="section">
-<h3>Data Pribadi</h3>
-<div class="row">
-  <div>
-    <label>Jenis Kelamin</label>
-    <select id="jenisKelamin">
-      <option value="">-- Pilih --</option>
-      <option>Laki-laki</option>
-      <option>Perempuan</option>
-    </select>
-  </div>
-  <div>
-    <label>Status Perkawinan</label>
-    <select id="statusPerkawinan">
-      <option>Belum Kawin</option>
-      <option>Kawin</option>
-      <option>Cerai</option>
-    </select>
-  </div>
-</div>
-<label>Tempat / Tanggal Lahir</label><input id="ttl">
-<label>Pendidikan Terakhir</label><input id="pendidikanAkhir">
-<label>Pendidikan Formal</label><textarea id="pendFormal"></textarea>
-<label>Pendidikan Non Formal</label><textarea id="pendNonFormal"></textarea>
+<div class="section-title">Data Utama</div>
+
+<label>User ID</label>
+<input id="f_user" class="readonly" readonly>
+
+<label>Nama Pegawai</label>
+<input id="f_nama" class="readonly" readonly>
+
+<label>Lokasi Kerja</label>
+<input id="f_lokasi" class="readonly" readonly>
+
+<label>Posisi Kerja</label>
+<input id="f_posisi" class="readonly" readonly>
+
+<label>Divisi</label>
+<input id="f_divisi" class="readonly" readonly>
 </div>
 
 <div class="section">
-<h3>Kontak</h3>
-<div class="row">
-  <div><label>No HP</label><input id="noHp"></div>
-  <div><label>Email</label><input id="email"></div>
-</div>
+<div class="section-title">Data Pribadi</div>
+
+<label>Tempat / Tanggal Lahir</label>
+<input id="ttl">
+
+<label>Jenis Kelamin</label>
+<select id="jk">
+  <option>Laki-laki</option>
+  <option>Perempuan</option>
+</select>
+
+<label>Pendidikan Terakhir</label>
+<input id="pendAkhir">
+
+<label>Pendidikan Formal</label>
+<textarea id="pendFormal"></textarea>
+
+<label>Pendidikan Non Formal</label>
+<textarea id="pendNonFormal"></textarea>
 </div>
 
 <div class="section">
-<h3>Upload Foto (WAJIB)</h3>
+<div class="section-title">Foto</div>
 
+<div class="photo-box">
 <label>Foto Teknisi</label>
 <input type="file" id="fotoTeknisi">
-<img id="pvFotoTeknisi" class="preview-img">
-
-<label>Foto KTP</label>
-<input type="file" id="fotoKtp">
-<img id="pvFotoKtp" class="preview-img">
-
-<label>Foto NPWP</label>
-<input type="file" id="fotoNpwp">
-<img id="pvFotoNpwp" class="preview-img">
-
-<label>Foto SIM C</label>
-<input type="file" id="fotoSim">
-<img id="pvFotoSim" class="preview-img">
-
-<label>Foto BPJS Kesehatan</label>
-<input type="file" id="fotoBpjsKes">
-<img id="pvFotoBpjsKes" class="preview-img">
-
-<label>Foto BPJS Ketenagakerjaan</label>
-<input type="file" id="fotoBpjsKet">
-<img id="pvFotoBpjsKet" class="preview-img">
-
-<label>Foto KK</label>
-<input type="file" id="fotoKk">
-<img id="pvFotoKk" class="preview-img">
+<img id="p_fotoTeknisi">
 </div>
 
-<button class="btn btn-primary" onclick="save()">💾 Simpan</button>
-<button class="btn btn-secondary" onclick="preview()">👀 Preview</button>
-<button class="btn btn-danger" onclick="logout()">Logout</button>
-
-<div id="formStatus"></div>
+<div class="photo-box"><label>Foto KTP</label><input type="file" id="fotoKtp"><img id="p_fotoKtp"></div>
+<div class="photo-box"><label>Foto NPWP</label><input type="file" id="fotoNpwp"><img id="p_fotoNpwp"></div>
+<div class="photo-box"><label>Foto SIM C</label><input type="file" id="fotoSim"><img id="p_fotoSim"></div>
+<div class="photo-box"><label>Foto BPJS Kesehatan</label><input type="file" id="fotoBpjsKes"><img id="p_fotoBpjsKes"></div>
+<div class="photo-box"><label>Foto BPJS Ketenagakerjaan</label><input type="file" id="fotoBpjsKet"><img id="p_fotoBpjsKet"></div>
+<div class="photo-box"><label>Foto KK</label><input type="file" id="fotoKk"><img id="p_fotoKk"></div>
 </div>
 
-<div id="previewWrap" class="hidden">
-  <div id="printArea">
-    <h2 style="text-align:center">BIODATA PEGAWAI<br>PT PUTRA TIMUR JAYA</h2>
-    <table>
-      <tr><td>Nama</td><td id="pvNama"></td></tr>
-      <tr><td>TTL</td><td id="pvTtl"></td></tr>
-      <tr><td>Jenis Kelamin</td><td id="pvJk"></td></tr>
-      <tr><td>Status</td><td id="pvStatus"></td></tr>
-    </table>
-    <h3>Foto</h3>
-    <img id="printFoto" style="max-width:150px">
-  </div>
+<div class="btn-group">
+<button class="btn btn-primary" onclick="simpan()">💾 Simpan</button>
+<button class="btn btn-secondary" onclick="preview()">👁 Preview</button>
+<button class="btn btn-danger" onclick="logout()">🚪 Logout</button>
+</div>
+
+<p id="status"></p>
+
+</div>
+</div>
+
+<!-- PREVIEW -->
+<div id="previewWrapper">
+<div class="a4">
+<h1>BIODATA PEGAWAI</h1>
+<h2>PT PUTRA TIMUR JAYA</h2>
+
+<table class="table">
+<tr><td>Nama</td><td id="pv_nama"></td></tr>
+<tr><td>TTL</td><td id="pv_ttl"></td></tr>
+<tr><td>Jenis Kelamin</td><td id="pv_jk"></td></tr>
+</table>
+
+<div class="page-number">2 / 4</div>
+</div>
 </div>
 
 </div>
 
 <script>
-const WEB_APP_URL = "PASTE_WEB_APP_URL_KAMU_DI_SINI";
+/* ================= CONFIG ================= */
+const WEB_APP_URL = "PASTE_WEB_APP_URL_KAMU";
 
-const USERS = [
-  {username:"PTJ_Arip007",password:"alvaro007",nama:"ARIP RAHMATULLOH",divisi:"PIC",lokasi:"CMI",posisi:"BASIC_TEKNISI"}
+/* USER LOGIN SAMPLE */
+const USERS=[
+{u:"PTJ_Arip007",p:"alvaro007",nama:"ARIP RAHMATULLOH",lokasi:"CMI",posisi:"BASIC_TEKNISI",divisi:"PIC"}
 ];
 
-let currentUser=null;
-let fotoData={};
+let current=null;
+let foto={};
 
 function login(){
-  const u=document.getElementById("loginUser").value;
-  const p=document.getElementById("loginPass").value;
-  const user=USERS.find(x=>x.username===u&&x.password===p);
-  if(!user){alert("Login gagal");return}
-  currentUser=user;
-  document.getElementById("formCard").classList.remove("hidden");
-  document.getElementById("userId").value=user.username;
-  document.getElementById("namaPegawai").value=user.nama;
-  document.getElementById("divisi").value=user.divisi;
-  document.getElementById("lokasiKerja").value=user.lokasi;
-  document.getElementById("posisiKerja").value=user.posisi;
+  const u=loginUser.value,p=loginPass.value;
+  const f=USERS.find(x=>x.u===u&&x.p===p);
+  if(!f){loginStatus.textContent="Login gagal";return;}
+  current=f;
+  loginStatus.textContent="Login berhasil";
+  formBox.style.display="block";
+
+  f_user.value=f.u;
+  f_nama.value=f.nama;
+  f_lokasi.value=f.lokasi;
+  f_posisi.value=f.posisi;
+  f_divisi.value=f.divisi;
 }
 
-function bindFile(id,img,key){
+function logout(){
+  current=null;
+  formBox.style.display="none";
+}
+
+function readFile(id,key){
   document.getElementById(id).onchange=e=>{
     const r=new FileReader();
-    r.onload=()=>{fotoData[key]=r.result;img.src=r.result};
+    r.onload=()=>{foto[key]=r.result;document.getElementById("p_"+id).src=r.result}
     r.readAsDataURL(e.target.files[0]);
   }
 }
-bindFile("fotoTeknisi",pvFotoTeknisi,"foto");
-bindFile("fotoKtp",pvFotoKtp,"fotoKtp");
-bindFile("fotoNpwp",pvFotoNpwp,"fotoNpwp");
-bindFile("fotoSim",pvFotoSim,"fotoSim");
-bindFile("fotoBpjsKes",pvFotoBpjsKes,"fotoBpjsKes");
-bindFile("fotoBpjsKet",pvFotoBpjsKet,"fotoBpjsKet");
-bindFile("fotoKk",pvFotoKk,"fotoKk");
+["fotoTeknisi","fotoKtp","fotoNpwp","fotoSim","fotoBpjsKes","fotoBpjsKet","fotoKk"].forEach(x=>readFile(x,x));
 
-async function save(){
-  const data={
-    mode:"saveBiodata",
-    user:currentUser,
-    biodata:{
-      ttl:ttl.value,
-      jenisKelamin:jenisKelamin.value,
-      statusPerkawinan:statusPerkawinan.value,
-      pendidikanAkhir:pendidikanAkhir.value,
-      pendFormal:pendFormal.value,
-      pendNonFormal:pendNonFormal.value,
-      noHp:noHp.value,
-      email:email.value
-    },
-    ...fotoData
-  };
-  await fetch(WEB_APP_URL,{
+function simpan(){
+  status.textContent="Menyimpan...";
+  fetch(WEB_APP_URL,{
     method:"POST",
     headers:{"Content-Type":"text/plain;charset=utf-8"},
-    body:JSON.stringify(data)
-  });
-  alert("Tersimpan");
+    body:JSON.stringify({user:current,biodata:{ttl:ttl.value,jk:jk.value},foto})
+  }).then(()=>status.textContent="BERHASIL DISIMPAN");
 }
 
 function preview(){
-  pvNama.textContent=namaPegawai.value;
-  pvTtl.textContent=ttl.value;
-  pvJk.textContent=jenisKelamin.value;
-  pvStatus.textContent=statusPerkawinan.value;
-  printFoto.src=fotoData.foto||"";
-  previewWrap.classList.remove("hidden");
+  pv_nama.textContent=f_nama.value;
+  pv_ttl.textContent=ttl.value;
+  pv_jk.textContent=jk.value;
+  previewWrapper.style.display="block";
 }
-
-function logout(){location.reload()}
 </script>
 </body>
 </html>
