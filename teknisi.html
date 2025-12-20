@@ -1,6 +1,4 @@
 
-/* ==== SUDAH OK NAMUN PHOTO TIDAK MUNCUL (A4) ==== */ ( jangan di copy )
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -946,7 +944,7 @@
     attachFilePreview("fotoBpjsKes", "previewFotoBpjsKes", url => fotoBpjsKesDataUrl = url);
 
     /* ========= SIMPAN BIODATA ========= */
-   async function saveBiodata() {
+    async function saveBiodata() {
       if (!currentUser) {
         alert("Silakan login terlebih dahulu.");
         return;
@@ -984,6 +982,7 @@
         console.error("Error fetch:", err);
       }
     }
+
     /* ========= KUMPUL DATA FORM ========= */
     function showPreviewBiodata() {
 
