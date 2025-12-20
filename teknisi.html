@@ -603,6 +603,14 @@
               <td class="label">Foto Pegawai</td>
               <td class="value"><img id="bioFotoInline" alt="Foto Pegawai" /></td>
             </tr>
+			<tr>
+			<td class="label">Nomor SIM C</td>
+			<td class="value" id="pvNoSimC"></td>
+			tr>
+			<tr>
+			<td class="label">Foto SIM C</td>
+			<td class="value"><img id="bioFotoSimC" /></td>
+			</tr>
           </table>
         </div>
 
@@ -667,6 +675,16 @@
             <tr><td class="label">Nomor Kartu Keluarga</td><td class="value" id="pvNoKk"></td></tr>
           </table>
         </div>
+			<!--  DOKUMEN TAMBAHAN -->
+		<div class="section-title">Dokumen Kendaraan</div>
+
+			<label for="noSimC">Nomor SIM C</label>
+			<input id="noSimC" />
+
+			<label for="fotoSimC">Foto SIM C</label>
+			<input id="fotoSimC" type="file" accept="image/*" />
+			<img id="previewFotoSimC" class="preview-small" />
+		</div>
 
         <!-- FOTO DOKUMEN -->
         <div class="bio-section">
@@ -868,6 +886,7 @@
     let fotoNpwpDataUrl = "";
     let fotoBpjsKetDataUrl = "";
     let fotoBpjsKesDataUrl = "";
+	let fotoSimCDataUrl = "";
 
     /* Set link Sheet & Drive di tombol admin */
     (function setAdminLinks(){
@@ -891,6 +910,7 @@
       }
 
       currentUser = user;
+	  loadExistingBiodata(user.username);
       statusEl.textContent = "Login berhasil sebagai " + user.nama + ". Silakan isi biodata.";
       statusEl.style.color = "#bbf7d0";
 
@@ -941,6 +961,7 @@
     attachFilePreview("fotoNpwp", "previewFotoNpwp", url => fotoNpwpDataUrl = url);
     attachFilePreview("fotoBpjsKet", "previewFotoBpjsKet", url => fotoBpjsKetDataUrl = url);
     attachFilePreview("fotoBpjsKes", "previewFotoBpjsKes", url => fotoBpjsKesDataUrl = url);
+	attachFilePreview("fotoSimC", "previewFotoSimC", url => fotoSimCDataUrl = url);
 
     /* ========= SIMPAN BIODATA ========= */
     async function saveBiodata() {
@@ -968,7 +989,8 @@
             fotoKk: fotoKkDataUrl,
             fotoNpwp: fotoNpwpDataUrl,
             fotoBpjsKet: fotoBpjsKetDataUrl,
-            fotoBpjsKes: fotoBpjsKesDataUrl
+            fotoBpjsKes: fotoBpjsKesDataUrl,
+			fotoSimC: fotoSimCDataUrl
           })
         });
         const text = await res.text();
@@ -981,7 +1003,76 @@
         console.error("Error fetch:", err);
       }
     }
+    /* ========= RELOAD DATA LAMA ========= */
+	
+	async function loadExistingBiodata(username) {
+	try {
+    const res = await fetch(WEB_APP_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({
+        mode: "getBiodata",
+        username: username
+      })
+    });
 
+    const json = await res.json();
+    if (!json.ok) return;
+
+    const d = json.biodata;
+
+    const set = (id, val) => {
+      const el = document.getElementById(id);
+      if (el) el.value = val || "";
+    };
+
+    set("namaPegawai", d[3]);
+    set("ttl", d[4]);
+    set("jenisKelamin", d[5]);
+    set("pendidikanAkhir", d[6]);
+    set("pendFormal", d[7]);
+    set("pendNonFormal", d[8]);
+    set("statusPerkawinan", d[9]);
+    set("lokasiKerja", d[10]);
+    set("posisiKerja", d[11]);
+    set("divisi", d[12]);
+    set("alamatDomisili", d[13]);
+    set("domKel", d[14]);
+    set("domKec", d[15]);
+    set("domKota", d[16]);
+    set("noHp", d[17]);
+    set("email", d[18]);
+    set("noKtp", d[19]);
+    set("noNpwp", d[20]);
+    set("namaIbu", d[21]);
+    set("noRekening", d[22]);
+    set("namaBank", d[23]);
+    set("ktpAlamat", d[24]);
+    set("ktpKel", d[25]);
+    set("ktpKec", d[26]);
+    set("ktpKota", d[27]);
+    set("bpjsKet", d[28]);
+    set("bpjsKes", d[29]);
+    set("namaPasangan", d[30]);
+    set("bpjsPasangan", d[31]);
+    set("telpKerabat", d[32]);
+    set("dataAnak", d[33]);
+    set("namaFaskes", d[34]);
+    set("noKk", d[35]);
+    set("noSimC", d[36]);
+
+    fotoDataUrl        = d[37];
+    fotoKtpDataUrl     = d[38];
+    fotoBpjsKesDataUrl = d[39];
+    fotoBpjsKetDataUrl = d[40];
+    fotoNpwpDataUrl    = d[41];
+    fotoKkDataUrl      = d[42];
+    fotoSimCDataUrl    = d[43];
+
+	} catch (e) {
+    console.error("Load biodata gagal:", e);
+	}
+	}
     /* ========= KUMPUL DATA FORM ========= */
     function showPreviewBiodata() {
 
@@ -1045,7 +1136,7 @@
   t("pvDataAnak", v("dataAnak"));
   t("pvNamaFaskes", v("namaFaskes"));
   t("pvNoKk", v("noKk"));
-
+  t("pvNoSimC", v("noSimC"));
   /* ==== FOTO ==== */
   i("bioFotoInline", fotoDataUrl);
   i("bioFotoKtp", fotoKtpDataUrl);
@@ -1053,6 +1144,7 @@
   i("bioFotoBpjsKet", fotoBpjsKetDataUrl);
   i("bioFotoBpjsKes", fotoBpjsKesDataUrl);
   i("bioFotoKk", fotoKkDataUrl);
+  i("bioFotoSimC", fotoSimCDataUrl);
 
   document.getElementById("pvPrintedAt").textContent =
     new Date().toLocaleString("id-ID", { dateStyle: "short", timeStyle: "short" });
@@ -1064,9 +1156,12 @@
     "Preview berdasarkan isi formulir.";
   document.getElementById("formStatus").style.color = "#22c55e";
 }
+
 /* ========= KUMPUL DATA FORM (FIX) ========= */
 function collectFormData() {
   return {
+  
+	noSimC: get("noSimC"),
     namaPegawai: document.getElementById("namaPegawai").value || "",
     ttl: document.getElementById("ttl").value || "",
     jenisKelamin: document.getElementById("jenisKelamin").value || "",
@@ -1096,7 +1191,7 @@ function collectFormData() {
     ktpKel: document.getElementById("ktpKel").value || "",
     ktpKec: document.getElementById("ktpKec").value || "",
     ktpKota: document.getElementById("ktpKota").value || "",
-
+	
     bpjsKet: document.getElementById("bpjsKet").value || "",
     bpjsKes: document.getElementById("bpjsKes").value || "",
     namaPasangan: document.getElementById("namaPasangan").value || "",
