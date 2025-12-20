@@ -1,287 +1,234 @@
-<!-- =========================================================
-  TEKNISI.HTML — FINAL PRODUKSI
-  PT PUTRA TIMUR JAYA BDB1
-  TERAKHIR: SIM C + FOTO SIM C + LAYOUT A4
-========================================================= -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Login Teknisi – PT PUTRA TIMUR JAYA BDB1</title>
+<title>Login Teknisi – PT PUTRA TIMUR JAYA</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* ===================== GLOBAL ===================== */
-*{box-sizing:border-box;margin:0;padding:0}
-body{
-  font-family:Poppins,sans-serif;
-  background:#020617;
-  color:#e5e7eb
-}
-.page{max-width:1120px;margin:auto;padding:20px}
-label{font-size:12px}
+body{font-family:Arial;background:#020617;color:#fff;margin:0}
+.container{max-width:1100px;margin:auto;padding:20px}
+.card{background:#020617;border:1px solid #1f2937;border-radius:12px;padding:16px;margin-bottom:16px}
+h2{margin:0 0 10px}
+label{font-size:12px;margin-top:6px;display:block}
 input,select,textarea{
-  width:100%;
-  padding:8px;
-  border-radius:8px;
-  background:#020617;
-  border:1px solid #334155;
-  color:#fff;
-  margin-bottom:6px
+  width:100%;padding:8px;border-radius:8px;
+  background:#020617;color:#fff;border:1px solid #374151
 }
-.btn{padding:8px 14px;border-radius:999px;border:none;cursor:pointer;font-size:12px}
+input[readonly]{opacity:.6;cursor:not-allowed}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.btn{padding:8px 14px;border-radius:20px;border:none;cursor:pointer}
 .btn-primary{background:#2563eb;color:#fff}
 .btn-danger{background:#dc2626;color:#fff}
-.btn-secondary{background:#020617;border:1px solid #475569;color:#fff}
+img.preview{max-width:120px;margin-top:6px;border-radius:8px;border:1px solid #333}
+.status{font-size:12px;margin-top:8px}
 
-.grid-2{display:grid;grid-template-columns:1fr 1.6fr;gap:20px}
-@media(max-width:900px){.grid-2{grid-template-columns:1fr}}
-
-.card{
-  background:#020617;
-  border:1px solid #1f2937;
-  border-radius:16px;
-  padding:16px
+@media print{
+  body{background:#fff;color:#000}
+  .card,.btn{display:none}
+  .print-page{display:block}
 }
-.section-title{
-  font-size:13px;
-  font-weight:600;
-  margin:16px 0 6px;
-  border-bottom:1px solid #334155
-}
-
-/* ===================== PREVIEW A4 ===================== */
-.biodata-page{
-  background:#fff;
-  color:#000;
+.print-page{
+  display:none;
   width:210mm;
   min-height:297mm;
-  margin:20px auto;
-  padding:16mm;
-  font-size:11px
+  background:#fff;color:#000;
+  padding:15mm;
+  page-break-after:always;
 }
-.bio-table{
-  width:100%;
-  border-collapse:collapse
-}
-.bio-table td{
-  border:1px solid #00000055;
-  padding:4px 6px;
-  vertical-align:top
-}
-.bio-table img{
-  max-width:35mm;
-  border:1px solid #000
-}
-.bio-title{
-  font-weight:700;
-  margin-top:14px;
-  border-bottom:1px solid #000
-}
-.photo-box{
-  width:32mm;height:42mm;
-  border:1px solid #000;
-  text-align:center
-}
+.print-page table{width:100%;border-collapse:collapse;font-size:11px}
+.print-page td{border:1px solid #000;padding:4px}
+.page-num{position:absolute;bottom:10mm;right:15mm;font-size:10px}
 </style>
 </head>
 
 <body>
-<div class="page">
-<h2>Login Teknisi</h2>
+<div class="container">
 
-<div class="grid-2">
 <!-- LOGIN -->
 <div class="card">
-<label>User ID</label>
-<input id="loginUser">
-<label>Password</label>
-<input id="loginPass" type="password">
+<h2>Login Teknisi</h2>
+<label>User ID</label><input id="loginUser">
+<label>Password</label><input id="loginPass" type="password">
 <button class="btn btn-primary" onclick="login()">Login</button>
-<p id="loginStatus"></p>
+<div id="loginStatus" class="status"></div>
 </div>
 
 <!-- FORM -->
 <div class="card" id="formCard" style="display:none">
+<h2>Form Biodata</h2>
 
-<div class="section-title">DATA PRIBADI</div>
-<input id="namaPegawai" placeholder="Nama Pegawai">
-<input id="ttl" placeholder="Tempat / Tanggal Lahir">
+<label>User ID</label><input id="userId" readonly>
+<label>NIK</label><input id="nik" readonly>
+<label>Nama Pegawai</label><input id="namaPegawai" readonly>
+
+<div class="row">
+<div>
+<label>Jenis Kelamin</label>
 <select id="jenisKelamin">
-<option value="">Jenis Kelamin</option>
+<option value="">Pilih</option>
 <option>Laki-laki</option>
 <option>Perempuan</option>
 </select>
-<input id="pendidikanAkhir" placeholder="Pendidikan Terakhir">
-<textarea id="pendFormal" placeholder="Pendidikan Formal"></textarea>
-<textarea id="pendNonFormal" placeholder="Pendidikan Non Formal"></textarea>
+</div>
+<div>
+<label>Status Perkawinan</label>
+<select id="statusPerkawinan">
+<option value="">Pilih</option>
+<option>Kawin</option>
+<option>Belum Kawin</option>
+<option>Cerai</option>
+</select>
+</div>
+</div>
 
-<div class="section-title">DATA PEKERJAAN</div>
-<input id="statusPerkawinan" placeholder="Status Perkawinan">
-<input id="lokasiKerja" placeholder="Lokasi Kerja">
-<input id="posisiKerja" placeholder="Posisi Kerja">
-<input id="divisi" placeholder="Divisi">
+<label>Tempat / Tanggal Lahir</label><input id="ttl">
 
-<div class="section-title">ALAMAT</div>
-<input id="alamatDomisili" placeholder="Alamat Domisili">
-<input id="domKel" placeholder="Kelurahan">
-<input id="domKec" placeholder="Kecamatan">
-<input id="domKota" placeholder="Kota">
+<div class="row">
+<div><label>Lokasi Kerja</label><input id="lokasiKerja" readonly></div>
+<div><label>Posisi Kerja</label><input id="posisiKerja" readonly></div>
+</div>
 
-<div class="section-title">KONTAK</div>
-<input id="noHp" placeholder="No HP">
-<input id="email" placeholder="Email">
-<input id="noKtp" placeholder="No KTP">
-<input id="noNpwp" placeholder="No NPWP">
-<input id="namaIbu" placeholder="Nama Ibu">
-<input id="noRekening" placeholder="No Rekening">
-<input id="namaBank" placeholder="Nama Bank">
+<label>Divisi</label><input id="divisi" readonly>
 
-<div class="section-title">BPJS & KELUARGA</div>
-<input id="bpjsKet" placeholder="BPJS Ketenagakerjaan">
-<input id="bpjsKes" placeholder="BPJS Kesehatan">
-<input id="namaPasangan" placeholder="Nama Istri / Suami">
-<input id="bpjsPasangan" placeholder="BPJS Pasangan">
-<input id="telpKerabat" placeholder="Telp Kerabat">
-<input id="dataAnak" placeholder="Data Anak">
-<input id="namaFaskes" placeholder="Nama Faskes">
-<input id="noKk" placeholder="No KK">
-<input id="simC" placeholder="SIM C">
+<label>SIM C</label><input id="simC">
 
-<div class="section-title">FOTO</div>
-<input type="file" id="fotoTeknisi">
-<input type="file" id="fotoKtp">
-<input type="file" id="fotoNpwp">
-<input type="file" id="fotoBpjsKet">
-<input type="file" id="fotoBpjsKes">
-<input type="file" id="fotoKk">
-<input type="file" id="fotoSimC">
+<hr>
+
+<h3>FOTO</h3>
+
+<label>Foto Teknisi</label><input type="file" id="fotoTeknisi"><img id="pFotoTeknisi" class="preview">
+
+<label>Foto KTP</label><input type="file" id="fotoKtp"><img id="pFotoKtp" class="preview">
+
+<label>Foto NPWP</label><input type="file" id="fotoNpwp"><img id="pFotoNpwp" class="preview">
+
+<label>Foto SIM C</label><input type="file" id="fotoSim"><img id="pFotoSim" class="preview">
+
+<label>Foto BPJS Kesehatan</label><input type="file" id="fotoBpjsKes"><img id="pFotoBpjsKes" class="preview">
+
+<label>Foto BPJS Ketenagakerjaan</label><input type="file" id="fotoBpjsKet"><img id="pFotoBpjsKet" class="preview">
+
+<label>Foto KK</label><input type="file" id="fotoKk"><img id="pFotoKk" class="preview">
 
 <button class="btn btn-primary" onclick="save()">💾 Simpan</button>
-<button class="btn btn-secondary" onclick="preview()">👀 Preview</button>
+<button class="btn btn-primary" onclick="preview()">👀 Preview</button>
 <button class="btn btn-danger" onclick="logout()">Logout</button>
-<p id="formStatus"></p>
-</div>
+
+<div id="formStatus" class="status"></div>
 </div>
 
 <!-- PREVIEW -->
-<div id="preview" style="display:none">
-<div class="biodata-page">
+<div class="print-page" id="printArea">
 <h3 style="text-align:center">BIODATA PEGAWAI<br>PT PUTRA TIMUR JAYA</h3>
-
-<table class="bio-table">
-<tr>
-<td width="70%">Nama: <span id="pvNama"></span></td>
-<td width="30%" rowspan="3"><div class="photo-box"><img id="pvFoto"></div></td>
-</tr>
-<tr><td>TTL: <span id="pvTtl"></span></td></tr>
-<tr><td>Jenis Kelamin: <span id="pvJk"></span></td></tr>
+<table>
+<tr><td>Nama</td><td id="pvNama"></td></tr>
+<tr><td>TTL</td><td id="pvTtl"></td></tr>
+<tr><td>Jenis Kelamin</td><td id="pvJk"></td></tr>
+<tr><td>Status</td><td id="pvStatus"></td></tr>
+<tr><td>SIM C</td><td id="pvSim"></td></tr>
+<tr><td>Foto</td><td><img id="pvFoto" style="max-width:100px"></td></tr>
 </table>
+<div class="page-num">1/1</div>
+</div>
 
-<div class="bio-title">FOTO DOKUMEN</div>
-<table class="bio-table">
-<tr><td>KTP</td><td><img id="pvKtp"></td></tr>
-<tr><td>NPWP</td><td><img id="pvNpwp"></td></tr>
-<tr><td>BPJS Ketenagakerjaan</td><td><img id="pvBpjsKet"></td></tr>
-<tr><td>BPJS Kesehatan</td><td><img id="pvBpjsKes"></td></tr>
-<tr><td>KK</td><td><img id="pvKk"></td></tr>
-<tr><td>SIM C</td><td><img id="pvSim"></td></tr>
-</table>
-</div>
-</div>
 </div>
 
 <script>
-const WEB_APP_URL="PASTE_WEB_APP_URL_KAMU";
+const WEB_APP_URL="PASTE_URL_WEBAPP_KAMU";
 
-let foto={},user=null;
+const USERS=[
+ {u:"PTJ_Arip007",p:"alvaro007",nik:"15889311",nama:"ARIP RAHMATULLOH",lokasi:"CMI",posisi:"BASIC_TEKNISI",divisi:"PIC"}
+];
+
+let currentUser=null;
+let foto={};
 
 function login(){
-  user={username:loginUser.value};
-  formCard.style.display="block";
-  loginStatus.textContent="Login OK";
+ const u=loginUser.value,p=loginPass.value;
+ const user=USERS.find(x=>x.u===u&&x.p===p);
+ if(!user){loginStatus.textContent="Login gagal";return}
+ currentUser=user;
+ formCard.style.display="block";
+ userId.value=user.u;
+ nik.value=user.nik;
+ namaPegawai.value=user.nama;
+ lokasiKerja.value=user.lokasi;
+ posisiKerja.value=user.posisi;
+ divisi.value=user.divisi;
+ loadData();
 }
 
-function logout(){
-  location.reload();
-}
+function logout(){location.reload()}
 
-function read(id,key){
-  const f=document.getElementById(id).files[0];
-  if(!f)return;
+function bind(id,prev){
+ document.getElementById(id).onchange=e=>{
   const r=new FileReader();
-  r.onload=e=>foto[key]=e.target.result;
-  r.readAsDataURL(f);
+  r.onload=x=>{
+   foto[id]=x.target.result;
+   document.getElementById(prev).src=x.target.result;
+  };
+  r.readAsDataURL(e.target.files[0]);
+ }
 }
-
-["fotoTeknisi","fotoKtp","fotoNpwp","fotoBpjsKet","fotoBpjsKes","fotoKk","fotoSimC"]
-.forEach(id=>document.getElementById(id).onchange=()=>read(id,id));
+bind("fotoTeknisi","pFotoTeknisi");
+bind("fotoKtp","pFotoKtp");
+bind("fotoNpwp","pFotoNpwp");
+bind("fotoSim","pFotoSim");
+bind("fotoBpjsKes","pFotoBpjsKes");
+bind("fotoBpjsKet","pFotoBpjsKet");
+bind("fotoKk","pFotoKk");
 
 async function save(){
-  formStatus.textContent="Menyimpan...";
-  await fetch(WEB_APP_URL,{
-    method:"POST",
-    headers:{"Content-Type":"text/plain;charset=utf-8"},
-    body:JSON.stringify({
-      mode:"saveBiodata",
-      user:user,
-      biodata:{
-        namaPegawai:namaPegawai.value,
-        ttl:ttl.value,
-        jenisKelamin:jenisKelamin.value,
-        pendidikanAkhir:pendidikanAkhir.value,
-        pendFormal:pendFormal.value,
-        pendNonFormal:pendNonFormal.value,
-        statusPerkawinan:statusPerkawinan.value,
-        lokasiKerja:lokasiKerja.value,
-        posisiKerja:posisiKerja.value,
-        divisi:divisi.value,
-        alamatDomisili:alamatDomisili.value,
-        domKel:domKel.value,
-        domKec:domKec.value,
-        domKota:domKota.value,
-        noHp:noHp.value,
-        email:email.value,
-        noKtp:noKtp.value,
-        noNpwp:noNpwp.value,
-        namaIbu:namaIbu.value,
-        noRekening:noRekening.value,
-        namaBank:namaBank.value,
-        bpjsKet:bpjsKet.value,
-        bpjsKes:bpjsKes.value,
-        namaPasangan:namaPasangan.value,
-        bpjsPasangan:bpjsPasangan.value,
-        telpKerabat:telpKerabat.value,
-        dataAnak:dataAnak.value,
-        namaFaskes:namaFaskes.value,
-        noKk:noKk.value,
-        simC:simC.value
-      },
-      foto:foto.fotoTeknisi,
-      fotoKtp:foto.fotoKtp,
-      fotoNpwp:foto.fotoNpwp,
-      fotoBpjsKet:foto.fotoBpjsKet,
-      fotoBpjsKes:foto.fotoBpjsKes,
-      fotoKk:foto.fotoKk,
-      fotoSimC:foto.fotoSimC
-    })
-  });
-  formStatus.textContent="✅ BERHASIL DISIMPAN";
+ formStatus.textContent="Menyimpan...";
+ await fetch(WEB_APP_URL,{
+  method:"POST",
+  headers:{"Content-Type":"text/plain;charset=utf-8"},
+  body:JSON.stringify({
+   mode:"saveBiodata",
+   user:currentUser,
+   biodata:{
+    namaPegawai:namaPegawai.value,
+    ttl:ttl.value,
+    jenisKelamin:jenisKelamin.value,
+    statusPerkawinan:statusPerkawinan.value,
+    simC:simC.value
+   },
+   foto:foto.fotoTeknisi,
+   fotoKtp:foto.fotoKtp,
+   fotoNpwp:foto.fotoNpwp,
+   fotoBpjsKes:foto.fotoBpjsKes,
+   fotoBpjsKet:foto.fotoBpjsKet,
+   fotoKk:foto.fotoKk,
+   fotoSim:foto.fotoSim
+  })
+ });
+ formStatus.textContent="✔ BERHASIL DISIMPAN";
+}
+
+async function loadData(){
+ const r=await fetch(WEB_APP_URL,{
+  method:"POST",
+  headers:{"Content-Type":"text/plain;charset=utf-8"},
+  body:JSON.stringify({mode:"getBiodata",username:currentUser.u})
+ });
+ const j=JSON.parse(await r.text());
+ if(j.found){
+  ttl.value=j.biodata.ttl||"";
+  jenisKelamin.value=j.biodata.jenisKelamin||"";
+  statusPerkawinan.value=j.biodata.statusPerkawinan||"";
+ }
 }
 
 function preview(){
-  pvNama.textContent=namaPegawai.value;
-  pvTtl.textContent=ttl.value;
-  pvJk.textContent=jenisKelamin.value;
-  pvFoto.src=foto.fotoTeknisi;
-  pvKtp.src=foto.fotoKtp;
-  pvNpwp.src=foto.fotoNpwp;
-  pvBpjsKet.src=foto.fotoBpjsKet;
-  pvBpjsKes.src=foto.fotoBpjsKes;
-  pvKk.src=foto.fotoKk;
-  pvSim.src=foto.fotoSimC;
-  preview.style.display="block";
+ pvNama.textContent=namaPegawai.value;
+ pvTtl.textContent=ttl.value;
+ pvJk.textContent=jenisKelamin.value;
+ pvStatus.textContent=statusPerkawinan.value;
+ pvSim.textContent=simC.value;
+ pvFoto.src=foto.fotoTeknisi||"";
+ printArea.style.display="block";
+ window.print();
 }
 </script>
 </body>
