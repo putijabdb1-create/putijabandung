@@ -1,178 +1,287 @@
+<!-- =========================================================
+  TEKNISI.HTML — FINAL PRODUKSI
+  PT PUTRA TIMUR JAYA BDB1
+  TERAKHIR: SIM C + FOTO SIM C + LAYOUT A4
+========================================================= -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <title>Login Teknisi – PT PUTRA TIMUR JAYA BDB1</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-body{font-family:Arial;background:#020617;color:#fff;margin:0}
-.page{max-width:900px;margin:auto;padding:20px}
-.card{background:#020617;border:1px solid #1f2937;border-radius:12px;padding:16px;margin-bottom:16px}
-input,select,textarea{width:100%;padding:8px;margin-bottom:8px;background:#020617;color:#fff;border:1px solid #374151;border-radius:8px}
-button{padding:8px 14px;border-radius:999px;border:none;font-weight:bold;cursor:pointer}
+/* ===================== GLOBAL ===================== */
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  font-family:Poppins,sans-serif;
+  background:#020617;
+  color:#e5e7eb
+}
+.page{max-width:1120px;margin:auto;padding:20px}
+label{font-size:12px}
+input,select,textarea{
+  width:100%;
+  padding:8px;
+  border-radius:8px;
+  background:#020617;
+  border:1px solid #334155;
+  color:#fff;
+  margin-bottom:6px
+}
+.btn{padding:8px 14px;border-radius:999px;border:none;cursor:pointer;font-size:12px}
 .btn-primary{background:#2563eb;color:#fff}
 .btn-danger{background:#dc2626;color:#fff}
-.status{font-size:12px;margin-top:6px}
-.preview{max-width:120px;margin-bottom:8px;display:none;border-radius:8px}
+.btn-secondary{background:#020617;border:1px solid #475569;color:#fff}
+
+.grid-2{display:grid;grid-template-columns:1fr 1.6fr;gap:20px}
+@media(max-width:900px){.grid-2{grid-template-columns:1fr}}
+
+.card{
+  background:#020617;
+  border:1px solid #1f2937;
+  border-radius:16px;
+  padding:16px
+}
+.section-title{
+  font-size:13px;
+  font-weight:600;
+  margin:16px 0 6px;
+  border-bottom:1px solid #334155
+}
+
+/* ===================== PREVIEW A4 ===================== */
+.biodata-page{
+  background:#fff;
+  color:#000;
+  width:210mm;
+  min-height:297mm;
+  margin:20px auto;
+  padding:16mm;
+  font-size:11px
+}
+.bio-table{
+  width:100%;
+  border-collapse:collapse
+}
+.bio-table td{
+  border:1px solid #00000055;
+  padding:4px 6px;
+  vertical-align:top
+}
+.bio-table img{
+  max-width:35mm;
+  border:1px solid #000
+}
+.bio-title{
+  font-weight:700;
+  margin-top:14px;
+  border-bottom:1px solid #000
+}
+.photo-box{
+  width:32mm;height:42mm;
+  border:1px solid #000;
+  text-align:center
+}
 </style>
 </head>
 
 <body>
 <div class="page">
-
 <h2>Login Teknisi</h2>
+
+<div class="grid-2">
+<!-- LOGIN -->
 <div class="card">
-  <input id="loginUser" placeholder="User ID">
-  <input id="loginPass" type="password" placeholder="Password">
-  <button class="btn-primary" onclick="loginTeknisi()">Login</button>
-  <div id="loginStatus" class="status"></div>
+<label>User ID</label>
+<input id="loginUser">
+<label>Password</label>
+<input id="loginPass" type="password">
+<button class="btn btn-primary" onclick="login()">Login</button>
+<p id="loginStatus"></p>
 </div>
 
+<!-- FORM -->
 <div class="card" id="formCard" style="display:none">
-<h3>Form Biodata Teknisi</h3>
 
-<!-- DATA -->
+<div class="section-title">DATA PRIBADI</div>
 <input id="namaPegawai" placeholder="Nama Pegawai">
 <input id="ttl" placeholder="Tempat / Tanggal Lahir">
 <select id="jenisKelamin">
-  <option value="">Jenis Kelamin</option>
-  <option>Laki-laki</option>
-  <option>Perempuan</option>
+<option value="">Jenis Kelamin</option>
+<option>Laki-laki</option>
+<option>Perempuan</option>
 </select>
-
 <input id="pendidikanAkhir" placeholder="Pendidikan Terakhir">
 <textarea id="pendFormal" placeholder="Pendidikan Formal"></textarea>
 <textarea id="pendNonFormal" placeholder="Pendidikan Non Formal"></textarea>
 
-<input id="simC" placeholder="Nomor SIM C">
+<div class="section-title">DATA PEKERJAAN</div>
+<input id="statusPerkawinan" placeholder="Status Perkawinan">
+<input id="lokasiKerja" placeholder="Lokasi Kerja">
+<input id="posisiKerja" placeholder="Posisi Kerja">
+<input id="divisi" placeholder="Divisi">
 
+<div class="section-title">ALAMAT</div>
+<input id="alamatDomisili" placeholder="Alamat Domisili">
+<input id="domKel" placeholder="Kelurahan">
+<input id="domKec" placeholder="Kecamatan">
+<input id="domKota" placeholder="Kota">
+
+<div class="section-title">KONTAK</div>
 <input id="noHp" placeholder="No HP">
 <input id="email" placeholder="Email">
 <input id="noKtp" placeholder="No KTP">
 <input id="noNpwp" placeholder="No NPWP">
+<input id="namaIbu" placeholder="Nama Ibu">
+<input id="noRekening" placeholder="No Rekening">
+<input id="namaBank" placeholder="Nama Bank">
+
+<div class="section-title">BPJS & KELUARGA</div>
+<input id="bpjsKet" placeholder="BPJS Ketenagakerjaan">
+<input id="bpjsKes" placeholder="BPJS Kesehatan">
+<input id="namaPasangan" placeholder="Nama Istri / Suami">
+<input id="bpjsPasangan" placeholder="BPJS Pasangan">
+<input id="telpKerabat" placeholder="Telp Kerabat">
+<input id="dataAnak" placeholder="Data Anak">
+<input id="namaFaskes" placeholder="Nama Faskes">
 <input id="noKk" placeholder="No KK">
+<input id="simC" placeholder="SIM C">
 
-<hr>
-
-<!-- FOTO -->
-<b>Upload Foto</b><br><br>
-
-Foto Teknisi
+<div class="section-title">FOTO</div>
 <input type="file" id="fotoTeknisi">
-<img id="prevTeknisi" class="preview">
-
-Foto KTP
 <input type="file" id="fotoKtp">
-<img id="prevKtp" class="preview">
-
-Foto KK
-<input type="file" id="fotoKk">
-<img id="prevKk" class="preview">
-
-Foto NPWP
 <input type="file" id="fotoNpwp">
-<img id="prevNpwp" class="preview">
-
-Foto SIM C
-<input type="file" id="fotoSimC">
-<img id="prevSimC" class="preview">
-
-Foto BPJS Kesehatan
-<input type="file" id="fotoBpjsKes">
-<img id="prevBpjsKes" class="preview">
-
-Foto BPJS Ketenagakerjaan
 <input type="file" id="fotoBpjsKet">
-<img id="prevBpjsKet" class="preview">
+<input type="file" id="fotoBpjsKes">
+<input type="file" id="fotoKk">
+<input type="file" id="fotoSimC">
 
-<br>
-<button class="btn-primary" onclick="saveBiodata()">Simpan</button>
-<button class="btn-danger" onclick="logoutTeknisi()">Logout</button>
-<div id="formStatus" class="status"></div>
+<button class="btn btn-primary" onclick="save()">💾 Simpan</button>
+<button class="btn btn-secondary" onclick="preview()">👀 Preview</button>
+<button class="btn btn-danger" onclick="logout()">Logout</button>
+<p id="formStatus"></p>
+</div>
 </div>
 
+<!-- PREVIEW -->
+<div id="preview" style="display:none">
+<div class="biodata-page">
+<h3 style="text-align:center">BIODATA PEGAWAI<br>PT PUTRA TIMUR JAYA</h3>
+
+<table class="bio-table">
+<tr>
+<td width="70%">Nama: <span id="pvNama"></span></td>
+<td width="30%" rowspan="3"><div class="photo-box"><img id="pvFoto"></div></td>
+</tr>
+<tr><td>TTL: <span id="pvTtl"></span></td></tr>
+<tr><td>Jenis Kelamin: <span id="pvJk"></span></td></tr>
+</table>
+
+<div class="bio-title">FOTO DOKUMEN</div>
+<table class="bio-table">
+<tr><td>KTP</td><td><img id="pvKtp"></td></tr>
+<tr><td>NPWP</td><td><img id="pvNpwp"></td></tr>
+<tr><td>BPJS Ketenagakerjaan</td><td><img id="pvBpjsKet"></td></tr>
+<tr><td>BPJS Kesehatan</td><td><img id="pvBpjsKes"></td></tr>
+<tr><td>KK</td><td><img id="pvKk"></td></tr>
+<tr><td>SIM C</td><td><img id="pvSim"></td></tr>
+</table>
+</div>
+</div>
 </div>
 
 <script>
-const WEB_APP_URL="https://script.google.com/macros/s/AKfycbzfYMYq83BYCNxITAK-CbGQ0uA5diRWuFw1-kyd7zzqmcFR_3hwWnHtNNDLTF4mUHc/exec";
+const WEB_APP_URL="PASTE_WEB_APP_URL_KAMU";
 
-const USER_LINES=["PTJ_Arip007|alvaro007|15889311|ARIP RAHMATULLOH|PIC|CMI"];
-const USERS=USER_LINES.map(l=>{const[a,b,c,d,e,f]=l.split("|");return{username:a,password:b,nik:c,nama:d,divisi:e,defaultArea:f}});
-let currentUser=null;
+let foto={},user=null;
 
-// FOTO BASE64
-let fotoTeknisi="",fotoKtp="",fotoKk="",fotoNpwp="",fotoSimC="",fotoBpjsKes="",fotoBpjsKet="";
+function login(){
+  user={username:loginUser.value};
+  formCard.style.display="block";
+  loginStatus.textContent="Login OK";
+}
 
-function bindFile(id,prev,setter){
- document.getElementById(id).onchange=e=>{
+function logout(){
+  location.reload();
+}
+
+function read(id,key){
+  const f=document.getElementById(id).files[0];
+  if(!f)return;
   const r=new FileReader();
-  r.onload=ev=>{setter(ev.target.result);prev.src=ev.target.result;prev.style.display="block";}
-  r.readAsDataURL(e.target.files[0]);
- }
+  r.onload=e=>foto[key]=e.target.result;
+  r.readAsDataURL(f);
 }
 
-bindFile("fotoTeknisi",prevTeknisi,v=>fotoTeknisi=v);
-bindFile("fotoKtp",prevKtp,v=>fotoKtp=v);
-bindFile("fotoKk",prevKk,v=>fotoKk=v);
-bindFile("fotoNpwp",prevNpwp,v=>fotoNpwp=v);
-bindFile("fotoSimC",prevSimC,v=>fotoSimC=v);
-bindFile("fotoBpjsKes",prevBpjsKes,v=>fotoBpjsKes=v);
-bindFile("fotoBpjsKet",prevBpjsKet,v=>fotoBpjsKet=v);
+["fotoTeknisi","fotoKtp","fotoNpwp","fotoBpjsKet","fotoBpjsKes","fotoKk","fotoSimC"]
+.forEach(id=>document.getElementById(id).onchange=()=>read(id,id));
 
-function loginTeknisi(){
- const u=loginUser.value,p=loginPass.value;
- const user=USERS.find(x=>x.username===u&&x.password===p);
- if(!user){loginStatus.textContent="Login gagal";loginStatus.style.color="red";return;}
- currentUser=user;
- loginStatus.textContent="Login berhasil";loginStatus.style.color="lightgreen";
- namaPegawai.value=user.nama;
- formCard.style.display="block";
-}
-
-function logoutTeknisi(){currentUser=null;formCard.style.display="none"}
-
-function v(id){return document.getElementById(id).value}
-
-async function saveBiodata(){
- if(!currentUser)return;
- formStatus.textContent="Menyimpan...";
- try{
+async function save(){
+  formStatus.textContent="Menyimpan...";
   await fetch(WEB_APP_URL,{
-   method:"POST",
-   headers:{"Content-Type":"text/plain;charset=utf-8"},
-   body:JSON.stringify({
-    mode:"saveBiodata",
-    user:currentUser,
-    biodata:{
-      namaPegawai:v("namaPegawai"),
-      ttl:v("ttl"),
-      jenisKelamin:v("jenisKelamin"),
-      pendidikanAkhir:v("pendidikanAkhir"),
-      pendFormal:v("pendFormal"),
-      pendNonFormal:v("pendNonFormal"),
-      simC:v("simC"),
-      noHp:v("noHp"),
-      email:v("email"),
-      noKtp:v("noKtp"),
-      noNpwp:v("noNpwp"),
-      noKk:v("noKk")
-    },
-    foto:fotoTeknisi,
-    fotoKtp,
-    fotoKk,
-    fotoNpwp,
-    fotoSimC,
-    fotoBpjsKes,
-    fotoBpjsKet
-   })
+    method:"POST",
+    headers:{"Content-Type":"text/plain;charset=utf-8"},
+    body:JSON.stringify({
+      mode:"saveBiodata",
+      user:user,
+      biodata:{
+        namaPegawai:namaPegawai.value,
+        ttl:ttl.value,
+        jenisKelamin:jenisKelamin.value,
+        pendidikanAkhir:pendidikanAkhir.value,
+        pendFormal:pendFormal.value,
+        pendNonFormal:pendNonFormal.value,
+        statusPerkawinan:statusPerkawinan.value,
+        lokasiKerja:lokasiKerja.value,
+        posisiKerja:posisiKerja.value,
+        divisi:divisi.value,
+        alamatDomisili:alamatDomisili.value,
+        domKel:domKel.value,
+        domKec:domKec.value,
+        domKota:domKota.value,
+        noHp:noHp.value,
+        email:email.value,
+        noKtp:noKtp.value,
+        noNpwp:noNpwp.value,
+        namaIbu:namaIbu.value,
+        noRekening:noRekening.value,
+        namaBank:namaBank.value,
+        bpjsKet:bpjsKet.value,
+        bpjsKes:bpjsKes.value,
+        namaPasangan:namaPasangan.value,
+        bpjsPasangan:bpjsPasangan.value,
+        telpKerabat:telpKerabat.value,
+        dataAnak:dataAnak.value,
+        namaFaskes:namaFaskes.value,
+        noKk:noKk.value,
+        simC:simC.value
+      },
+      foto:foto.fotoTeknisi,
+      fotoKtp:foto.fotoKtp,
+      fotoNpwp:foto.fotoNpwp,
+      fotoBpjsKet:foto.fotoBpjsKet,
+      fotoBpjsKes:foto.fotoBpjsKes,
+      fotoKk:foto.fotoKk,
+      fotoSimC:foto.fotoSimC
+    })
   });
   formStatus.textContent="✅ BERHASIL DISIMPAN";
-  formStatus.style.color="lightgreen";
- }catch(e){
-  formStatus.textContent="❌ GAGAL: "+e.message;
-  formStatus.style.color="red";
- }
+}
+
+function preview(){
+  pvNama.textContent=namaPegawai.value;
+  pvTtl.textContent=ttl.value;
+  pvJk.textContent=jenisKelamin.value;
+  pvFoto.src=foto.fotoTeknisi;
+  pvKtp.src=foto.fotoKtp;
+  pvNpwp.src=foto.fotoNpwp;
+  pvBpjsKet.src=foto.fotoBpjsKet;
+  pvBpjsKes.src=foto.fotoBpjsKes;
+  pvKk.src=foto.fotoKk;
+  pvSim.src=foto.fotoSimC;
+  preview.style.display="block";
 }
 </script>
 </body>
