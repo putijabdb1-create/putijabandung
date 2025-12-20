@@ -2,7 +2,6 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>Area Teknisi – PT PUTRA TIMUR JAYA BDB1</title>
   <title>Login Teknisi – PT PUTRA TIMUR JAYA BDB1</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
@@ -112,13 +111,6 @@
       border: 1px solid #1f2937;
       box-shadow: 0 16px 45px rgba(15,23,42,0.85);
     }
-    .card h2 {
-      font-size: 16px;
-      margin-bottom: 6px;
-    }
-    .card small {
-      font-size: 11px;
-      color: #9ca3af;
     .login-card { position: relative; }
     .form-card { border-color:#334155; }
     @media (max-width:900px){
@@ -211,9 +203,6 @@
       color:#9ca3af;
     }
 
-    /* ==== PREVIEW BIODATA (A4) ==== */
-    .biodata-wrapper {
-      margin-top: 32px;
     img.preview-small {
       margin-top: 6px;
       max-width: 120px;
@@ -235,18 +224,6 @@
       position: relative;
       font-size: 11px;
       line-height: 1.4;
-    }
-    .biodata-header {
-      text-align: center;
-      margin-bottom: 10px;
-    }
-    .biodata-header h1 {
-      font-size: 14px;
-      font-weight: 700;
-    }
-    .biodata-header h2 {
-      font-size: 12px;
-      margin-top: 3px;
     }
     .biodata-header { text-align: center; margin-bottom: 10px; }
     .biodata-header h1 { font-size: 14px; font-weight: 700; }
@@ -288,12 +265,6 @@
       padding: 3px 6px;
       vertical-align: top;
     }
-    .bio-table td.label {
-      width: 35%;
-      font-weight: 500;
-    }
-    .bio-table td.value {
-      width: 65%;
     .bio-table td.label { width: 35%; font-weight: 500; }
     .bio-table td.value { width: 65%; }
     .bio-table img {
@@ -340,7 +311,6 @@
         <li><a href="index.html">Beranda</a></li>
         <li><a href="program.html">Program</a></li>
         <li><a href="galeri.html">Galeri</a></li>
-        <li><a href="teknisi.html" class="active">Area Teknisi</a></li>
         <li><a href="teknisi.html" class="active">Login Teknisi</a></li>
         <li><a href="kontak.html">Kontak</a></li>
       </ul>
@@ -348,7 +318,6 @@
   </header>
 
   <main class="page">
-    <h1 style="font-size:18px;font-weight:600;">Area Teknisi</h1>
     <h1 style="font-size:18px;font-weight:600;">Login Teknisi</h1>
     <p style="font-size:12px;color:#9ca3af;margin-top:4px;">
       Halaman khusus untuk teknisi PT PUTRA TIMUR JAYA BDB1. Teknisi harus login terlebih dahulu sebelum mengisi biodata.
@@ -565,7 +534,6 @@
 
           <div class="section-title">Foto Teknisi</div>
           <input id="fotoTeknisi" type="file" accept="image/*" />
-          <img id="previewFotoForm" style="margin-top:8px;max-width:120px;border-radius:10px;display:none;border:1px solid #1f2937;" />
           <img id="previewFotoForm" class="preview-small" />
 
           <div class="section-title">Foto Dokumen (opsional)</div>
@@ -740,18 +708,28 @@
       <div style="margin-top:10px;text-align:right;">
         <button type="button" class="btn btn-primary" onclick="window.print()">🖨 Cetak / PDF</button>
       </div>
+
+      <!-- LINK ADMIN: SHEET & DRIVE -->
+      <div style="margin-top:8px;text-align:right;">
+        <a id="sheetLink" class="btn btn-secondary" style="margin-right:6px;" target="_blank">📄 Buka Google Sheet</a>
+        <a id="driveLink" class="btn btn-secondary" target="_blank">🗂 Buka Folder Google Drive</a>
+        <div style="margin-top:4px;font-size:10px;color:#9ca3af;">
+          *Link hanya untuk admin / pengelola data.
+        </div>
+      </div>
     </div>
   </main>
 
   <script>
     /* ========= KONFIGURASI ========= */
-    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbxAnoRfp3dIUiKJT9KF03RweouXnXUVFvSgetOUmvnnOm7eOrdqKVFjfna75TIg4Vg/exec";
+    const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzfYMYq83BYCNxITAK-CbGQ0uA5diRWuFw1-kyd7zzqmcFR_3hwWnHtNNDLTF4mUHc/exec";
+
+    /* 👉 GANTI DUA LINK DI BAWAH INI DENGAN LINK PUNYAMU */
+    const SHEET_URL = "https://docs.google.com/spreadsheets/d/1uACE2nd-2E8CNtG-nQUiTUd4x5C2sFfKdZJeb1D_sbM/edit?gid=0#gid=0";
+    const DRIVE_FOLDER_URL = "https://drive.google.com/drive/folders/1xW5TQYUgpHRbFTdL8nFIxAQA9aJfP7uK?usp=drive_link";
 
     // Format: username|password|nik|nama|divisi|defaultArea
     const USER_LINES = [
-      "PTJ_Arip007|alvaro007|15889311|ARIP RAHMATULLOH|PIC|CMI",
-      // Tambah teknisi lain di sini...
-      // "PTJ_XXXXXX|password|NIK|NAMA LENGKAP|DIVISI|AREA"
               "PTJ_Arip007|alvaro007|15889311|ARIP RAHMATULLOH|PIC|CMI",
     "PTJ_15889310|30223023|15889310|UUS SETIADI|PIC|BTJ",
     "PTJ_Bob1990|TE1990|BELUM ADA|ASEP SAEPUDIN|PIC|CMI",
@@ -876,7 +854,7 @@
   	"PTJ_ZEMMY|putija2025|BELUM ADA|ZEEMY|PIC|CMI",
   	"PTJ_DANI|Project01|16850676|DANI|PROJEK|CMI",
   	"PTJ_ADITTIYA08|80621|16013886|ADITTIYA HERDI|PSB|CMI"
-	
+
       // tambahkan user lain di sini
     ];
 
@@ -896,6 +874,14 @@
     let fotoBpjsKetDataUrl = "";
     let fotoBpjsKesDataUrl = "";
 
+    /* Set link Sheet & Drive di tombol admin */
+    (function setAdminLinks(){
+      const s = document.getElementById("sheetLink");
+      const d = document.getElementById("driveLink");
+      if (s) s.href = SHEET_URL;
+      if (d) d.href = DRIVE_FOLDER_URL;
+    })();
+
     /* ========= LOGIN ========= */
     function loginTeknisi() {
       const userId = document.getElementById("loginUser").value.trim();
@@ -913,12 +899,10 @@
       statusEl.textContent = "Login berhasil sebagai " + user.nama + ". Silakan isi biodata.";
       statusEl.style.color = "#bbf7d0";
 
-      // Isi beberapa field otomatis
       document.getElementById("namaPegawai").value = user.nama || "";
       document.getElementById("divisi").value = user.divisi || "";
       document.getElementById("lokasiKerja").value = user.defaultArea || "";
 
-      // Tampilkan form biodata
       document.getElementById("formCard").style.display = "block";
       document.getElementById("formCard").scrollIntoView({behavior:"smooth"});
     }
@@ -938,9 +922,6 @@
     }
 
     /* ========= FOTO INPUT ========= */
-    const fotoInput = document.getElementById("fotoTeknisi");
-    if (fotoInput) {
-      fotoInput.addEventListener("change", function(e){
     function attachFilePreview(inputId, imgId, setter) {
       const input = document.getElementById(inputId);
       const img   = document.getElementById(imgId);
@@ -949,11 +930,6 @@
         const file = e.target.files[0];
         if (!file) return;
         const reader = new FileReader();
-        reader.onload = function(ev) {
-          fotoDataUrl = ev.target.result;
-          const imgPreview = document.getElementById("previewFotoForm");
-          imgPreview.src = fotoDataUrl;
-          imgPreview.style.display = "block";
         reader.onload = ev => {
           const url = ev.target.result;
           setter(url);
@@ -991,7 +967,6 @@
             mode: "saveBiodata",
             user: currentUser,
             biodata: data,
-            foto: fotoDataUrl
             foto: fotoDataUrl,
             fotoKtp: fotoKtpDataUrl,
             fotoKk: fotoKkDataUrl,
@@ -1107,15 +1082,6 @@
       isiText("pvNamaFaskes", data.namaFaskes);
       isiText("pvNoKk", data.noKk);
 
-      // Foto
-      const bioFoto = document.getElementById("bioFoto");
-      if (bioFoto) {
-        if (fotoDataUrl) {
-          bioFoto.src = fotoDataUrl;
-        } else {
-          bioFoto.removeAttribute("src");
-        }
-      }
       // Foto utama & dokumen
       setImgSrc("bioFoto", fotoDataUrl);
       setImgSrc("bioFotoInline", fotoDataUrl);
@@ -1125,7 +1091,6 @@
       setImgSrc("bioFotoBpjsKes", fotoBpjsKesDataUrl);
       setImgSrc("bioFotoKk", fotoKkDataUrl);
 
-      // Waktu cetak
       document.getElementById("pvPrintedAt").textContent =
         new Date().toLocaleString("id-ID", {dateStyle:"short", timeStyle:"short"});
 
