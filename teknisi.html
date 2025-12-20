@@ -1,287 +1,429 @@
-<!-- =========================================================
-  TEKNISI.HTML — FINAL PRODUKSI
-  PT PUTRA TIMUR JAYA BDB1
-  TERAKHIR: SIM C + FOTO SIM C + LAYOUT A4
-========================================================= -->
 <!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <title>Login Teknisi – PT PUTRA TIMUR JAYA BDB1</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-/* ===================== GLOBAL ===================== */
-*{box-sizing:border-box;margin:0;padding:0}
 body{
-  font-family:Poppins,sans-serif;
+  font-family:Arial,Helvetica,sans-serif;
   background:#020617;
-  color:#e5e7eb
-}
-.page{max-width:1120px;margin:auto;padding:20px}
-label{font-size:12px}
-input,select,textarea{
-  width:100%;
-  padding:8px;
-  border-radius:8px;
-  background:#020617;
-  border:1px solid #334155;
   color:#fff;
-  margin-bottom:6px
+  margin:0;
 }
-.btn{padding:8px 14px;border-radius:999px;border:none;cursor:pointer;font-size:12px}
-.btn-primary{background:#2563eb;color:#fff}
-.btn-danger{background:#dc2626;color:#fff}
-.btn-secondary{background:#020617;border:1px solid #475569;color:#fff}
-
-.grid-2{display:grid;grid-template-columns:1fr 1.6fr;gap:20px}
-@media(max-width:900px){.grid-2{grid-template-columns:1fr}}
-
+.page{max-width:900px;margin:auto;padding:20px}
 .card{
   background:#020617;
   border:1px solid #1f2937;
-  border-radius:16px;
-  padding:16px
+  border-radius:12px;
+  padding:16px;
+  margin-bottom:16px
 }
-.section-title{
-  font-size:13px;
-  font-weight:600;
-  margin:16px 0 6px;
-  border-bottom:1px solid #334155
-}
-
-/* ===================== PREVIEW A4 ===================== */
-.biodata-page{
-  background:#fff;
-  color:#000;
-  width:210mm;
-  min-height:297mm;
-  margin:20px auto;
-  padding:16mm;
-  font-size:11px
-}
-.bio-table{
+input,select,textarea{
   width:100%;
-  border-collapse:collapse
+  padding:8px;
+  margin-bottom:8px;
+  background:#020617;
+  color:#fff;
+  border:1px solid #374151;
+  border-radius:8px
 }
-.bio-table td{
-  border:1px solid #00000055;
-  padding:4px 6px;
-  vertical-align:top
+button{
+  padding:8px 14px;
+  border-radius:999px;
+  border:none;
+  cursor:pointer;
+  font-weight:bold
 }
-.bio-table img{
-  max-width:35mm;
-  border:1px solid #000
-}
-.bio-title{
-  font-weight:700;
-  margin-top:14px;
-  border-bottom:1px solid #000
-}
-.photo-box{
-  width:32mm;height:42mm;
-  border:1px solid #000;
-  text-align:center
-}
+.btn-primary{background:#2563eb;color:#fff}
+.btn-danger{background:#dc2626;color:#fff}
+.status{font-size:12px;margin-top:6px}
 </style>
 </head>
 
 <body>
-<div class="page">
-<h2>Login Teknisi</h2>
+  <!-- NAVBAR -->
+  <header class="navbar">
+    <div class="nav-inner">
+      <div class="nav-brand">
+        <div class="nav-brand-logo">P</div>
+        <div class="nav-brand-title">
+          <span>PT PUTRA TIMUR JAYA</span>
+          <span>BANDUNG BARAT 1</span>
+        </div>
+      </div>
+      <ul class="nav-links">
+        <li><a href="index.html">Beranda</a></li>
+        <li><a href="program.html">Program</a></li>
+        <li><a href="galeri.html">Galeri</a></li>
+        <li><a href="teknisi.html" class="active">Login Teknisi</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+      </ul>
+    </div>
+  </header>
 
-<div class="grid-2">
-<!-- LOGIN -->
-<div class="card">
-<label>User ID</label>
-<input id="loginUser">
-<label>Password</label>
-<input id="loginPass" type="password">
-<button class="btn btn-primary" onclick="login()">Login</button>
-<p id="loginStatus"></p>
-</div>
+  <main class="page">
+    <h1 style="font-size:18px;font-weight:600;">Login Teknisi</h1>
+    <p style="font-size:12px;color:#9ca3af;margin-top:4px;">
+      Halaman khusus untuk teknisi PT PUTRA TIMUR JAYA BDB1. Teknisi harus login terlebih dahulu sebelum mengisi biodata.
+    </p>
 
-<!-- FORM -->
-<div class="card" id="formCard" style="display:none">
+    <div class="grid-2">
+      <!-- LOGIN -->
+      <div class="card login-card">
+        <h2>Login Teknisi</h2>
+        <small>Gunakan user &amp; password yang sama dengan aplikasi absensi teknisi.</small>
 
-<div class="section-title">DATA PRIBADI</div>
-<input id="namaPegawai" placeholder="Nama Pegawai">
-<input id="ttl" placeholder="Tempat / Tanggal Lahir">
-<select id="jenisKelamin">
-<option value="">Jenis Kelamin</option>
-<option>Laki-laki</option>
-<option>Perempuan</option>
-</select>
-<input id="pendidikanAkhir" placeholder="Pendidikan Terakhir">
-<textarea id="pendFormal" placeholder="Pendidikan Formal"></textarea>
-<textarea id="pendNonFormal" placeholder="Pendidikan Non Formal"></textarea>
+        <div style="margin-top:12px;">
+          <label for="loginUser">User ID</label>
+          <input id="loginUser" placeholder="Contoh: PTJ_Arip007" />
 
-<div class="section-title">DATA PEKERJAAN</div>
-<input id="statusPerkawinan" placeholder="Status Perkawinan">
-<input id="lokasiKerja" placeholder="Lokasi Kerja">
-<input id="posisiKerja" placeholder="Posisi Kerja">
-<input id="divisi" placeholder="Divisi">
+          <label for="loginPass">Password</label>
+          <input id="loginPass" type="password" placeholder="Password" />
 
-<div class="section-title">ALAMAT</div>
-<input id="alamatDomisili" placeholder="Alamat Domisili">
-<input id="domKel" placeholder="Kelurahan">
-<input id="domKec" placeholder="Kecamatan">
-<input id="domKota" placeholder="Kota">
+          <div class="btn-group" style="margin-top:10px;">
+            <button class="btn btn-primary" type="button" onclick="loginTeknisi()">🔑 Login</button>
+            <a class="btn btn-secondary" href="https://putijabdb1-create.github.io/Absen-ptptjbdb1/" target="_blank">🔗 Buka Halaman Absensi</a>
+          </div>
 
-<div class="section-title">KONTAK</div>
-<input id="noHp" placeholder="No HP">
-<input id="email" placeholder="Email">
-<input id="noKtp" placeholder="No KTP">
-<input id="noNpwp" placeholder="No NPWP">
-<input id="namaIbu" placeholder="Nama Ibu">
-<input id="noRekening" placeholder="No Rekening">
-<input id="namaBank" placeholder="Nama Bank">
+          <p class="status-text">
+            *Data user diambil dari daftar user absensi (USER_LINES) di bawah. Jika ada teknisi baru,
+            cukup tambah di daftar user.
+          </p>
 
-<div class="section-title">BPJS & KELUARGA</div>
-<input id="bpjsKet" placeholder="BPJS Ketenagakerjaan">
-<input id="bpjsKes" placeholder="BPJS Kesehatan">
-<input id="namaPasangan" placeholder="Nama Istri / Suami">
-<input id="bpjsPasangan" placeholder="BPJS Pasangan">
-<input id="telpKerabat" placeholder="Telp Kerabat">
-<input id="dataAnak" placeholder="Data Anak">
-<input id="namaFaskes" placeholder="Nama Faskes">
-<input id="noKk" placeholder="No KK">
-<input id="simC" placeholder="SIM C">
+          <p id="loginStatus" class="status-text"></p>
+        </div>
+      </div>
 
-<div class="section-title">FOTO</div>
-<input type="file" id="fotoTeknisi">
-<input type="file" id="fotoKtp">
-<input type="file" id="fotoNpwp">
-<input type="file" id="fotoBpjsKet">
-<input type="file" id="fotoBpjsKes">
-<input type="file" id="fotoKk">
-<input type="file" id="fotoSimC">
+      <!-- FORM BIODATA -->
+      <div class="card form-card" id="formCard" style="display:none;">
+        <h2>Form Biodata Teknisi</h2>
+        <small>Data berikut diisi oleh teknisi. Hasilnya akan dikirim ke Google Sheet &amp; bisa dicetak sebagai biodata pegawai.</small>
 
-<button class="btn btn-primary" onclick="save()">💾 Simpan</button>
-<button class="btn btn-secondary" onclick="preview()">👀 Preview</button>
-<button class="btn btn-danger" onclick="logout()">Logout</button>
-<p id="formStatus"></p>
-</div>
-</div>
+        <div style="margin-top:12px;">
+          <div class="section-title">Data Pribadi</div>
 
-<!-- PREVIEW -->
-<div id="preview" style="display:none">
-<div class="biodata-page">
-<h3 style="text-align:center">BIODATA PEGAWAI<br>PT PUTRA TIMUR JAYA</h3>
+          <label for="namaPegawai">Nama Pegawai</label>
+          <input id="namaPegawai" />
 
-<table class="bio-table">
-<tr>
-<td width="70%">Nama: <span id="pvNama"></span></td>
-<td width="30%" rowspan="3"><div class="photo-box"><img id="pvFoto"></div></td>
-</tr>
-<tr><td>TTL: <span id="pvTtl"></span></td></tr>
-<tr><td>Jenis Kelamin: <span id="pvJk"></span></td></tr>
-</table>
+          <div class="field-row-2">
+            <div>
+              <label for="ttl">Tempat / Tanggal Lahir</label>
+              <input id="ttl" placeholder="Contoh: Bandung, 12 Juni 1985" />
+            </div>
+            <div>
+              <label for="jenisKelamin">Jenis Kelamin</label>
+              <select id="jenisKelamin">
+                <option value="">-- Pilih --</option>
+                <option value="Laki-laki">Laki-laki</option>
+                <option value="Perempuan">Perempuan</option>
+              </select>
+            </div>
+          </div>
 
-<div class="bio-title">FOTO DOKUMEN</div>
-<table class="bio-table">
-<tr><td>KTP</td><td><img id="pvKtp"></td></tr>
-<tr><td>NPWP</td><td><img id="pvNpwp"></td></tr>
-<tr><td>BPJS Ketenagakerjaan</td><td><img id="pvBpjsKet"></td></tr>
-<tr><td>BPJS Kesehatan</td><td><img id="pvBpjsKes"></td></tr>
-<tr><td>KK</td><td><img id="pvKk"></td></tr>
-<tr><td>SIM C</td><td><img id="pvSim"></td></tr>
-</table>
-</div>
-</div>
-</div>
+          <label for="pendidikanAkhir">Pendidikan Terakhir</label>
+          <input id="pendidikanAkhir" placeholder="Contoh: SMA / D3 / S1" />
+
+          <div class="field-row-2">
+            <div>
+              <label for="pendFormal">Pendidikan Formal (SD - SMP - SMA - PT)</label>
+              <textarea id="pendFormal" placeholder="Contoh: SDN..., SMP..., SMA..., Perguruan Tinggi..."></textarea>
+            </div>
+            <div>
+              <label for="pendNonFormal">Pendidikan Non Formal</label>
+              <textarea id="pendNonFormal" placeholder="Pelatihan, kursus, sertifikasi, dll."></textarea>
+            </div>
+          </div>
+
+          <div class="section-title">Data Pekerjaan</div>
+          <div class="field-row-2">
+            <div>
+              <label for="statusPerkawinan">Status Perkawinan</label>
+              <select id="statusPerkawinan">
+                <option value="">-- Pilih --</option>
+                <option value="Belum Menikah">Belum Menikah</option>
+                <option value="Menikah">Menikah</option>
+                <option value="Cerai">Cerai</option>
+              </select>
+            </div>
+            <div>
+              <label for="lokasiKerja">Lokasi Kerja</label>
+              <input id="lokasiKerja" placeholder="Contoh: CMI, NJG, CLL, BTJ, GNH, dll." />
+            </div>
+          </div>
+
+          <div class="field-row-2">
+            <div>
+              <label for="posisiKerja">Posisi Kerja Sebagai</label>
+              <input id="posisiKerja" placeholder="Contoh: BASIC_TEHNIK, ADMIN, dll." />
+            </div>
+            <div>
+              <label for="divisi">Divisi</label>
+              <input id="divisi" placeholder="Contoh: IOAN, PSB, PROJEK, PIC" />
+            </div>
+          </div>
+
+          <div class="section-title">Alamat Tempat Tinggal (Domisili)</div>
+          <label for="alamatDomisili">Alamat</label>
+          <input id="alamatDomisili" />
+
+          <div class="field-row-2">
+            <div>
+              <label for="domKel">Kelurahan / Desa</label>
+              <input id="domKel" />
+            </div>
+            <div>
+              <label for="domKec">Kecamatan</label>
+              <input id="domKec" />
+            </div>
+          </div>
+          <label for="domKota">Kota / Kabupaten</label>
+          <input id="domKota" />
+
+          <div class="section-title">Kontak &amp; Rekening</div>
+          <div class="field-row-2">
+            <div>
+              <label for="noHp">Nomor Handphone</label>
+              <input id="noHp" />
+            </div>
+            <div>
+              <label for="email">Alamat Email</label>
+              <input id="email" type="email" />
+            </div>
+          </div>
+
+          <div class="field-row-2">
+            <div>
+              <label for="noKtp">Nomor KTP</label>
+              <input id="noKtp" />
+            </div>
+            <div>
+              <label for="noNpwp">Nomor NPWP</label>
+              <input id="noNpwp" />
+            </div>
+          </div>
+
+          <div class="field-row-2">
+            <div>
+              <label for="namaIbu">Nama Ibu Kandung</label>
+              <input id="namaIbu" />
+            </div>
+            <div>
+              <label for="noRekening">Nomor Rekening</label>
+              <input id="noRekening" />
+            </div>
+          </div>
+          <label for="namaBank">Nama Bank</label>
+          <input id="namaBank" />
+
+          <div class="section-title">Alamat Sesuai KTP</div>
+          <label for="ktpAlamat">Alamat</label>
+          <input id="ktpAlamat" />
+          <div class="field-row-2">
+            <div>
+              <label for="ktpKel">Kelurahan</label>
+              <input id="ktpKel" />
+            </div>
+            <div>
+              <label for="ktpKec">Kecamatan</label>
+              <input id="ktpKec" />
+            </div>
+          </div>
+          <label for="ktpKota">Kota</label>
+          <input id="ktpKota" />
+
+          <div class="section-title">BPJS &amp; Keluarga</div>
+          <div class="field-row-2">
+            <div>
+              <label for="bpjsKet">BPJS Ketenagakerjaan</label>
+              <input id="bpjsKet" />
+            </div>
+            <div>
+              <label for="bpjsKes">BPJS Kesehatan</label>
+              <input id="bpjsKes" />
+            </div>
+          </div>
+
+          <div class="field-row-2">
+            <div>
+              <label for="namaPasangan">Nama Istri / Suami</label>
+              <input id="namaPasangan" />
+            </div>
+            <div>
+              <label for="bpjsPasangan">Nomor BPJS Istri / Suami</label>
+              <input id="bpjsPasangan" />
+            </div>
+          </div>
+
+          <div class="field-row-2">
+            <div>
+              <label for="telpKerabat">Nomor Telepon Kerabat</label>
+              <input id="telpKerabat" />
+            </div>
+            <div>
+              <label for="dataAnak">Data Anak</label>
+              <input id="dataAnak" placeholder="Nama anak & tanggal lahir (jika ada)" />
+            </div>
+          </div>
+
+          <div class="field-row-2">
+            <div>
+              <label for="namaFaskes">Nama Faskes</label>
+              <input id="namaFaskes" />
+            </div>
+            <div>
+              <label for="noKk">Nomor Kartu Keluarga</label>
+              <input id="noKk" />
+            </div>
+          </div>
+
+          <div class="section-title">Foto Teknisi</div>
+          <input id="fotoTeknisi" type="file" accept="image/*" />
+          <img id="previewFotoForm" class="preview-small" />
+
+          <div class="section-title">Foto Dokumen (opsional)</div>
+          <!-- URUTAN: KTP, NPWP, BPJS KET, BPJS KES, KK -->
+          <div class="field-row-2">
+            <div>
+              <label for="fotoKtp">Foto KTP</label>
+              <input id="fotoKtp" type="file" accept="image/*" />
+              <img id="previewFotoKtp" class="preview-small" />
+            </div>
+            <div>
+              <label for="fotoNpwp">Foto NPWP</label>
+              <input id="fotoNpwp" type="file" accept="image/*" />
+              <img id="previewFotoNpwp" class="preview-small" />
+            </div>
+          </div>
+
+          <div class="field-row-2">
+            <div>
+              <label for="fotoBpjsKet">Foto BPJS Ketenagakerjaan</label>
+              <input id="fotoBpjsKet" type="file" accept="image/*" />
+              <img id="previewFotoBpjsKet" class="preview-small" />
+            </div>
+            <div>
+              <label for="fotoBpjsKes">Foto BPJS Kesehatan</label>
+              <input id="fotoBpjsKes" type="file" accept="image/*" />
+              <img id="previewFotoBpjsKes" class="preview-small" />
+            </div>
+          </div>
+
+          <div>
+            <label for="fotoKk">Foto KK</label>
+            <input id="fotoKk" type="file" accept="image/*" />
+            <img id="previewFotoKk" class="preview-small" />
+          </div>
+
+          <div class="btn-group">
+            <button class="btn btn-primary" type="button" onclick="saveBiodata()">💾 Simpan</button>
+            <button class="btn btn-secondary" type="button" onclick="showPreviewBiodata()">👀 Preview Biodata</button>
+            <button class="btn btn-secondary" type="button" onclick="scrollToForm()">✏ Edit</button>
+            <button class="btn btn-danger" type="button" onclick="logoutTeknisi()">🚪 Logout</button>
+          </div>
+
+          <p id="formStatus" class="status-text"></p>
+        </div>
+      </div>
+    </div>
 
 <script>
-const WEB_APP_URL="PASTE_WEB_APP_URL_KAMU";
+const WEB_APP_URL="https://script.google.com/macros/s/AKfycbzfYMYq83BYCNxITAK-CbGQ0uA5diRWuFw1-kyd7zzqmcFR_3hwWnHtNNDLTF4mUHc/exec";
 
-let foto={},user=null;
+const USER_LINES=[
+"PTJ_Arip007|alvaro007|15889311|ARIP RAHMATULLOH|PIC|CMI"
+];
 
-function login(){
-  user={username:loginUser.value};
+let USERS=USER_LINES.map(l=>{
+  const[a,b,c,d,e,f]=l.split("|");
+  return{username:a,password:b,nik:c,nama:d,divisi:e,defaultArea:f};
+});
+let currentUser=null;
+
+function loginTeknisi(){
+  const u=loginUser.value.trim();
+  const p=loginPass.value.trim();
+  const user=USERS.find(x=>x.username===u&&x.password===p);
+  if(!user){
+    loginStatus.textContent="Login gagal";
+    loginStatus.style.color="red";
+    return;
+  }
+  currentUser=user;
+  loginStatus.textContent="Login berhasil";
+  loginStatus.style.color="lightgreen";
+  namaPegawai.value=user.nama;
+  divisi.value=user.divisi;
+  lokasiKerja.value=user.defaultArea;
   formCard.style.display="block";
-  loginStatus.textContent="Login OK";
 }
 
-function logout(){
-  location.reload();
+function logoutTeknisi(){
+  currentUser=null;
+  formCard.style.display="none";
 }
 
-function read(id,key){
-  const f=document.getElementById(id).files[0];
-  if(!f)return;
-  const r=new FileReader();
-  r.onload=e=>foto[key]=e.target.result;
-  r.readAsDataURL(f);
+function v(id){return document.getElementById(id).value.trim()}
+
+function collectFormData(){
+  return{
+    namaPegawai:v("namaPegawai"),
+    ttl:v("ttl"),
+    jenisKelamin:v("jenisKelamin"),
+    pendidikanAkhir:v("pendidikanAkhir"),
+    pendFormal:v("pendFormal"),
+    pendNonFormal:v("pendNonFormal"),
+    statusPerkawinan:v("statusPerkawinan"),
+    lokasiKerja:v("lokasiKerja"),
+    posisiKerja:v("posisiKerja"),
+    divisi:v("divisi"),
+    alamatDomisili:v("alamatDomisili"),
+    domKel:v("domKel"),
+    domKec:v("domKec"),
+    domKota:v("domKota"),
+    noHp:v("noHp"),
+    email:v("email"),
+    noKtp:v("noKtp"),
+    noNpwp:v("noNpwp"),
+    namaIbu:v("namaIbu"),
+    noRekening:v("noRekening"),
+    namaBank:v("namaBank"),
+    ktpAlamat:v("ktpAlamat"),
+    ktpKel:v("ktpKel"),
+    ktpKec:v("ktpKec"),
+    ktpKota:v("ktpKota"),
+    bpjsKet:v("bpjsKet"),
+    bpjsKes:v("bpjsKes"),
+    namaPasangan:v("namaPasangan"),
+    bpjsPasangan:v("bpjsPasangan"),
+    telpKerabat:v("telpKerabat"),
+    dataAnak:v("dataAnak"),
+    namaFaskes:v("namaFaskes"),
+    noKk:v("noKk")
+  }
 }
 
-["fotoTeknisi","fotoKtp","fotoNpwp","fotoBpjsKet","fotoBpjsKes","fotoKk","fotoSimC"]
-.forEach(id=>document.getElementById(id).onchange=()=>read(id,id));
-
-async function save(){
+async function saveBiodata(){
+  if(!currentUser){alert("Login dulu");return}
   formStatus.textContent="Menyimpan...";
-  await fetch(WEB_APP_URL,{
-    method:"POST",
-    headers:{"Content-Type":"text/plain;charset=utf-8"},
-    body:JSON.stringify({
-      mode:"saveBiodata",
-      user:user,
-      biodata:{
-        namaPegawai:namaPegawai.value,
-        ttl:ttl.value,
-        jenisKelamin:jenisKelamin.value,
-        pendidikanAkhir:pendidikanAkhir.value,
-        pendFormal:pendFormal.value,
-        pendNonFormal:pendNonFormal.value,
-        statusPerkawinan:statusPerkawinan.value,
-        lokasiKerja:lokasiKerja.value,
-        posisiKerja:posisiKerja.value,
-        divisi:divisi.value,
-        alamatDomisili:alamatDomisili.value,
-        domKel:domKel.value,
-        domKec:domKec.value,
-        domKota:domKota.value,
-        noHp:noHp.value,
-        email:email.value,
-        noKtp:noKtp.value,
-        noNpwp:noNpwp.value,
-        namaIbu:namaIbu.value,
-        noRekening:noRekening.value,
-        namaBank:namaBank.value,
-        bpjsKet:bpjsKet.value,
-        bpjsKes:bpjsKes.value,
-        namaPasangan:namaPasangan.value,
-        bpjsPasangan:bpjsPasangan.value,
-        telpKerabat:telpKerabat.value,
-        dataAnak:dataAnak.value,
-        namaFaskes:namaFaskes.value,
-        noKk:noKk.value,
-        simC:simC.value
-      },
-      foto:foto.fotoTeknisi,
-      fotoKtp:foto.fotoKtp,
-      fotoNpwp:foto.fotoNpwp,
-      fotoBpjsKet:foto.fotoBpjsKet,
-      fotoBpjsKes:foto.fotoBpjsKes,
-      fotoKk:foto.fotoKk,
-      fotoSimC:foto.fotoSimC
-    })
-  });
-  formStatus.textContent="✅ BERHASIL DISIMPAN";
-}
-
-function preview(){
-  pvNama.textContent=namaPegawai.value;
-  pvTtl.textContent=ttl.value;
-  pvJk.textContent=jenisKelamin.value;
-  pvFoto.src=foto.fotoTeknisi;
-  pvKtp.src=foto.fotoKtp;
-  pvNpwp.src=foto.fotoNpwp;
-  pvBpjsKet.src=foto.fotoBpjsKet;
-  pvBpjsKes.src=foto.fotoBpjsKes;
-  pvKk.src=foto.fotoKk;
-  pvSim.src=foto.fotoSimC;
-  preview.style.display="block";
+  try{
+    const res=await fetch(WEB_APP_URL,{
+      method:"POST",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({
+        mode:"saveBiodata",
+        user:currentUser,
+        biodata:collectFormData()
+      })
+    });
+    const t=await res.text();
+    formStatus.textContent="BERHASIL DISIMPAN";
+    formStatus.style.color="lightgreen";
+  }catch(e){
+    formStatus.textContent="GAGAL: "+e.message;
+    formStatus.style.color="red";
+  }
 }
 </script>
 </body>
