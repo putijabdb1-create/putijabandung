@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <title>Login Teknisi – PT Putra Timur Jaya</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
+
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
@@ -30,46 +31,60 @@ body{
   padding:22px;
   box-shadow:0 25px 60px rgba(0,0,0,.6);
 }
+
 label{font-size:12px;color:#93c5fd;margin-bottom:4px;display:block}
 input,select,textarea{
-  width:100%;padding:10px 12px;border-radius:12px;
+  width:100%;
+  padding:10px 12px;
+  border-radius:12px;
   border:1px solid rgba(148,163,184,.25);
-  background:rgba(2,6,23,.6);color:#f9fafb;font-size:13px
+  background:rgba(2,6,23,.6);
+  color:#f9fafb;
+  font-size:13px;
 }
 textarea{min-height:70px}
+input:focus,select:focus,textarea:focus{
+  outline:none;border-color:#2563eb;
+  box-shadow:0 0 0 2px rgba(37,99,235,.35)
+}
 .readonly{background:#0f172a;color:#94a3b8}
+
 .section{margin-top:22px}
 .section-title{
   font-size:13px;font-weight:600;letter-spacing:.1em;
   text-transform:uppercase;color:#93c5fd;
   margin-bottom:10px;border-bottom:1px solid rgba(148,163,184,.2)
 }
-.btn{border:none;padding:10px 16px;border-radius:999px;font-weight:600;cursor:pointer}
+
+.btn{
+  border:none;padding:10px 16px;border-radius:999px;
+  font-size:13px;font-weight:600;cursor:pointer
+}
 .btn-primary{background:linear-gradient(135deg,#2563eb,#1d4ed8);color:white}
+.btn-secondary{background:transparent;border:1px solid #475569;color:#e5e7eb}
 .btn-danger{background:#dc2626;color:white}
-.btn-secondary{background:transparent;border:1px solid rgba(148,163,184,.4);color:white}
-.btn-group{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+.btn-group{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
 
 .photo-box{
-  background:#0f172a;border:1px dashed rgba(148,163,184,.35);
+  background:#0f172a;border:1px dashed #475569;
   border-radius:14px;padding:12px;margin-bottom:10px
 }
-.photo-box img{max-width:120px;margin-top:8px;border-radius:10px}
+.photo-box img{
+  max-width:120px;margin-top:8px;
+  border-radius:10px;border:1px solid #334155
+}
 
 #previewWrapper{display:none;margin-top:40px}
 .a4{
   width:210mm;min-height:297mm;background:white;color:black;
-  padding:18mm;margin:auto;font-size:11px
+  padding:18mm;margin:auto;font-size:11px;
+  box-shadow:0 15px 40px rgba(0,0,0,.35)
 }
-.table{width:100%;border-collapse:collapse}
+.a4 h1{text-align:center;font-size:15px}
+.a4 h2{text-align:center;font-size:12px}
+.table{width:100%;border-collapse:collapse;margin-top:10px}
 .table td{border:1px solid #00000033;padding:4px 6px}
-.page-number{text-align:right;font-size:10px;margin-top:8px}
-
-@media print{
-  body{background:white}
-  .glass,.grid-2,.btn{display:none!important}
-  #previewWrapper{display:block}
-}
+.page-number{text-align:right;font-size:10px;margin-top:10px}
 </style>
 </head>
 
@@ -85,8 +100,10 @@ textarea{min-height:70px}
 <div class="glass">
   <label>User ID</label>
   <input id="loginUser">
+
   <label>Password</label>
   <input id="loginPass" type="password">
+
   <button class="btn btn-primary" style="width:100%;margin-top:12px" onclick="login()">🔐 Login</button>
   <p id="loginStatus"></p>
 </div>
@@ -96,29 +113,47 @@ textarea{min-height:70px}
 
 <div class="section">
 <div class="section-title">Data Utama</div>
+
+<label>User ID</label>
 <input id="f_user" class="readonly" readonly>
+
+<label>Nama Pegawai</label>
 <input id="f_nama" class="readonly" readonly>
+
+<label>Lokasi Kerja</label>
 <input id="f_lokasi" class="readonly" readonly>
+
+<label>Posisi Kerja</label>
 <input id="f_posisi" class="readonly" readonly>
+
+<label>Divisi</label>
 <input id="f_divisi" class="readonly" readonly>
 </div>
 
 <div class="section">
 <div class="section-title">Data Pribadi</div>
-<label>Tempat / Tanggal Lahir</label><input id="ttl">
+
+<label>Tempat / Tanggal Lahir</label>
+<input id="ttl">
+
 <label>Jenis Kelamin</label>
-<select id="jk"><option>Laki-laki</option><option>Perempuan</option></select>
-<label>Pendidikan Terakhir</label><input id="pendAkhir">
-<label>Pendidikan Formal</label><textarea id="pendFormal"></textarea>
-<label>Pendidikan Non Formal</label><textarea id="pendNonFormal"></textarea>
+<select id="jk">
+  <option value="Laki-laki">Laki-laki</option>
+  <option value="Perempuan">Perempuan</option>
+</select>
 </div>
 
 <div class="section">
 <div class="section-title">Foto</div>
-<div class="photo-box"><label>Foto Teknisi</label><input type="file" id="fotoTeknisi"><img id="p_fotoTeknisi"></div>
+
+<div class="photo-box">
+<label>Foto Teknisi</label>
+<input type="file" id="fotoTeknisi">
+<img id="p_fotoTeknisi">
+</div>
+
 <div class="photo-box"><label>Foto KTP</label><input type="file" id="fotoKtp"><img id="p_fotoKtp"></div>
 <div class="photo-box"><label>Foto NPWP</label><input type="file" id="fotoNpwp"><img id="p_fotoNpwp"></div>
-<div class="photo-box"><label>Foto SIM C</label><input type="file" id="fotoSim"><img id="p_fotoSim"></div>
 <div class="photo-box"><label>Foto BPJS Kesehatan</label><input type="file" id="fotoBpjsKes"><img id="p_fotoBpjsKes"></div>
 <div class="photo-box"><label>Foto BPJS Ketenagakerjaan</label><input type="file" id="fotoBpjsKet"><img id="p_fotoBpjsKet"></div>
 <div class="photo-box"><label>Foto KK</label><input type="file" id="fotoKk"><img id="p_fotoKk"></div>
@@ -131,21 +166,22 @@ textarea{min-height:70px}
 </div>
 
 <p id="status"></p>
+
 </div>
 </div>
 
 <!-- PREVIEW -->
 <div id="previewWrapper">
 <div class="a4">
-<h3 style="text-align:center">BIODATA PEGAWAI<br>PT PUTRA TIMUR JAYA</h3>
+<h1>BIODATA PEGAWAI</h1>
+<h2>PT PUTRA TIMUR JAYA</h2>
+
 <table class="table">
 <tr><td>Nama</td><td id="pv_nama"></td></tr>
 <tr><td>TTL</td><td id="pv_ttl"></td></tr>
 <tr><td>Jenis Kelamin</td><td id="pv_jk"></td></tr>
-<tr><td>Pendidikan Terakhir</td><td id="pv_pa"></td></tr>
-<tr><td>Pendidikan Formal</td><td id="pv_pf"></td></tr>
-<tr><td>Pendidikan Non Formal</td><td id="pv_pnf"></td></tr>
 </table>
+
 <div class="page-number">2 / 4</div>
 </div>
 </div>
@@ -153,97 +189,107 @@ textarea{min-height:70px}
 </div>
 
 <script>
-const WEB_APP_URL="https://script.google.com/macros/s/AKfycbzfYMYq83BYCNxITAK-CbGQ0uA5diRWuFw1-kyd7zzqmcFR_3hwWnHtNNDLTF4mUHc/exec";
+/* ================= CONFIG ================= */
+const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzfYMYq83BYCNxITAK-CbGQ0uA5diRWuFw1-kyd7zzqmcFR_3hwWnHtNNDLTF4mUHc/exec";
 
-const USERS=[
-{u:"PTJ_Arip007",p:"alvaro007",nama:"ARIP RAHMATULLOH",lokasi:"CMI",posisi:"BASIC_TEKNISI",divisi:"PIC"}
-];
+/* USER */
+const USERS=[{
+  u:"PTJ_Arip007",
+  p:"alvaro007",
+  nama:"ARIP RAHMATULLOH",
+  lokasi:"CMI",
+  posisi:"BASIC_TEKNISI",
+  divisi:"PIC"
+}];
 
-let current=null,foto={};
+let currentUser=null;
+let foto={};
 
+/* LOGIN FIX */
 function login(){
-  const f=USERS.find(x=>x.u===loginUser.value&&x.p===loginPass.value);
-  if(!f){loginStatus.textContent="Login gagal";return;}
-  current=f;formBox.style.display="block";
-  f_user.value=f.u;f_nama.value=f.nama;
-  f_lokasi.value=f.lokasi;f_posisi.value=f.posisi;f_divisi.value=f.divisi;
-}
+  const u=document.getElementById("loginUser").value.trim();
+  const p=document.getElementById("loginPass").value.trim();
 
-function logout(){current=null;formBox.style.display="none"}
-
-function readFile(id){
-  document.getElementById(id).onchange=e=>{
-    const r=new FileReader();
-    r.onload=()=>{foto[id]=r.result;document.getElementById("p_"+id).src=r.result}
-    r.readAsDataURL(e.target.files[0]);
-  }
-}
-["fotoTeknisi","fotoKtp","fotoNpwp","fotoSim","fotoBpjsKes","fotoBpjsKet","fotoKk"].forEach(readFile);
-
-function simpan(){
-  status.textContent="Menyimpan...";
-  fetch(WEB_APP_URL,{
-    method:"POST",
-    heafunction simpan(){
-  console.log("SIMPAAN DIKLIK"); // 🔴 WAJIB MUNCUL
-
-  if(!current){
-    alert("Silakan login terlebih dahulu");
+  const user=USERS.find(x=>x.u===u && x.p===p);
+  if(!user){
+    loginStatus.textContent="❌ Login gagal";
+    loginStatus.style.color="#ef4444";
     return;
   }
 
-  status.textContent = "Menyimpan...";
-  status.style.color = "#93c5fd";
+  currentUser=user;
+  loginStatus.textContent="✅ Login berhasil";
+  loginStatus.style.color="#22c55e";
 
+  formBox.style.display="block";
+
+  f_user.value=user.u;
+  f_nama.value=user.nama;
+  f_lokasi.value=user.lokasi;
+  f_posisi.value=user.posisi;
+  f_divisi.value=user.divisi;
+}
+
+function logout(){
+  currentUser=null;
+  formBox.style.display="none";
+}
+
+/* FOTO */
+function bindFile(id){
+  document.getElementById(id).addEventListener("change",e=>{
+    const file=e.target.files[0];
+    if(!file) return;
+    const r=new FileReader();
+    r.onload=()=>{
+      foto[id]=r.result;
+      document.getElementById("p_"+id).src=r.result;
+    };
+    r.readAsDataURL(file);
+  });
+}
+["fotoTeknisi","fotoKtp","fotoNpwp","fotoBpjsKes","fotoBpjsKet","fotoKk"].forEach(bindFile);
+
+/* SIMPAN FIX */
+function simpan(){
+  if(!currentUser){
+    alert("Login dulu");
+    return;
+  }
+
+  status.textContent="Menyimpan...";
   fetch(WEB_APP_URL,{
     method:"POST",
-    headers:{
-      "Content-Type":"text/plain;charset=utf-8"
-    },
+    headers:{ "Content-Type":"text/plain;charset=utf-8" },
     body:JSON.stringify({
       mode:"saveBiodata",
-      user:{
-        username: current.u,
-        nama: current.nama,
-        lokasi: current.lokasi,
-        posisi: current.posisi,
-        divisi: current.divisi
-      },
+      user:currentUser,
       biodata:{
-        ttl: ttl.value,
-        jenisKelamin: jk.value,
-        pendidikanAkhir: pendAkhir.value,
-        pendFormal: pendFormal.value,
-        pendNonFormal: pendNonFormal.value
+        ttl:ttl.value,
+        jenisKelamin:jk.value
       },
-      foto: foto.fotoTeknisi || "",
-      fotoKtp: foto.fotoKtp || "",
-      fotoNpwp: foto.fotoNpwp || "",
-      fotoBpjsKes: foto.fotoBpjsKes || "",
-      fotoBpjsKet: foto.fotoBpjsKet || "",
-      fotoKk: foto.fotoKk || "",
-      fotoSim: foto.fotoSim || ""
+      foto:foto
     })
   })
-  .then(r => r.json())
-  .then(res=>{
-    console.log("RESPON SERVER:",res);
-    if(res.ok){
-      status.textContent="✅ BERHASIL DISIMPAN";
-      status.style.color="#22c55e";
-    }else{
-      status.textContent="❌ "+res.error;
-      status.style.color="#ef4444";
-    }
+  .then(r=>r.text())
+  .then(t=>{
+    status.textContent="✅ BERHASIL DISIMPAN";
+    status.style.color="#22c55e";
+    console.log("RESPON:",t);
   })
   .catch(err=>{
-    console.error("FETCH ERROR:",err);
-    status.textContent="❌ ERROR: "+err.message;
-    status.style.color="#ef4444";
+    status.textContent="❌ Gagal menyimpan";
+    console.error(err);
   });
+}
+
+/* PREVIEW */
+function preview(){
+  pv_nama.textContent=f_nama.value;
+  pv_ttl.textContent=ttl.value;
+  pv_jk.textContent=jk.value;
+  previewWrapper.style.display="block";
 }
 </script>
 </body>
 </html>
-
-
