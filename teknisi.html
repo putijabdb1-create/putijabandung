@@ -2,43 +2,25 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Login Teknisi – PT PUTRA TIMUR JAYA</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Biodata Teknisi – PT PUTRA TIMUR JAYA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
 
 <style>
-body{font-family:Arial;background:#020617;color:#fff;margin:0}
-.container{max-width:1100px;margin:auto;padding:20px}
-.card{background:#020617;border:1px solid #1f2937;border-radius:12px;padding:16px;margin-bottom:16px}
-h2{margin:0 0 10px}
-label{font-size:12px;margin-top:6px;display:block}
-input,select,textarea{
-  width:100%;padding:8px;border-radius:8px;
-  background:#020617;color:#fff;border:1px solid #374151
-}
-input[readonly]{opacity:.6;cursor:not-allowed}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.btn{padding:8px 14px;border-radius:20px;border:none;cursor:pointer}
+body{font-family:Arial,Helvetica,sans-serif;background:#f3f4f6;margin:0}
+.container{max-width:1100px;margin:auto;padding:16px}
+.card{background:#fff;border-radius:8px;padding:16px;margin-bottom:16px;box-shadow:0 2px 8px rgba(0,0,0,.1)}
+h2{margin:0 0 8px}
+label{font-size:13px;font-weight:600}
+input,select,textarea{width:100%;padding:6px;margin:4px 0 10px}
+textarea{resize:vertical}
+.row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.readonly{background:#e5e7eb}
+button{padding:8px 14px;border:none;border-radius:6px;cursor:pointer}
 .btn-primary{background:#2563eb;color:#fff}
+.btn-secondary{background:#6b7280;color:#fff}
 .btn-danger{background:#dc2626;color:#fff}
-img.preview{max-width:120px;margin-top:6px;border-radius:8px;border:1px solid #333}
-.status{font-size:12px;margin-top:8px}
-
-@media print{
-  body{background:#fff;color:#000}
-  .card,.btn{display:none}
-  .print-page{display:block}
-}
-.print-page{
-  display:none;
-  width:210mm;
-  min-height:297mm;
-  background:#fff;color:#000;
-  padding:15mm;
-  page-break-after:always;
-}
-.print-page table{width:100%;border-collapse:collapse;font-size:11px}
-.print-page td{border:1px solid #000;padding:4px}
-.page-num{position:absolute;bottom:10mm;right:15mm;font-size:10px}
+.preview-img{max-width:120px;border:1px solid #999;margin-top:6px}
+.hidden{display:none}
 </style>
 </head>
 
@@ -48,25 +30,57 @@ img.preview{max-width:120px;margin-top:6px;border-radius:8px;border:1px solid #3
 <!-- LOGIN -->
 <div class="card">
 <h2>Login Teknisi</h2>
-<label>User ID</label><input id="loginUser">
-<label>Password</label><input id="loginPass" type="password">
-<button class="btn btn-primary" onclick="login()">Login</button>
-<div id="loginStatus" class="status"></div>
+<div class="row">
+  <div>
+    <label>User ID</label>
+    <input id="loginUser">
+  </div>
+  <div>
+    <label>Password</label>
+    <input id="loginPass" type="password">
+  </div>
+</div>
+<button class="btn-primary" onclick="loginTeknisi()">Login</button>
+<p id="loginStatus"></p>
 </div>
 
 <!-- FORM -->
-<div class="card" id="formCard" style="display:none">
-<h2>Form Biodata</h2>
+<div class="card hidden" id="formCard">
+<h2>Form Biodata Teknisi</h2>
 
-<label>User ID</label><input id="userId" readonly>
-<label>NIK</label><input id="nik" readonly>
-<label>Nama Pegawai</label><input id="namaPegawai" readonly>
+<label>User ID</label>
+<input id="userId" class="readonly" readonly>
+
+<label>NIK</label>
+<input id="nik" class="readonly" readonly>
+
+<label>Nama Pegawai</label>
+<input id="namaPegawai" class="readonly" readonly>
+
+<div class="row">
+<div>
+<label>Lokasi Kerja</label>
+<input id="lokasiKerja" class="readonly" readonly>
+</div>
+<div>
+<label>Posisi Kerja</label>
+<input id="posisiKerja" class="readonly" readonly>
+</div>
+</div>
+
+<label>Divisi</label>
+<input id="divisi" class="readonly" readonly>
+
+<hr>
+
+<label>Tempat / Tanggal Lahir</label>
+<input id="ttl">
 
 <div class="row">
 <div>
 <label>Jenis Kelamin</label>
 <select id="jenisKelamin">
-<option value="">Pilih</option>
+<option value="">-- Pilih --</option>
 <option>Laki-laki</option>
 <option>Perempuan</option>
 </select>
@@ -74,7 +88,7 @@ img.preview{max-width:120px;margin-top:6px;border-radius:8px;border:1px solid #3
 <div>
 <label>Status Perkawinan</label>
 <select id="statusPerkawinan">
-<option value="">Pilih</option>
+<option value="">-- Pilih --</option>
 <option>Kawin</option>
 <option>Belum Kawin</option>
 <option>Cerai</option>
@@ -82,153 +96,190 @@ img.preview{max-width:120px;margin-top:6px;border-radius:8px;border:1px solid #3
 </div>
 </div>
 
-<label>Tempat / Tanggal Lahir</label><input id="ttl">
+<label>Pendidikan Terakhir</label>
+<input id="pendidikanAkhir">
 
-<div class="row">
-<div><label>Lokasi Kerja</label><input id="lokasiKerja" readonly></div>
-<div><label>Posisi Kerja</label><input id="posisiKerja" readonly></div>
-</div>
+<label>Pendidikan Formal</label>
+<textarea id="pendFormal" rows="3"></textarea>
 
-<label>Divisi</label><input id="divisi" readonly>
-
-<label>SIM C</label><input id="simC">
+<label>Pendidikan Non Formal</label>
+<textarea id="pendNonFormal" rows="2"></textarea>
 
 <hr>
 
-<h3>FOTO</h3>
+<label>Alamat Domisili</label>
+<textarea id="alamatDomisili" rows="2"></textarea>
 
-<label>Foto Teknisi</label><input type="file" id="fotoTeknisi"><img id="pFotoTeknisi" class="preview">
-
-<label>Foto KTP</label><input type="file" id="fotoKtp"><img id="pFotoKtp" class="preview">
-
-<label>Foto NPWP</label><input type="file" id="fotoNpwp"><img id="pFotoNpwp" class="preview">
-
-<label>Foto SIM C</label><input type="file" id="fotoSim"><img id="pFotoSim" class="preview">
-
-<label>Foto BPJS Kesehatan</label><input type="file" id="fotoBpjsKes"><img id="pFotoBpjsKes" class="preview">
-
-<label>Foto BPJS Ketenagakerjaan</label><input type="file" id="fotoBpjsKet"><img id="pFotoBpjsKet" class="preview">
-
-<label>Foto KK</label><input type="file" id="fotoKk"><img id="pFotoKk" class="preview">
-
-<button class="btn btn-primary" onclick="save()">💾 Simpan</button>
-<button class="btn btn-primary" onclick="preview()">👀 Preview</button>
-<button class="btn btn-danger" onclick="logout()">Logout</button>
-
-<div id="formStatus" class="status"></div>
+<div class="row">
+<div><label>Kelurahan</label><input id="domKel"></div>
+<div><label>Kecamatan</label><input id="domKec"></div>
 </div>
 
-<!-- PREVIEW -->
-<div class="print-page" id="printArea">
-<h3 style="text-align:center">BIODATA PEGAWAI<br>PT PUTRA TIMUR JAYA</h3>
-<table>
-<tr><td>Nama</td><td id="pvNama"></td></tr>
-<tr><td>TTL</td><td id="pvTtl"></td></tr>
-<tr><td>Jenis Kelamin</td><td id="pvJk"></td></tr>
-<tr><td>Status</td><td id="pvStatus"></td></tr>
-<tr><td>SIM C</td><td id="pvSim"></td></tr>
-<tr><td>Foto</td><td><img id="pvFoto" style="max-width:100px"></td></tr>
-</table>
-<div class="page-num">1/1</div>
+<label>Kota / Kabupaten</label>
+<input id="domKota">
+
+<hr>
+
+<div class="row">
+<div><label>No HP</label><input id="noHp"></div>
+<div><label>Email</label><input id="email"></div>
+</div>
+
+<div class="row">
+<div><label>No KTP</label><input id="noKtp"></div>
+<div><label>No NPWP</label><input id="noNpwp"></div>
+</div>
+
+<label>Nama Ibu Kandung</label>
+<input id="namaIbu">
+
+<div class="row">
+<div><label>No Rekening</label><input id="noRekening"></div>
+<div><label>Nama Bank</label><input id="namaBank"></div>
+</div>
+
+<hr>
+
+<label>Alamat Sesuai KTP</label>
+<textarea id="ktpAlamat" rows="2"></textarea>
+
+<div class="row">
+<div><label>Kelurahan</label><input id="ktpKel"></div>
+<div><label>Kecamatan</label><input id="ktpKec"></div>
+</div>
+
+<label>Kota</label>
+<input id="ktpKota">
+
+<hr>
+
+<div class="row">
+<div><label>BPJS Ketenagakerjaan</label><input id="bpjsKet"></div>
+<div><label>BPJS Kesehatan</label><input id="bpjsKes"></div>
+</div>
+
+<label>Nama Istri / Suami</label>
+<input id="namaPasangan">
+
+<label>No BPJS Istri / Suami</label>
+<input id="bpjsPasangan">
+
+<label>No Telp Kerabat</label>
+<input id="telpKerabat">
+
+<label>Data Anak</label>
+<textarea id="dataAnak" rows="2"></textarea>
+
+<label>Nama Faskes</label>
+<input id="namaFaskes">
+
+<label>No KK</label>
+<input id="noKk">
+
+<hr>
+
+<h3>Upload Foto</h3>
+
+<label>Foto Teknisi</label>
+<input type="file" id="fotoTeknisi" accept="image/*">
+<img id="pFotoTeknisi" class="preview-img">
+
+<label>Foto KTP</label>
+<input type="file" id="fotoKtp" accept="image/*">
+<img id="pFotoKtp" class="preview-img">
+
+<label>Foto KK</label>
+<input type="file" id="fotoKk" accept="image/*">
+<img id="pFotoKk" class="preview-img">
+
+<label>Foto NPWP</label>
+<input type="file" id="fotoNpwp" accept="image/*">
+<img id="pFotoNpwp" class="preview-img">
+
+<label>Foto SIM C</label>
+<input type="file" id="fotoSim" accept="image/*">
+<img id="pFotoSim" class="preview-img">
+
+<label>Foto BPJS Kesehatan</label>
+<input type="file" id="fotoBpjsKes" accept="image/*">
+<img id="pFotoBpjsKes" class="preview-img">
+
+<label>Foto BPJS Ketenagakerjaan</label>
+<input type="file" id="fotoBpjsKet" accept="image/*">
+<img id="pFotoBpjsKet" class="preview-img">
+
+<br><br>
+<button class="btn-primary" onclick="saveBiodata()">Simpan</button>
+<button class="btn-secondary" onclick="logout()">Logout</button>
+<p id="formStatus"></p>
 </div>
 
 </div>
 
 <script>
-const WEB_APP_URL="PASTE_URL_WEBAPP_KAMU";
+/* ====== KONFIGURASI ====== */
+const WEB_APP_URL = "GANTI_DENGAN_URL_WEBAPP_KAMU";
 
-const USERS=[
- {u:"PTJ_Arip007",p:"alvaro007",nik:"15889311",nama:"ARIP RAHMATULLOH",lokasi:"CMI",posisi:"BASIC_TEKNISI",divisi:"PIC"}
-];
+/* ====== USER SAMPLE ====== */
+const USERS=[{username:"PTJ_TEST",password:"123",nik:"12345",nama:"TEST USER",divisi:"IOAN",defaultArea:"CMI",posisi:"TEKNISI"}];
 
 let currentUser=null;
-let foto={};
+let photos={};
 
-function login(){
- const u=loginUser.value,p=loginPass.value;
- const user=USERS.find(x=>x.u===u&&x.p===p);
+function loginTeknisi(){
+ const u=document.getElementById("loginUser").value;
+ const p=document.getElementById("loginPass").value;
+ const user=USERS.find(x=>x.username===u&&x.password===p);
  if(!user){loginStatus.textContent="Login gagal";return}
  currentUser=user;
- formCard.style.display="block";
- userId.value=user.u;
+ loginStatus.textContent="Login berhasil";
+ formCard.classList.remove("hidden");
+
+ userId.value=user.username;
  nik.value=user.nik;
  namaPegawai.value=user.nama;
- lokasiKerja.value=user.lokasi;
- posisiKerja.value=user.posisi;
+ lokasiKerja.value=user.defaultArea;
  divisi.value=user.divisi;
- loadData();
+ posisiKerja.value=user.posisi||"";
 }
 
 function logout(){location.reload()}
 
-function bind(id,prev){
+function fileToBase64(id,preview,key){
  document.getElementById(id).onchange=e=>{
   const r=new FileReader();
-  r.onload=x=>{
-   foto[id]=x.target.result;
-   document.getElementById(prev).src=x.target.result;
-  };
+  r.onload=()=>{photos[key]=r.result;document.getElementById(preview).src=r.result}
   r.readAsDataURL(e.target.files[0]);
  }
 }
-bind("fotoTeknisi","pFotoTeknisi");
-bind("fotoKtp","pFotoKtp");
-bind("fotoNpwp","pFotoNpwp");
-bind("fotoSim","pFotoSim");
-bind("fotoBpjsKes","pFotoBpjsKes");
-bind("fotoBpjsKet","pFotoBpjsKet");
-bind("fotoKk","pFotoKk");
 
-async function save(){
+fileToBase64("fotoTeknisi","pFotoTeknisi","foto");
+fileToBase64("fotoKtp","pFotoKtp","fotoKtp");
+fileToBase64("fotoKk","pFotoKk","fotoKk");
+fileToBase64("fotoNpwp","pFotoNpwp","fotoNpwp");
+fileToBase64("fotoSim","pFotoSim","fotoSim");
+fileToBase64("fotoBpjsKes","pFotoBpjsKes","fotoBpjsKes");
+fileToBase64("fotoBpjsKet","pFotoBpjsKet","fotoBpjsKet");
+
+async function saveBiodata(){
  formStatus.textContent="Menyimpan...";
- await fetch(WEB_APP_URL,{
-  method:"POST",
-  headers:{"Content-Type":"text/plain;charset=utf-8"},
-  body:JSON.stringify({
-   mode:"saveBiodata",
-   user:currentUser,
-   biodata:{
-    namaPegawai:namaPegawai.value,
-    ttl:ttl.value,
-    jenisKelamin:jenisKelamin.value,
-    statusPerkawinan:statusPerkawinan.value,
-    simC:simC.value
-   },
-   foto:foto.fotoTeknisi,
-   fotoKtp:foto.fotoKtp,
-   fotoNpwp:foto.fotoNpwp,
-   fotoBpjsKes:foto.fotoBpjsKes,
-   fotoBpjsKet:foto.fotoBpjsKet,
-   fotoKk:foto.fotoKk,
-   fotoSim:foto.fotoSim
-  })
- });
- formStatus.textContent="✔ BERHASIL DISIMPAN";
-}
-
-async function loadData(){
- const r=await fetch(WEB_APP_URL,{
-  method:"POST",
-  headers:{"Content-Type":"text/plain;charset=utf-8"},
-  body:JSON.stringify({mode:"getBiodata",username:currentUser.u})
- });
- const j=JSON.parse(await r.text());
- if(j.found){
-  ttl.value=j.biodata.ttl||"";
-  jenisKelamin.value=j.biodata.jenisKelamin||"";
-  statusPerkawinan.value=j.biodata.statusPerkawinan||"";
- }
-}
-
-function preview(){
- pvNama.textContent=namaPegawai.value;
- pvTtl.textContent=ttl.value;
- pvJk.textContent=jenisKelamin.value;
- pvStatus.textContent=statusPerkawinan.value;
- pvSim.textContent=simC.value;
- pvFoto.src=foto.fotoTeknisi||"";
- printArea.style.display="block";
- window.print();
+ const data={
+  mode:"saveBiodata",
+  user:currentUser,
+  biodata:{
+   ttl:ttl.value,jenisKelamin:jenisKelamin.value,statusPerkawinan:statusPerkawinan.value,
+   pendidikanAkhir:pendidikanAkhir.value,pendFormal:pendFormal.value,pendNonFormal:pendNonFormal.value,
+   alamatDomisili:alamatDomisili.value,domKel:domKel.value,domKec:domKec.value,domKota:domKota.value,
+   noHp:noHp.value,email:email.value,noKtp:noKtp.value,noNpwp:noNpwp.value,namaIbu:namaIbu.value,
+   noRekening:noRekening.value,namaBank:namaBank.value,
+   ktpAlamat:ktpAlamat.value,ktpKel:ktpKel.value,ktpKec:ktpKec.value,ktpKota:ktpKota.value,
+   bpjsKet:bpjsKet.value,bpjsKes:bpjsKes.value,namaPasangan:namaPasangan.value,bpjsPasangan:bpjsPasangan.value,
+   telpKerabat:telpKerabat.value,dataAnak:dataAnak.value,namaFaskes:namaFaskes.value,noKk:noKk.value
+  },
+  ...photos
+ };
+ await fetch(WEB_APP_URL,{method:"POST",headers:{"Content-Type":"text/plain"},body:JSON.stringify(data)});
+ formStatus.textContent="Data tersimpan";
 }
 </script>
 </body>
