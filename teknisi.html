@@ -2,144 +2,112 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Login Teknisi – PT PUTRA TIMUR JAYA</title>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet">
+<title>Login Teknisi – PT PUTRA TIMUR JAYA BDB1</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <style>
-body{font-family:Poppins,sans-serif;background:#020617;color:#e5e7eb;margin:0}
-.container{max-width:1100px;margin:auto;padding:20px}
-.card{background:#020617;border:1px solid #1f2937;border-radius:14px;padding:18px;margin-bottom:16px}
-h2{margin:0 0 6px;font-size:16px}
-small{color:#9ca3af}
-label{font-size:12px;margin-top:10px;display:block}
-input,select,textarea{
-width:100%;padding:8px;border-radius:8px;
-background:#020617;border:1px solid #374151;color:#fff;font-size:12px
+body{
+  font-family:Arial,Helvetica,sans-serif;
+  background:#020617;
+  color:#fff;
+  margin:0;
 }
-textarea{min-height:60px}
-.btn{padding:8px 14px;border-radius:999px;border:none;font-size:12px;font-weight:600;cursor:pointer}
+.page{max-width:900px;margin:auto;padding:20px}
+.card{
+  background:#020617;
+  border:1px solid #1f2937;
+  border-radius:12px;
+  padding:16px;
+  margin-bottom:16px
+}
+input,select,textarea{
+  width:100%;
+  padding:8px;
+  margin-bottom:8px;
+  background:#020617;
+  color:#fff;
+  border:1px solid #374151;
+  border-radius:8px
+}
+button{
+  padding:8px 14px;
+  border-radius:999px;
+  border:none;
+  cursor:pointer;
+  font-weight:bold
+}
 .btn-primary{background:#2563eb;color:#fff}
-.btn-secondary{background:#111827;color:#fff;border:1px solid #374151}
 .btn-danger{background:#dc2626;color:#fff}
-.btn-group{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}
-.row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-@media(max-width:700px){.row{grid-template-columns:1fr}}
-.status{font-size:11px;margin-top:6px}
+.status{font-size:12px;margin-top:6px}
 </style>
 </head>
 
 <body>
-<div class="container">
+<div class="page">
 
-<!-- LOGIN -->
-<div class="card">
 <h2>Login Teknisi</h2>
-<small>Gunakan user absensi</small>
 
-<label>User ID</label>
-<input id="loginUser">
-
-<label>Password</label>
-<input id="loginPass" type="password">
-
-<div class="btn-group">
-<button class="btn btn-primary" onclick="login()">Login</button>
+<div class="card">
+  <input id="loginUser" placeholder="User ID">
+  <input id="loginPass" type="password" placeholder="Password">
+  <button class="btn-primary" onclick="loginTeknisi()">Login</button>
+  <div id="loginStatus" class="status"></div>
 </div>
 
-<div id="loginStatus" class="status"></div>
-</div>
+<div class="card" id="formCard" style="display:none">
+<h3>Form Biodata Teknisi</h3>
 
-<!-- FORM -->
-<div class="card" id="formBox" style="display:none">
-<h2>Form Biodata</h2>
-
-<label>Nama Pegawai</label>
-<input id="namaPegawai">
-
-<div class="row">
-<div>
-<label>TTL</label>
-<input id="ttl">
-</div>
-<div>
-<label>Jenis Kelamin</label>
+<input id="namaPegawai" placeholder="Nama Pegawai">
+<input id="ttl" placeholder="Tempat / Tanggal Lahir">
 <select id="jenisKelamin">
-<option value="">-- Pilih --</option>
-<option>Laki-laki</option>
-<option>Perempuan</option>
+  <option value="">Jenis Kelamin</option>
+  <option>Laki-laki</option>
+  <option>Perempuan</option>
 </select>
-</div>
-</div>
 
-<label>Pendidikan Terakhir</label>
-<input id="pendidikanAkhir">
+<input id="pendidikanAkhir" placeholder="Pendidikan Terakhir">
+<textarea id="pendFormal" placeholder="Pendidikan Formal"></textarea>
+<textarea id="pendNonFormal" placeholder="Pendidikan Non Formal"></textarea>
 
-<label>Pendidikan Formal</label>
-<textarea id="pendFormal"></textarea>
-
-<label>Pendidikan Non Formal</label>
-<textarea id="pendNonFormal"></textarea>
-
-<div class="row">
-<div>
-<label>Status Perkawinan</label>
 <select id="statusPerkawinan">
-<option></option>
-<option>Belum Menikah</option>
-<option>Menikah</option>
-<option>Cerai</option>
+  <option value="">Status Perkawinan</option>
+  <option>Belum Menikah</option>
+  <option>Menikah</option>
 </select>
-</div>
-<div>
-<label>Lokasi Kerja</label>
-<input id="lokasiKerja">
-</div>
-</div>
 
-<div class="row">
-<div>
-<label>Posisi</label>
-<input id="posisiKerja">
-</div>
-<div>
-<label>Divisi</label>
-<input id="divisi">
-</div>
-</div>
+<input id="lokasiKerja" placeholder="Lokasi Kerja">
+<input id="posisiKerja" placeholder="Posisi Kerja">
+<input id="divisi" placeholder="Divisi">
 
-<label>Alamat Domisili</label>
-<input id="alamatDomisili">
+<input id="alamatDomisili" placeholder="Alamat Domisili">
+<input id="domKel" placeholder="Kelurahan">
+<input id="domKec" placeholder="Kecamatan">
+<input id="domKota" placeholder="Kota / Kabupaten">
 
-<div class="row">
-<div><label>Kelurahan</label><input id="domKel"></div>
-<div><label>Kecamatan</label><input id="domKec"></div>
-</div>
+<input id="noHp" placeholder="No HP">
+<input id="email" placeholder="Email">
+<input id="noKtp" placeholder="No KTP">
+<input id="noNpwp" placeholder="No NPWP">
+<input id="namaIbu" placeholder="Nama Ibu Kandung">
+<input id="noRekening" placeholder="No Rekening">
+<input id="namaBank" placeholder="Nama Bank">
 
-<label>Kota</label>
-<input id="domKota">
+<input id="ktpAlamat" placeholder="Alamat KTP">
+<input id="ktpKel" placeholder="Kelurahan KTP">
+<input id="ktpKec" placeholder="Kecamatan KTP">
+<input id="ktpKota" placeholder="Kota KTP">
 
-<div class="row">
-<div><label>No HP</label><input id="noHp"></div>
-<div><label>Email</label><input id="email"></div>
-</div>
+<input id="bpjsKet" placeholder="BPJS Ketenagakerjaan">
+<input id="bpjsKes" placeholder="BPJS Kesehatan">
+<input id="namaPasangan" placeholder="Nama Pasangan">
+<input id="bpjsPasangan" placeholder="BPJS Pasangan">
+<input id="telpKerabat" placeholder="Telp Kerabat">
+<input id="dataAnak" placeholder="Data Anak">
+<input id="namaFaskes" placeholder="Nama Faskes">
+<input id="noKk" placeholder="No KK">
 
-<div class="row">
-<div><label>No KTP</label><input id="noKtp"></div>
-<div><label>No NPWP</label><input id="noNpwp"></div>
-</div>
-
-<label>Nama Ibu Kandung</label>
-<input id="namaIbu">
-
-<div class="row">
-<div><label>No Rekening</label><input id="noRekening"></div>
-<div><label>Nama Bank</label><input id="namaBank"></div>
-</div>
-
-<div class="btn-group">
-<button class="btn btn-primary" onclick="save()">💾 Simpan</button>
-<button class="btn btn-danger" onclick="logout()">Logout</button>
-</div>
+<button class="btn-primary" onclick="saveBiodata()">Simpan</button>
+<button class="btn-danger" onclick="logoutTeknisi()">Logout</button>
 
 <div id="formStatus" class="status"></div>
 </div>
@@ -147,92 +115,101 @@ textarea{min-height:60px}
 </div>
 
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzfYMYq83BYCNxITAK-CbGQ0uA5diRWuFw1-kyd7zzqmcFR_3hwWnHtNNDLTF4mUHc/exec";
+const WEB_APP_URL="https://script.google.com/macros/s/AKfycbzfYMYq83BYCNxITAK-CbGQ0uA5diRWuFw1-kyd7zzqmcFR_3hwWnHtNNDLTF4mUHc/exec";
 
-const USERS = [
- {u:"PTJ_Arip007",p:"alvaro007",nik:"15889311",nama:"ARIP RAHMATULLOH",divisi:"PIC",area:"CMI"}
+const USER_LINES=[
+"PTJ_Arip007|alvaro007|15889311|ARIP RAHMATULLOH|PIC|CMI"
 ];
 
+let USERS=USER_LINES.map(l=>{
+  const[a,b,c,d,e,f]=l.split("|");
+  return{username:a,password:b,nik:c,nama:d,divisi:e,defaultArea:f};
+});
 let currentUser=null;
 
-function login(){
-const u=document.getElementById("loginUser").value.trim();
-const p=document.getElementById("loginPass").value.trim();
-const s=document.getElementById("loginStatus");
-
-const user=USERS.find(x=>x.u===u && x.p===p);
-if(!user){
-s.textContent="Login gagal";
-s.style.color="#fca5a5";
-return;
+function loginTeknisi(){
+  const u=loginUser.value.trim();
+  const p=loginPass.value.trim();
+  const user=USERS.find(x=>x.username===u&&x.password===p);
+  if(!user){
+    loginStatus.textContent="Login gagal";
+    loginStatus.style.color="red";
+    return;
+  }
+  currentUser=user;
+  loginStatus.textContent="Login berhasil";
+  loginStatus.style.color="lightgreen";
+  namaPegawai.value=user.nama;
+  divisi.value=user.divisi;
+  lokasiKerja.value=user.defaultArea;
+  formCard.style.display="block";
 }
 
-currentUser=user;
-document.getElementById("formBox").style.display="block";
-document.getElementById("namaPegawai").value=user.nama;
-document.getElementById("divisi").value=user.divisi;
-document.getElementById("lokasiKerja").value=user.area;
-s.textContent="Login berhasil";
-s.style.color="#bbf7d0";
+function logoutTeknisi(){
+  currentUser=null;
+  formCard.style.display="none";
 }
 
-function logout(){
-currentUser=null;
-document.getElementById("formBox").style.display="none";
+function v(id){return document.getElementById(id).value.trim()}
+
+function collectFormData(){
+  return{
+    namaPegawai:v("namaPegawai"),
+    ttl:v("ttl"),
+    jenisKelamin:v("jenisKelamin"),
+    pendidikanAkhir:v("pendidikanAkhir"),
+    pendFormal:v("pendFormal"),
+    pendNonFormal:v("pendNonFormal"),
+    statusPerkawinan:v("statusPerkawinan"),
+    lokasiKerja:v("lokasiKerja"),
+    posisiKerja:v("posisiKerja"),
+    divisi:v("divisi"),
+    alamatDomisili:v("alamatDomisili"),
+    domKel:v("domKel"),
+    domKec:v("domKec"),
+    domKota:v("domKota"),
+    noHp:v("noHp"),
+    email:v("email"),
+    noKtp:v("noKtp"),
+    noNpwp:v("noNpwp"),
+    namaIbu:v("namaIbu"),
+    noRekening:v("noRekening"),
+    namaBank:v("namaBank"),
+    ktpAlamat:v("ktpAlamat"),
+    ktpKel:v("ktpKel"),
+    ktpKec:v("ktpKec"),
+    ktpKota:v("ktpKota"),
+    bpjsKet:v("bpjsKet"),
+    bpjsKes:v("bpjsKes"),
+    namaPasangan:v("namaPasangan"),
+    bpjsPasangan:v("bpjsPasangan"),
+    telpKerabat:v("telpKerabat"),
+    dataAnak:v("dataAnak"),
+    namaFaskes:v("namaFaskes"),
+    noKk:v("noKk")
+  }
 }
 
-function get(id){return document.getElementById(id).value||""}
-
-async function save(){
-if(!currentUser){alert("Login dulu");return}
-
-const data={
-mode:"saveBiodata",
-user:{
-username:currentUser.u,
-nik:currentUser.nik,
-nama:currentUser.nama
-},
-biodata:{
-namaPegawai:get("namaPegawai"),
-ttl:get("ttl"),
-jenisKelamin:get("jenisKelamin"),
-pendidikanAkhir:get("pendidikanAkhir"),
-pendFormal:get("pendFormal"),
-pendNonFormal:get("pendNonFormal"),
-statusPerkawinan:get("statusPerkawinan"),
-lokasiKerja:get("lokasiKerja"),
-posisiKerja:get("posisiKerja"),
-divisi:get("divisi"),
-alamatDomisili:get("alamatDomisili"),
-domKel:get("domKel"),
-domKec:get("domKec"),
-domKota:get("domKota"),
-noHp:get("noHp"),
-email:get("email"),
-noKtp:get("noKtp"),
-noNpwp:get("noNpwp"),
-namaIbu:get("namaIbu"),
-noRekening:get("noRekening"),
-namaBank:get("namaBank")
-}
-};
-
-document.getElementById("formStatus").textContent="Menyimpan...";
-
-try{
-const r=await fetch(WEB_APP_URL,{
-method:"POST",
-headers:{ "Content-Type":"text/plain;charset=utf-8" },
-body:JSON.stringify(data)
-});
-const t=await r.text();
-document.getElementById("formStatus").textContent="✅ BERHASIL DISIMPAN";
-document.getElementById("formStatus").style.color="#bbf7d0";
-}catch(e){
-document.getElementById("formStatus").textContent="❌ GAGAL SAVE";
-document.getElementById("formStatus").style.color="#fca5a5";
-}
+async function saveBiodata(){
+  if(!currentUser){alert("Login dulu");return}
+  formStatus.textContent="Menyimpan...";
+  try{
+    const res=await fetch(WEB_APP_URL,{
+      method:"POST",
+      headers:{"Content-Type":"text/plain;charset=utf-8"},
+      body:JSON.stringify({
+        mode:"saveBiodata",
+        user:currentUser,
+        biodata:collectFormData()
+      })
+    });
+    const t=await res.text();
+    formStatus.textContent="BERHASIL DISIMPAN";
+    formStatus.style.color="lightgreen";
+  }catch(e){
+    formStatus.textContent="GAGAL: "+e.message;
+    formStatus.style.color="red";
+  }
 }
 </script>
 </body>
