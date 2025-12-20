@@ -184,21 +184,63 @@ function simpan(){
   status.textContent="Menyimpan...";
   fetch(WEB_APP_URL,{
     method:"POST",
-    headers:{ "Content-Type":"text/plain;charset=utf-8" },
+    heafunction simpan(){
+  console.log("SIMPAAN DIKLIK"); // 🔴 WAJIB MUNCUL
+
+  if(!current){
+    alert("Silakan login terlebih dahulu");
+    return;
+  }
+
+  status.textContent = "Menyimpan...";
+  status.style.color = "#93c5fd";
+
+  fetch(WEB_APP_URL,{
+    method:"POST",
+    headers:{
+      "Content-Type":"text/plain;charset=utf-8"
+    },
     body:JSON.stringify({
       mode:"saveBiodata",
-      user:{username:current.u,nama:current.nama},
-      biodata:{
-        ttl:ttl.value,jenisKelamin:jk.value,
-        pendidikanAkhir:pendAkhir.value,
-        pendFormal:pendFormal.value,
-        pendNonFormal:pendNonFormal.value
+      user:{
+        username: current.u,
+        nama: current.nama,
+        lokasi: current.lokasi,
+        posisi: current.posisi,
+        divisi: current.divisi
       },
-      foto,fotoKtp:foto.fotoKtp,fotoNpwp:foto.fotoNpwp,
-      fotoSim:foto.fotoSim,fotoBpjsKes:foto.fotoBpjsKes,
-      fotoBpjsKet:foto.fotoBpjsKet,fotoKk:foto.fotoKk
+      biodata:{
+        ttl: ttl.value,
+        jenisKelamin: jk.value,
+        pendidikanAkhir: pendAkhir.value,
+        pendFormal: pendFormal.value,
+        pendNonFormal: pendNonFormal.value
+      },
+      foto: foto.fotoTeknisi || "",
+      fotoKtp: foto.fotoKtp || "",
+      fotoNpwp: foto.fotoNpwp || "",
+      fotoBpjsKes: foto.fotoBpjsKes || "",
+      fotoBpjsKet: foto.fotoBpjsKet || "",
+      fotoKk: foto.fotoKk || "",
+      fotoSim: foto.fotoSim || ""
     })
-  }).then(()=>status.textContent="BERHASIL DISIMPAN");
+  })
+  .then(r => r.json())
+  .then(res=>{
+    console.log("RESPON SERVER:",res);
+    if(res.ok){
+      status.textContent="✅ BERHASIL DISIMPAN";
+      status.style.color="#22c55e";
+    }else{
+      status.textContent="❌ "+res.error;
+      status.style.color="#ef4444";
+    }
+  })
+  .catch(err=>{
+    console.error("FETCH ERROR:",err);
+    status.textContent="❌ ERROR: "+err.message;
+    status.style.color="#ef4444";
+  });
 }
 
 function preview(){
