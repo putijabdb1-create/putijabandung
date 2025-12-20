@@ -1,6 +1,3 @@
-
-/* ==== SUDAH OK NAMUN PHOTO TIDAK MUNCUL (A4) ==== */ ( jangan di copy )
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -986,70 +983,13 @@
     }
 
     /* ========= KUMPUL DATA FORM ========= */
-    function collectFormData() {
-      const get = id => document.getElementById(id)?.value || "";
-      return {
-        namaPegawai: get("namaPegawai"),
-        ttl: get("ttl"),
-        jenisKelamin: get("jenisKelamin"),
-        pendidikanAkhir: get("pendidikanAkhir"),
-        pendFormal: get("pendFormal"),
-        pendNonFormal: get("pendNonFormal"),
-        statusPerkawinan: get("statusPerkawinan"),
-        lokasiKerja: get("lokasiKerja"),
-        posisiKerja: get("posisiKerja"),
-        divisi: get("divisi"),
-        alamatDomisili: get("alamatDomisili"),
-        domKel: get("domKel"),
-        domKec: get("domKec"),
-        domKota: get("domKota"),
-        noHp: get("noHp"),
-        email: get("email"),
-        noKtp: get("noKtp"),
-        noNpwp: get("noNpwp"),
-        namaIbu: get("namaIbu"),
-        noRekening: get("noRekening"),
-        namaBank: get("namaBank"),
-        ktpAlamat: get("ktpAlamat"),
-        ktpKel: get("ktpKel"),
-        ktpKec: get("ktpKec"),
-        ktpKota: get("ktpKota"),
-        bpjsKet: get("bpjsKet"),
-        bpjsKes: get("bpjsKes"),
-        namaPasangan: get("namaPasangan"),
-        bpjsPasangan: get("bpjsPasangan"),
-        telpKerabat: get("telpKerabat"),
-        dataAnak: get("dataAnak"),
-        namaFaskes: get("namaFaskes"),
-        noKk: get("noKk")
-      };
-    }
+    function showPreviewBiodata() {
 
-    /* ========= PREVIEW BIODATA ========= */
-    function isiText(id, val) {
-      const el = document.getElementById(id);
-      if (el) el.textContent = val || "-";
-    }
-
-    function setImgSrc(id, url) {
-      const el = document.getElementById(id);
-      if (!el) return;
-      if (url) {
-        el.src = url;
-      } else {
-        el.removeAttribute("src");
-      }
-    }
-function showPreviewBiodata() {
-  const d = collectFormData();
-
-  // helper text
+  const v = id => document.getElementById(id)?.value || "-";
   const t = (id, val) => {
     const el = document.getElementById(id);
     if (el) el.textContent = val || "-";
   };
-
-  // helper image
   const i = (id, src) => {
     const el = document.getElementById(id);
     if (!el) return;
@@ -1061,47 +1001,52 @@ function showPreviewBiodata() {
     }
   };
 
-  /* ===== ISI TEXT ===== */
-  t("pvNamaPegawai", d.namaPegawai);
-  t("pvTtl", d.ttl);
-  t("pvJenisKelamin", d.jenisKelamin);
-  t("pvPendidikanAkhir", d.pendidikanAkhir);
-  t("pvPendidikanFormal", d.pendFormal);
-  t("pvPendidikanNonFormal", d.pendNonFormal);
+  /* ==== DATA PRIBADI ==== */
+  t("pvNamaPegawai", v("namaPegawai"));
+  t("pvTtl", v("ttl"));
+  t("pvJenisKelamin", v("jenisKelamin"));
+  t("pvPendidikanAkhir", v("pendidikanAkhir"));
+  t("pvPendidikanFormal", v("pendFormal"));
+  t("pvPendidikanNonFormal", v("pendNonFormal"));
 
-  t("pvStatusPerkawinan", d.statusPerkawinan);
-  t("pvLokasiKerja", d.lokasiKerja);
-  t("pvPosisiKerja", d.posisiKerja);
-  t("pvDivisi", d.divisi);
+  /* ==== DATA PEKERJAAN ==== */
+  t("pvStatusPerkawinan", v("statusPerkawinan"));
+  t("pvLokasiKerja", v("lokasiKerja"));
+  t("pvPosisiKerja", v("posisiKerja"));
+  t("pvDivisi", v("divisi"));
 
-  t("pvAlamatDomisili", d.alamatDomisili);
-  t("pvDomKel", d.domKel);
-  t("pvDomKec", d.domKec);
-  t("pvDomKota", d.domKota);
+  /* ==== ALAMAT DOMISILI ==== */
+  t("pvAlamatDomisili", v("alamatDomisili"));
+  t("pvDomKel", v("domKel"));
+  t("pvDomKec", v("domKec"));
+  t("pvDomKota", v("domKota"));
 
-  t("pvNoHp", d.noHp);
-  t("pvEmail", d.email);
-  t("pvNoKtp", d.noKtp);
-  t("pvNoNpwp", d.noNpwp);
-  t("pvNamaIbu", d.namaIbu);
-  t("pvNoRekening", d.noRekening);
-  t("pvNamaBank", d.namaBank);
+  /* ==== KONTAK ==== */
+  t("pvNoHp", v("noHp"));
+  t("pvEmail", v("email"));
+  t("pvNoKtp", v("noKtp"));
+  t("pvNoNpwp", v("noNpwp"));
+  t("pvNamaIbu", v("namaIbu"));
+  t("pvNoRekening", v("noRekening"));
+  t("pvNamaBank", v("namaBank"));
 
-  t("pvKtpAlamat", d.ktpAlamat);
-  t("pvKtpKel", d.ktpKel);
-  t("pvKtpKec", d.ktpKec);
-  t("pvKtpKota", d.ktpKota);
+  /* ==== ALAMAT KTP ==== */
+  t("pvKtpAlamat", v("ktpAlamat"));
+  t("pvKtpKel", v("ktpKel"));
+  t("pvKtpKec", v("ktpKec"));
+  t("pvKtpKota", v("ktpKota"));
 
-  t("pvBpjsKet", d.bpjsKet);
-  t("pvBpjsKes", d.bpjsKes);
-  t("pvNamaPasangan", d.namaPasangan);
-  t("pvBpjsPasangan", d.bpjsPasangan);
-  t("pvTelpKerabat", d.telpKerabat);
-  t("pvDataAnak", d.dataAnak);
-  t("pvNamaFaskes", d.namaFaskes);
-  t("pvNoKk", d.noKk);
+  /* ==== BPJS & KELUARGA ==== */
+  t("pvBpjsKet", v("bpjsKet"));
+  t("pvBpjsKes", v("bpjsKes"));
+  t("pvNamaPasangan", v("namaPasangan"));
+  t("pvBpjsPasangan", v("bpjsPasangan"));
+  t("pvTelpKerabat", v("telpKerabat"));
+  t("pvDataAnak", v("dataAnak"));
+  t("pvNamaFaskes", v("namaFaskes"));
+  t("pvNoKk", v("noKk"));
 
-  /* ===== FOTO ===== */
+  /* ==== FOTO ==== */
   i("bioFotoInline", fotoDataUrl);
   i("bioFotoKtp", fotoKtpDataUrl);
   i("bioFotoNpwp", fotoNpwpDataUrl);
@@ -1116,8 +1061,8 @@ function showPreviewBiodata() {
   document.getElementById("previewWrapper").scrollIntoView({ behavior: "smooth" });
 
   document.getElementById("formStatus").textContent =
-    "Preview berdasarkan isi formulir (data belum tersimpan).";
-  document.getElementById("formStatus").style.color = "#f59e0b";
+    "Preview berdasarkan isi formulir.";
+  document.getElementById("formStatus").style.color = "#22c55e";
 }
   </script>
 </body>
