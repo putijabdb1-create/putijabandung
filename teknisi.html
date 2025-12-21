@@ -1,4 +1,4 @@
-tets 
+lagi test
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -543,7 +543,7 @@ tets
           <img id="previewFotoForm" class="preview-small" />
 
           <div class="section-title">Foto Dokumen (opsional)</div>
-          <!-- URUTAN: KTP, NPWP, BPJS KET, BPJS KES, KK -->
+          <!-- URUTAN: KTP, NPWP, BPJS KET, BPJS KES, KK,SIM C -->
           <div class="field-row-2">
             <div>
               <label for="fotoKtp">Foto KTP</label>
@@ -575,11 +575,12 @@ tets
             <input id="fotoKk" type="file" accept="image/*" />
             <img id="previewFotoKk" class="preview-small" />
           </div>
+		  
 		  <div>
-			<label>Foto SIM C</label>
-			<input type="file" id="fotoSimC">
-			<img id="previewFotoSimC" class="preview-small">
-		  </div>
+            <label for="fotoSimC">Foto SIM C</label>
+            <input id="fotoSimC" type="file" accept="image/*" />
+            <img id="previewFotoSimC" class="preview-small" />
+          </div>
 
           <div class="btn-group">
             <button class="btn btn-primary" type="button" onclick="saveBiodata()">💾 Simpan</button>
@@ -676,6 +677,7 @@ tets
             <tr><td class="label">Data Anak</td><td class="value" id="pvDataAnak"></td></tr>
             <tr><td class="label">Nama Faskes</td><td class="value" id="pvNamaFaskes"></td></tr>
             <tr><td class="label">Nomor Kartu Keluarga</td><td class="value" id="pvNoKk"></td></tr>
+		
           </table>
         </div>
 
@@ -702,6 +704,10 @@ tets
             <tr>
               <td class="label">KK</td>
               <td class="value"><img id="bioFotoKk" alt="Foto KK" /></td>
+            </tr>
+			<tr>
+              <td class="label">SIM C</td>
+              <td class="value"><img id="bioFotoSimC" alt="Foto SIM C" /></td>
             </tr>
           </table>
         </div>
@@ -946,7 +952,6 @@ tets
         reader.readAsDataURL(file);
       });
     }
-
     attachFilePreview("fotoTeknisi", "previewFotoForm", url => fotoDataUrl = url);
     attachFilePreview("fotoKtp", "previewFotoKtp", url => fotoKtpDataUrl = url);
     attachFilePreview("fotoKk", "previewFotoKk", url => fotoKkDataUrl = url);
@@ -1059,7 +1064,8 @@ tets
   t("pvDataAnak", v("dataAnak"));
   t("pvNamaFaskes", v("namaFaskes"));
   t("pvNoKk", v("noKk"));
-
+  t("pvNoSimc", v("noSimC"));
+  
   /* ==== FOTO ==== */
   i("bioFotoInline", fotoDataUrl);
   i("bioFotoKtp", fotoKtpDataUrl);
@@ -1067,6 +1073,7 @@ tets
   i("bioFotoBpjsKet", fotoBpjsKetDataUrl);
   i("bioFotoBpjsKes", fotoBpjsKesDataUrl);
   i("bioFotoKk", fotoKkDataUrl);
+  i("bioFotoSimc", fotoSimCDataUrl);
 
   document.getElementById("pvPrintedAt").textContent =
     new Date().toLocaleString("id-ID", { dateStyle: "short", timeStyle: "short" });
