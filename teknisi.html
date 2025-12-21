@@ -1,4 +1,5 @@
-lagi test
+TEST KE 2
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -531,11 +532,10 @@ lagi test
               <label for="noKk">Nomor Kartu Keluarga</label>
               <input id="noKk" />
             </div>
-			<div>
-				<label>Nomor SIM C</label>
-				<input id="noSimC">
+			 <div>
+              <label for="noSimC">Nomor Sim C</label>
+              <input id="noSimC" />
             </div>
-			
           </div>
 
           <div class="section-title">Foto Teknisi</div>
@@ -543,7 +543,7 @@ lagi test
           <img id="previewFotoForm" class="preview-small" />
 
           <div class="section-title">Foto Dokumen (opsional)</div>
-          <!-- URUTAN: KTP, NPWP, BPJS KET, BPJS KES, KK,SIM C -->
+          <!-- URUTAN: KTP, NPWP, BPJS KET, BPJS KES, KK, SIM C -->
           <div class="field-row-2">
             <div>
               <label for="fotoKtp">Foto KTP</label>
@@ -576,12 +576,12 @@ lagi test
             <img id="previewFotoKk" class="preview-small" />
           </div>
 		  
-		  <div>
+          <div>
             <label for="fotoSimC">Foto SIM C</label>
             <input id="fotoSimC" type="file" accept="image/*" />
-            <img id="previewFotoSimC" class="preview-small" />
+            <img id="previewFotoKk" class="preview-small" />
           </div>
-
+		  
           <div class="btn-group">
             <button class="btn btn-primary" type="button" onclick="saveBiodata()">💾 Simpan</button>
             <button class="btn btn-secondary" type="button" onclick="showPreviewBiodata()">👀 Preview Biodata</button>
@@ -677,7 +677,7 @@ lagi test
             <tr><td class="label">Data Anak</td><td class="value" id="pvDataAnak"></td></tr>
             <tr><td class="label">Nama Faskes</td><td class="value" id="pvNamaFaskes"></td></tr>
             <tr><td class="label">Nomor Kartu Keluarga</td><td class="value" id="pvNoKk"></td></tr>
-		
+			<tr><td class="label">Nomor SIM C</td><td class="value" id="pvNoSimC"></td></tr>
           </table>
         </div>
 
@@ -705,7 +705,7 @@ lagi test
               <td class="label">KK</td>
               <td class="value"><img id="bioFotoKk" alt="Foto KK" /></td>
             </tr>
-			<tr>
+			 <tr>
               <td class="label">SIM C</td>
               <td class="value"><img id="bioFotoSimC" alt="Foto SIM C" /></td>
             </tr>
@@ -885,7 +885,7 @@ lagi test
     let fotoNpwpDataUrl = "";
     let fotoBpjsKetDataUrl = "";
     let fotoBpjsKesDataUrl = "";
-	let fotoSimCDataUrl = "";
+    let fotoSimCDataUrl = "";
 	
     /* Set link Sheet & Drive di tombol admin */
     (function setAdminLinks(){
@@ -952,13 +952,14 @@ lagi test
         reader.readAsDataURL(file);
       });
     }
+
     attachFilePreview("fotoTeknisi", "previewFotoForm", url => fotoDataUrl = url);
     attachFilePreview("fotoKtp", "previewFotoKtp", url => fotoKtpDataUrl = url);
     attachFilePreview("fotoKk", "previewFotoKk", url => fotoKkDataUrl = url);
     attachFilePreview("fotoNpwp", "previewFotoNpwp", url => fotoNpwpDataUrl = url);
     attachFilePreview("fotoBpjsKet", "previewFotoBpjsKet", url => fotoBpjsKetDataUrl = url);
     attachFilePreview("fotoBpjsKes", "previewFotoBpjsKes", url => fotoBpjsKesDataUrl = url);
-	attachFilePreview("fotoSimC","previewFotoSimC",url => fotoSimCDataUrl = url);
+    attachFilePreview("fotoSimC", "previewFotoSimC", url => fotoSimCUrl = url);
 	
     /* ========= SIMPAN BIODATA ========= */
     async function saveBiodata() {
@@ -984,10 +985,10 @@ lagi test
             foto: fotoDataUrl,
             fotoKtp: fotoKtpDataUrl,
             fotoKk: fotoKkDataUrl,
+			fotoKk: fotoSimCDataUrl,
             fotoNpwp: fotoNpwpDataUrl,
             fotoBpjsKet: fotoBpjsKetDataUrl,
-            fotoBpjsKes: fotoBpjsKesDataUrl,
-			fotoSimC: fotoSimCDataUrl
+            fotoBpjsKes: fotoBpjsKesDataUrl
           })
         });
         const text = await res.text();
@@ -1064,7 +1065,7 @@ lagi test
   t("pvDataAnak", v("dataAnak"));
   t("pvNamaFaskes", v("namaFaskes"));
   t("pvNoKk", v("noKk"));
-  t("pvNoSimc", v("noSimC"));
+  t("pvNoSimC", v("noSimC"));
   
   /* ==== FOTO ==== */
   i("bioFotoInline", fotoDataUrl);
@@ -1073,8 +1074,8 @@ lagi test
   i("bioFotoBpjsKet", fotoBpjsKetDataUrl);
   i("bioFotoBpjsKes", fotoBpjsKesDataUrl);
   i("bioFotoKk", fotoKkDataUrl);
-  i("bioFotoSimc", fotoSimCDataUrl);
-
+  i("bioFotoSimC", fotoSimCDataUrl);
+  
   document.getElementById("pvPrintedAt").textContent =
     new Date().toLocaleString("id-ID", { dateStyle: "short", timeStyle: "short" });
 
