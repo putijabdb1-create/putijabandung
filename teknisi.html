@@ -1,4 +1,6 @@
-COBA LAGI 
+/// *** jangan di ubah karna sudah bisa save dan form mucul photo dan link gdok
+
+
 
 <!DOCTYPE html>
 <html lang="id">
@@ -365,8 +367,8 @@ COBA LAGI
 
           <div class="field-row-2">
             <div>
-              <label for="ttl">Tempat / Tanggal Lahir</label>
-              <input id="ttl" placeholder="Contoh: Bandung, 12 Juni 1985" />
+              <label for="tttl">Tempat / Tanggal Lahir</label>
+              <input id="tttl" placeholder="Contoh: Bandung, 12 Juni 1985" />
             </div>
             <div>
               <label for="jenisKelamin">Jenis Kelamin</label>
@@ -415,7 +417,7 @@ COBA LAGI
               <input id="posisiKerja" placeholder="Contoh: BASIC_TEHNIK, ADMIN, dll." />
             </div>
             <div>
-              <label for="divisi">Divisi</label>
+              <label for="divisi">divisi</label>
               <input id="divisi" placeholder="Contoh: IOAN, PSB, PROJEK, PIC" />
             </div>
           </div>
@@ -444,7 +446,7 @@ COBA LAGI
               <input id="noHp" />
             </div>
             <div>
-              <label for="email">Alamat Email</label>
+              <label for="email">Alamat email</label>
               <input id="email" type="email" />
             </div>
           </div>
@@ -565,14 +567,14 @@ COBA LAGI
 
           <div class="field-row-2">
             <div>
-              <label for="fotoBpjsKet">Foto BPJS Ketenagakerjaan</label>
-              <input id="fotoBpjsKet" type="file" accept="image/*" />
-              <img id="previewFotoBpjsKet" class="preview-small" />
+              <label for="fotobpjsKet">Foto BPJS Ketenagakerjaan</label>
+              <input id="fotobpjsKet" type="file" accept="image/*" />
+              <img id="previewFotobpjsKet" class="preview-small" />
             </div>
             <div>
-              <label for="fotoBpjsKes">Foto BPJS Kesehatan</label>
-              <input id="fotoBpjsKes" type="file" accept="image/*" />
-              <img id="previewFotoBpjsKes" class="preview-small" />
+              <label for="fotobpjsKes">Foto BPJS Kesehatan</label>
+              <input id="fotobpjsKes" type="file" accept="image/*" />
+              <img id="previewFotobpjsKes" class="preview-small" />
             </div>
           </div>
 
@@ -605,10 +607,10 @@ COBA LAGI
         <div class="bio-section">
           <div class="bio-section-title">Data Pribadi</div>
           <table class="bio-table">
-            <tr><td class="label">Nama Pegawai</td><td class="value" id="pvNamaPegawai"></td></tr>
-            <tr><td class="label">Tempat / Tanggal Lahir</td><td class="value" id="pvTtl"></td></tr>
-            <tr><td class="label">Jenis Kelamin</td><td class="value" id="pvJenisKelamin"></td></tr>
-            <tr><td class="label">Pendidikan Terakhir</td><td class="value" id="pvPendidikanAkhir"></td></tr>
+            <tr><td class="label">Nama Pegawai</td><td class="value" id="pvnamaPegawai"></td></tr>
+            <tr><td class="label">Tempat / Tanggal Lahir</td><td class="value" id="pvtttl"></td></tr>
+            <tr><td class="label">Jenis Kelamin</td><td class="value" id="pvjenisKelamin"></td></tr>
+            <tr><td class="label">Pendidikan Terakhir</td><td class="value" id="pvpendidikanAkhir"></td></tr>
             <tr><td class="label">Pendidikan Formal</td><td class="value" id="pvPendidikanFormal"></td></tr>
             <tr><td class="label">Pendidikan Non Formal</td><td class="value" id="pvPendidikanNonFormal"></td></tr>
             <tr>
@@ -622,10 +624,10 @@ COBA LAGI
         <div class="bio-section">
           <div class="bio-section-title">Data Pekerjaan</div>
           <table class="bio-table">
-            <tr><td class="label">Status Perkawinan</td><td class="value" id="pvStatusPerkawinan"></td></tr>
-            <tr><td class="label">Lokasi Kerja</td><td class="value" id="pvLokasiKerja"></td></tr>
-            <tr><td class="label">Posisi Kerja Sebagai</td><td class="value" id="pvPosisiKerja"></td></tr>
-            <tr><td class="label">Divisi</td><td class="value" id="pvDivisi"></td></tr>
+            <tr><td class="label">Status Perkawinan</td><td class="value" id="pvstatusPerkawinan"></td></tr>
+            <tr><td class="label">Lokasi Kerja</td><td class="value" id="pvlokasiKerja"></td></tr>
+            <tr><td class="label">Posisi Kerja Sebagai</td><td class="value" id="pvposisiKerja"></td></tr>
+            <tr><td class="label">divisi</td><td class="value" id="pvdivisi"></td></tr>
           </table>
         </div>
 
@@ -633,10 +635,10 @@ COBA LAGI
         <div class="bio-section">
           <div class="bio-section-title">Alamat Tempat Tinggal (Domisili)</div>
           <table class="bio-table">
-            <tr><td class="label">Alamat</td><td class="value" id="pvAlamatDomisili"></td></tr>
-            <tr><td class="label">Kelurahan / Desa</td><td class="value" id="pvDomKel"></td></tr>
-            <tr><td class="label">Kecamatan</td><td class="value" id="pvDomKec"></td></tr>
-            <tr><td class="label">Kota / Kabupaten</td><td class="value" id="pvDomKota"></td></tr>
+            <tr><td class="label">Alamat</td><td class="value" id="pvalamatDomisili"></td></tr>
+            <tr><td class="label">Kelurahan / Desa</td><td class="value" id="pvdomKel"></td></tr>
+            <tr><td class="label">Kecamatan</td><td class="value" id="pvdomKec"></td></tr>
+            <tr><td class="label">Kota / Kabupaten</td><td class="value" id="pvdomKota"></td></tr>
           </table>
         </div>
 
@@ -644,13 +646,13 @@ COBA LAGI
         <div class="bio-section">
           <div class="bio-section-title">Kontak & Rekening</div>
           <table class="bio-table">
-            <tr><td class="label">Nomor Handphone</td><td class="value" id="pvNoHp"></td></tr>
-            <tr><td class="label">Alamat Email</td><td class="value" id="pvEmail"></td></tr>
-            <tr><td class="label">Nomor KTP</td><td class="value" id="pvNoKtp"></td></tr>
-            <tr><td class="label">Nomor NPWP</td><td class="value" id="pvNoNpwp"></td></tr>
-            <tr><td class="label">Nama Ibu Kandung</td><td class="value" id="pvNamaIbu"></td></tr>
-            <tr><td class="label">Nomor Rekening</td><td class="value" id="pvNoRekening"></td></tr>
-            <tr><td class="label">Nama Bank</td><td class="value" id="pvNamaBank"></td></tr>
+            <tr><td class="label">Nomor Handphone</td><td class="value" id="pvnoHp"></td></tr>
+            <tr><td class="label">Alamat email</td><td class="value" id="pvemail"></td></tr>
+            <tr><td class="label">Nomor KTP</td><td class="value" id="pvnoKtp"></td></tr>
+            <tr><td class="label">Nomor NPWP</td><td class="value" id="pvnoNpwp"></td></tr>
+            <tr><td class="label">Nama Ibu Kandung</td><td class="value" id="pvnamaIbu"></td></tr>
+            <tr><td class="label">Nomor Rekening</td><td class="value" id="pvnoRekening"></td></tr>
+            <tr><td class="label">Nama Bank</td><td class="value" id="pvnamaBank"></td></tr>
           </table>
         </div>
 
@@ -658,10 +660,10 @@ COBA LAGI
         <div class="bio-section">
           <div class="bio-section-title">Alamat Sesuai KTP</div>
           <table class="bio-table">
-            <tr><td class="label">Alamat</td><td class="value" id="pvKtpAlamat"></td></tr>
-            <tr><td class="label">Kelurahan</td><td class="value" id="pvKtpKel"></td></tr>
-            <tr><td class="label">Kecamatan</td><td class="value" id="pvKtpKec"></td></tr>
-            <tr><td class="label">Kota</td><td class="value" id="pvKtpKota"></td></tr>
+            <tr><td class="label">Alamat</td><td class="value" id="pvktpAlamat"></td></tr>
+            <tr><td class="label">Kelurahan</td><td class="value" id="pvktpKel"></td></tr>
+            <tr><td class="label">Kecamatan</td><td class="value" id="pvktpKec"></td></tr>
+            <tr><td class="label">Kota</td><td class="value" id="pvktpKota"></td></tr>
           </table>
         </div>
 
@@ -669,14 +671,14 @@ COBA LAGI
         <div class="bio-section">
           <div class="bio-section-title">BPJS & Keluarga</div>
           <table class="bio-table">
-            <tr><td class="label">BPJS Ketenagakerjaan</td><td class="value" id="pvBpjsKet"></td></tr>
-            <tr><td class="label">BPJS Kesehatan</td><td class="value" id="pvBpjsKes"></td></tr>
-            <tr><td class="label">Nama Istri / Suami</td><td class="value" id="pvNamaPasangan"></td></tr>
-            <tr><td class="label">Nomor BPJS Istri / Suami</td><td class="value" id="pvBpjsPasangan"></td></tr>
-            <tr><td class="label">Nomor Telepon Kerabat</td><td class="value" id="pvTelpKerabat"></td></tr>
-            <tr><td class="label">Data Anak</td><td class="value" id="pvDataAnak"></td></tr>
-            <tr><td class="label">Nama Faskes</td><td class="value" id="pvNamaFaskes"></td></tr>
-            <tr><td class="label">Nomor Kartu Keluarga</td><td class="value" id="pvNoKk"></td></tr>
+            <tr><td class="label">BPJS Ketenagakerjaan</td><td class="value" id="pvbpjsKet"></td></tr>
+            <tr><td class="label">BPJS Kesehatan</td><td class="value" id="pvbpjsKes"></td></tr>
+            <tr><td class="label">Nama Istri / Suami</td><td class="value" id="pvnamaPasangan"></td></tr>
+            <tr><td class="label">Nomor BPJS Istri / Suami</td><td class="value" id="pvbpjsPasangan"></td></tr>
+            <tr><td class="label">Nomor Telepon Kerabat</td><td class="value" id="pvtelpKerabat"></td></tr>
+            <tr><td class="label">Data Anak</td><td class="value" id="pvdataAnak"></td></tr>
+            <tr><td class="label">Nama Faskes</td><td class="value" id="pvnamaFaskes"></td></tr>
+            <tr><td class="label">Nomor Kartu Keluarga</td><td class="value" id="pvnoKk"></td></tr>
 			<tr><td class="label">Nomor SIM C</td><td class="value" id="pvNoSimC"></td></tr>
           </table>
         </div>
@@ -695,11 +697,11 @@ COBA LAGI
             </tr>
             <tr>
               <td class="label">BPJS Ketenagakerjaan</td>
-              <td class="value"><img id="bioFotoBpjsKet" alt="Foto BPJS Ketenagakerjaan" /></td>
+              <td class="value"><img id="bioFotobpjsKet" alt="Foto BPJS Ketenagakerjaan" /></td>
             </tr>
             <tr>
               <td class="label">BPJS Kesehatan</td>
-              <td class="value"><img id="bioFotoBpjsKes" alt="Foto BPJS Kesehatan" /></td>
+              <td class="value"><img id="bioFotobpjsKes" alt="Foto BPJS Kesehatan" /></td>
             </tr>
             <tr>
               <td class="label">KK</td>
@@ -885,8 +887,8 @@ COBA LAGI
     let fotoKtpDataUrl = "";
     let fotoKkDataUrl = "";
     let fotoNpwpDataUrl = "";
-    let fotoBpjsKetDataUrl = "";
-    let fotoBpjsKesDataUrl = "";
+    let fotobpjsKetDataUrl = "";
+    let fotobpjsKesDataUrl = "";
 	let fotoSimCDataUrl = "";
 	
     /* Set link Sheet & Drive di tombol admin */
@@ -959,8 +961,8 @@ COBA LAGI
     attachFilePreview("fotoKtp", "previewFotoKtp", url => fotoKtpDataUrl = url);
     attachFilePreview("fotoKk", "previewFotoKk", url => fotoKkDataUrl = url);
     attachFilePreview("fotoNpwp", "previewFotoNpwp", url => fotoNpwpDataUrl = url);
-    attachFilePreview("fotoBpjsKet", "previewFotoBpjsKet", url => fotoBpjsKetDataUrl = url);
-    attachFilePreview("fotoBpjsKes", "previewFotoBpjsKes", url => fotoBpjsKesDataUrl = url);
+    attachFilePreview("fotobpjsKet", "previewFotobpjsKet", url => fotobpjsKetDataUrl = url);
+    attachFilePreview("fotobpjsKes", "previewFotobpjsKes", url => fotobpjsKesDataUrl = url);
 	attachFilePreview("fotoSimC", "previewFotoSimC", url => fotoSimCDataUrl = url);
 
     /* ========= SIMPAN BIODATA ========= */
@@ -988,8 +990,8 @@ COBA LAGI
             fotoKtp: fotoKtpDataUrl,
             fotoKk: fotoKkDataUrl,
             fotoNpwp: fotoNpwpDataUrl,
-            fotoBpjsKet: fotoBpjsKetDataUrl,
-            fotoBpjsKes: fotoBpjsKesDataUrl,
+            fotobpjsKet: fotobpjsKetDataUrl,
+            fotobpjsKes: fotobpjsKesDataUrl,
 			fotoSimC: fotoSimCDataUrl
           })
         });
@@ -1023,7 +1025,7 @@ COBA LAGI
     }
   };
 
-  /* ==== DATA PRIBADI ==== */
+/* ==== DATA PRIBADI ==== */
   t("pvNamaPegawai", v("namaPegawai"));
   t("pvTtl", v("ttl"));
   t("pvJenisKelamin", v("jenisKelamin"));
@@ -1075,6 +1077,7 @@ COBA LAGI
   i("bioFotoBpjsKet", fotoBpjsKetDataUrl);
   i("bioFotoBpjsKes", fotoBpjsKesDataUrl);
   i("bioFotoKk", fotoKkDataUrl);
+  i("bioFotoSimc", fotoSimCDataUrl);
   
 // ===== TAMBAHAN SIM C (PREVIEW A4) =====
 const pvNoSimC = document.getElementById("pvNoSimC");
@@ -1105,7 +1108,7 @@ if (fotoSimCDataUrl) {
 function collectFormData() {
   return {
     namaPegawai: document.getElementById("namaPegawai").value || "",
-    ttl: document.getElementById("ttl").value || "",
+    tttl: document.getElementById("tttl").value || "",
     jenisKelamin: document.getElementById("jenisKelamin").value || "",
     pendidikanAkhir: document.getElementById("pendidikanAkhir").value || "",
     pendFormal: document.getElementById("pendFormal").value || "",
