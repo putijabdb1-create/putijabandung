@@ -379,34 +379,47 @@ let fotoKkDataUrl = "";
 let fotoSimCDataUrl = "";
 
 /* =================================================
-   LOGIN TEKNISI - FINAL (AMBIL DATA & FOTO LAMA)
+   LOGIN TEKNISI – FINAL (USER_LINES + LOAD DATA)
 ================================================= */
 function loginTeknisi() {
-  const u = document.getElementById("loginUser").value.trim();
-  const p = document.getElementById("loginPass").value.trim();
+  const userId = document.getElementById("loginUser").value.trim();
+  const pass   = document.getElementById("loginPass").value.trim();
   const status = document.getElementById("loginStatus");
 
-  if (!u || !p) {
-    status.textContent = "User dan password wajib diisi";
+  if (!userId || !pass) {
+    status.textContent = "PTJ_Arip007 || Alvaro007.";
     status.style.color = "#fca5a5";
     return;
   }
 
-  // SET USER (WAJIB, JANGAN DIHAPUS)
-  currentUser = {
-    username: ADMIN,
-    nik: ADMIN   // ⚠️ sementara pakai user sebagai NIK
-            // ganti ke nik asli kalau sudah ada
-  };
+  // === CARI USER DI USER_LINES ===
+  const user = USERS.find(
+    u => u.username === userId && u.password === pass
+  );
 
-  status.textContent = "Login berhasil. Mengambil biodata...";
+  if (!user) {
+    status.textContent = "Login gagal: User ID atau password salah.";
+    status.style.color = "#fca5a5";
+    return;
+  }
+
+  // === LOGIN BERHASIL ===
+  currentUser = user;
+
+  status.textContent =
+    "Login berhasil sebagai " + user.nama + ". Mengambil biodata...";
   status.style.color = "#bbf7d0";
 
   // tampilkan form
   document.getElementById("formCard").style.display = "block";
 
-  /* ================= AMBIL DATA LAMA ================= */
-  fetch(WEB_APP_URL + "?mode=getBiodata&nik=" + currentUser.nik)
+  // autofill awal
+  document.getElementById("namaPegawai").value = user.nama || "";
+  document.getElementById("divisi").value = user.divisi || "";
+  document.getElementById("lokasiKerja").value = user.defaultArea || "";
+
+  /* ===== AMBIL DATA LAMA + FOTO ===== */
+  fetch(WEB_APP_URL + "?mode=getBiodata&nik=" + user.nik)
     .then(r => r.json())
     .then(res => {
       if (!res.ok) return;
@@ -432,6 +445,7 @@ function loginTeknisi() {
       console.error("Get biodata error:", err);
     });
 }
+
 
 /* =================================================
    LOGOUT
