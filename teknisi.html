@@ -1,7 +1,3 @@
-/// *** jangan di ubah karna sudah bisa save dan form mucul photo dan link gdok
-
-
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -984,7 +980,9 @@
             fotoKk: fotoKkDataUrl,
             fotoNpwp: fotoNpwpDataUrl,
             fotoBpjsKet: fotoBpjsKetDataUrl,
-            fotoBpjsKes: fotoBpjsKesDataUrl
+			fotoBpjsKes: fotoBpjsKesDataUrl,
+			fotoSimC: fotoSimCDataUrl
+            
           })
         });
         const text = await res.text();
@@ -997,6 +995,40 @@
         console.error("Error fetch:", err);
       }
     }
+	async function loadExistingBiodata(username) {
+  try {
+    const res = await fetch(WEB_APP_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({
+        mode: "getBiodata",
+        username: username
+      })
+    });
+
+    const json = await res.json();
+    if (!json.ok) return;
+
+    const d = json.data;
+
+    const set = (id, val) => {
+      if (document.getElementById(id)) {
+        document.getElementById(id).value = val || "";
+      }
+    };
+
+    set("noSimC", d.noSimC);
+
+    if (d.fotoSimC) {
+      fotoSimCDataUrl = d.fotoSimC;
+      document.getElementById("previewFotoSimC").src = d.fotoSimC;
+      document.getElementById("previewFotoSimC").style.display = "block";
+    }
+
+  } catch (e) {
+    console.error("Autoload gagal:", e);
+  }
+}
 
     /* ========= KUMPUL DATA FORM ========= */
     function showPreviewBiodata() {
