@@ -1,7 +1,3 @@
-/// *** jangan di ubah karna sudah bisa save dan form mucul photo dan link gdok
-
-
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -534,6 +530,11 @@
               <label for="noKk">Nomor Kartu Keluarga</label>
               <input id="noKk" />
             </div>
+			<div>
+				<label>Nomor SIM C</label>
+				<input id="noSimC">
+            </div>
+			
           </div>
 
           <div class="section-title">Foto Teknisi</div>
@@ -573,6 +574,11 @@
             <input id="fotoKk" type="file" accept="image/*" />
             <img id="previewFotoKk" class="preview-small" />
           </div>
+		  <div>
+			<label>Foto SIM C</label>
+			<input type="file" id="fotoSimC">
+			<img id="previewFotoSimC" class="preview-small">
+		  </div>
 
           <div class="btn-group">
             <button class="btn btn-primary" type="button" onclick="saveBiodata()">💾 Simpan</button>
@@ -872,7 +878,8 @@
     let fotoNpwpDataUrl = "";
     let fotoBpjsKetDataUrl = "";
     let fotoBpjsKesDataUrl = "";
-
+	let fotoSimCDataUrl = "";
+	
     /* Set link Sheet & Drive di tombol admin */
     (function setAdminLinks(){
       const s = document.getElementById("sheetLink");
@@ -919,6 +926,54 @@
     function scrollToForm() {
       document.getElementById("formCard").scrollIntoView({behavior:"smooth"});
     }
+	fetch(WEB_APP_URL,{
+  method:"POST",
+  headers:{ "Content-Type":"text/plain;charset=utf-8" },
+  body:JSON.stringify({
+    mode:"getBiodata",
+    username: currentUser.username
+  })
+})
+.then(r=>r.json())
+.then(res=>{
+  if(!res.ok) return;
+  const d = res.biodata;
+
+  namaPegawai.value = d[3] || "";
+  ttl.value = d[4] || "";
+  jenisKelamin.value = d[5] || "";
+  pendidikanAkhir.value = d[6] || "";
+  pendFormal.value = d[7] || "";
+  pendNonFormal.value = d[8] || "";
+  statusPerkawinan.value = d[9] || "";
+  lokasiKerja.value = d[10] || "";
+  posisiKerja.value = d[11] || "";
+  divisi.value = d[12] || "";
+  alamatDomisili.value = d[13] || "";
+  domKel.value = d[14] || "";
+  domKec.value = d[15] || "";
+  domKota.value = d[16] || "";
+  noHp.value = d[17] || "";
+  email.value = d[18] || "";
+  noKtp.value = d[19] || "";
+  noNpwp.value = d[20] || "";
+  namaIbu.value = d[21] || "";
+  noRekening.value = d[22] || "";
+  namaBank.value = d[23] || "";
+  ktpAlamat.value = d[24] || "";
+  ktpKel.value = d[25] || "";
+  ktpKec.value = d[26] || "";
+  ktpKota.value = d[27] || "";
+  bpjsKet.value = d[28] || "";
+  bpjsKes.value = d[29] || "";
+  namaPasangan.value = d[30] || "";
+  bpjsPasangan.value = d[31] || "";
+  telpKerabat.value = d[32] || "";
+  dataAnak.value = d[33] || "";
+  namaFaskes.value = d[34] || "";
+  noKk.value = d[35] || "";
+  noSimC.value = d[42] || "";
+});
 
     /* ========= FOTO INPUT ========= */
     function attachFilePreview(inputId, imgId, setter) {
@@ -945,7 +1000,8 @@
     attachFilePreview("fotoNpwp", "previewFotoNpwp", url => fotoNpwpDataUrl = url);
     attachFilePreview("fotoBpjsKet", "previewFotoBpjsKet", url => fotoBpjsKetDataUrl = url);
     attachFilePreview("fotoBpjsKes", "previewFotoBpjsKes", url => fotoBpjsKesDataUrl = url);
-
+	attachFilePreview("fotoSimC","previewFotoSimC",url => fotoSimCDataUrl = url);
+	
     /* ========= SIMPAN BIODATA ========= */
     async function saveBiodata() {
       if (!currentUser) {
@@ -972,7 +1028,8 @@
             fotoKk: fotoKkDataUrl,
             fotoNpwp: fotoNpwpDataUrl,
             fotoBpjsKet: fotoBpjsKetDataUrl,
-            fotoBpjsKes: fotoBpjsKesDataUrl
+            fotoBpjsKes: fotoBpjsKesDataUrl,
+			fotoSimC: fotoSimCDataUrl
           })
         });
         const text = await res.text();
@@ -1108,7 +1165,8 @@ function collectFormData() {
     telpKerabat: document.getElementById("telpKerabat").value || "",
     dataAnak: document.getElementById("dataAnak").value || "",
     namaFaskes: document.getElementById("namaFaskes").value || "",
-    noKk: document.getElementById("noKk").value || ""
+    noKk: document.getElementById("noKk").value || "",
+	noSimC: document.getElementById("noSimC").value || ""
   };
 }
   </script>
