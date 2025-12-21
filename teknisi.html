@@ -1,3 +1,7 @@
+/// *** jangan di ubah karna sudah bisa save dan form mucul photo dan link gdok
+
+
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -537,16 +541,6 @@
           <img id="previewFotoForm" class="preview-small" />
 
           <div class="section-title">Foto Dokumen (opsional)</div>
-		  <!-- ===== DOKUMEN KENDARAAN (SIM C) ===== -->
-			<div class="section-title">Dokumen Kendaraan</div>
-
-				<label for="noSimC">Nomor SIM C</label>
-				<input id="noSimC" />
-
-				<label for="fotoSimC">Foto SIM C</label>
-				<input id="fotoSimC" type="file" accept="image/*" />
-				<img id="previewFotoSimC" class="preview-small" />
-		  
           <!-- URUTAN: KTP, NPWP, BPJS KET, BPJS KES, KK -->
           <div class="field-row-2">
             <div>
@@ -878,8 +872,7 @@
     let fotoNpwpDataUrl = "";
     let fotoBpjsKetDataUrl = "";
     let fotoBpjsKesDataUrl = "";
-	let fotoSimCDataUrl = "";
-	
+
     /* Set link Sheet & Drive di tombol admin */
     (function setAdminLinks(){
       const s = document.getElementById("sheetLink");
@@ -952,7 +945,6 @@
     attachFilePreview("fotoNpwp", "previewFotoNpwp", url => fotoNpwpDataUrl = url);
     attachFilePreview("fotoBpjsKet", "previewFotoBpjsKet", url => fotoBpjsKetDataUrl = url);
     attachFilePreview("fotoBpjsKes", "previewFotoBpjsKes", url => fotoBpjsKesDataUrl = url);
-	attachFilePreview("fotoSimC", "previewFotoSimC", url => fotoSimCDataUrl = url);
 
     /* ========= SIMPAN BIODATA ========= */
     async function saveBiodata() {
@@ -980,9 +972,7 @@
             fotoKk: fotoKkDataUrl,
             fotoNpwp: fotoNpwpDataUrl,
             fotoBpjsKet: fotoBpjsKetDataUrl,
-			fotoBpjsKes: fotoBpjsKesDataUrl,
-			fotoSimC: fotoSimCDataUrl
-            
+            fotoBpjsKes: fotoBpjsKesDataUrl
           })
         });
         const text = await res.text();
@@ -995,40 +985,6 @@
         console.error("Error fetch:", err);
       }
     }
-	async function loadExistingBiodata(username) {
-  try {
-    const res = await fetch(WEB_APP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({
-        mode: "getBiodata",
-        username: username
-      })
-    });
-
-    const json = await res.json();
-    if (!json.ok) return;
-
-    const d = json.data;
-
-    const set = (id, val) => {
-      if (document.getElementById(id)) {
-        document.getElementById(id).value = val || "";
-      }
-    };
-
-    set("noSimC", d.noSimC);
-
-    if (d.fotoSimC) {
-      fotoSimCDataUrl = d.fotoSimC;
-      document.getElementById("previewFotoSimC").src = d.fotoSimC;
-      document.getElementById("previewFotoSimC").style.display = "block";
-    }
-
-  } catch (e) {
-    console.error("Autoload gagal:", e);
-  }
-}
 
     /* ========= KUMPUL DATA FORM ========= */
     function showPreviewBiodata() {
@@ -1152,7 +1108,6 @@ function collectFormData() {
     telpKerabat: document.getElementById("telpKerabat").value || "",
     dataAnak: document.getElementById("dataAnak").value || "",
     namaFaskes: document.getElementById("namaFaskes").value || "",
-	noSimC: document.getElementById("noSimC")?.value || "",
     noKk: document.getElementById("noKk").value || ""
   };
 }
