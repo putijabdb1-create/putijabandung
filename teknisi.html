@@ -1,3 +1,6 @@
+TEST COBA COBA
+
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -529,7 +532,11 @@
             <div>
               <label for="noKk">Nomor Kartu Keluarga</label>
               <input id="noKk" />
-            </div>
+				</div>
+			 <div>
+              <label for="noSimC">Nomor SimC</label>
+              <input id="noSimC" />
+			 </div>
           </div>
 
           <div class="section-title">Foto Teknisi</div>
@@ -537,7 +544,7 @@
           <img id="previewFotoForm" class="preview-small" />
 
           <div class="section-title">Foto Dokumen (opsional)</div>
-          <!-- URUTAN: KTP, NPWP, BPJS KET, BPJS KES, KK -->
+          <!-- URUTAN: KTP, NPWP, BPJS KET, BPJS KES, KK, SIM C -->
           <div class="field-row-2">
             <div>
               <label for="fotoKtp">Foto KTP</label>
@@ -569,7 +576,13 @@
             <input id="fotoKk" type="file" accept="image/*" />
             <img id="previewFotoKk" class="preview-small" />
           </div>
-
+		  
+          <div>
+            <label for="fotoSimC">Foto SIM C</label>
+            <input id="fotoSimC" type="file" accept="image/*" />
+            <img id="previewFotoSimC" class="preview-small" />
+          </div>
+		  
           <div class="btn-group">
             <button class="btn btn-primary" type="button" onclick="saveBiodata()">💾 Simpan</button>
             <button class="btn btn-secondary" type="button" onclick="showPreviewBiodata()">👀 Preview Biodata</button>
@@ -665,6 +678,7 @@
             <tr><td class="label">Data Anak</td><td class="value" id="pvDataAnak"></td></tr>
             <tr><td class="label">Nama Faskes</td><td class="value" id="pvNamaFaskes"></td></tr>
             <tr><td class="label">Nomor Kartu Keluarga</td><td class="value" id="pvNoKk"></td></tr>
+			<tr><td class="label">Nomor SIM C</td><td class="value" id="pvNoSimC"></td></tr>
           </table>
         </div>
 
@@ -691,6 +705,10 @@
             <tr>
               <td class="label">KK</td>
               <td class="value"><img id="bioFotoKk" alt="Foto KK" /></td>
+            </tr>
+			 <tr>
+              <td class="label">SIM C</td>
+              <td class="value"><img id="bioFotoSimC" alt="Foto SIM C" /></td>
             </tr>
           </table>
         </div>
@@ -868,7 +886,8 @@
     let fotoNpwpDataUrl = "";
     let fotoBpjsKetDataUrl = "";
     let fotoBpjsKesDataUrl = "";
-
+    let fotoSimCDataUrl = "";
+	
     /* Set link Sheet & Drive di tombol admin */
     (function setAdminLinks(){
       const s = document.getElementById("sheetLink");
@@ -941,7 +960,8 @@
     attachFilePreview("fotoNpwp", "previewFotoNpwp", url => fotoNpwpDataUrl = url);
     attachFilePreview("fotoBpjsKet", "previewFotoBpjsKet", url => fotoBpjsKetDataUrl = url);
     attachFilePreview("fotoBpjsKes", "previewFotoBpjsKes", url => fotoBpjsKesDataUrl = url);
-
+    attachFilePreview("fotoSimC", "previewFotoSimC", url => fotoSimCUrl = url);
+	
     /* ========= SIMPAN BIODATA ========= */
     async function saveBiodata() {
       if (!currentUser) {
@@ -968,7 +988,8 @@
             fotoKk: fotoKkDataUrl,
             fotoNpwp: fotoNpwpDataUrl,
             fotoBpjsKet: fotoBpjsKetDataUrl,
-            fotoBpjsKes: fotoBpjsKesDataUrl
+            fotoBpjsKes: fotoBpjsKesDataUrl,
+			fotoKk: fotoSimCDataUrl
           })
         });
         const text = await res.text();
@@ -1045,7 +1066,8 @@
   t("pvDataAnak", v("dataAnak"));
   t("pvNamaFaskes", v("namaFaskes"));
   t("pvNoKk", v("noKk"));
-
+  t("pvNoSimC", v("noSimC"));
+  
   /* ==== FOTO ==== */
   i("bioFotoInline", fotoDataUrl);
   i("bioFotoKtp", fotoKtpDataUrl);
@@ -1053,7 +1075,8 @@
   i("bioFotoBpjsKet", fotoBpjsKetDataUrl);
   i("bioFotoBpjsKes", fotoBpjsKesDataUrl);
   i("bioFotoKk", fotoKkDataUrl);
-
+  i("bioFotoSimC", fotoSimCDataUrl);
+  
   document.getElementById("pvPrintedAt").textContent =
     new Date().toLocaleString("id-ID", { dateStyle: "short", timeStyle: "short" });
 
@@ -1104,7 +1127,8 @@ function collectFormData() {
     telpKerabat: document.getElementById("telpKerabat").value || "",
     dataAnak: document.getElementById("dataAnak").value || "",
     namaFaskes: document.getElementById("namaFaskes").value || "",
-    noKk: document.getElementById("noKk").value || ""
+    noKk: document.getElementById("noKk").value || "",
+	noSimC: document.getElementById("noSimC").value || ""
   };
 }
   </script>
