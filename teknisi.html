@@ -1,7 +1,3 @@
-/// *** jangan di ubah karna sudah bisa save dan form mucul photo dan link gdok
-
-
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -367,8 +363,8 @@
 
           <div class="field-row-2">
             <div>
-              <label for="tttl">Tempat / Tanggal Lahir</label>
-              <input id="tttl" placeholder="Contoh: Bandung, 12 Juni 1985" />
+              <label for="ttl">Tempat / Tanggal Lahir</label>
+              <input id="ttl" placeholder="Contoh: Bandung, 12 Juni 1985" />
             </div>
             <div>
               <label for="jenisKelamin">Jenis Kelamin</label>
@@ -417,7 +413,7 @@
               <input id="posisiKerja" placeholder="Contoh: BASIC_TEHNIK, ADMIN, dll." />
             </div>
             <div>
-              <label for="divisi">divisi</label>
+              <label for="divisi">Divisi</label>
               <input id="divisi" placeholder="Contoh: IOAN, PSB, PROJEK, PIC" />
             </div>
           </div>
@@ -446,7 +442,7 @@
               <input id="noHp" />
             </div>
             <div>
-              <label for="email">Alamat email</label>
+              <label for="email">Alamat Email</label>
               <input id="email" type="email" />
             </div>
           </div>
@@ -534,24 +530,21 @@
               <label for="noKk">Nomor Kartu Keluarga</label>
               <input id="noKk" />
             </div>
+			<div>
+              <label for="noSim">Nomor SIM</label>
+              <input id="noSim" />
+            </div>
+			
+			
+			
           </div>
-			<!-- TAMBAHAN SIM C -->
-			<div class="section-title">SIM</div>
 
-				<label for="noSimC">Nomor SIM C</label>
-				<input id="noSimC" placeholder="Nomor SIM C" />
-
-				<label for="fotoSimC">Foto SIM C</label>
-				<input id="fotoSimC" type="file" accept="image/*" />
-				<img id="previewFotoSimC" class="preview-small" />
-				
-				
           <div class="section-title">Foto Teknisi</div>
           <input id="fotoTeknisi" type="file" accept="image/*" />
           <img id="previewFotoForm" class="preview-small" />
 
           <div class="section-title">Foto Dokumen (opsional)</div>
-          <!-- URUTAN: KTP, NPWP, BPJS KET, BPJS KES, KK -->
+          <!-- URUTAN: KTP, NPWP, BPJS KET, BPJS KES, KK,SIM -->
           <div class="field-row-2">
             <div>
               <label for="fotoKtp">Foto KTP</label>
@@ -567,14 +560,14 @@
 
           <div class="field-row-2">
             <div>
-              <label for="fotobpjsKet">Foto BPJS Ketenagakerjaan</label>
-              <input id="fotobpjsKet" type="file" accept="image/*" />
-              <img id="previewFotobpjsKet" class="preview-small" />
+              <label for="fotoBpjsKet">Foto BPJS Ketenagakerjaan</label>
+              <input id="fotoBpjsKet" type="file" accept="image/*" />
+              <img id="previewFotoBpjsKet" class="preview-small" />
             </div>
             <div>
-              <label for="fotobpjsKes">Foto BPJS Kesehatan</label>
-              <input id="fotobpjsKes" type="file" accept="image/*" />
-              <img id="previewFotobpjsKes" class="preview-small" />
+              <label for="fotoBpjsKes">Foto BPJS Kesehatan</label>
+              <input id="fotoBpjsKes" type="file" accept="image/*" />
+              <img id="previewFotoBpjsKes" class="preview-small" />
             </div>
           </div>
 
@@ -583,7 +576,13 @@
             <input id="fotoKk" type="file" accept="image/*" />
             <img id="previewFotoKk" class="preview-small" />
           </div>
-
+		  
+          <div>
+            <label for="fotoSim">Foto SIM</label>
+            <input id="fotoSim" type="file" accept="image/*" />
+            <img id="previewFotoSim" class="preview-small" />
+          </div>
+		  
           <div class="btn-group">
             <button class="btn btn-primary" type="button" onclick="saveBiodata()">💾 Simpan</button>
             <button class="btn btn-secondary" type="button" onclick="showPreviewBiodata()">👀 Preview Biodata</button>
@@ -607,10 +606,10 @@
         <div class="bio-section">
           <div class="bio-section-title">Data Pribadi</div>
           <table class="bio-table">
-            <tr><td class="label">Nama Pegawai</td><td class="value" id="pvnamaPegawai"></td></tr>
-            <tr><td class="label">Tempat / Tanggal Lahir</td><td class="value" id="pvtttl"></td></tr>
-            <tr><td class="label">Jenis Kelamin</td><td class="value" id="pvjenisKelamin"></td></tr>
-            <tr><td class="label">Pendidikan Terakhir</td><td class="value" id="pvpendidikanAkhir"></td></tr>
+            <tr><td class="label">Nama Pegawai</td><td class="value" id="pvNamaPegawai"></td></tr>
+            <tr><td class="label">Tempat / Tanggal Lahir</td><td class="value" id="pvTtl"></td></tr>
+            <tr><td class="label">Jenis Kelamin</td><td class="value" id="pvJenisKelamin"></td></tr>
+            <tr><td class="label">Pendidikan Terakhir</td><td class="value" id="pvPendidikanAkhir"></td></tr>
             <tr><td class="label">Pendidikan Formal</td><td class="value" id="pvPendidikanFormal"></td></tr>
             <tr><td class="label">Pendidikan Non Formal</td><td class="value" id="pvPendidikanNonFormal"></td></tr>
             <tr>
@@ -624,10 +623,10 @@
         <div class="bio-section">
           <div class="bio-section-title">Data Pekerjaan</div>
           <table class="bio-table">
-            <tr><td class="label">Status Perkawinan</td><td class="value" id="pvstatusPerkawinan"></td></tr>
-            <tr><td class="label">Lokasi Kerja</td><td class="value" id="pvlokasiKerja"></td></tr>
-            <tr><td class="label">Posisi Kerja Sebagai</td><td class="value" id="pvposisiKerja"></td></tr>
-            <tr><td class="label">divisi</td><td class="value" id="pvdivisi"></td></tr>
+            <tr><td class="label">Status Perkawinan</td><td class="value" id="pvStatusPerkawinan"></td></tr>
+            <tr><td class="label">Lokasi Kerja</td><td class="value" id="pvLokasiKerja"></td></tr>
+            <tr><td class="label">Posisi Kerja Sebagai</td><td class="value" id="pvPosisiKerja"></td></tr>
+            <tr><td class="label">Divisi</td><td class="value" id="pvDivisi"></td></tr>
           </table>
         </div>
 
@@ -635,10 +634,10 @@
         <div class="bio-section">
           <div class="bio-section-title">Alamat Tempat Tinggal (Domisili)</div>
           <table class="bio-table">
-            <tr><td class="label">Alamat</td><td class="value" id="pvalamatDomisili"></td></tr>
-            <tr><td class="label">Kelurahan / Desa</td><td class="value" id="pvdomKel"></td></tr>
-            <tr><td class="label">Kecamatan</td><td class="value" id="pvdomKec"></td></tr>
-            <tr><td class="label">Kota / Kabupaten</td><td class="value" id="pvdomKota"></td></tr>
+            <tr><td class="label">Alamat</td><td class="value" id="pvAlamatDomisili"></td></tr>
+            <tr><td class="label">Kelurahan / Desa</td><td class="value" id="pvDomKel"></td></tr>
+            <tr><td class="label">Kecamatan</td><td class="value" id="pvDomKec"></td></tr>
+            <tr><td class="label">Kota / Kabupaten</td><td class="value" id="pvDomKota"></td></tr>
           </table>
         </div>
 
@@ -646,13 +645,13 @@
         <div class="bio-section">
           <div class="bio-section-title">Kontak & Rekening</div>
           <table class="bio-table">
-            <tr><td class="label">Nomor Handphone</td><td class="value" id="pvnoHp"></td></tr>
-            <tr><td class="label">Alamat email</td><td class="value" id="pvemail"></td></tr>
-            <tr><td class="label">Nomor KTP</td><td class="value" id="pvnoKtp"></td></tr>
-            <tr><td class="label">Nomor NPWP</td><td class="value" id="pvnoNpwp"></td></tr>
-            <tr><td class="label">Nama Ibu Kandung</td><td class="value" id="pvnamaIbu"></td></tr>
-            <tr><td class="label">Nomor Rekening</td><td class="value" id="pvnoRekening"></td></tr>
-            <tr><td class="label">Nama Bank</td><td class="value" id="pvnamaBank"></td></tr>
+            <tr><td class="label">Nomor Handphone</td><td class="value" id="pvNoHp"></td></tr>
+            <tr><td class="label">Alamat Email</td><td class="value" id="pvEmail"></td></tr>
+            <tr><td class="label">Nomor KTP</td><td class="value" id="pvNoKtp"></td></tr>
+            <tr><td class="label">Nomor NPWP</td><td class="value" id="pvNoNpwp"></td></tr>
+            <tr><td class="label">Nama Ibu Kandung</td><td class="value" id="pvNamaIbu"></td></tr>
+            <tr><td class="label">Nomor Rekening</td><td class="value" id="pvNoRekening"></td></tr>
+            <tr><td class="label">Nama Bank</td><td class="value" id="pvNamaBank"></td></tr>
           </table>
         </div>
 
@@ -660,26 +659,26 @@
         <div class="bio-section">
           <div class="bio-section-title">Alamat Sesuai KTP</div>
           <table class="bio-table">
-            <tr><td class="label">Alamat</td><td class="value" id="pvktpAlamat"></td></tr>
-            <tr><td class="label">Kelurahan</td><td class="value" id="pvktpKel"></td></tr>
-            <tr><td class="label">Kecamatan</td><td class="value" id="pvktpKec"></td></tr>
-            <tr><td class="label">Kota</td><td class="value" id="pvktpKota"></td></tr>
+            <tr><td class="label">Alamat</td><td class="value" id="pvKtpAlamat"></td></tr>
+            <tr><td class="label">Kelurahan</td><td class="value" id="pvKtpKel"></td></tr>
+            <tr><td class="label">Kecamatan</td><td class="value" id="pvKtpKec"></td></tr>
+            <tr><td class="label">Kota</td><td class="value" id="pvKtpKota"></td></tr>
           </table>
         </div>
 
         <!-- BPJS & KELUARGA -->
         <div class="bio-section">
-          <div class="bio-section-title">BPJS & Keluarga</div>
+          <div class="bio-section-title">BPJS & SIM & Keluarga</div>
           <table class="bio-table">
-            <tr><td class="label">BPJS Ketenagakerjaan</td><td class="value" id="pvbpjsKet"></td></tr>
-            <tr><td class="label">BPJS Kesehatan</td><td class="value" id="pvbpjsKes"></td></tr>
-            <tr><td class="label">Nama Istri / Suami</td><td class="value" id="pvnamaPasangan"></td></tr>
-            <tr><td class="label">Nomor BPJS Istri / Suami</td><td class="value" id="pvbpjsPasangan"></td></tr>
-            <tr><td class="label">Nomor Telepon Kerabat</td><td class="value" id="pvtelpKerabat"></td></tr>
-            <tr><td class="label">Data Anak</td><td class="value" id="pvdataAnak"></td></tr>
-            <tr><td class="label">Nama Faskes</td><td class="value" id="pvnamaFaskes"></td></tr>
-            <tr><td class="label">Nomor Kartu Keluarga</td><td class="value" id="pvnoKk"></td></tr>
-			<tr><td class="label">Nomor SIM C</td><td class="value" id="pvNoSimC"></td></tr>
+            <tr><td class="label">BPJS Ketenagakerjaan</td><td class="value" id="pvBpjsKet"></td></tr>
+            <tr><td class="label">BPJS Kesehatan</td><td class="value" id="pvBpjsKes"></td></tr>
+            <tr><td class="label">Nama Istri / Suami</td><td class="value" id="pvNamaPasangan"></td></tr>
+            <tr><td class="label">Nomor BPJS Istri / Suami</td><td class="value" id="pvBpjsPasangan"></td></tr>
+            <tr><td class="label">Nomor Telepon Kerabat</td><td class="value" id="pvTelpKerabat"></td></tr>
+            <tr><td class="label">Data Anak</td><td class="value" id="pvDataAnak"></td></tr>
+            <tr><td class="label">Nama Faskes</td><td class="value" id="pvNamaFaskes"></td></tr>
+            <tr><td class="label">Nomor Kartu Keluarga</td><td class="value" id="pvNoKk"></td></tr>
+			<tr><td class="label">Nomor SIM</td><td class="value" id="pvNoSim"></td></tr>
           </table>
         </div>
 
@@ -697,22 +696,20 @@
             </tr>
             <tr>
               <td class="label">BPJS Ketenagakerjaan</td>
-              <td class="value"><img id="bioFotobpjsKet" alt="Foto BPJS Ketenagakerjaan" /></td>
+              <td class="value"><img id="bioFotoBpjsKet" alt="Foto BPJS Ketenagakerjaan" /></td>
             </tr>
             <tr>
               <td class="label">BPJS Kesehatan</td>
-              <td class="value"><img id="bioFotobpjsKes" alt="Foto BPJS Kesehatan" /></td>
+              <td class="value"><img id="bioFotoBpjsKes" alt="Foto BPJS Kesehatan" /></td>
             </tr>
             <tr>
               <td class="label">KK</td>
               <td class="value"><img id="bioFotoKk" alt="Foto KK" /></td>
             </tr>
-			
-			<tr>
-			 <td class="label">Foto SIM C</td>
-			 <td class="value"><img id="bioFotoSimC" /></td>
-			</tr>
-			
+            <tr>
+              <td class="label">SIM</td>
+              <td class="value"><img id="bioFotoSim" alt="Foto SIM" /></td>
+            </tr>
           </table>
         </div>
 
@@ -887,9 +884,9 @@
     let fotoKtpDataUrl = "";
     let fotoKkDataUrl = "";
     let fotoNpwpDataUrl = "";
-    let fotobpjsKetDataUrl = "";
-    let fotobpjsKesDataUrl = "";
-	let fotoSimCDataUrl = "";
+    let fotoBpjsKetDataUrl = "";
+    let fotoBpjsKesDataUrl = "";
+    let fotoSimDataUrl = "";
 	
     /* Set link Sheet & Drive di tombol admin */
     (function setAdminLinks(){
@@ -960,10 +957,10 @@
     attachFilePreview("fotoTeknisi", "previewFotoForm", url => fotoDataUrl = url);
     attachFilePreview("fotoKtp", "previewFotoKtp", url => fotoKtpDataUrl = url);
     attachFilePreview("fotoKk", "previewFotoKk", url => fotoKkDataUrl = url);
+    attachFilePreview("fotoSim", "previewFotoSim", url => fotoSimDataUrl = url);	
     attachFilePreview("fotoNpwp", "previewFotoNpwp", url => fotoNpwpDataUrl = url);
-    attachFilePreview("fotobpjsKet", "previewFotobpjsKet", url => fotobpjsKetDataUrl = url);
-    attachFilePreview("fotobpjsKes", "previewFotobpjsKes", url => fotobpjsKesDataUrl = url);
-	attachFilePreview("fotoSimC", "previewFotoSimC", url => fotoSimCDataUrl = url);
+    attachFilePreview("fotoBpjsKet", "previewFotoBpjsKet", url => fotoBpjsKetDataUrl = url);
+    attachFilePreview("fotoBpjsKes", "previewFotoBpjsKes", url => fotoBpjsKesDataUrl = url);
 
     /* ========= SIMPAN BIODATA ========= */
     async function saveBiodata() {
@@ -989,10 +986,10 @@
             foto: fotoDataUrl,
             fotoKtp: fotoKtpDataUrl,
             fotoKk: fotoKkDataUrl,
+            fotoSim: fotoSimDataUrl,
             fotoNpwp: fotoNpwpDataUrl,
-            fotobpjsKet: fotobpjsKetDataUrl,
-            fotobpjsKes: fotobpjsKesDataUrl,
-			fotoSimC: fotoSimCDataUrl
+            fotoBpjsKet: fotoBpjsKetDataUrl,
+            fotoBpjsKes: fotoBpjsKesDataUrl
           })
         });
         const text = await res.text();
@@ -1025,7 +1022,7 @@
     }
   };
 
-/* ==== DATA PRIBADI ==== */
+  /* ==== DATA PRIBADI ==== */
   t("pvNamaPegawai", v("namaPegawai"));
   t("pvTtl", v("ttl"));
   t("pvJenisKelamin", v("jenisKelamin"));
@@ -1069,6 +1066,7 @@
   t("pvDataAnak", v("dataAnak"));
   t("pvNamaFaskes", v("namaFaskes"));
   t("pvNoKk", v("noKk"));
+  t("pvNoSim", v("noSim"));
 
   /* ==== FOTO ==== */
   i("bioFotoInline", fotoDataUrl);
@@ -1077,23 +1075,8 @@
   i("bioFotoBpjsKet", fotoBpjsKetDataUrl);
   i("bioFotoBpjsKes", fotoBpjsKesDataUrl);
   i("bioFotoKk", fotoKkDataUrl);
-  i("bioFotoSimc", fotoSimCDataUrl);
+  i("bioFotoSim", fotoSimDataUrl);
   
-// ===== TAMBAHAN SIM C (PREVIEW A4) =====
-const pvNoSimC = document.getElementById("pvNoSimC");
-if (pvNoSimC) {
-  pvNoSimC.textContent =
-    document.getElementById("noSimC")?.value || "-";
-}
-
-if (fotoSimCDataUrl) {
-  const img = document.getElementById("bioFotoSimC");
-  if (img) {
-    img.src = fotoSimCDataUrl;
-    img.style.display = "block";
-  }
-}
-
   document.getElementById("pvPrintedAt").textContent =
     new Date().toLocaleString("id-ID", { dateStyle: "short", timeStyle: "short" });
 
@@ -1104,11 +1087,11 @@ if (fotoSimCDataUrl) {
     "Preview berdasarkan isi formulir.";
   document.getElementById("formStatus").style.color = "#22c55e";
 }
-/* ========= KUMPUL DATA FORM (FINAL & BENAR) ========= */
+/* ========= KUMPUL DATA FORM (FIX) ========= */
 function collectFormData() {
   return {
     namaPegawai: document.getElementById("namaPegawai").value || "",
-    tttl: document.getElementById("tttl").value || "",
+    ttl: document.getElementById("ttl").value || "",
     jenisKelamin: document.getElementById("jenisKelamin").value || "",
     pendidikanAkhir: document.getElementById("pendidikanAkhir").value || "",
     pendFormal: document.getElementById("pendFormal").value || "",
@@ -1145,13 +1128,9 @@ function collectFormData() {
     dataAnak: document.getElementById("dataAnak").value || "",
     namaFaskes: document.getElementById("namaFaskes").value || "",
     noKk: document.getElementById("noKk").value || "",
-    noSimC: document.getElementById("noSimC").value || ""
+    noSim: document.getElementById("noSim").value || ""
   };
 }
-</script>
+  </script>
 </body>
 </html>
-
-
-
-
