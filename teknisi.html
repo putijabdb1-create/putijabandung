@@ -1,6 +1,3 @@
-TEST COBA COBA
-
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -532,11 +529,7 @@ TEST COBA COBA
             <div>
               <label for="noKk">Nomor Kartu Keluarga</label>
               <input id="noKk" />
-				</div>
-			 <div>
-              <label for="noSimC">Nomor SimC</label>
-              <input id="noSimC" />
-			 </div>
+            </div>
           </div>
 
           <div class="section-title">Foto Teknisi</div>
@@ -544,7 +537,7 @@ TEST COBA COBA
           <img id="previewFotoForm" class="preview-small" />
 
           <div class="section-title">Foto Dokumen (opsional)</div>
-          <!-- URUTAN: KTP, NPWP, BPJS KET, BPJS KES, KK, SIM C -->
+          <!-- URUTAN: KTP, NPWP, BPJS KET, BPJS KES, KK -->
           <div class="field-row-2">
             <div>
               <label for="fotoKtp">Foto KTP</label>
@@ -576,13 +569,7 @@ TEST COBA COBA
             <input id="fotoKk" type="file" accept="image/*" />
             <img id="previewFotoKk" class="preview-small" />
           </div>
-		  
-          <div>
-            <label for="fotoSimC">Foto SIM C</label>
-            <input id="fotoSimC" type="file" accept="image/*" />
-            <img id="previewFotoSimC" class="preview-small" />
-          </div>
-		  
+
           <div class="btn-group">
             <button class="btn btn-primary" type="button" onclick="saveBiodata()">💾 Simpan</button>
             <button class="btn btn-secondary" type="button" onclick="showPreviewBiodata()">👀 Preview Biodata</button>
@@ -678,7 +665,6 @@ TEST COBA COBA
             <tr><td class="label">Data Anak</td><td class="value" id="pvDataAnak"></td></tr>
             <tr><td class="label">Nama Faskes</td><td class="value" id="pvNamaFaskes"></td></tr>
             <tr><td class="label">Nomor Kartu Keluarga</td><td class="value" id="pvNoKk"></td></tr>
-			<tr><td class="label">Nomor SIM C</td><td class="value" id="pvNoSimC"></td></tr>
           </table>
         </div>
 
@@ -705,10 +691,6 @@ TEST COBA COBA
             <tr>
               <td class="label">KK</td>
               <td class="value"><img id="bioFotoKk" alt="Foto KK" /></td>
-            </tr>
-			 <tr>
-              <td class="label">SIM C</td>
-              <td class="value"><img id="bioFotoSimC" alt="Foto SIM C" /></td>
             </tr>
           </table>
         </div>
@@ -886,8 +868,7 @@ TEST COBA COBA
     let fotoNpwpDataUrl = "";
     let fotoBpjsKetDataUrl = "";
     let fotoBpjsKesDataUrl = "";
-    let fotoSimCDataUrl = "";
-	
+
     /* Set link Sheet & Drive di tombol admin */
     (function setAdminLinks(){
       const s = document.getElementById("sheetLink");
@@ -960,8 +941,7 @@ TEST COBA COBA
     attachFilePreview("fotoNpwp", "previewFotoNpwp", url => fotoNpwpDataUrl = url);
     attachFilePreview("fotoBpjsKet", "previewFotoBpjsKet", url => fotoBpjsKetDataUrl = url);
     attachFilePreview("fotoBpjsKes", "previewFotoBpjsKes", url => fotoBpjsKesDataUrl = url);
-    attachFilePreview("fotoSimC", "previewFotoSimC", url => fotoSimCUrl = url);
-	
+
     /* ========= SIMPAN BIODATA ========= */
     async function saveBiodata() {
       if (!currentUser) {
@@ -988,8 +968,7 @@ TEST COBA COBA
             fotoKk: fotoKkDataUrl,
             fotoNpwp: fotoNpwpDataUrl,
             fotoBpjsKet: fotoBpjsKetDataUrl,
-            fotoBpjsKes: fotoBpjsKesDataUrl,
-			fotoKk: fotoSimCDataUrl
+            fotoBpjsKes: fotoBpjsKesDataUrl
           })
         });
         const text = await res.text();
@@ -1066,8 +1045,7 @@ TEST COBA COBA
   t("pvDataAnak", v("dataAnak"));
   t("pvNamaFaskes", v("namaFaskes"));
   t("pvNoKk", v("noKk"));
-  t("pvNoSimC", v("noSimC"));
-  
+
   /* ==== FOTO ==== */
   i("bioFotoInline", fotoDataUrl);
   i("bioFotoKtp", fotoKtpDataUrl);
@@ -1075,8 +1053,7 @@ TEST COBA COBA
   i("bioFotoBpjsKet", fotoBpjsKetDataUrl);
   i("bioFotoBpjsKes", fotoBpjsKesDataUrl);
   i("bioFotoKk", fotoKkDataUrl);
-  i("bioFotoSimC", fotoSimCDataUrl);
-  
+
   document.getElementById("pvPrintedAt").textContent =
     new Date().toLocaleString("id-ID", { dateStyle: "short", timeStyle: "short" });
 
@@ -1127,8 +1104,7 @@ function collectFormData() {
     telpKerabat: document.getElementById("telpKerabat").value || "",
     dataAnak: document.getElementById("dataAnak").value || "",
     namaFaskes: document.getElementById("namaFaskes").value || "",
-    noKk: document.getElementById("noKk").value || "",
-	noSimC: document.getElementById("noSimC").value || ""
+    noKk: document.getElementById("noKk").value || ""
   };
 }
   </script>
