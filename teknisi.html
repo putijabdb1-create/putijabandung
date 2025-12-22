@@ -909,16 +909,21 @@
         return;
       }
 
-      currentUser = user;
-      statusEl.textContent = "Login berhasil sebagai " + user.nama + ". Silakan isi biodata.";
-      statusEl.style.color = "#bbf7d0";
+		currentUser = user; 
+		statusEl.textContent =
+		"Login berhasil sebagai " + user.nama + ". Silakan isi biodata.";
+		statusEl.style.color = "#bbf7d0";
 
-      document.getElementById("namaPegawai").value = user.nama || "";
-      document.getElementById("divisi").value = user.divisi || "";
-      document.getElementById("lokasiKerja").value = user.defaultArea || "";
+		document.getElementById("namaPegawai").value = user.nama || "";
+		document.getElementById("divisi").value = user.divisi || "";
+		document.getElementById("lokasiKerja").value = user.defaultArea || "";
 
-      document.getElementById("formCard").style.display = "block";
-      document.getElementById("formCard").scrollIntoView({behavior:"smooth"});
+		document.getElementById("formCard").style.display = "block";
+		document.getElementById("formCard").scrollIntoView({ behavior:"smooth" });
+
+			/		* === INI SATU-SATUNYA TAMBAHAN === */
+		loadExistingBiodata();
+
     }
 
     function logoutTeknisi() {
@@ -934,6 +939,98 @@
     function scrollToForm() {
       document.getElementById("formCard").scrollIntoView({behavior:"smooth"});
     }
+
+/* ========= LOAD EXISTING BIODATA (FINAL STABLE) ========= */
+function loadExistingBiodata() {
+  if (!currentUser || !currentUser.nik) return;
+
+  const $ = id => document.getElementById(id);
+
+  fetch(WEB_APP_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({
+      mode: "getBiodata",
+      nik: currentUser.nik
+    })
+  })
+  .then(r => r.json())
+  .then(res => {
+    if (!res.ok || !res.biodata) {
+      console.log("Belum ada biodata tersimpan");
+      return;
+    }
+
+    const b = res.biodata;
+    const p = res.photos || {};
+
+    /* ===== ISI FIELD FORM ===== */
+    if ($("namaPegawai")) $("namaPegawai").value = b.namaPegawai || "";
+    if ($("ttl")) $("ttl").value = b.ttl || "";
+    if ($("jenisKelamin")) $("jenisKelamin").value = b.jenisKelamin || "";
+    if ($("pendidikanAkhir")) $("pendidikanAkhir").value = b.pendidikanAkhir || "";
+    if ($("pendFormal")) $("pendFormal").value = b.pendFormal || "";
+    if ($("pendNonFormal")) $("pendNonFormal").value = b.pendNonFormal || "";
+
+    if ($("statusPerkawinan")) $("statusPerkawinan").value = b.statusPerkawinan || "";
+    if ($("lokasiKerja")) $("lokasiKerja").value = b.lokasiKerja || "";
+    if ($("posisiKerja")) $("posisiKerja").value = b.posisiKerja || "";
+    if ($("divisi")) $("divisi").value = b.divisi || "";
+
+    if ($("alamatDomisili")) $("alamatDomisili").value = b.alamatDomisili || "";
+    if ($("domKel")) $("domKel").value = b.domKel || "";
+    if ($("domKec")) $("domKec").value = b.domKec || "";
+    if ($("domKota")) $("domKota").value = b.domKota || "";
+
+    if ($("noHp")) $("noHp").value = b.noHp || "";
+    if ($("email")) $("email").value = b.email || "";
+    if ($("noKtp")) $("noKtp").value = b.noKtp || "";
+    if ($("noNpwp")) $("noNpwp").value = b.noNpwp || "";
+    if ($("namaIbu")) $("namaIbu").value = b.namaIbu || "";
+    if ($("noRekening")) $("noRekening").value = b.noRekening || "";
+    if ($("namaBank")) $("namaBank").value = b.namaBank || "";
+
+    if ($("ktpAlamat")) $("ktpAlamat").value = b.ktpAlamat || "";
+    if ($("ktpKel")) $("ktpKel").value = b.ktpKel || "";
+    if ($("ktpKec")) $("ktpKec").value = b.ktpKec || "";
+    if ($("ktpKota")) $("ktpKota").value = b.ktpKota || "";
+
+    if ($("bpjsKet")) $("bpjsKet").value = b.bpjsKet || "";
+    if ($("bpjsKes")) $("bpjsKes").value = b.bpjsKes || "";
+    if ($("namaPasangan")) $("namaPasangan").value = b.namaPasangan || "";
+    if ($("bpjsPasangan")) $("bpjsPasangan").value = b.bpjsPasangan || "";
+    if ($("telpKerabat")) $("telpKerabat").value = b.telpKerabat || "";
+    if ($("dataAnak")) $("dataAnak").value = b.dataAnak || "";
+    if ($("namaFaskes")) $("namaFaskes").value = b.namaFaskes || "";
+    if ($("noKk")) $("noKk").value = b.noKk || "";
+    if ($("noSim")) $("noSim").value = b.noSim || "";
+
+    /* ===== FOTO PREVIEW ===== */
+    setPreview("previewFotoForm", p.teknisi);
+    setPreview("previewFotoKtp", p.ktp);
+    setPreview("previewFotoNpwp", p.npwp);
+    setPreview("previewFotoBpjsKet", p.bpjsKet);
+    setPreview("previewFotoBpjsKes", p.bpjsKes);
+    setPreview("previewFotoKk", p.kk);
+    setPreview("previewFotoSim", p.sim);
+
+    console.log("Biodata lama berhasil dimuat");
+  })
+  .catch(err => {
+    console.error("Gagal load biodata:", err);
+  });
+}
+
+/* ===== HELPER FOTO ===== */
+function setPreview(imgId, src) {
+  const img = document.getElementById(imgId);
+  if (!img) return;
+  if (src) {
+    img.src = src;
+    img.style.display = "block";
+  }
+}
+
 
     /* ========= FOTO INPUT ========= */
     function attachFilePreview(inputId, imgId, setter) {
@@ -1134,3 +1231,6 @@ function collectFormData() {
   </script>
 </body>
 </html>
+
+
+
