@@ -1,3 +1,4 @@
+TEST 13
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -909,22 +910,16 @@
         return;
       }
 
-		currentUser = user; 
-	statusEl.textContent =
-	"Login berhasil sebagai " + user.nama + ". Silakan isi biodata.";
-	statusEl.style.color = "#bbf7d0";
+      currentUser = user;
+      statusEl.textContent = "Login berhasil sebagai " + user.nama + ". Silakan isi biodata.";
+      statusEl.style.color = "#bbf7d0";
 
-	document.getElementById("namaPegawai").value = user.nama || "";
-	document.getElementById("divisi").value = user.divisi || "";
-	document.getElementById("lokasiKerja").value = user.defaultArea || "";
+      document.getElementById("namaPegawai").value = user.nama || "";
+      document.getElementById("divisi").value = user.divisi || "";
+      document.getElementById("lokasiKerja").value = user.defaultArea || "";
 
-	document.getElementById("formCard").style.display = "block";
-	document.getElementById("formCard").scrollIntoView({ behavior:"smooth" });
-
-	/* === INI SATU-SATUNYA TAMBAHAN === */
-	loadExistingBiodata();
-
-
+      document.getElementById("formCard").style.display = "block";
+      document.getElementById("formCard").scrollIntoView({behavior:"smooth"});
     }
 
     function logoutTeknisi() {
@@ -940,6 +935,7 @@
     function scrollToForm() {
       document.getElementById("formCard").scrollIntoView({behavior:"smooth"});
     }
+
 
 /* ========= LOAD EXISTING BIODATA (FINAL STABLE) ========= */
 function loadExistingBiodata() {
@@ -1018,8 +1014,6 @@ function setPreview(imgId, url) {
   img.style.display = "block";
 }
 
-
-
     /* ========= FOTO INPUT ========= */
     function attachFilePreview(inputId, imgId, setter) {
       const input = document.getElementById(inputId);
@@ -1048,57 +1042,120 @@ function setPreview(imgId, url) {
     attachFilePreview("fotoBpjsKes", "previewFotoBpjsKes", url => fotoBpjsKesDataUrl = url);
 
     /* ========= SIMPAN BIODATA ========= */
- async function saveBiodata() {
-  if (!currentUser) {
-    alert("Silakan login terlebih dahulu.");
-    return;
-  }
+    async function saveBiodata() {
+      if (!currentUser) {
+        alert("Silakan login terlebih dahulu.");
+        return;
+      }
+      const statusEl = document.getElementById("formStatus");
+      statusEl.style.color = "#9ca3af";
+      statusEl.textContent = "Menyimpan biodata ke Google Sheet...";
 
-  const statusEl = document.getElementById("formStatus");
-  statusEl.style.color = "#9ca3af";
-  statusEl.textContent = "Menyimpan biodata ke Google Sheet...";
+      const data = collectFormData();
 
-  const data = collectFormData();
+      try {
+        const res = await fetch(WEB_APP_URL, {
+          method: "POST",
+          // penting: pakai text/plain supaya tidak kena CORS / preflight
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            mode: "saveBiodata",
+            user: currentUser,
+            biodata: data,
+            foto: fotoDataUrl,
+            fotoKtp: fotoKtpDataUrl,
+            fotoKk: fotoKkDataUrl,
+            fotoSim: fotoSimDataUrl,
+            fotoNpwp: fotoNpwpDataUrl,
+            fotoBpjsKet: fotoBpjsKetDataUrl,
+            fotoBpjsKes: fotoBpjsKesDataUrl
+          })
+        });
+        const text = await res.text();
+        statusEl.style.color = "#bbf7d0";
+        statusEl.textContent = "Biodata berhasil dikirim. Respon server: " + text;
+        console.log("Respon server:", text);
+      } catch (err) {
+        statusEl.style.color = "#fca5a5";
+        statusEl.textContent = "Gagal menyimpan biodata: " + err.message;
+        console.error("Error fetch:", err);
+      }
+    }
 
-  try {
-    const res = await fetch(WEB_APP_URL, {
-      method: "POST",
-      headers: { "Content-Type": "text/plain;charset=utf-8" },
-      body: JSON.stringify({
-        mode: "saveBiodata",          // ✅ INI HARUS saveBiodata
-        user: currentUser,            // ✅ PRIMARY: username
-        biodata: data,
-        foto: fotoDataUrl,
-        fotoKtp: fotoKtpDataUrl,
-        fotoKk: fotoKkDataUrl,
-        fotoSim: fotoSimDataUrl,
-        fotoNpwp: fotoNpwpDataUrl,
-        fotoBpjsKet: fotoBpjsKetDataUrl,
-        fotoBpjsKes: fotoBpjsKesDataUrl
-      })
-    });
+    /* ========= KUMPUL DATA FORM ========= */
+    function showPreviewBiodata() {
 
-    const json = await res.json();
-    if (!json.ok) throw new Error(json.error || "Gagal simpan");
-
-    statusEl.style.color = "#22c55e";
-    statusEl.textContent = "Biodata berhasil disimpan.";
-
-  } catch (err) {
-    statusEl.style.color = "#fca5a5";
-    statusEl.textContent = "Error: " + err.message;
-    console.error(err);
-  }
-}
-
+  const v = id => document.getElementById(id)?.value || "-";
+  const t = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val || "-";
+  };
+  const i = (id, src) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    if (src) {
+      el.src = src;
+      el.style.display = "block";
+    } else {
+      el.style.display = "none";
+    }
+  };
 
   /* ==== DATA PRIBADI ==== */
- function setPreview(imgId, url) {
-  const img = document.getElementById(imgId);
-  if (!img || !url) return;
-  img.src = url;
-  img.style.display = "block";
-}  
+  t("pvNamaPegawai", v("namaPegawai"));
+  t("pvTtl", v("ttl"));
+  t("pvJenisKelamin", v("jenisKelamin"));
+  t("pvPendidikanAkhir", v("pendidikanAkhir"));
+  t("pvPendidikanFormal", v("pendFormal"));
+  t("pvPendidikanNonFormal", v("pendNonFormal"));
+
+  /* ==== DATA PEKERJAAN ==== */
+  t("pvStatusPerkawinan", v("statusPerkawinan"));
+  t("pvLokasiKerja", v("lokasiKerja"));
+  t("pvPosisiKerja", v("posisiKerja"));
+  t("pvDivisi", v("divisi"));
+
+  /* ==== ALAMAT DOMISILI ==== */
+  t("pvAlamatDomisili", v("alamatDomisili"));
+  t("pvDomKel", v("domKel"));
+  t("pvDomKec", v("domKec"));
+  t("pvDomKota", v("domKota"));
+
+  /* ==== KONTAK ==== */
+  t("pvNoHp", v("noHp"));
+  t("pvEmail", v("email"));
+  t("pvNoKtp", v("noKtp"));
+  t("pvNoNpwp", v("noNpwp"));
+  t("pvNamaIbu", v("namaIbu"));
+  t("pvNoRekening", v("noRekening"));
+  t("pvNamaBank", v("namaBank"));
+
+  /* ==== ALAMAT KTP ==== */
+  t("pvKtpAlamat", v("ktpAlamat"));
+  t("pvKtpKel", v("ktpKel"));
+  t("pvKtpKec", v("ktpKec"));
+  t("pvKtpKota", v("ktpKota"));
+
+  /* ==== BPJS & KELUARGA ==== */
+  t("pvBpjsKet", v("bpjsKet"));
+  t("pvBpjsKes", v("bpjsKes"));
+  t("pvNamaPasangan", v("namaPasangan"));
+  t("pvBpjsPasangan", v("bpjsPasangan"));
+  t("pvTelpKerabat", v("telpKerabat"));
+  t("pvDataAnak", v("dataAnak"));
+  t("pvNamaFaskes", v("namaFaskes"));
+  t("pvNoKk", v("noKk"));
+  t("pvNoSim", v("noSim"));
+
+  /* ==== FOTO ==== */
+  i("bioFotoInline", fotoDataUrl);
+  i("bioFotoKtp", fotoKtpDataUrl);
+  i("bioFotoNpwp", fotoNpwpDataUrl);
+  i("bioFotoBpjsKet", fotoBpjsKetDataUrl);
+  i("bioFotoBpjsKes", fotoBpjsKesDataUrl);
+  i("bioFotoKk", fotoKkDataUrl);
+  i("bioFotoSim", fotoSimDataUrl);
+  
   document.getElementById("pvPrintedAt").textContent =
     new Date().toLocaleString("id-ID", { dateStyle: "short", timeStyle: "short" });
 
@@ -1156,3 +1213,6 @@ function collectFormData() {
   </script>
 </body>
 </html>
+
+
+
