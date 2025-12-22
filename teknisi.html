@@ -1,4 +1,3 @@
-TEST 13
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -935,84 +934,6 @@ TEST 13
     function scrollToForm() {
       document.getElementById("formCard").scrollIntoView({behavior:"smooth"});
     }
-
-
-/* ========= LOAD EXISTING BIODATA (FINAL STABLE) ========= */
-function loadExistingBiodata() {
-  if (!currentUser || !currentUser.username) return;
-
-  fetch(WEB_APP_URL, {
-    method: "POST",
-    headers: { "Content-Type": "text/plain;charset=utf-8" },
-    body: JSON.stringify({
-      mode: "getBiodata",
-      username: currentUser.username
-    })
-  })
-  .then(r => r.json())
-  .then(res => {
-    if (!res.ok) return;
-
-    const b = res.biodata;
-    const p = res.photos || {};
-
-    namaPegawai.value = b.namaPegawai || "";
-    ttl.value = b.ttl || "";
-    jenisKelamin.value = b.jenisKelamin || "";
-    pendidikanAkhir.value = b.pendidikanAkhir || "";
-    pendFormal.value = b.pendFormal || "";
-    pendNonFormal.value = b.pendNonFormal || "";
-
-    statusPerkawinan.value = b.statusPerkawinan || "";
-    lokasiKerja.value = b.lokasiKerja || "";
-    posisiKerja.value = b.posisiKerja || "";
-    divisi.value = b.divisi || "";
-
-    alamatDomisili.value = b.alamatDomisili || "";
-    domKel.value = b.domKel || "";
-    domKec.value = b.domKec || "";
-    domKota.value = b.domKota || "";
-
-    noHp.value = b.noHp || "";
-    email.value = b.email || "";
-    noKtp.value = b.noKtp || "";
-    noNpwp.value = b.noNpwp || "";
-    namaIbu.value = b.namaIbu || "";
-    noRekening.value = b.noRekening || "";
-    namaBank.value = b.namaBank || "";
-
-    ktpAlamat.value = b.ktpAlamat || "";
-    ktpKel.value = b.ktpKel || "";
-    ktpKec.value = b.ktpKec || "";
-    ktpKota.value = b.ktpKota || "";
-
-    bpjsKet.value = b.bpjsKet || "";
-    bpjsKes.value = b.bpjsKes || "";
-    namaPasangan.value = b.namaPasangan || "";
-    bpjsPasangan.value = b.bpjsPasangan || "";
-    telpKerabat.value = b.telpKerabat || "";
-    dataAnak.value = b.dataAnak || "";
-    namaFaskes.value = b.namaFaskes || "";
-    noKk.value = b.noKk || "";
-    noSim.value = b.noSim || "";
-
-    setPreview("previewFotoForm", p.teknisi);
-    setPreview("previewFotoKtp", p.ktp);
-    setPreview("previewFotoNpwp", p.npwp);
-    setPreview("previewFotoBpjsKet", p.bpjsKet);
-    setPreview("previewFotoBpjsKes", p.bpjsKes);
-    setPreview("previewFotoKk", p.kk);
-    setPreview("previewFotoSim", p.sim);
-  });
-}
-
-/* ========= HELPER PREVIEW FOTO (WAJIB) ========= */
-function setPreview(imgId, url) {
-  const img = document.getElementById(imgId);
-  if (!img || !url) return;
-  img.src = url;
-  img.style.display = "block";
-}
 
     /* ========= FOTO INPUT ========= */
     function attachFilePreview(inputId, imgId, setter) {
