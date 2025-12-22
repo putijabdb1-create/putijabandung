@@ -1057,17 +1057,10 @@ function setPreview(imgId, src) {
           method: "POST",
           // penting: pakai text/plain supaya tidak kena CORS / preflight
           headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({
-            mode: "saveBiodata",
-            user: currentUser,
-            biodata: data,
-            foto: fotoDataUrl,
-            fotoKtp: fotoKtpDataUrl,
-            fotoKk: fotoKkDataUrl,
-            fotoSim: fotoSimDataUrl,
-            fotoNpwp: fotoNpwpDataUrl,
-            fotoBpjsKet: fotoBpjsKetDataUrl,
-            fotoBpjsKes: fotoBpjsKesDataUrl
+         body: JSON.stringify({
+			mode: "getBiodata",
+			username: currentUser.username // ✅ PRIMARY KEY
+			})
           })
         });
         const text = await res.text();
