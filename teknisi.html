@@ -1,5 +1,3 @@
-TEST
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -947,12 +945,12 @@ TEST
 function loadExistingBiodata() {
   if (!currentUser || !currentUser.username) return;
 
-  fetch(WEB_APP_URL,{
-    method:"POST",
-    headers:{ "Content-Type":"text/plain;charset=utf-8" },
+  fetch(WEB_APP_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify({
       mode: "getBiodata",
-      username: currentUser.username // ✅ PRIMARY KEY
+      username: currentUser.username   // ✅ PRIMARY KEY
     })
   })
   .then(r => r.json())
@@ -960,7 +958,9 @@ function loadExistingBiodata() {
     if (!res.ok) return;
 
     const b = res.biodata;
+    const p = res.photos || {};
 
+    // === ISI FORM ===
     namaPegawai.value = b.namaPegawai || "";
     ttl.value = b.ttl || "";
     jenisKelamin.value = b.jenisKelamin || "";
@@ -1000,18 +1000,17 @@ function loadExistingBiodata() {
     namaFaskes.value = b.namaFaskes || "";
     noKk.value = b.noKk || "";
     noSim.value = b.noSim || "";
+
+    // === PREVIEW FOTO DARI DRIVE ===
+    setPreview("previewFotoForm", p.teknisi);
+    setPreview("previewFotoKtp", p.ktp);
+    setPreview("previewFotoNpwp", p.npwp);
+    setPreview("previewFotoBpjsKet", p.bpjsKet);
+    setPreview("previewFotoBpjsKes", p.bpjsKes);
+    setPreview("previewFotoKk", p.kk);
+    setPreview("previewFotoSim", p.sim);
   });
 }
-/* ===== HELPER FOTO ===== */
-function setPreview(imgId, src) {
-  const img = document.getElementById(imgId);
-  if (!img) return;
-  if (src) {
-    img.src = src;
-    img.style.display = "block";
-  }
-}
-
 
     /* ========= FOTO INPUT ========= */
     function attachFilePreview(inputId, imgId, setter) {
@@ -1048,8 +1047,8 @@ function setPreview(imgId, src) {
   }
 
   const statusEl = document.getElementById("formStatus");
-  statusEl.textContent = "Menyimpan biodata...";
   statusEl.style.color = "#9ca3af";
+  statusEl.textContent = "Menyimpan biodata ke Google Sheet...";
 
   const data = collectFormData();
 
@@ -1058,8 +1057,8 @@ function setPreview(imgId, src) {
       method: "POST",
       headers: { "Content-Type": "text/plain;charset=utf-8" },
       body: JSON.stringify({
-        mode: "saveBiodata",
-        user: currentUser,
+        mode: "saveBiodata",          // ✅ INI HARUS saveBiodata
+        user: currentUser,            // ✅ PRIMARY: username
         biodata: data,
         foto: fotoDataUrl,
         fotoKtp: fotoKtpDataUrl,
@@ -1071,12 +1070,16 @@ function setPreview(imgId, src) {
       })
     });
 
-    const text = await res.text();
-    statusEl.textContent = "Berhasil disimpan: " + text;
+    const json = await res.json();
+    if (!json.ok) throw new Error(json.error || "Gagal simpan");
+
     statusEl.style.color = "#22c55e";
+    statusEl.textContent = "Biodata berhasil disimpan.";
+
   } catch (err) {
-    statusEl.textContent = "Gagal: " + err.message;
     statusEl.style.color = "#fca5a5";
+    statusEl.textContent = "Error: " + err.message;
+    console.error(err);
   }
 }
 
