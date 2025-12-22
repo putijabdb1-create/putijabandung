@@ -1,5 +1,3 @@
- TEST 11
-
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -1011,6 +1009,15 @@ function loadExistingBiodata() {
     setPreview("previewFotoSim", p.sim);
   });
 }
+
+/* ========= HELPER PREVIEW FOTO (WAJIB) ========= */
+function setPreview(imgId, url) {
+  const img = document.getElementById(imgId);
+  if (!img || !url) return;
+  img.src = url;
+  img.style.display = "block";
+}
+
 
 
     /* ========= FOTO INPUT ========= */
