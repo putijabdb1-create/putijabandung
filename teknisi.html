@@ -943,22 +943,21 @@
 
 /* ========= LOAD EXISTING BIODATA (FINAL STABLE) ========= */
 function loadExistingBiodata() {
-  if (!currentUser || !currentUser.nik) return;
+  if (!currentUser || !currentUser.username) return;
 
   fetch(WEB_APP_URL,{
     method:"POST",
     headers:{ "Content-Type":"text/plain;charset=utf-8" },
-    body:JSON.stringify({
-      mode:"getBiodata",
-      nik: currentUser.nik
+    body: JSON.stringify({
+      mode: "getBiodata",
+      username: currentUser.username // ✅ PRIMARY KEY
     })
   })
-  .then(r=>r.json())
-  .then(res=>{
+  .then(r => r.json())
+  .then(res => {
     if (!res.ok) return;
 
     const b = res.biodata;
-    const p = res.photos;
 
     namaPegawai.value = b.namaPegawai || "";
     ttl.value = b.ttl || "";
@@ -1001,7 +1000,6 @@ function loadExistingBiodata() {
     noSim.value = b.noSim || "";
   });
 }
-
 /* ===== HELPER FOTO ===== */
 function setPreview(imgId, src) {
   const img = document.getElementById(imgId);
@@ -1054,13 +1052,21 @@ function setPreview(imgId, src) {
 
       try {
         const res = await fetch(WEB_APP_URL, {
-          method: "POST",
-          // penting: pakai text/plain supaya tidak kena CORS / preflight
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-         body: JSON.stringify({
-			mode: "getBiodata",
-			username: currentUser.username // ✅ PRIMARY KEY
-			})
+  method: "POST",
+  headers: { "Content-Type": "text/plain;charset=utf-8" },
+  body: JSON.stringify({
+    mode: "saveBiodata",        // ✅ BENAR
+    user: currentUser,          // username DIKIRIM
+    biodata: data,
+    foto: fotoDataUrl,
+    fotoKtp: fotoKtpDataUrl,
+    fotoKk: fotoKkDataUrl,
+    fotoSim: fotoSimDataUrl,
+    fotoNpwp: fotoNpwpDataUrl,
+    fotoBpjsKet: fotoBpjsKetDataUrl,
+    fotoBpjsKes: fotoBpjsKesDataUrl
+  })
+});
           })
         });
         const text = await res.text();
