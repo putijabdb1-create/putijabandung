@@ -1,3 +1,5 @@
+TEST
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -1039,65 +1041,45 @@ function setPreview(imgId, src) {
     attachFilePreview("fotoBpjsKes", "previewFotoBpjsKes", url => fotoBpjsKesDataUrl = url);
 
     /* ========= SIMPAN BIODATA ========= */
-    async function saveBiodata() {
-      if (!currentUser) {
-        alert("Silakan login terlebih dahulu.");
-        return;
-      }
-      const statusEl = document.getElementById("formStatus");
-      statusEl.style.color = "#9ca3af";
-      statusEl.textContent = "Menyimpan biodata ke Google Sheet...";
+ async function saveBiodata() {
+  if (!currentUser) {
+    alert("Silakan login terlebih dahulu.");
+    return;
+  }
 
-      const data = collectFormData();
+  const statusEl = document.getElementById("formStatus");
+  statusEl.textContent = "Menyimpan biodata...";
+  statusEl.style.color = "#9ca3af";
 
-      try {
-        const res = await fetch(WEB_APP_URL, {
-  method: "POST",
-  headers: { "Content-Type": "text/plain;charset=utf-8" },
-  body: JSON.stringify({
-    mode: "saveBiodata",        // ✅ BENAR
-    user: currentUser,          // username DIKIRIM
-    biodata: data,
-    foto: fotoDataUrl,
-    fotoKtp: fotoKtpDataUrl,
-    fotoKk: fotoKkDataUrl,
-    fotoSim: fotoSimDataUrl,
-    fotoNpwp: fotoNpwpDataUrl,
-    fotoBpjsKet: fotoBpjsKetDataUrl,
-    fotoBpjsKes: fotoBpjsKesDataUrl
-  })
-});
-          })
-        });
-        const text = await res.text();
-        statusEl.style.color = "#bbf7d0";
-        statusEl.textContent = "Biodata berhasil dikirim. Respon server: " + text;
-        console.log("Respon server:", text);
-      } catch (err) {
-        statusEl.style.color = "#fca5a5";
-        statusEl.textContent = "Gagal menyimpan biodata: " + err.message;
-        console.error("Error fetch:", err);
-      }
-    }
+  const data = collectFormData();
 
-    /* ========= KUMPUL DATA FORM ========= */
-    function showPreviewBiodata() {
+  try {
+    const res = await fetch(WEB_APP_URL, {
+      method: "POST",
+      headers: { "Content-Type": "text/plain;charset=utf-8" },
+      body: JSON.stringify({
+        mode: "saveBiodata",
+        user: currentUser,
+        biodata: data,
+        foto: fotoDataUrl,
+        fotoKtp: fotoKtpDataUrl,
+        fotoKk: fotoKkDataUrl,
+        fotoSim: fotoSimDataUrl,
+        fotoNpwp: fotoNpwpDataUrl,
+        fotoBpjsKet: fotoBpjsKetDataUrl,
+        fotoBpjsKes: fotoBpjsKesDataUrl
+      })
+    });
 
-  const v = id => document.getElementById(id)?.value || "-";
-  const t = (id, val) => {
-    const el = document.getElementById(id);
-    if (el) el.textContent = val || "-";
-  };
-  const i = (id, src) => {
-    const el = document.getElementById(id);
-    if (!el) return;
-    if (src) {
-      el.src = src;
-      el.style.display = "block";
-    } else {
-      el.style.display = "none";
-    }
-  };
+    const text = await res.text();
+    statusEl.textContent = "Berhasil disimpan: " + text;
+    statusEl.style.color = "#22c55e";
+  } catch (err) {
+    statusEl.textContent = "Gagal: " + err.message;
+    statusEl.style.color = "#fca5a5";
+  }
+}
+
 
   /* ==== DATA PRIBADI ==== */
   t("pvNamaPegawai", v("namaPegawai"));
@@ -1211,6 +1193,3 @@ function collectFormData() {
   </script>
 </body>
 </html>
-
-
-
