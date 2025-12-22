@@ -1,3 +1,5 @@
+ TEST 11
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -950,7 +952,7 @@ function loadExistingBiodata() {
     headers: { "Content-Type": "text/plain;charset=utf-8" },
     body: JSON.stringify({
       mode: "getBiodata",
-      username: currentUser.username   // ✅ PRIMARY KEY
+      username: currentUser.username
     })
   })
   .then(r => r.json())
@@ -960,7 +962,6 @@ function loadExistingBiodata() {
     const b = res.biodata;
     const p = res.photos || {};
 
-    // === ISI FORM ===
     namaPegawai.value = b.namaPegawai || "";
     ttl.value = b.ttl || "";
     jenisKelamin.value = b.jenisKelamin || "";
@@ -1001,7 +1002,6 @@ function loadExistingBiodata() {
     noKk.value = b.noKk || "";
     noSim.value = b.noSim || "";
 
-    // === PREVIEW FOTO DARI DRIVE ===
     setPreview("previewFotoForm", p.teknisi);
     setPreview("previewFotoKtp", p.ktp);
     setPreview("previewFotoNpwp", p.npwp);
@@ -1011,6 +1011,7 @@ function loadExistingBiodata() {
     setPreview("previewFotoSim", p.sim);
   });
 }
+
 
     /* ========= FOTO INPUT ========= */
     function attachFilePreview(inputId, imgId, setter) {
@@ -1085,60 +1086,12 @@ function loadExistingBiodata() {
 
 
   /* ==== DATA PRIBADI ==== */
-  t("pvNamaPegawai", v("namaPegawai"));
-  t("pvTtl", v("ttl"));
-  t("pvJenisKelamin", v("jenisKelamin"));
-  t("pvPendidikanAkhir", v("pendidikanAkhir"));
-  t("pvPendidikanFormal", v("pendFormal"));
-  t("pvPendidikanNonFormal", v("pendNonFormal"));
-
-  /* ==== DATA PEKERJAAN ==== */
-  t("pvStatusPerkawinan", v("statusPerkawinan"));
-  t("pvLokasiKerja", v("lokasiKerja"));
-  t("pvPosisiKerja", v("posisiKerja"));
-  t("pvDivisi", v("divisi"));
-
-  /* ==== ALAMAT DOMISILI ==== */
-  t("pvAlamatDomisili", v("alamatDomisili"));
-  t("pvDomKel", v("domKel"));
-  t("pvDomKec", v("domKec"));
-  t("pvDomKota", v("domKota"));
-
-  /* ==== KONTAK ==== */
-  t("pvNoHp", v("noHp"));
-  t("pvEmail", v("email"));
-  t("pvNoKtp", v("noKtp"));
-  t("pvNoNpwp", v("noNpwp"));
-  t("pvNamaIbu", v("namaIbu"));
-  t("pvNoRekening", v("noRekening"));
-  t("pvNamaBank", v("namaBank"));
-
-  /* ==== ALAMAT KTP ==== */
-  t("pvKtpAlamat", v("ktpAlamat"));
-  t("pvKtpKel", v("ktpKel"));
-  t("pvKtpKec", v("ktpKec"));
-  t("pvKtpKota", v("ktpKota"));
-
-  /* ==== BPJS & KELUARGA ==== */
-  t("pvBpjsKet", v("bpjsKet"));
-  t("pvBpjsKes", v("bpjsKes"));
-  t("pvNamaPasangan", v("namaPasangan"));
-  t("pvBpjsPasangan", v("bpjsPasangan"));
-  t("pvTelpKerabat", v("telpKerabat"));
-  t("pvDataAnak", v("dataAnak"));
-  t("pvNamaFaskes", v("namaFaskes"));
-  t("pvNoKk", v("noKk"));
-  t("pvNoSim", v("noSim"));
-
-  /* ==== FOTO ==== */
-  i("bioFotoInline", fotoDataUrl);
-  i("bioFotoKtp", fotoKtpDataUrl);
-  i("bioFotoNpwp", fotoNpwpDataUrl);
-  i("bioFotoBpjsKet", fotoBpjsKetDataUrl);
-  i("bioFotoBpjsKes", fotoBpjsKesDataUrl);
-  i("bioFotoKk", fotoKkDataUrl);
-  i("bioFotoSim", fotoSimDataUrl);
-  
+ function setPreview(imgId, url) {
+  const img = document.getElementById(imgId);
+  if (!img || !url) return;
+  img.src = url;
+  img.style.display = "block";
+}  
   document.getElementById("pvPrintedAt").textContent =
     new Date().toLocaleString("id-ID", { dateStyle: "short", timeStyle: "short" });
 
