@@ -910,19 +910,20 @@
       }
 
 		currentUser = user; 
-		statusEl.textContent =
-		"Login berhasil sebagai " + user.nama + ". Silakan isi biodata.";
-		statusEl.style.color = "#bbf7d0";
+	statusEl.textContent =
+	"Login berhasil sebagai " + user.nama + ". Silakan isi biodata.";
+	statusEl.style.color = "#bbf7d0";
 
-		document.getElementById("namaPegawai").value = user.nama || "";
-		document.getElementById("divisi").value = user.divisi || "";
-		document.getElementById("lokasiKerja").value = user.defaultArea || "";
+	document.getElementById("namaPegawai").value = user.nama || "";
+	document.getElementById("divisi").value = user.divisi || "";
+	document.getElementById("lokasiKerja").value = user.defaultArea || "";
 
-		document.getElementById("formCard").style.display = "block";
-		document.getElementById("formCard").scrollIntoView({ behavior:"smooth" });
+	document.getElementById("formCard").style.display = "block";
+	document.getElementById("formCard").scrollIntoView({ behavior:"smooth" });
 
-			/		* === INI SATU-SATUNYA TAMBAHAN === */
-		loadExistingBiodata();
+	/* === INI SATU-SATUNYA TAMBAHAN === */
+	loadExistingBiodata();
+
 
     }
 
