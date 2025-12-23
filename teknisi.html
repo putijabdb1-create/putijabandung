@@ -517,7 +517,7 @@
             </div>
             <div>
               <label for="dataAnak">Data Anak</label>
-              <input id="dataAnak" placeholder="Nama anak & tanggal lahir (jika ada)" />
+              <input id="dataAnak" placeholder="Nama/TTL/No Bpjs kes" /></textarea>
             </div>
           </div>
 
@@ -534,9 +534,6 @@
               <label for="noSim">Nomor SIM</label>
               <input id="noSim" />
             </div>
-			
-			
-			
           </div>
 
           <div class="section-title">Foto Teknisi</div>
@@ -732,7 +729,7 @@
       </div>
     </div>
   </main>
-
+		let fotoSource = "local"; // local | drive
   <script>
     /* ========= KONFIGURASI ========= */
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzfYMYq83BYCNxITAK-CbGQ0uA5diRWuFw1-kyd7zzqmcFR_3hwWnHtNNDLTF4mUHc/exec";
@@ -934,7 +931,6 @@ function normalizeImageUrl(url) {
 /* ========= LOAD EXISTING BIODATA (FINAL STABLE) ========= */
 function loadExistingBiodata() {
   if (!currentUser || !currentUser.username) return;
-
   fetch(WEB_APP_URL, {
     method: "POST",
     headers: { "Content-Type": "text/plain;charset=utf-8" },
@@ -1007,6 +1003,8 @@ function loadExistingBiodata() {
 	setPreview("previewFotoKk", fotoKkDataUrl);
 	setPreview("previewFotoSim", fotoSimDataUrl);
 	
+	fotoSource = "drive"; // 🔥 PENTING
+
   });
 }
 
@@ -1039,7 +1037,7 @@ function normalizeDriveImage(url) {
         const reader = new FileReader();
         reader.onload = ev => {
           const url = ev.target.result;
-          setter(url);
+		  setter(url);fotoSource = "local";
           img.src = url;
           img.style.display = "block";
         };
@@ -1170,13 +1168,17 @@ function normalizeDriveImage(url) {
   t("pvNoSim", v("noSim"));
 
   /* ==== FOTO ==== */
-  i("bioFotoInline", fotoDataUrl);
-  i("bioFotoKtp", fotoKtpDataUrl);
-  i("bioFotoNpwp", fotoNpwpDataUrl);
-  i("bioFotoBpjsKet", fotoBpjsKetDataUrl);
-  i("bioFotoBpjsKes", fotoBpjsKesDataUrl);
-  i("bioFotoKk", fotoKkDataUrl);
-  i("bioFotoSim", fotoSimDataUrl);
+	const photo = src => {
+	 if (!src) return "";
+	return src; // base64 ATAU url drive → sama2 valid
+	};
+	i("bioFotoInline", photo(fotoDataUrl));
+	i("bioFotoKtp", photo(fotoKtpDataUrl));
+	i("bioFotoNpwp", photo(fotoNpwpDataUrl));
+	i("bioFotoBpjsKet", photo(fotoBpjsKetDataUrl));
+	i("bioFotoBpjsKes", photo(fotoBpjsKesDataUrl));
+	i("bioFotoKk", photo(fotoKkDataUrl));
+	i("bioFotoSim", photo(fotoSimDataUrl));
   
   document.getElementById("pvPrintedAt").textContent =
     new Date().toLocaleString("id-ID", { dateStyle: "short", timeStyle: "short" });
