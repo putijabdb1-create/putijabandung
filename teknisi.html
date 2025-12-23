@@ -991,6 +991,15 @@ function loadExistingBiodata() {
     setPreview("previewFotoBpjsKes", p.bpjsKes);
     setPreview("previewFotoKk", p.kk);
     setPreview("previewFotoSim", p.sim);
+	
+	fotoDataUrl        = p.teknisi || "";
+	fotoKtpDataUrl     = p.ktp || "";
+	fotoNpwpDataUrl    = p.npwp || "";
+	fotoBpjsKetDataUrl = p.bpjsKet || "";
+	fotoBpjsKesDataUrl = p.bpjsKes || "";
+	fotoKkDataUrl      = p.kk || "";
+	fotoSimDataUrl     = p.sim || "";
+	
   });
 }
 
@@ -1154,6 +1163,45 @@ function setPreview(imgId, url) {
     "Preview berdasarkan isi formulir.";
   document.getElementById("formStatus").style.color = "#22c55e";
 }
+
+function logoutTeknisi() {
+  currentUser = null;
+
+  // reset login
+  loginUser.value = "";
+  loginPass.value = "";
+  loginStatus.textContent = "";
+
+  // sembunyikan form & preview
+  formCard.style.display = "none";
+  previewWrapper.style.display = "none";
+  formStatus.textContent = "";
+
+  // reset semua input text
+  document.querySelectorAll("#formCard input, #formCard textarea, #formCard select")
+    .forEach(el => {
+      if (el.type !== "file") el.value = "";
+    });
+
+  // reset file input
+  document.querySelectorAll("input[type=file]").forEach(f => f.value = "");
+
+  // reset preview img
+  document.querySelectorAll(".preview-small, #biodataPrintArea img").forEach(img => {
+    img.src = "";
+    img.style.display = "none";
+  });
+
+  // reset foto global
+  fotoDataUrl =
+  fotoKtpDataUrl =
+  fotoNpwpDataUrl =
+  fotoBpjsKetDataUrl =
+  fotoBpjsKesDataUrl =
+  fotoKkDataUrl =
+  fotoSimDataUrl = "";
+}
+
 /* ========= KUMPUL DATA FORM (FIX) ========= */
 function collectFormData() {
   return {
@@ -1196,10 +1244,11 @@ function collectFormData() {
     namaFaskes: document.getElementById("namaFaskes").value || "",
     noKk: document.getElementById("noKk").value || "",
     noSim: document.getElementById("noSim").value || ""
-  };
+  };  
 }
   </script>
 </body>
 </html>
+
 
 
