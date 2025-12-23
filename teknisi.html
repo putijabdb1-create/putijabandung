@@ -1061,33 +1061,41 @@ function normalizeDriveImage(url) {
 
       const data = collectFormData();
 
-      try {
-        const res = await fetch(WEB_APP_URL, {
-          method: "POST",
-          // penting: pakai text/plain supaya tidak kena CORS / preflight
-          headers: { "Content-Type": "text/plain;charset=utf-8" },
-          body: JSON.stringify({
-            mode: "saveBiodata",
-            user: currentUser,
-            biodata: data,
-            foto: fotoDataUrl,
-            fotoKtp: fotoKtpDataUrl,
-            fotoKk: fotoKkDataUrl,
-            fotoSim: fotoSimDataUrl,
-            fotoNpwp: fotoNpwpDataUrl,
-            fotoBpjsKet: fotoBpjsKetDataUrl,
-            fotoBpjsKes: fotoBpjsKesDataUrl
-          })
-        });
-        const text = await res.text();
-        statusEl.style.color = "#bbf7d0";
-        statusEl.textContent = "Biodata berhasil dikirim. Respon server: " + text;
-        console.log("Respon server:", text);
-      } catch (err) {
-        statusEl.style.color = "#fca5a5";
-        statusEl.textContent = "Gagal menyimpan biodata: " + err.message;
-        console.error("Error fetch:", err);
-      }
+		try {
+		const res = await fetch(WEB_APP_URL, {
+		method: "POST",
+		headers: { "Content-Type": "text/plain;charset=utf-8" },
+		body: JSON.stringify({
+		mode: "saveBiodata",
+		user: currentUser,
+		biodata: data,
+		foto: fotoDataUrl,
+		fotoKtp: fotoKtpDataUrl,
+		fotoKk: fotoKkDataUrl,
+		fotoSim: fotoSimDataUrl,
+		fotoNpwp: fotoNpwpDataUrl,
+		fotoBpjsKet: fotoBpjsKetDataUrl,
+		fotoBpjsKes: fotoBpjsKesDataUrl
+	})
+		});
+
+		const result = await res.json();
+
+		statusEl.style.color = "#bbf7d0";
+		statusEl.textContent = "Biodata berhasil disimpan.";
+
+		// 🔥 INI KUNCI UTAMA
+		if (result.reload) {
+			await loadExistingBiodata();
+		}
+
+		console.log("Respon server:", result);
+
+		} catch (err) {
+		statusEl.style.color = "#fca5a5";
+		statusEl.textContent = "Gagal menyimpan biodata: " + err.message;
+		console.error("Error fetch:", err);
+		}
     }
 
     /* ========= KUMPUL DATA FORM ========= */
