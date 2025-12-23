@@ -984,21 +984,22 @@ function loadExistingBiodata() {
     noKk.value = b.noKk || "";
     noSim.value = b.noSim || "";
 
-    setPreview("previewFotoForm", p.teknisi);
-    setPreview("previewFotoKtp", p.ktp);
-    setPreview("previewFotoNpwp", p.npwp);
-    setPreview("previewFotoBpjsKet", p.bpjsKet);
-    setPreview("previewFotoBpjsKes", p.bpjsKes);
-    setPreview("previewFotoKk", p.kk);
-    setPreview("previewFotoSim", p.sim);
-	
-	fotoDataUrl        = p.teknisi || "";
-	fotoKtpDataUrl     = p.ktp || "";
-	fotoNpwpDataUrl    = p.npwp || "";
-	fotoBpjsKetDataUrl = p.bpjsKet || "";
-	fotoBpjsKesDataUrl = p.bpjsKes || "";
-	fotoKkDataUrl      = p.kk || "";
-	fotoSimDataUrl     = p.sim || "";
+	// ==== SET PREVIEW + SET DATA URL (WAJIB) ====
+	fotoDataUrl       = p.teknisi || "";
+	fotoKtpDataUrl    = p.ktp || "";
+	fotoNpwpDataUrl   = p.npwp || "";
+	fotoBpjsKetDataUrl= p.bpjsKet || "";
+	fotoBpjsKesDataUrl= p.bpjsKes || "";
+	fotoKkDataUrl     = p.kk || "";
+	fotoSimDataUrl    = p.sim || "";
+
+	setPreview("previewFotoForm", fotoDataUrl);
+	setPreview("previewFotoKtp", fotoKtpDataUrl);
+	setPreview("previewFotoNpwp", fotoNpwpDataUrl);
+	setPreview("previewFotoBpjsKet", fotoBpjsKetDataUrl);
+	setPreview("previewFotoBpjsKes", fotoBpjsKesDataUrl);
+	setPreview("previewFotoKk", fotoKkDataUrl);
+	setPreview("previewFotoSim", fotoSimDataUrl);
 	
   });
 }
@@ -1249,6 +1250,3 @@ function collectFormData() {
   </script>
 </body>
 </html>
-
-
-
