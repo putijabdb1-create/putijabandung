@@ -924,6 +924,12 @@ function loginTeknisi() {
   loadExistingBiodata();
 }
 
+function normalizeImageUrl(url) {
+  if (!url) return "";
+  if (url.startsWith("data:image")) return url; // base64 (baru upload)
+  if (url.includes("drive.google.com")) return url; // URL Drive
+  return "";
+}
 
 /* ========= LOAD EXISTING BIODATA (FINAL STABLE) ========= */
 function loadExistingBiodata() {
@@ -985,13 +991,13 @@ function loadExistingBiodata() {
     noSim.value = b.noSim || "";
 
 	// ==== SET PREVIEW + SET DATA URL (WAJIB) ====
-	fotoDataUrl        = normalizeDriveImage(p.teknisi);
-	fotoKtpDataUrl     = normalizeDriveImage(p.ktp);
-	fotoNpwpDataUrl    = normalizeDriveImage(p.npwp);
-	fotoBpjsKetDataUrl = normalizeDriveImage(p.bpjsKet);
-	fotoBpjsKesDataUrl = normalizeDriveImage(p.bpjsKes);
-	fotoKkDataUrl      = normalizeDriveImage(p.kk);
-	fotoSimDataUrl     = normalizeDriveImage(p.sim);
+	fotoDataUrl        = normalizeImageUrl(p.teknisi);
+	fotoKtpDataUrl     = normalizeImageUrl(p.ktp);
+	fotoNpwpDataUrl    = normalizeImageUrl(p.npwp);
+	fotoBpjsKetDataUrl = normalizeImageUrl(p.bpjsKet);
+	fotoBpjsKesDataUrl = normalizeImageUrl(p.bpjsKes);
+	fotoKkDataUrl      = normalizeImageUrl(p.kk);
+	fotoSimDataUrl     = normalizeImageUrl(p.sim);
 
 	setPreview("previewFotoForm", fotoDataUrl);
 	setPreview("previewFotoKtp", fotoKtpDataUrl);
