@@ -382,7 +382,7 @@
           <div class="field-row-2">
             <div>
               <label for="pendFormal">Pendidikan Formal (SD - SMP - SMA - PT)</label>
-              <textarea id="pendFormal" placeholder="isi format: SDN.../ SMP.../ SMA.../ Perguruan Tinggi..."></textarea>
+              <textarea id="pendFormal" placeholder="Contoh: SDN..., SMP..., SMA..., Perguruan Tinggi..."></textarea>
             </div>
             <div>
               <label for="pendNonFormal">Pendidikan Non Formal</label>
@@ -512,12 +512,12 @@
 
           <div class="field-row-2">
             <div>
-              <label for="telpKerabat">Nomor Telepon Keluarga</label>
+              <label for="telpKerabat">Nomor Telepon Kerabat</label>
               <input id="telpKerabat" />
             </div>
             <div>
-              <label for="dataAnak">Data Anak</label></textarea>
-              <input id="dataAnak" placeholder="Format Nama/TTL/No bpjs kes" /></textarea>
+              <label for="dataAnak">Data Anak</label>
+              <input id="dataAnak" placeholder="Nama anak & tanggal lahir (jika ada)" />
             </div>
           </div>
 
@@ -543,7 +543,7 @@
           <input id="fotoTeknisi" type="file" accept="image/*" />
           <img id="previewFotoForm" class="preview-small" />
 
-          <div class="section-title">Foto Dokumen (Pribadi)</div>
+          <div class="section-title">Foto Dokumen (opsional)</div>
           <!-- URUTAN: KTP, NPWP, BPJS KET, BPJS KES, KK,SIM -->
           <div class="field-row-2">
             <div>
@@ -897,43 +897,110 @@
     })();
 
     /* ========= LOGIN ========= */
-    function loginTeknisi() {
-      const userId = document.getElementById("loginUser").value.trim();
-      const pass  = document.getElementById("loginPass").value.trim();
-      const statusEl = document.getElementById("loginStatus");
+function loginTeknisi() {
+  const userId = document.getElementById("loginUser").value.trim();
+  const pass  = document.getElementById("loginPass").value.trim();
+  const statusEl = document.getElementById("loginStatus");
 
-      const user = USERS.find(u => u.username === userId && u.password === pass);
-      if (!user) {
-        statusEl.textContent = "Login gagal: user ID atau password salah.";
-        statusEl.style.color = "#fca5a5";
-        return;
-      }
+  const user = USERS.find(u => u.username === userId && u.password === pass);
+  if (!user) {
+    statusEl.textContent = "Login gagal: user ID atau password salah.";
+    statusEl.style.color = "#fca5a5";
+    return;
+  }
 
-      currentUser = user;
-      statusEl.textContent = "Login berhasil sebagai " + user.nama + ". Silakan isi biodata.";
-      statusEl.style.color = "#bbf7d0";
+  currentUser = user;
+  statusEl.textContent = "Login berhasil sebagai " + user.nama + ". Silakan isi biodata.";
+  statusEl.style.color = "#bbf7d0";
 
-      document.getElementById("namaPegawai").value = user.nama || "";
-      document.getElementById("divisi").value = user.divisi || "";
-      document.getElementById("lokasiKerja").value = user.defaultArea || "";
+  document.getElementById("namaPegawai").value = user.nama || "";
+  document.getElementById("divisi").value = user.divisi || "";
+  document.getElementById("lokasiKerja").value = user.defaultArea || "";
 
-      document.getElementById("formCard").style.display = "block";
-      document.getElementById("formCard").scrollIntoView({behavior:"smooth"});
-    }
+  document.getElementById("formCard").style.display = "block";
+  document.getElementById("formCard").scrollIntoView({ behavior:"smooth" });
 
-    function logoutTeknisi() {
-      currentUser = null;
-      document.getElementById("loginUser").value = "";
-      document.getElementById("loginPass").value = "";
-      document.getElementById("loginStatus").textContent = "";
-      document.getElementById("formCard").style.display = "none";
-      document.getElementById("previewWrapper").style.display = "none";
-      document.getElementById("formStatus").textContent = "";
-    }
+  // ✅ INI KUNCI UTAMANYA
+  loadExistingBiodata();
+}
 
-    function scrollToForm() {
-      document.getElementById("formCard").scrollIntoView({behavior:"smooth"});
-    }
+
+/* ========= LOAD EXISTING BIODATA (FINAL STABLE) ========= */
+function loadExistingBiodata() {
+  if (!currentUser || !currentUser.username) return;
+
+  fetch(WEB_APP_URL, {
+    method: "POST",
+    headers: { "Content-Type": "text/plain;charset=utf-8" },
+    body: JSON.stringify({
+      mode: "getBiodata",
+      username: currentUser.username
+    })
+  })
+  .then(r => r.json())
+  .then(res => {
+    if (!res.ok) return;
+
+    const b = res.biodata;
+    const p = res.photos || {};
+
+    namaPegawai.value = b.namaPegawai || "";
+    ttl.value = b.ttl || "";
+    jenisKelamin.value = b.jenisKelamin || "";
+    pendidikanAkhir.value = b.pendidikanAkhir || "";
+    pendFormal.value = b.pendFormal || "";
+    pendNonFormal.value = b.pendNonFormal || "";
+
+    statusPerkawinan.value = b.statusPerkawinan || "";
+    lokasiKerja.value = b.lokasiKerja || "";
+    posisiKerja.value = b.posisiKerja || "";
+    divisi.value = b.divisi || "";
+
+    alamatDomisili.value = b.alamatDomisili || "";
+    domKel.value = b.domKel || "";
+    domKec.value = b.domKec || "";
+    domKota.value = b.domKota || "";
+
+    noHp.value = b.noHp || "";
+    email.value = b.email || "";
+    noKtp.value = b.noKtp || "";
+    noNpwp.value = b.noNpwp || "";
+    namaIbu.value = b.namaIbu || "";
+    noRekening.value = b.noRekening || "";
+    namaBank.value = b.namaBank || "";
+
+    ktpAlamat.value = b.ktpAlamat || "";
+    ktpKel.value = b.ktpKel || "";
+    ktpKec.value = b.ktpKec || "";
+    ktpKota.value = b.ktpKota || "";
+
+    bpjsKet.value = b.bpjsKet || "";
+    bpjsKes.value = b.bpjsKes || "";
+    namaPasangan.value = b.namaPasangan || "";
+    bpjsPasangan.value = b.bpjsPasangan || "";
+    telpKerabat.value = b.telpKerabat || "";
+    dataAnak.value = b.dataAnak || "";
+    namaFaskes.value = b.namaFaskes || "";
+    noKk.value = b.noKk || "";
+    noSim.value = b.noSim || "";
+
+    setPreview("previewFotoForm", p.teknisi);
+    setPreview("previewFotoKtp", p.ktp);
+    setPreview("previewFotoNpwp", p.npwp);
+    setPreview("previewFotoBpjsKet", p.bpjsKet);
+    setPreview("previewFotoBpjsKes", p.bpjsKes);
+    setPreview("previewFotoKk", p.kk);
+    setPreview("previewFotoSim", p.sim);
+  });
+}
+
+/* ========= HELPER PREVIEW FOTO (WAJIB) ========= */
+function setPreview(imgId, url) {
+  const img = document.getElementById(imgId);
+  if (!img || !url) return;
+  img.src = url;
+  img.style.display = "block";
+}
 
     /* ========= FOTO INPUT ========= */
     function attachFilePreview(inputId, imgId, setter) {
@@ -1134,6 +1201,5 @@ function collectFormData() {
   </script>
 </body>
 </html>
-
 
 
