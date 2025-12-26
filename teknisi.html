@@ -923,9 +923,8 @@ function loginTeknisi() {
 
 function normalizeImageUrl(url) {
   if (!url) return "";
-  if (url.startsWith("data:image")) return url; // base64 (baru upload)
-  if (url.includes("drive.google.com")) return url; // URL Drive
-  return "";
+  if (url.startsWith("data:image")) return url;
+  return normalizeDriveImage(url);
 }
 
 /* ========= LOAD EXISTING BIODATA (FINAL STABLE) ========= */
@@ -987,13 +986,14 @@ function loadExistingBiodata() {
     noSim.value = b.noSim || "";
 
 	// ==== SET PREVIEW + SET DATA URL (WAJIB) ====
-	fotoDataUrl        = normalizeImageUrl(p.teknisi);
-	fotoKtpDataUrl     = normalizeImageUrl(p.ktp);
-	fotoNpwpDataUrl    = normalizeImageUrl(p.npwp);
-	fotoBpjsKetDataUrl = normalizeImageUrl(p.bpjsKet);
-	fotoBpjsKesDataUrl = normalizeImageUrl(p.bpjsKes);
-	fotoKkDataUrl      = normalizeImageUrl(p.kk);
-	fotoSimDataUrl     = normalizeImageUrl(p.sim);
+	fotoDataUrl        = normalizeImageUrl(p.teknisi || "");
+	fotoKtpDataUrl     = normalizeImageUrl(p.ktp || "");
+	fotoNpwpDataUrl    = normalizeImageUrl(p.npwp || "");
+	fotoBpjsKetDataUrl = normalizeImageUrl(p.bpjsKet || "");
+	fotoBpjsKesDataUrl = normalizeImageUrl(p.bpjsKes || "");
+	fotoKkDataUrl      = normalizeImageUrl(p.kk || "");
+	fotoSimDataUrl     = normalizeImageUrl(p.simc || p.sim || "");
+
 
 	setPreview("previewFotoForm", fotoDataUrl);
 	setPreview("previewFotoKtp", fotoKtpDataUrl);
@@ -1020,8 +1020,10 @@ function setPreview(imgId, url) {
 function normalizeDriveImage(url) {
   if (!url) return "";
   if (url.includes("uc?export=view")) return url;
+
   const match = url.match(/[-\w]{25,}/);
   if (!match) return url;
+
   return "https://drive.google.com/uc?export=view&id=" + match[0];
 }
 
@@ -1169,8 +1171,8 @@ function normalizeDriveImage(url) {
 
   /* ==== FOTO ==== */
 	const photo = src => {
-	 if (!src) return "";
-	return src; // base64 ATAU url drive → sama2 valid
+	if (!src) return "";
+	return normalizeDriveImage(src);
 	};
 	i("bioFotoInline", photo(fotoDataUrl));
 	i("bioFotoKtp", photo(fotoKtpDataUrl));
