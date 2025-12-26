@@ -517,7 +517,7 @@
             </div>
             <div>
               <label for="dataAnak">Data Anak</label>
-              <input id="dataAnak" placeholder="Nama/TTL/No Bpjs kes" /></textarea>
+              <input id="dataAnak" placeholder="Nama anak & tanggal lahir (jika ada)" />
             </div>
           </div>
 
@@ -534,11 +534,14 @@
               <label for="noSim">Nomor SIM</label>
               <input id="noSim" />
             </div>
+			
+			
+			
           </div>
 
           <div class="section-title">Foto Teknisi</div>
           <input id="fotoTeknisi" type="file" accept="image/*" />
-		  setPreview("previewFotoForm", fotoFormDataUrl);
+          <img id="previewFotoForm" class="preview-small" />
 
           <div class="section-title">Foto Dokumen (opsional)</div>
           <!-- URUTAN: KTP, NPWP, BPJS KET, BPJS KES, KK,SIM -->
@@ -546,12 +549,12 @@
             <div>
               <label for="fotoKtp">Foto KTP</label>
               <input id="fotoKtp" type="file" accept="image/*" />
-              setPreview("previewFotoKtp", fotoKtpDataUrl);
+              <img id="previewFotoKtp" class="preview-small" />
             </div>
             <div>
               <label for="fotoNpwp">Foto NPWP</label>
               <input id="fotoNpwp" type="file" accept="image/*" />
-			  setPreview("previewFotoNpwp", fotoNpwpUrl);
+              <img id="previewFotoNpwp" class="preview-small" />
             </div>
           </div>
 
@@ -560,7 +563,6 @@
               <label for="fotoBpjsKet">Foto BPJS Ketenagakerjaan</label>
               <input id="fotoBpjsKet" type="file" accept="image/*" />
               <img id="previewFotoBpjsKet" class="preview-small" />
-			  setPreview("previewFotoBpjsKet", fotoBpjsKetUrl);
             </div>
             <div>
               <label for="fotoBpjsKes">Foto BPJS Kesehatan</label>
@@ -922,23 +924,11 @@ function loginTeknisi() {
   loadExistingBiodata();
 }
 
-function normalizeImageUrl(url) {
-  if (!url) return "";
-
-  // base64 (foto baru)
-  if (url.startsWith("data:image")) return url;
-
-  // google drive
-  const match = url.match(/[-\w]{25,}/);
-  if (!match) return "";
-
-  return "https://drive.google.com/uc?export=view&id=" + match[0];
-}
-
 
 /* ========= LOAD EXISTING BIODATA (FINAL STABLE) ========= */
 function loadExistingBiodata() {
   if (!currentUser || !currentUser.username) return;
+
   fetch(WEB_APP_URL, {
     method: "POST",
     headers: { "Content-Type": "text/plain;charset=utf-8" },
@@ -995,14 +985,13 @@ function loadExistingBiodata() {
     noSim.value = b.noSim || "";
 
 	// ==== SET PREVIEW + SET DATA URL (WAJIB) ====
-	fotoDataUrl        = res.photos?.teknisi || "";
-	fotoKtpDataUrl     = res.photos?.ktp || "";
-	fotoNpwpDataUrl    = res.photos?.npwp || "";
-	fotoBpjsKetDataUrl = res.photos?.bpjsKet || "";
-	fotoBpjsKesDataUrl = res.photos?.bpjsKes || "";
-	fotoKkDataUrl      = res.photos?.kk || "";
-
-
+	fotoDataUrl        = normalizeDriveImage(p.teknisi);
+	fotoKtpDataUrl     = normalizeDriveImage(p.ktp);
+	fotoNpwpDataUrl    = normalizeDriveImage(p.npwp);
+	fotoBpjsKetDataUrl = normalizeDriveImage(p.bpjsKet);
+	fotoBpjsKesDataUrl = normalizeDriveImage(p.bpjsKes);
+	fotoKkDataUrl      = normalizeDriveImage(p.kk);
+	fotoSimDataUrl     = normalizeDriveImage(p.sim);
 
 	setPreview("previewFotoForm", fotoDataUrl);
 	setPreview("previewFotoKtp", fotoKtpDataUrl);
@@ -1012,34 +1001,23 @@ function loadExistingBiodata() {
 	setPreview("previewFotoKk", fotoKkDataUrl);
 	setPreview("previewFotoSim", fotoSimDataUrl);
 	
-	fotoSource = "drive"; // 🔥 PENTING
-
   });
 }
 
 /* ========= HELPER PREVIEW FOTO (WAJIB) ========= */
 function setPreview(imgId, url) {
   const img = document.getElementById(imgId);
-  if (!img) return;
-
-  if (url && url.startsWith("http")) {
-    img.src = url;
-    img.style.display = "block";
-  } else {
-    img.src = "";
-    img.style.display = "none";
-  }
+  if (!img || !url) return;
+  img.src = url;
+  img.style.display = "block";
 }
-
 
 /* ========= NORMALIZE DRIVE IMAGE URL (WAJIB) ========= */
 function normalizeDriveImage(url) {
   if (!url) return "";
   if (url.includes("uc?export=view")) return url;
-
   const match = url.match(/[-\w]{25,}/);
   if (!match) return url;
-
   return "https://drive.google.com/uc?export=view&id=" + match[0];
 }
 
@@ -1055,7 +1033,7 @@ function normalizeDriveImage(url) {
         const reader = new FileReader();
         reader.onload = ev => {
           const url = ev.target.result;
-		  setter(url);fotoSource = "local";
+          setter(url);
           img.src = url;
           img.style.display = "block";
         };
@@ -1083,41 +1061,33 @@ function normalizeDriveImage(url) {
 
       const data = collectFormData();
 
-		try {
-		const res = await fetch(WEB_APP_URL, {
-		method: "POST",
-		headers: { "Content-Type": "text/plain;charset=utf-8" },
-		body: JSON.stringify({
-		mode: "saveBiodata",
-		user: currentUser,
-		biodata: data,
-		foto: fotoDataUrl,
-		fotoKtp: fotoKtpDataUrl,
-		fotoKk: fotoKkDataUrl,
-		fotoSim: fotoSimDataUrl,
-		fotoNpwp: fotoNpwpDataUrl,
-		fotoBpjsKet: fotoBpjsKetDataUrl,
-		fotoBpjsKes: fotoBpjsKesDataUrl
-	})
-		});
-
-		const result = await res.json();
-
-		statusEl.style.color = "#bbf7d0";
-		statusEl.textContent = "Biodata berhasil disimpan.";
-
-		// 🔥 INI KUNCI UTAMA
-		if (result.reload) {
-			await loadExistingBiodata();
-		}
-
-		console.log("Respon server:", result);
-
-		} catch (err) {
-		statusEl.style.color = "#fca5a5";
-		statusEl.textContent = "Gagal menyimpan biodata: " + err.message;
-		console.error("Error fetch:", err);
-		}
+      try {
+        const res = await fetch(WEB_APP_URL, {
+          method: "POST",
+          // penting: pakai text/plain supaya tidak kena CORS / preflight
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            mode: "saveBiodata",
+            user: currentUser,
+            biodata: data,
+            foto: fotoDataUrl,
+            fotoKtp: fotoKtpDataUrl,
+            fotoKk: fotoKkDataUrl,
+            fotoSim: fotoSimDataUrl,
+            fotoNpwp: fotoNpwpDataUrl,
+            fotoBpjsKet: fotoBpjsKetDataUrl,
+            fotoBpjsKes: fotoBpjsKesDataUrl
+          })
+        });
+        const text = await res.text();
+        statusEl.style.color = "#bbf7d0";
+        statusEl.textContent = "Biodata berhasil dikirim. Respon server: " + text;
+        console.log("Respon server:", text);
+      } catch (err) {
+        statusEl.style.color = "#fca5a5";
+        statusEl.textContent = "Gagal menyimpan biodata: " + err.message;
+        console.error("Error fetch:", err);
+      }
     }
 
     /* ========= KUMPUL DATA FORM ========= */
@@ -1186,17 +1156,13 @@ function normalizeDriveImage(url) {
   t("pvNoSim", v("noSim"));
 
   /* ==== FOTO ==== */
-	const photo = src => {
-	if (!src) return "";
-	return normalizeDriveImage(src);
-	};
-	i("bioFotoInline", fotoDataUrl);
-	i("bioFotoKtp", fotoKtpDataUrl);
-	i("bioFotoNpwp", fotoNpwpDataUrl);
-	i("bioFotoBpjsKet", fotoBpjsKetDataUrl);
-	i("bioFotoBpjsKes", fotoBpjsKesDataUrl);
-	i("bioFotoKk", fotoKkDataUrl);
-	i("bioFotoSim", fotoSimDataUrl);
+  i("bioFotoInline", fotoDataUrl);
+  i("bioFotoKtp", fotoKtpDataUrl);
+  i("bioFotoNpwp", fotoNpwpDataUrl);
+  i("bioFotoBpjsKet", fotoBpjsKetDataUrl);
+  i("bioFotoBpjsKes", fotoBpjsKesDataUrl);
+  i("bioFotoKk", fotoKkDataUrl);
+  i("bioFotoSim", fotoSimDataUrl);
   
   document.getElementById("pvPrintedAt").textContent =
     new Date().toLocaleString("id-ID", { dateStyle: "short", timeStyle: "short" });
@@ -1294,6 +1260,3 @@ function collectFormData() {
   </script>
 </body>
 </html>
-
-
-
