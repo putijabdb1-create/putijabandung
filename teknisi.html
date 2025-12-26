@@ -729,7 +729,7 @@
       </div>
     </div>
   </main>
-		let fotoSource = "local"; // local | drive
+
   <script>
     /* ========= KONFIGURASI ========= */
     const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzfYMYq83BYCNxITAK-CbGQ0uA5diRWuFw1-kyd7zzqmcFR_3hwWnHtNNDLTF4mUHc/exec";
@@ -923,9 +923,17 @@ function loginTeknisi() {
 
 function normalizeImageUrl(url) {
   if (!url) return "";
+
+  // base64 (foto baru)
   if (url.startsWith("data:image")) return url;
-  return normalizeDriveImage(url);
+
+  // google drive
+  const match = url.match(/[-\w]{25,}/);
+  if (!match) return "";
+
+  return "https://drive.google.com/uc?export=view&id=" + match[0];
 }
+
 
 /* ========= LOAD EXISTING BIODATA (FINAL STABLE) ========= */
 function loadExistingBiodata() {
@@ -986,13 +994,13 @@ function loadExistingBiodata() {
     noSim.value = b.noSim || "";
 
 	// ==== SET PREVIEW + SET DATA URL (WAJIB) ====
-	fotoDataUrl        = normalizeImageUrl(p.teknisi || "");
-	fotoKtpDataUrl     = normalizeImageUrl(p.ktp || "");
-	fotoNpwpDataUrl    = normalizeImageUrl(p.npwp || "");
-	fotoBpjsKetDataUrl = normalizeImageUrl(p.bpjsKet || "");
-	fotoBpjsKesDataUrl = normalizeImageUrl(p.bpjsKes || "");
-	fotoKkDataUrl      = normalizeImageUrl(p.kk || "");
-	fotoSimDataUrl     = normalizeImageUrl(p.simc || p.sim || "");
+	fotoDataUrl        = normalizeImageUrl(p.teknisi);
+	fotoKtpDataUrl     = normalizeImageUrl(p.ktp);
+	fotoNpwpDataUrl    = normalizeImageUrl(p.npwp);
+	fotoBpjsKetDataUrl = normalizeImageUrl(p.bpjsKet);
+	fotoBpjsKesDataUrl = normalizeImageUrl(p.bpjsKes);
+	fotoKkDataUrl      = normalizeImageUrl(p.kk);
+	fotoSimDataUrl     = fotoSimDataUrl || "";
 
 
 	setPreview("previewFotoForm", fotoDataUrl);
