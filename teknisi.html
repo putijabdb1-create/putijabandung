@@ -538,7 +538,7 @@
 
           <div class="section-title">Foto Teknisi</div>
           <input id="fotoTeknisi" type="file" accept="image/*" />
-          <img id="previewFotoForm" class="preview-small" />
+		  setPreview("previewFotoForm", fotoFormDataUrl);
 
           <div class="section-title">Foto Dokumen (opsional)</div>
           <!-- URUTAN: KTP, NPWP, BPJS KET, BPJS KES, KK,SIM -->
@@ -546,12 +546,12 @@
             <div>
               <label for="fotoKtp">Foto KTP</label>
               <input id="fotoKtp" type="file" accept="image/*" />
-              <img id="previewFotoKtp" class="preview-small" />
+              setPreview("previewFotoKtp", fotoKtpDataUrl);
             </div>
             <div>
               <label for="fotoNpwp">Foto NPWP</label>
               <input id="fotoNpwp" type="file" accept="image/*" />
-              <img id="previewFotoNpwp" class="preview-small" />
+			  setPreview("previewFotoNpwp", fotoNpwpUrl);
             </div>
           </div>
 
@@ -560,6 +560,7 @@
               <label for="fotoBpjsKet">Foto BPJS Ketenagakerjaan</label>
               <input id="fotoBpjsKet" type="file" accept="image/*" />
               <img id="previewFotoBpjsKet" class="preview-small" />
+			  setPreview("previewFotoBpjsKet", fotoBpjsKetUrl);
             </div>
             <div>
               <label for="fotoBpjsKes">Foto BPJS Kesehatan</label>
@@ -994,13 +995,13 @@ function loadExistingBiodata() {
     noSim.value = b.noSim || "";
 
 	// ==== SET PREVIEW + SET DATA URL (WAJIB) ====
-	fotoDataUrl        = normalizeImageUrl(p.teknisi);
-	fotoKtpDataUrl     = normalizeImageUrl(p.ktp);
-	fotoNpwpDataUrl    = normalizeImageUrl(p.npwp);
-	fotoBpjsKetDataUrl = normalizeImageUrl(p.bpjsKet);
-	fotoBpjsKesDataUrl = normalizeImageUrl(p.bpjsKes);
-	fotoKkDataUrl      = normalizeImageUrl(p.kk);
-	fotoSimDataUrl     = fotoSimDataUrl || "";
+	fotoDataUrl        = res.photos?.teknisi || "";
+	fotoKtpDataUrl     = res.photos?.ktp || "";
+	fotoNpwpDataUrl    = res.photos?.npwp || "";
+	fotoBpjsKetDataUrl = res.photos?.bpjsKet || "";
+	fotoBpjsKesDataUrl = res.photos?.bpjsKes || "";
+	fotoKkDataUrl      = res.photos?.kk || "";
+
 
 
 	setPreview("previewFotoForm", fotoDataUrl);
@@ -1019,10 +1020,17 @@ function loadExistingBiodata() {
 /* ========= HELPER PREVIEW FOTO (WAJIB) ========= */
 function setPreview(imgId, url) {
   const img = document.getElementById(imgId);
-  if (!img || !url) return;
-  img.src = url;
-  img.style.display = "block";
+  if (!img) return;
+
+  if (url && url.startsWith("http")) {
+    img.src = url;
+    img.style.display = "block";
+  } else {
+    img.src = "";
+    img.style.display = "none";
+  }
 }
+
 
 /* ========= NORMALIZE DRIVE IMAGE URL (WAJIB) ========= */
 function normalizeDriveImage(url) {
