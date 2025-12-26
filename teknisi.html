@@ -1012,13 +1012,16 @@ function setPreview(imgId, url) {
   img.style.display = "block";
 }
 
-/* ========= NORMALIZE DRIVE IMAGE URL (WAJIB) ========= */
+
+/* ========= NORMALIZE DRIVE IMAGE (FINAL – JANGAN DIUBAH LAGI) ========= */
 function normalizeDriveImage(url) {
   if (!url) return "";
-  if (url.includes("uc?export=view")) return url;
-  const match = url.match(/[-\w]{25,}/);
-  if (!match) return url;
-  return "https://drive.google.com/uc?export=view&id=" + match[0];
+
+  // JIKA SUDAH THUMBNAIL / URL APAPUN → PAKAI APA ADANYA
+  if (url.startsWith("http")) return url;
+
+  // fallback (jika suatu saat hanya ID)
+  return "https://drive.google.com/thumbnail?id=" + url + "&sz=w1000";
 }
 
 
@@ -1260,3 +1263,6 @@ function collectFormData() {
   </script>
 </body>
 </html>
+
+
+
