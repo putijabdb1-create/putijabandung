@@ -1182,13 +1182,13 @@ function normalizeDriveImage(url) {
 	if (!src) return "";
 	return normalizeDriveImage(src);
 	};
-	i("bioFotoInline", photo(fotoDataUrl));
-	i("bioFotoKtp", photo(fotoKtpDataUrl));
-	i("bioFotoNpwp", photo(fotoNpwpDataUrl));
-	i("bioFotoBpjsKet", photo(fotoBpjsKetDataUrl));
-	i("bioFotoBpjsKes", photo(fotoBpjsKesDataUrl));
-	i("bioFotoKk", photo(fotoKkDataUrl));
-	i("bioFotoSim", photo(fotoSimDataUrl));
+	i("bioFotoInline", fotoDataUrl);
+	i("bioFotoKtp", fotoKtpDataUrl);
+	i("bioFotoNpwp", fotoNpwpDataUrl);
+	i("bioFotoBpjsKet", fotoBpjsKetDataUrl);
+	i("bioFotoBpjsKes", fotoBpjsKesDataUrl);
+	i("bioFotoKk", fotoKkDataUrl);
+	i("bioFotoSim", fotoSimDataUrl);
   
   document.getElementById("pvPrintedAt").textContent =
     new Date().toLocaleString("id-ID", { dateStyle: "short", timeStyle: "short" });
