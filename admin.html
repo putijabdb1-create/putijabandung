@@ -1,231 +1,67 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8" />
-<title>Login Admin – PT PUTRA TIMUR JAYA BDB1</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
-
+<meta charset="UTF-8">
+<title>Login Admin – PT PUTRA TIMUR JAYA</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
 <style>
-* { box-sizing: border-box; margin:0; padding:0; }
-
-body {
-  font-family: "Poppins", sans-serif;
-  background:
-    radial-gradient(circle at top left, #22c55e22, transparent 50%),
-    radial-gradient(circle at bottom right, #4f46e522, transparent 55%),
-    linear-gradient(135deg, #020617, #020617 40%, #020617);
-  color:#f9fafb;
-  min-height:100vh;
+body{
+  font-family:Poppins,sans-serif;
+  background:linear-gradient(135deg,#020617,#020617);
+  color:#fff; min-height:100vh;
 }
-
-/* ===== NAVBAR (SAMA) ===== */
-.navbar {
-  position:sticky;
-  top:0;
-  z-index:50;
-  backdrop-filter:blur(20px);
-  background:linear-gradient(to right,#020617cc,#020617dd);
-  border-bottom:1px solid #1f2937;
-}
-
-.nav-inner {
-  max-width:1120px;
-  margin:0 auto;
-  padding:10px 18px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-}
-
-.nav-brand {
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.nav-brand-logo {
-  width:30px;
-  height:30px;
-  border-radius:999px;
-  background:radial-gradient(circle,#4ade80,#22c55e);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#022c22;
-  font-weight:700;
-}
-
-.nav-brand-title span:first-child {
-  font-size:11px;
-  letter-spacing:.16em;
-  color:#9ca3af;
-}
-.nav-brand-title span:last-child {
-  font-size:13px;
-  font-weight:600;
-}
-
-.nav-links {
-  list-style:none;
-  display:flex;
-  gap:12px;
-  font-size:13px;
-}
-
-.nav-links a {
-  padding:6px 12px;
-  border-radius:999px;
-  color:#e5e7eb;
-}
-
-.nav-links a.admin {
-  background:#dc2626;
-  color:#fff;
-}
-
-/* ===== PAGE ===== */
-.page {
-  max-width:1120px;
-  margin:0 auto;
-  padding:18px;
-}
-
-/* ===== LOGIN CARD (SAMA) ===== */
-.login-card {
-  margin-top:28px;
-  max-width:380px;
+.card{
+  max-width:360px;
+  margin:80px auto;
+  padding:20px;
+  border-radius:16px;
   background:#020617;
   border:1px solid #1f2937;
-  border-radius:18px;
-  padding:18px;
-  box-shadow:0 16px 45px rgba(15,23,42,.85);
 }
-
-.login-card h2 {
-  font-size:16px;
-  margin-bottom:6px;
-}
-
-.login-card small {
-  font-size:11px;
-  color:#9ca3af;
-}
-
-label {
-  font-size:12px;
-  display:block;
+input,button{
+  width:100%; padding:10px;
   margin-top:10px;
-}
-
-input {
-  width:100%;
-  padding:8px 10px;
-  margin-top:4px;
-  border-radius:10px;
+  border-radius:8px;
   border:1px solid #374151;
   background:#020617;
-  color:#f9fafb;
-  font-size:12px;
+  color:#fff;
 }
-
-.btn-group {
-  display:flex;
-  gap:8px;
-  margin-top:14px;
-}
-
-.btn {
-  padding:8px 14px;
-  border-radius:999px;
+button{
+  background:#dc2626;
   border:none;
-  font-size:12px;
   font-weight:600;
   cursor:pointer;
 }
-
-.btn-primary {
-  background:linear-gradient(135deg,#dc2626,#b91c1c);
-  color:#fff;
-}
-
-.status-text {
-  margin-top:8px;
-  font-size:11px;
-}
+small{font-size:12px;color:#9ca3af;}
 </style>
 </head>
-
 <body>
 
-<!-- NAVBAR -->
-<header class="navbar">
-  <div class="nav-inner">
-    <div class="nav-brand">
-      <div class="nav-brand-logo">P</div>
-      <div class="nav-brand-title">
-        <span>PT PUTRA TIMUR JAYA</span>
-        <span>BANDUNG BARAT 1</span>
-      </div>
-    </div>
-    <ul class="nav-links">
-      <li><a href="index.html">Beranda</a></li>
-      <li><a href="program.html">Program</a></li>
-      <li><a href="galeri.html">Galeri</a></li>
-      <li><a href="teknisi.html">Login Teknisi</a></li>
-      <li><a href="admin.html" class="admin">Login Admin</a></li>
-      <li><a href="kontak.html">Kontak</a></li>
-    </ul>
-  </div>
-</header>
+<div class="card">
+  <h2>🔐 Login Admin</h2>
+  <small>Khusus administrator</small>
 
-<main class="page">
-  <h1 style="font-size:18px;font-weight:600;">Login Admin</h1>
-  <p style="font-size:12px;color:#9ca3af;margin-top:4px;">
-    Halaman khusus administrator untuk melihat & mencetak biodata teknisi.
-  </p>
+  <input id="adminUser" placeholder="Username">
+  <input id="adminPass" type="password" placeholder="Password">
 
-  <div class="login-card">
-    <h2>Login Admin</h2>
-    <small>Khusus admin PT PUTRA TIMUR JAYA</small>
-
-    <label>Username</label>
-    <input id="adminUser" placeholder="admin">
-
-    <label>Password</label>
-    <input id="adminPass" type="password" placeholder="Password">
-
-    <div class="btn-group">
-      <button class="btn btn-primary" onclick="loginAdmin()">🔐 Login</button>
-    </div>
-
-    <p id="status" class="status-text"></p>
-  </div>
-</main>
+  <button onclick="loginAdmin()">Login</button>
+  <p id="status" style="font-size:12px;"></p>
+</div>
 
 <script>
 const ADMIN_USER = "admin";
-const ADMIN_PASS = "Putija@2025";
+const ADMIN_PASS = "admin123"; // 🔴 GANTI SENDIRI
 
-function loginAdmin() {
-  const s = document.getElementById("status");
-
-  if (
-    adminUser.value !== ADMIN_USER ||
-    adminPass.value !== ADMIN_PASS
-  ) {
-    s.textContent = "Login admin gagal.";
-    s.style.color = "#fca5a5";
-    return;
-  }
-
-  s.textContent = "Login berhasil. Mengalihkan...";
-  s.style.color = "#bbf7d0";
-
-  setTimeout(() => {
+function loginAdmin(){
+  const u = adminUser.value.trim();
+  const p = adminPass.value.trim();
+  if(u===ADMIN_USER && p===ADMIN_PASS){
     window.location.href = "admin-dashboard.html";
-  }, 600);
+  }else{
+    status.textContent="Login admin gagal";
+    status.style.color="#fca5a5";
+  }
 }
 </script>
 
