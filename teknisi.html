@@ -750,17 +750,10 @@
 		const qs = new URLSearchParams(window.location.search);
 		const adminView = qs.get("admin") === "1";
 		const adminUserView = qs.get("user");
-		
-		if (adminView && adminUserView) {
-		currentUser = { username: adminUserView };
-		loadExistingBiodata();
-
-		// admin tidak boleh edit
-		document.addEventListener("DOMContentLoaded", () => {
-			const form = document.getElementById("formCard");
-			if (form) form.style.display = "none";
-		});
-	}
+		/* ===== ADMIN VIEW PARAM ===== */
+		const qs = new URLSearchParams(window.location.search);
+		const adminView = qs.get("admin") === "1";
+		const adminUserView = qs.get("user");
 
     // Format: username|password|nik|nama|divisi|defaultArea
     const USER_LINES = [
@@ -944,20 +937,6 @@ function loginTeknisi() {
   loadExistingBiodata();
 }
 
-/* ========= ADMIN AUTO VIEW (FINAL & BENAR) ========= */
-document.addEventListener("DOMContentLoaded", () => {
-  if (adminView && adminUserView) {
-    currentUser = { username: adminUserView };
-
-    // sembunyikan UI teknisi
-    const form = document.getElementById("formCard");
-    const login = document.querySelector(".login-card");
-    if (form) form.style.display = "none";
-    if (login) login.style.display = "none";
-
-    loadExistingBiodata();
-  }
-});
 
 /* ========= LOAD EXISTING BIODATA (FINAL STABLE) ========= */
 function loadExistingBiodata() {
@@ -1294,9 +1273,20 @@ function collectFormData() {
     noSim: document.getElementById("noSim").value || ""
   };  
 }
+/* ===== ADMIN AUTO VIEW (FINAL) ===== */
+document.addEventListener("DOMContentLoaded", () => {
+  if (adminView && adminUserView) {
+    currentUser = { username: adminUserView };
+
+    // sembunyikan login & form teknisi
+    const login = document.querySelector(".login-card");
+    const form  = document.getElementById("formCard");
+    if (login) login.style.display = "none";
+    if (form)  form.style.display  = "none";
+
+    loadExistingBiodata();
+  }
+});
   </script>
 </body>
 </html>
-
-
-
