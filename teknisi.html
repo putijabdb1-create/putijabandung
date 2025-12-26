@@ -6,6 +6,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
+  
+	/* ===== LOGIN ADMIN NAVBAR ===== */
+		.nav-links a.admin {
+		background: #dc2626;
+		color: #ffffff;
+		}
+		.nav-links a.admin:hover {
+		background: #b91c1c;
+		}
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       font-family: "Poppins", sans-serif;
@@ -313,13 +322,26 @@
           <span>BANDUNG BARAT 1</span>
         </div>
       </div>
-      <ul class="nav-links">
-        <li><a href="index.html">Beranda</a></li>
-        <li><a href="program.html">Program</a></li>
-        <li><a href="galeri.html">Galeri</a></li>
-        <li><a href="teknisi.html" class="active">Login Teknisi</a></li>
-        <li><a href="kontak.html">Kontak</a></li>
-      </ul>
+		<ul class="nav-links">
+		<li><a href="index.html">Beranda</a></li>
+		<li><a href="program.html">Program</a></li>
+		<li><a href="galeri.html">Galeri</a></li>
+		<li><a href="admin.html" class="admin">Login Admin</a></li>
+
+			<!-- LOGIN TEKNISI -->
+		<li>
+		<a href="teknisi.html" class="active">
+		Login Teknisi
+		</a>
+		</li>
+
+			<!-- LOGIN ADMIN (BARU) -->
+		<li>
+		<a href="admin.html" style="background:#dc2626;color:#fff;">
+		Login Admin
+		</a>
+		</li>
+		<li><a href="kontak.html">Kontak</a></li></ul>
     </div>
   </header>
 
