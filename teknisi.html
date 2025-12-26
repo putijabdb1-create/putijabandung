@@ -923,6 +923,29 @@
       if (d) d.href = DRIVE_FOLDER_URL;
     })();
 
+	/* ========= ADMIN PREVIEW MODE (FINAL) ========= */
+	const qs = new URLSearchParams(window.location.search);
+	const isAdminPreview = qs.get("admin") === "1";
+	const adminUser = qs.get("user");
+
+	document.addEventListener("DOMContentLoaded", () => {
+	if (isAdminPreview && adminUser) {
+		// set user palsu khusus admin
+		currentUser = { username: adminUser };
+
+		// sembunyikan UI login & form input
+		const loginCard = document.querySelector(".login-card");
+		const formCard  = document.getElementById("formCard");
+		if (loginCard) loginCard.style.display = "none";
+		if (formCard)  formCard.style.display = "none";
+
+		// langsung load biodata
+		loadExistingBiodata();
+
+		// auto tampilkan preview
+		setTimeout(showPreviewBiodata, 800);
+	}
+	});
     /* ========= LOGIN ========= */
 function loginTeknisi() {
   const userId = document.getElementById("loginUser").value.trim();
