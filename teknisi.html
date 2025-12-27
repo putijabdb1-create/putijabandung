@@ -544,7 +544,7 @@
             </div>
             <div>
               <label for="dataAnak">Data Anak</label>
-              <input id="dataAnak" placeholder="Nama anak & tanggal lahir (jika ada)" />
+              <textarea id="pendFormal" placeholder="ISI sesuai Format : 1.Nama/TTL/NoJKN/ 2.Nama/TTL/NoJKN..dst"></textarea>
             </div>
           </div>
 
@@ -570,7 +570,7 @@
           <input id="fotoTeknisi" type="file" accept="image/*" />
           <img id="previewFotoForm" class="preview-small" />
 
-          <div class="section-title">Foto Dokumen (opsional)</div>
+          <div class="section-title">Foto Dokumen ( Wajib )</div>
           <!-- URUTAN: KTP, NPWP, BPJS KET, BPJS KES, KK,SIM -->
           <div class="field-row-2">
             <div>
@@ -1117,7 +1117,7 @@ function normalizeDriveImage(url) {
       }
       const statusEl = document.getElementById("formStatus");
       statusEl.style.color = "#9ca3af";
-      statusEl.textContent = "Menyimpan biodata ke Google Sheet...";
+      statusEl.textContent = "Menyimpan Biodata Ke Database Tunggu Selesai...";
 
       const data = collectFormData();
 
@@ -1320,4 +1320,5 @@ function collectFormData() {
   </script>
 </body>
 </html>
+
 
