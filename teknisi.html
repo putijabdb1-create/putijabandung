@@ -923,40 +923,36 @@
       if (d) d.href = DRIVE_FOLDER_URL;
     })();
 
-	/* ========= ADMIN PREVIEW MODE (FINAL) ========= */
-	const qs = new URLSearchParams(window.location.search);
-	const isAdminPreview = qs.get("admin") === "1";
-	const adminUser = qs.get("user");
+	/* ========= ADMIN PREVIEW MODE (FINAL STABLE) ========= */
+(function adminPreviewInit(){
+  const qs = new URLSearchParams(window.location.search);
+  const isAdminPreview = qs.get("admin") === "1";
+  const adminUser = qs.get("user");
 
-	document.addEventListener("DOMContentLoaded", () => {
-	if (isAdminPreview && adminUser) {
-		// set user palsu khusus admin
-		currentUser = { username: adminUser };
+  if (!isAdminPreview || !adminUser) return;
 
-		// sembunyikan UI login & form input
-		const loginCard = document.querySelector(".login-card");
-		const formCard  = document.getElementById("formCard");
-		if (loginCard) loginCard.style.display = "none";
-		if (formCard)  formCard.style.display = "none";
+  window.addEventListener("load", () => {
+    // set user admin
+    currentUser = { username: adminUser };
 
-		document.addEventListener("DOMContentLoaded", () => {
-		if (isAdminPreview && adminUser) {
-		currentUser = { username: adminUser };
+    // sembunyikan login & form
+    const loginCard = document.querySelector(".login-card");
+    const formCard  = document.getElementById("formCard");
+    if (loginCard) loginCard.style.display = "none";
+    if (formCard)  formCard.style.display = "none";
 
-		const loginCard = document.querySelector(".login-card");
-		const formCard  = document.getElementById("formCard");
-		if (loginCard) loginCard.style.display = "none";
-		if (formCard)  formCard.style.display = "none";
+    // load data
+    loadExistingBiodata();
 
-		// ⏳ tunggu function siap + fetch selesai
-		setTimeout(() => {
-		loadExistingBiodata();
-
-		// tunggu data masuk baru preview
-		setTimeout(showPreviewBiodata, 1200);
-		}, 300);
-	}
-	});
+    // tunggu data MASUK KE FORM baru preview
+    const wait = setInterval(() => {
+      if (document.getElementById("namaPegawai").value !== "") {
+        clearInterval(wait);
+        showPreviewBiodata();
+      }
+    }, 200);
+  });
+})();
     /* ========= LOGIN ========= */
 function loginTeknisi() {
   const userId = document.getElementById("loginUser").value.trim();
@@ -1324,6 +1320,4 @@ function collectFormData() {
   </script>
 </body>
 </html>
-
-
 
