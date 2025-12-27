@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
   <style>
-
+  
 	/* ===== LOGIN ADMIN NAVBAR ===== */
 		.nav-links a.admin {
 		background: #dc2626;
@@ -561,9 +561,9 @@
               <label for="noSim">Nomor SIM</label>
               <input id="noSim" />
             </div>
-
-
-
+			
+			
+			
           </div>
 
           <div class="section-title">Foto Teknisi</div>
@@ -603,13 +603,13 @@
             <input id="fotoKk" type="file" accept="image/*" />
             <img id="previewFotoKk" class="preview-small" />
           </div>
-
+		  
           <div>
             <label for="fotoSim">Foto SIM</label>
             <input id="fotoSim" type="file" accept="image/*" />
             <img id="previewFotoSim" class="preview-small" />
           </div>
-
+		  
           <div class="btn-group">
             <button class="btn btn-primary" type="button" onclick="saveBiodata()">💾 Simpan</button>
             <button class="btn btn-secondary" type="button" onclick="showPreviewBiodata()">👀 Preview Biodata</button>
@@ -767,7 +767,7 @@
     /* 👉 GANTI DUA LINK DI BAWAH INI DENGAN LINK PUNYAMU */
     const SHEET_URL = "https://docs.google.com/spreadsheets/d/1uACE2nd-2E8CNtG-nQUiTUd4x5C2sFfKdZJeb1D_sbM/edit?gid=0#gid=0";
     const DRIVE_FOLDER_URL = "https://drive.google.com/drive/folders/1xW5TQYUgpHRbFTdL8nFIxAQA9aJfP7uK?usp=drive_link";
-
+	
 
     // Format: username|password|nik|nama|divisi|defaultArea
     const USER_LINES = [
@@ -914,7 +914,7 @@
     let fotoBpjsKetDataUrl = "";
     let fotoBpjsKesDataUrl = "";
     let fotoSimDataUrl = "";
-
+	
     /* Set link Sheet & Drive di tombol admin */
     (function setAdminLinks(){
       const s = document.getElementById("sheetLink");
@@ -923,40 +923,6 @@
       if (d) d.href = DRIVE_FOLDER_URL;
     })();
 
-	/* ========= ADMIN PREVIEW MODE (FINAL) ========= */
-	const qs = new URLSearchParams(window.location.search);
-	const isAdminPreview = qs.get("admin") === "1";
-	const adminUser = qs.get("user");
-
-	document.addEventListener("DOMContentLoaded", () => {
-	if (isAdminPreview && adminUser) {
-		// set user palsu khusus admin
-		currentUser = { username: adminUser };
-
-		// sembunyikan UI login & form input
-		const loginCard = document.querySelector(".login-card");
-		const formCard  = document.getElementById("formCard");
-		if (loginCard) loginCard.style.display = "none";
-		if (formCard)  formCard.style.display = "none";
-
-		document.addEventListener("DOMContentLoaded", () => {
-		if (isAdminPreview && adminUser) {
-		currentUser = { username: adminUser };
-
-		const loginCard = document.querySelector(".login-card");
-		const formCard  = document.getElementById("formCard");
-		if (loginCard) loginCard.style.display = "none";
-		if (formCard)  formCard.style.display = "none";
-
-		// ⏳ tunggu function siap + fetch selesai
-		setTimeout(() => {
-		loadExistingBiodata();
-
-		// tunggu data masuk baru preview
-		setTimeout(showPreviewBiodata, 1200);
-		}, 300);
-	}
-	});
 	/* ========= ADMIN PREVIEW MODE (FINAL STABLE) ========= */
 (function adminPreviewInit(){
   const qs = new URLSearchParams(window.location.search);
@@ -1091,7 +1057,7 @@ function loadExistingBiodata() {
 	setPreview("previewFotoBpjsKes", fotoBpjsKesDataUrl);
 	setPreview("previewFotoKk", fotoKkDataUrl);
 	setPreview("previewFotoSim", fotoSimDataUrl);
-
+	
   });
 }
 
@@ -1257,7 +1223,7 @@ function normalizeDriveImage(url) {
   i("bioFotoBpjsKes", fotoBpjsKesDataUrl);
   i("bioFotoKk", fotoKkDataUrl);
   i("bioFotoSim", fotoSimDataUrl);
-
+  
   document.getElementById("pvPrintedAt").textContent =
     new Date().toLocaleString("id-ID", { dateStyle: "short", timeStyle: "short" });
 
@@ -1354,3 +1320,6 @@ function collectFormData() {
   </script>
 </body>
 </html>
+
+
+
