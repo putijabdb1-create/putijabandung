@@ -939,11 +939,22 @@
 		if (loginCard) loginCard.style.display = "none";
 		if (formCard)  formCard.style.display = "none";
 
-		// langsung load biodata
+		document.addEventListener("DOMContentLoaded", () => {
+		if (isAdminPreview && adminUser) {
+		currentUser = { username: adminUser };
+
+		const loginCard = document.querySelector(".login-card");
+		const formCard  = document.getElementById("formCard");
+		if (loginCard) loginCard.style.display = "none";
+		if (formCard)  formCard.style.display = "none";
+
+		// ⏳ tunggu function siap + fetch selesai
+		setTimeout(() => {
 		loadExistingBiodata();
 
-		// auto tampilkan preview
-		setTimeout(showPreviewBiodata, 800);
+		// tunggu data masuk baru preview
+		setTimeout(showPreviewBiodata, 1200);
+		}, 300);
 	}
 	});
     /* ========= LOGIN ========= */
