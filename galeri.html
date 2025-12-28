@@ -2,153 +2,199 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Galeri - PT PUTRA TIMUR JAYA BDB1</title>
+  <title>Galeri – PT PUTRA TIMUR JAYA BDB1</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- FONT -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
   <style>
     * { box-sizing:border-box; margin:0; padding:0; }
+
     body {
       font-family:"Poppins",sans-serif;
-      background:#f3f4f6;
-      color:#0f172a;
+      background:
+        radial-gradient(circle at top left, #22c55e22, transparent 50%),
+        radial-gradient(circle at bottom right, #4f46e522, transparent 55%),
+        linear-gradient(135deg, #020617, #020617 40%, #020617);
+      color:#f9fafb;
+      min-height:100vh;
     }
+
     a { text-decoration:none; color:inherit; }
 
+    /* ===== NAVBAR ===== */
     .navbar {
       position:sticky;
       top:0;
       z-index:50;
-      background:#ffffff;
-      box-shadow:0 1px 4px rgba(15,23,42,0.08);
+      backdrop-filter: blur(20px);
+      background: linear-gradient(to right, #020617cc, #020617dd);
+      border-bottom:1px solid #1f2937;
     }
     .nav-inner {
-      max-width:1100px;
+      max-width:1120px;
       margin:0 auto;
-      padding:12px 16px;
+      padding:12px 18px;
       display:flex;
       align-items:center;
       justify-content:space-between;
     }
     .nav-brand {
       font-weight:700;
-      font-size:16px;
-      letter-spacing:0.04em;
+      font-size:15px;
+      letter-spacing:0.08em;
     }
     .nav-menu {
       display:flex;
-      gap:18px;
-      font-size:14px;
+      gap:14px;
+      font-size:13px;
     }
     .nav-menu a {
-      padding:6px 10px;
+      padding:6px 12px;
       border-radius:999px;
-      transition:background 0.15s, color 0.15s;
+      transition:background .2s,color .2s,transform .15s;
+      color:#e5e7eb;
     }
     .nav-menu a:hover {
       background:#2563eb;
-      color:#ffffff;
+      color:#fff;
+      transform:translateY(-1px);
     }
-    .nav-menu a.active { background:#2563eb; color:#ffffff; }
+    .nav-menu a.active {
+      background:#2563eb;
+      color:#fff;
+    }
 
+    /* ===== WRAPPER ===== */
     .wrapper {
-      max-width:1100px;
+      max-width:1120px;
       margin:0 auto;
-      padding:24px 16px 40px;
+      padding:28px 18px 50px;
     }
+
     .page-title {
-      font-size:24px;
+      font-size:22px;
       font-weight:700;
       margin-bottom:6px;
     }
     .page-subtitle {
-      font-size:14px;
-      color:#6b7280;
-      margin-bottom:18px;
+      font-size:13px;
+      color:#9ca3af;
+      margin-bottom:22px;
+      max-width:760px;
     }
 
+    /* ===== GALERI GRID ===== */
     .grid-galeri {
       display:grid;
-      grid-template-columns:repeat(auto-fit, minmax(220px,1fr));
-      gap:14px;
+      grid-template-columns:repeat(auto-fit, minmax(240px,1fr));
+      gap:18px;
     }
+
     .galeri-item {
       position:relative;
       overflow:hidden;
-      border-radius:16px;
-      box-shadow:0 10px 18px rgba(15,23,42,0.18);
-      background:#000;
+      border-radius:18px;
+      background:#020617;
+      border:1px solid #1f2937;
+      box-shadow:0 16px 45px rgba(15,23,42,0.85);
+      transition:transform .25s ease, box-shadow .25s ease;
     }
+
+    .galeri-item:hover {
+      transform:translateY(-4px);
+      box-shadow:0 24px 60px rgba(15,23,42,0.95);
+    }
+
     .galeri-item img {
       width:100%;
-      height:190px;
+      height:200px;
       object-fit:cover;
       display:block;
-      transition:transform 0.4s ease;
+      transition:transform .4s ease;
     }
+
     .galeri-item:hover img {
-      transform:scale(1.06);
+      transform:scale(1.07);
     }
+
     .galeri-caption {
       position:absolute;
       left:0;
       bottom:0;
       width:100%;
-      padding:6px 10px;
+      padding:10px 12px;
       font-size:12px;
+      font-weight:500;
       color:#f9fafb;
-      background:linear-gradient(to top, rgba(15,23,42,0.85), transparent);
+      background:linear-gradient(to top, rgba(2,6,23,0.9), transparent);
     }
 
     @media (max-width:640px) {
-      .nav-menu { gap:10px; font-size:13px; }
-      .nav-brand { font-size:14px; }
+      .nav-menu { font-size:12px; gap:10px; }
+      .page-title { font-size:20px; }
     }
   </style>
 </head>
+
 <body>
-  <header class="navbar">
-    <div class="nav-inner">
-      <div class="nav-brand">PT PUTRA TIMUR JAYA BDB1</div>
-      <nav class="nav-menu">
-        <a href="index.html">Beranda</a>
-        <a href="program.html">Program</a>
-        <a href="galeri.html" class="active">Galeri</a>
-        <a href="teknisi.html">Login Teknisi</a>
-        <a href="kontak.html">Kontak</a>
-      </nav>
-    </div>
-  </header>
 
-  <main class="wrapper">
-    <h1 class="page-title">Galeri Kegiatan</h1>
-    <p class="page-subtitle">
-      Dokumentasi kegiatan teknisi, instalasi jaringan, dan momen kebersamaan tim PT PUTRA TIMUR JAYA BDB1.
-      Ganti gambar di sini dengan foto-foto milik perusahaan.
-    </p>
+<!-- ===== NAVBAR ===== -->
+<header class="navbar">
+  <div class="nav-inner">
+    <div class="nav-brand">PT PUTRA TIMUR JAYA BDB1</div>
+    <nav class="nav-menu">
+      <a href="index.html">Beranda</a>
+      <a href="program.html">Program</a>
+      <a href="galeri.html" class="active">Galeri</a>
+      <a href="teknisi.html">Login Teknisi</a>
+      <a href="kontak.html">Kontak</a>
+    </nav>
+  </div>
+</header>
 
-    <section class="grid-galeri">
-      <!-- Contoh item: ganti src & caption sesuai foto -->
-      <article class="galeri-item">
-        <img src="https://via.placeholder.com/600x400?text=Foto+Tim+Teknisi" alt="teknisi1.jpg">
-        <div class="galeri-caption">Briefing pagi tim teknisi sebelum turun ke lapangan.</div>
-      </article>
+<!-- ===== CONTENT ===== -->
+<main class="wrapper">
+  <h1 class="page-title">Galeri Kegiatan</h1>
+  <p class="page-subtitle">
+    Dokumentasi kegiatan teknisi, instalasi jaringan, maintenance,
+    serta momen kebersamaan tim PT PUTRA TIMUR JAYA BDB1.
+  </p>
 
-      <article class="galeri-item">
-        <img src="https://via.placeholder.com/600x400?text=Instalasi+FTTH" alt="Instalasi FTTH">
-        <div class="galeri-caption">Instalasi FTTH ke rumah pelanggan dengan standar kerapian.</div>
-      </article>
+  <section class="grid-galeri">
 
-      <article class="galeri-item">
-        <img src="https://via.placeholder.com/600x400?text=Maintenance+Jaringan" alt="Maintenance jaringan">
-        <div class="galeri-caption">Maintenance berkala jalur ODP dan patch panel.</div>
-      </article>
+    <!-- GANTI FOTO DI BAWAH (assets/img/...) -->
+    <article class="galeri-item">
+      <img src="assets/img/tim-teknisi.jpg" alt="Tim Teknisi">
+      <div class="galeri-caption">
+        Briefing pagi tim teknisi sebelum turun ke lapangan
+      </div>
+    </article>
 
-      <article class="galeri-item">
-        <img src="https://via.placeholder.com/600x400?text=Kegiatan+Internal" alt="Kegiatan internal">
-        <div class="galeri-caption">Kegiatan internal & penghargaan untuk teknisi berprestasi.</div>
-      </article>
-    </section>
-  </main>
+    <article class="galeri-item">
+      <img src="assets/img/instalasi-ftth.jpg" alt="Instalasi FTTH">
+      <div class="galeri-caption">
+        Instalasi FTTH ke rumah pelanggan
+      </div>
+    </article>
+
+    <article class="galeri-item">
+      <img src="assets/img/maintenance-jaringan.jpg" alt="Maintenance">
+      <div class="galeri-caption">
+        Maintenance jalur ODP & patch panel
+      </div>
+    </article>
+
+    <article class="galeri-item">
+      <img src="assets/img/kegiatan-internal.jpg" alt="Kegiatan Internal">
+      <div class="galeri-caption">
+        Kegiatan internal & kebersamaan tim
+      </div>
+    </article>
+
+  </section>
+</main>
+
 </body>
 </html>
-
