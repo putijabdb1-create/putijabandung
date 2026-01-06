@@ -144,22 +144,41 @@ input:focus{
 </main>
 
 <script>
-/* ========= LOGIN ADMIN (LOGIC ASLI – TIDAK DIUBAH) ========= */
-const ADMIN_USER = "PUTIJABDB1";
-const ADMIN_PASS = "putija2026"; // 🔴 GANTI SENDIRI
+/* ========= LOGIN ADMIN (MULTI USER – STABLE) ========= */
+
+/*
+FORMAT:
+username : password
+kamu tinggal tambah / hapus admin di sini
+*/
+const ADMINS = {
+  "PUTIJABDB1": "putija2026",
+  "PTJ_Arip007": "alvaro007",
+  "PTJ_ADMIN2": "password123"
+  // tambah admin di sini
+};
 
 function loginAdmin(){
   const u = adminUser.value.trim();
   const p = adminPass.value.trim();
 
-  if(u===ADMIN_USER && p===ADMIN_PASS){
+  if (!u || !p) {
+    status.textContent = "Username & password wajib diisi";
+    status.style.color = "#fca5a5";
+    return;
+  }
+
+  if (ADMINS[u] && ADMINS[u] === p) {
+    // ✅ LOGIN BERHASIL
     window.location.href = "admin-dashboard.html";
-  }else{
-    status.textContent="Login admin gagal";
-    status.style.color="#fca5a5";
+  } else {
+    // ❌ LOGIN GAGAL
+    status.textContent = "Login admin gagal";
+    status.style.color = "#fca5a5";
   }
 }
 </script>
 
 </body>
 </html>
+
