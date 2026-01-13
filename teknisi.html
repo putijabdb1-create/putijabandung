@@ -1119,8 +1119,8 @@ function normalizeDriveImage(url) {
         });
         const text = await res.text();
         statusEl.style.color = "#bbf7d0";
-        statusEl.textContent = "Biodata berhasil dikirim. Respon server: " + text;
-        console.log("Respon server:", text);
+        statusEl.textContent = "Biodata berhasil Di Save : " + text;
+        console.log("Terimakasih:", text);
       } catch (err) {
         statusEl.style.color = "#fca5a5";
         statusEl.textContent = "Gagal menyimpan biodata: " + err.message;
@@ -1298,6 +1298,7 @@ function collectFormData() {
   </script>
 </body>
 </html>
+
 
 
 
