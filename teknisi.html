@@ -1025,13 +1025,13 @@ function loadExistingBiodata() {
 	// ==== SET PREVIEW + SET DATA URL (WAJIB) ====
 	// SIMPAN FOTO LAMA (JANGAN MASUK KE fotoDataUrl)
 	fotoOld = {
-	teknisi: p.teknisi || "",
-	ktp: p.ktp || "",
-	npwp: p.npwp || "",
-	bpjsKet: p.bpjsKet || "",
-	bpjsKes: p.bpjsKes || "",
-	kk: p.kk || "",
-	sim: p.sim || ""
+	teknisi: normalizeDriveImage(p.teknisi),
+	ktp: normalizeDriveImage(p.ktp),
+	npwp: normalizeDriveImage(p.npwp),
+	bpjsKet: normalizeDriveImage(p.bpjsKet),
+	bpjsKes: normalizeDriveImage(p.bpjsKes),
+	kk: normalizeDriveImage(p.kk),
+	sim: normalizeDriveImage(p.sim)
 	};
 
 	// PREVIEW SAJA
@@ -1041,7 +1041,7 @@ function loadExistingBiodata() {
 	setPreview("previewFotoBpjsKet", fotoOld.bpjsKet);
 	setPreview("previewFotoBpjsKes", fotoOld.bpjsKes);
 	setPreview("previewFotoKk", fotoOld.kk);
-	setPreview("previewFotoSim", fotoOld.Sim);
+	setPreview("previewFotoSim", fotoOld.sim); //
   });
 }
 
