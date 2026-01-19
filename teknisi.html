@@ -787,6 +787,7 @@
       "PTJ_Sandi014|sandiwah45|16901628|SANDI WAHYUDI|PSB|BTJ",
       "PTJ_Ujang9933|Almera0607|16922266|UJANG ROHIMAT|PSB|BTJ",
       "PTJ_Zacky123|Kadungora05|16051208|MOCH ZACKY AZKARI|PSB|BTJ",
+	  "PTJ_RIZAL|putija2026|16974258|MOCHAMAD RIZAL TAUFIK|PSB|BTJ",
       "PTJ_DEDE YUSUP|Project01|16953861|DEDE YUSUP|PROJEK|BTJ",
       "PTJ_RAIHAN|Project01|16013456|MOCHAMAD RAIHAN ARYA AGUNG|PROJEK|BTJ",
       "PTJ_AGUNGINDRA014|agungindra041498|16982268|AGUNG INDRA LESMANA|PSB|BTJ",
@@ -884,17 +885,14 @@
 
     let currentUser = null;
 
-	// FOTO BARU (BASE64 – HANYA JIKA UPLOAD)
-	let fotoDataUrl = null;
-	let fotoKtpDataUrl = null;
-	let fotoNpwpDataUrl = null;
-	let fotoBpjsKetDataUrl = null;
-	let fotoBpjsKesDataUrl = null;
-	let fotoKkDataUrl = null;
-	let fotoSimDataUrl = null;
-	
-	// FOTO LAMA (URL DRIVE – PREVIEW SAJA)
-	let fotoOld = {};
+    // foto base64
+    let fotoDataUrl = "";
+    let fotoKtpDataUrl = "";
+    let fotoKkDataUrl = "";
+    let fotoNpwpDataUrl = "";
+    let fotoBpjsKetDataUrl = "";
+    let fotoBpjsKesDataUrl = "";
+    let fotoSimDataUrl = "";
 	
     /* Set link Sheet & Drive di tombol admin */
     (function setAdminLinks(){
@@ -1023,24 +1021,21 @@ function loadExistingBiodata() {
     noSim.value = b.noSim || "";
 
 	// ==== SET PREVIEW + SET DATA URL (WAJIB) ====
-	// SIMPAN FOTO LAMA (JANGAN MASUK KE fotoDataUrl)
-	fotoOld = {
-	teknisi: p.teknisi || "",
-	ktp: p.ktp || "",
-	npwp: p.npwp || "",
-	bpjsKet: p.bpjsKet || "",
-	bpjsKes: p.bpjsKes || "",
-	kk: p.kk || "",
-	sim: p.sim || ""
-	};
+	fotoDataUrl        = normalizeDriveImage(p.teknisi);
+	fotoKtpDataUrl     = normalizeDriveImage(p.ktp);
+	fotoNpwpDataUrl    = normalizeDriveImage(p.npwp);
+	fotoBpjsKetDataUrl = normalizeDriveImage(p.bpjsKet);
+	fotoBpjsKesDataUrl = normalizeDriveImage(p.bpjsKes);
+	fotoKkDataUrl      = normalizeDriveImage(p.kk);
+	fotoSimDataUrl     = normalizeDriveImage(p.sim);
 
-	// PREVIEW SAJA
-	setPreview("previewFotoForm", fotoOld.teknisi);
-	setPreview("previewFotoKtp", fotoOld.ktp);
-	setPreview("previewFotoNpwp", fotoOld.npwp);
-	setPreview("previewFotoBpjsKet", fotoOld.bpjsKet);
-	setPreview("previewFotoBpjsKes", fotoOld.bpjsKes);
-	setPreview("previewFotoKk", fotoOld.kk);
+	setPreview("previewFotoForm", fotoDataUrl);
+	setPreview("previewFotoKtp", fotoKtpDataUrl);
+	setPreview("previewFotoNpwp", fotoNpwpDataUrl);
+	setPreview("previewFotoBpjsKet", fotoBpjsKetDataUrl);
+	setPreview("previewFotoBpjsKes", fotoBpjsKesDataUrl);
+	setPreview("previewFotoKk", fotoKkDataUrl);
+	setPreview("previewFotoSim", fotoSimDataUrl);
 	
   });
 }
@@ -1095,78 +1090,44 @@ function normalizeDriveImage(url) {
 
     /* ========= SIMPAN BIODATA ========= */
     async function saveBiodata() {
-  if (!currentUser) return;
+      if (!currentUser) {
+        alert("Silakan login terlebih dahulu.");
+        return;
+      }
+      const statusEl = document.getElementById("formStatus");
+      statusEl.style.color = "#9ca3af";
+      statusEl.textContent = "Menyimpan biodata ke Google Sheet...";
 
-  const statusEl = document.getElementById("formStatus");
-  statusEl.textContent = "Menyimpan data...";
+      const data = collectFormData();
 
-  const biodata = {
-    namaPegawai: namaPegawai.value,
-    ttl: ttl.value,
-    jenisKelamin: jenisKelamin.value,
-    pendidikanAkhir: pendidikanAkhir.value,
-    pendFormal: pendFormal.value,
-    pendNonFormal: pendNonFormal.value,
-    statusPerkawinan: statusPerkawinan.value,
-    lokasiKerja: lokasiKerja.value,
-    posisiKerja: posisiKerja.value,
-    divisi: divisi.value,
-    alamatDomisili: alamatDomisili.value,
-    domKel: domKel.value,
-    domKec: domKec.value,
-    domKota: domKota.value,
-    noHp: noHp.value,
-    email: email.value,
-    noKtp: noKtp.value,
-    noNpwp: noNpwp.value,
-    namaIbu: namaIbu.value,
-    noRekening: noRekening.value,
-    namaBank: namaBank.value,
-    ktpAlamat: ktpAlamat.value,
-    ktpKel: ktpKel.value,
-    ktpKec: ktpKec.value,
-    ktpKota: ktpKota.value,
-    bpjsKet: bpjsKet.value,
-    bpjsKes: bpjsKes.value,
-    namaPasangan: namaPasangan.value,
-    bpjsPasangan: bpjsPasangan.value,
-    telpKerabat: telpKerabat.value,
-    dataAnak: dataAnak.value,
-    namaFaskes: namaFaskes.value,
-    noKk: noKk.value,
-    noSim: noSim.value
-  };
-
-  // 🚨 PAYLOAD AMAN (TIDAK TIMPA FOTO)
-  const payload = {
-    mode: "saveBiodata",
-    user: currentUser.username,
-    biodata: biodata
-  };
-
-  // 🔐 HANYA KIRIM FOTO JIKA ADA UPLOAD BARU
-  if (fotoDataUrl)       payload.foto = fotoDataUrl;
-  if (fotoKtpDataUrl)    payload.fotoKtp = fotoKtpDataUrl;
-  if (fotoNpwpDataUrl)   payload.fotoNpwp = fotoNpwpDataUrl;
-  if (fotoBpjsKetDataUrl)payload.fotoBpjsKet = fotoBpjsKetDataUrl;
-  if (fotoBpjsKesDataUrl)payload.fotoBpjsKes = fotoBpjsKesDataUrl;
-  if (fotoKkDataUrl)     payload.fotoKk = fotoKkDataUrl;
-  if (fotoSimDataUrl)    payload.fotoSim = fotoSimDataUrl;
-
-  fetch(WEB_APP_URL, {
-    method: "POST",
-    body: JSON.stringify(payload)
-  })
-  .then(r => r.json())
-  .then(res => {
-    statusEl.textContent = res.message || "Data berhasil disimpan";
-    statusEl.style.color = "#bbf7d0";
-  })
-  .catch(err => {
-    statusEl.textContent = "Gagal menyimpan data";
-    statusEl.style.color = "#fca5a5";
-  });
-}
+      try {
+        const res = await fetch(WEB_APP_URL, {
+          method: "POST",
+          // penting: pakai text/plain supaya tidak kena CORS / preflight
+          headers: { "Content-Type": "text/plain;charset=utf-8" },
+          body: JSON.stringify({
+            mode: "saveBiodata",
+            user: currentUser,
+            biodata: data,
+            foto: fotoDataUrl,
+            fotoKtp: fotoKtpDataUrl,
+            fotoKk: fotoKkDataUrl,
+            fotoSim: fotoSimDataUrl,
+            fotoNpwp: fotoNpwpDataUrl,
+            fotoBpjsKet: fotoBpjsKetDataUrl,
+            fotoBpjsKes: fotoBpjsKesDataUrl
+          })
+        });
+        const text = await res.text();
+        statusEl.style.color = "#bbf7d0";
+        statusEl.textContent = "Biodata berhasil Di Save : " + text;
+        console.log("Terimakasih:", text);
+      } catch (err) {
+        statusEl.style.color = "#fca5a5";
+        statusEl.textContent = "Gagal menyimpan biodata: " + err.message;
+        console.error("Error fetch:", err);
+      }
+    }
 
     /* ========= KUMPUL DATA FORM ========= */
     function showPreviewBiodata() {
