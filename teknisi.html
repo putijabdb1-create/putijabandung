@@ -1053,6 +1053,15 @@ function setPreview(imgId, url) {
   img.style.display = "block";
 }
 
+function getFotoSafe(dataUrl, previewImgId) {
+  if (dataUrl) return dataUrl;
+
+  const img = document.getElementById(previewImgId);
+  if (img && img.src && img.src.startsWith("http")) {
+    return img.src;
+  }
+  return "";
+}
 
 /* ========= NORMALIZE DRIVE IMAGE (FINAL – JANGAN DIUBAH LAGI) ========= */
 function normalizeDriveImage(url) {
@@ -1232,13 +1241,13 @@ function normalizeDriveImage(url) {
   t("pvNoSim", v("noSim"));
 
   /* ==== FOTO ==== */
-  i("bioFotoInline", fotoDataUrl);
-  i("bioFotoKtp", fotoKtpDataUrl);
-  i("bioFotoNpwp", fotoNpwpDataUrl);
-  i("bioFotoBpjsKet", fotoBpjsKetDataUrl);
-  i("bioFotoBpjsKes", fotoBpjsKesDataUrl);
-  i("bioFotoKk", fotoKkDataUrl);
-  i("bioFotoSim", fotoSimDataUrl);
+i("bioFotoInline", getFotoSafe(fotoDataUrl, "previewFotoForm"));
+i("bioFotoKtp", getFotoSafe(fotoKtpDataUrl, "previewFotoKtp"));
+i("bioFotoNpwp", getFotoSafe(fotoNpwpDataUrl, "previewFotoNpwp"));
+i("bioFotoBpjsKet", getFotoSafe(fotoBpjsKetDataUrl, "previewFotoBpjsKet"));
+i("bioFotoBpjsKes", getFotoSafe(fotoBpjsKesDataUrl, "previewFotoBpjsKes"));
+i("bioFotoKk", getFotoSafe(fotoKkDataUrl, "previewFotoKk"));
+i("bioFotoSim", getFotoSafe(fotoSimDataUrl, "previewFotoSim"));
   
   document.getElementById("pvPrintedAt").textContent =
     new Date().toLocaleString("id-ID", { dateStyle: "short", timeStyle: "short" });
