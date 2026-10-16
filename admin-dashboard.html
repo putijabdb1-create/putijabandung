@@ -17,10 +17,10 @@ input,select{width:100%;min-width:0;padding:11px 12px;border:1px solid var(--lin
 button,.btn{border:0;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 12px;border-radius:7px;background:var(--blue);color:white;text-decoration:none;font:600 12px Poppins,Arial;cursor:pointer;white-space:nowrap}
 button.secondary{background:#334155} .summary{color:var(--muted);font-size:12px;margin:8px 0}
 .table-wrap{width:100%;overflow:auto;border:1px solid var(--line);border-radius:10px}
-table{width:100%;min-width:720px;border-collapse:collapse} th,td{border-bottom:1px solid var(--line);padding:8px 10px;font-size:12px;text-align:left;vertical-align:middle} th{background:var(--panel);position:sticky;top:0;z-index:1} tr:last-child td{border-bottom:0}
+table{width:100%;min-width:900px;border-collapse:collapse} th,td{border-bottom:1px solid var(--line);padding:8px 10px;font-size:12px;text-align:left;vertical-align:middle} th{background:var(--panel);position:sticky;top:0;z-index:1} tr:last-child td{border-bottom:0}
 .avatar{width:48px;height:58px;object-fit:cover;object-position:center top;border-radius:7px;border:1px solid #475569;background:#111827;cursor:zoom-in;display:block}
 .no-photo{width:48px;height:58px;border:1px dashed #475569;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:9px;text-align:center;padding:3px}
-.actions{display:flex;gap:6px;flex-wrap:wrap} .empty{padding:22px;text-align:center;color:var(--muted)}
+.actions{display:flex;gap:6px;flex-wrap:wrap}.status-badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:700}.status-active{background:#064e3b;color:#a7f3d0}.status-inactive{background:#7f1d1d;color:#fecaca}.modal-form{padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px;min-width:min(92vw,520px)}.modal-form label{display:flex;flex-direction:column;gap:6px;font-size:12px;color:#cbd5e1}.modal-form .full{grid-column:1/-1}.modal-form input,.modal-form select{padding:10px}.modal-note{font-size:11px;color:var(--muted);grid-column:1/-1}.empty{padding:22px;text-align:center;color:var(--muted)}
 .modal{position:fixed;inset:0;background:#000d;display:none;align-items:center;justify-content:center;padding:20px;z-index:20} .modal.open{display:flex} .modal-card{max-width:min(92vw,760px);max-height:92vh;background:#0f172a;border:1px solid var(--line);border-radius:12px;overflow:hidden} .modal-head{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--line)} .modal-img{display:block;max-width:88vw;max-height:75vh;object-fit:contain;margin:auto} .modal-actions{display:flex;gap:8px;padding:10px 14px}
 @media(max-width:650px){.page{padding:12px;margin:10px auto}h1{font-size:20px}.toolbar{grid-template-columns:1fr}.toolbar #searchInput{grid-column:auto}.toolbar button{width:100%}}
 </style>
@@ -41,8 +41,8 @@ table{width:100%;min-width:720px;border-collapse:collapse} th,td{border-bottom:1
   <div class="summary" id="summary">Memuat data teknisi...</div>
   <div class="table-wrap">
     <table id="adminTable">
-      <thead><tr><th>Foto</th><th>Username</th><th>Nama Pegawai</th><th>Divisi</th><th>Aksi</th></tr></thead>
-      <tbody id="adminTableBody"><tr><td colspan="5" class="empty">Memuat data...</td></tr></tbody>
+      <thead><tr><th>Foto</th><th>Username</th><th>Nama Pegawai</th><th>Divisi</th><th>Status</th><th>Mulai Kerja</th><th>Masa Kerja</th><th>Aksi</th></tr></thead>
+      <tbody id="adminTableBody"><tr><td colspan="8" class="empty">Memuat data...</td></tr></tbody>
     </table>
   </div>
 </main>
@@ -51,6 +51,20 @@ table{width:100%;min-width:720px;border-collapse:collapse} th,td{border-bottom:1
     <div class="modal-head"><strong id="modalTitle">Foto Teknisi</strong><button type="button" class="secondary" id="closeModal">Tutup ✕</button></div>
     <img class="modal-img" id="modalImage" alt="Foto teknisi diperbesar">
     <div class="modal-actions"><a class="btn" id="openPhoto" target="_blank" rel="noopener">Buka Foto Asli</a></div>
+  </div>
+</div>
+<div class="modal" id="employmentModal" role="dialog" aria-modal="true" aria-label="Edit status dan masa kerja">
+  <div class="modal-card" style="width:min(94vw,560px)">
+    <div class="modal-head"><strong id="employmentTitle">Status & Masa Kerja Teknisi</strong><button type="button" class="secondary" id="closeEmployment">Tutup ✕</button></div>
+    <form id="employmentForm" class="modal-form">
+      <label class="full">Username / Nama Teknisi<input id="employmentPerson" readonly></label>
+      <label>Status Teknisi<select id="employmentStatus" required><option value="AKTIF">AKTIF</option><option value="NONAKTIF">NONAKTIF</option></select></label>
+      <label>Tanggal Masuk Kerja<input id="employmentStart" type="date" required></label>
+      <label class="full">Tanggal Keluar / Nonaktif<input id="employmentEnd" type="date"></label>
+      <div class="modal-note" id="tenurePreview">Masa kerja akan dihitung otomatis berdasarkan tanggal masuk dan tanggal keluar/status.</div>
+      <div class="modal-note">Data akan disimpan ke Google Sheets. Perubahan sebelumnya dicatat pada riwayat admin.</div>
+      <div class="full actions"><button id="saveEmployment" type="submit">Simpan Perubahan</button><button id="cancelEmployment" type="button" class="secondary">Batal</button></div>
+    </form>
   </div>
 </div>
 <script>
@@ -64,8 +78,13 @@ document.addEventListener('DOMContentLoaded', () => {
   $('divisionFilter').addEventListener('change', renderTable);
   $('downloadBtn').addEventListener('click', downloadExcel);
   $('logoutBtn').addEventListener('click', logoutAdmin);
+  $('closeEmployment').addEventListener('click', closeEmployment);
+  $('cancelEmployment').addEventListener('click', closeEmployment);
+  $('employmentForm').addEventListener('submit', saveEmployment);
+  ['employmentStart','employmentEnd','employmentStatus'].forEach(id => $(id).addEventListener('change', updateTenurePreview));
   $('closeModal').addEventListener('click', closePhoto);
   $('photoModal').addEventListener('click', e => { if (e.target === $('photoModal')) closePhoto(); });
+  $('employmentModal').addEventListener('click', e => { if (e.target === $('employmentModal')) closeEmployment(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closePhoto(); });
   loadAdmin();
 });
@@ -80,7 +99,7 @@ function loadAdmin() {
     })
     .catch(err => {
       $('summary').textContent = 'Data gagal dimuat: ' + err.message;
-      $('adminTableBody').innerHTML = '<tr><td colspan="5" class="empty">Gagal memuat data. Periksa koneksi Apps Script.</td></tr>';
+      $('adminTableBody').innerHTML = '<tr><td colspan="8" class="empty">Gagal memuat data. Periksa koneksi Apps Script.</td></tr>';
       console.error(err);
     });
 }
@@ -103,7 +122,7 @@ function safeText(v) { return String(v == null ? '' : v); }
 function renderTable() {
   const rows = filteredData(); const tbody = $('adminTableBody'); tbody.replaceChildren();
   $('summary').textContent = `Menampilkan ${rows.length} dari ${allData.length} teknisi`;
-  if (!rows.length) { const tr=document.createElement('tr'); const td=document.createElement('td'); td.colSpan=5; td.className='empty'; td.textContent='Data teknisi tidak ditemukan.'; tr.appendChild(td); tbody.appendChild(tr); return; }
+  if (!rows.length) { const tr=document.createElement('tr'); const td=document.createElement('td'); td.colSpan=8; td.className='empty'; td.textContent='Data teknisi tidak ditemukan.'; tr.appendChild(td); tbody.appendChild(tr); return; }
   rows.forEach(d => {
     const tr=document.createElement('tr');
     const photoTd=document.createElement('td');
@@ -112,10 +131,15 @@ function renderTable() {
     const userTd=document.createElement('td'); userTd.textContent=safeText(d.username)||'-';
     const nameTd=document.createElement('td'); nameTd.textContent=safeText(d.namaPegawai)||'-';
     const divTd=document.createElement('td'); divTd.textContent=safeText(d.divisi)||'-';
+    const statusTd=document.createElement('td'); const status=String(d.statusKerja || 'AKTIF').toUpperCase();
+    const badge=document.createElement('span'); badge.className='status-badge '+(status==='NONAKTIF'?'status-inactive':'status-active'); badge.textContent=status; statusTd.appendChild(badge);
+    const startTd=document.createElement('td'); startTd.textContent=formatDate(d.tanggalMasukKerja)||'-';
+    const tenureTd=document.createElement('td'); tenureTd.textContent=safeText(d.masaKerja)||'-';
     const actionTd=document.createElement('td'); const actions=document.createElement('div'); actions.className='actions';
     const a=document.createElement('a'); a.className='btn'; a.target='_blank'; a.rel='noopener'; a.textContent='Preview / Cetak'; a.href='teknisi.html?admin=1&user='+encodeURIComponent(safeText(d.username)); actions.appendChild(a);
     if (d.fotoUrl) { const open=document.createElement('button'); open.type='button'; open.className='secondary'; open.textContent='Lihat Foto'; open.addEventListener('click',()=>openPhoto(d)); actions.appendChild(open); }
-    actionTd.appendChild(actions); tr.append(photoTd,userTd,nameTd,divTd,actionTd); tbody.appendChild(tr);
+    const edit=document.createElement('button'); edit.type='button'; edit.textContent='Status / Masa Kerja'; edit.addEventListener('click',()=>openEmployment(d)); actions.appendChild(edit);
+    actionTd.appendChild(actions); tr.append(photoTd,userTd,nameTd,divTd,statusTd,startTd,tenureTd,actionTd); tbody.appendChild(tr);
   });
 }
 function openPhoto(d) {
@@ -130,6 +154,61 @@ function logoutAdmin() {
   sessionStorage.removeItem('putijaAdminLoggedIn');
   window.location.replace('admin.html');
 }
+function formatDate(value) {
+  if (!value) return '';
+  const s=String(value);
+  if (/^\d{4}-\d{2}-\d{2}$/.test(s)) { const [y,m,d]=s.split('-'); return `${d}/${m}/${y}`; }
+  return s;
+}
+function openEmployment(d) {
+  $('employmentPerson').value = `${safeText(d.username)} — ${safeText(d.namaPegawai)}`;
+  $('employmentStatus').value = String(d.statusKerja || 'AKTIF').toUpperCase()==='NONAKTIF'?'NONAKTIF':'AKTIF';
+  $('employmentStart').value = normalizeDateInput(d.tanggalMasukKerja);
+  $('employmentEnd').value = normalizeDateInput(d.tanggalKeluarKerja);
+  $('employmentForm').dataset.username = safeText(d.username);
+  $('employmentModal').classList.add('open'); updateTenurePreview();
+}
+function normalizeDateInput(v) {
+  if (!v) return '';
+  const s=String(v); if (/^\d{4}-\d{2}-\d{2}$/.test(s)) return s;
+  const dt=new Date(s); return Number.isNaN(dt.getTime())?'':`${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,'0')}-${String(dt.getDate()).padStart(2,'0')}`;
+}
+function closeEmployment() { $('employmentModal').classList.remove('open'); }
+function diffTenure(start,end) {
+  if (!start) return 'Tanggal masuk belum diisi';
+  const a=new Date(start+'T00:00:00'); const b=new Date((end||new Date().toISOString().slice(0,10))+'T00:00:00');
+  if (Number.isNaN(a.getTime())||Number.isNaN(b.getTime())||b<a) return 'Periksa tanggal masuk/keluar';
+  let y=b.getFullYear()-a.getFullYear(), m=b.getMonth()-a.getMonth(), d=b.getDate()-a.getDate();
+  if (d<0) { m--; const prev=new Date(b.getFullYear(),b.getMonth(),0); d+=prev.getDate(); }
+  if (m<0) { y--; m+=12; }
+  return `${y} tahun ${m} bulan ${d} hari`;
+}
+function updateTenurePreview() {
+  const status=$('employmentStatus').value, start=$('employmentStart').value, end=$('employmentEnd').value;
+  const calcEnd=status==='NONAKTIF' ? (end||'') : '';
+  $('tenurePreview').textContent='Perkiraan masa kerja: '+(status==='NONAKTIF'&&!calcEnd?'Isi tanggal keluar untuk menghitung masa kerja.':diffTenure(start,calcEnd));
+}
+async function saveEmployment(e) {
+  e.preventDefault();
+  const username=$('employmentForm').dataset.username;
+  const statusKerja=$('employmentStatus').value;
+  const tanggalMasukKerja=$('employmentStart').value;
+  let tanggalKeluarKerja=$('employmentEnd').value;
+  if (!username || !tanggalMasukKerja) { alert('Username dan tanggal masuk kerja wajib diisi.'); return; }
+  if (statusKerja==='NONAKTIF'&&!tanggalKeluarKerja) { alert('Isi tanggal keluar/nonaktif untuk teknisi NONAKTIF.'); return; }
+  if (tanggalKeluarKerja && tanggalKeluarKerja<tanggalMasukKerja) { alert('Tanggal keluar tidak boleh sebelum tanggal masuk.'); return; }
+  if (statusKerja==='AKTIF') tanggalKeluarKerja='';
+  const btn=$('saveEmployment'); btn.disabled=true; btn.textContent='Menyimpan...';
+  try {
+    const r=await fetch(WEB_APP_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({mode:'updateEmployment',adminKey:ADMIN_KEY,username,statusKerja,tanggalMasukKerja,tanggalKeluarKerja})});
+    const res=await r.json(); if(!res.ok) throw new Error(res.error||'Gagal menyimpan');
+    const target=allData.find(d=>String(d.username)===username);
+    if(target){target.statusKerja=statusKerja;target.tanggalMasukKerja=tanggalMasukKerja;target.tanggalKeluarKerja=tanggalKeluarKerja;target.masaKerja=diffTenure(tanggalMasukKerja,statusKerja==='NONAKTIF'?tanggalKeluarKerja:'');}
+    closeEmployment(); renderTable(); alert('Status dan masa kerja berhasil disimpan ke Google Sheets.');
+  } catch(err) { alert('Gagal menyimpan: '+err.message+'\nPastikan Code.gs sudah di-deploy sebagai versi baru.'); }
+  finally {btn.disabled=false;btn.textContent='Simpan Perubahan';}
+}
+
 function htmlCell(value) {
   const s = String(value == null ? '' : value);
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -150,7 +229,7 @@ function downloadExcel() {
     ['BPJS Pasangan','bpjsPasangan'],['Telepon Kerabat','telpKerabat'],['Data Anak','dataAnak'],['Nama Faskes','namaFaskes'],
     ['No KK','noKk'],['No SIM','noSim'],['Foto Teknisi URL','fotoUrl'],['Foto KTP URL','fotoKtpUrl'],
     ['Foto BPJS Kesehatan URL','fotoBpjsKesUrl'],['Foto BPJS Ketenagakerjaan URL','fotoBpjsKetUrl'],
-    ['Foto NPWP URL','fotoNpwpUrl'],['Foto KK URL','fotoKkUrl'],['Foto SIM URL','fotoSimUrl']
+    ['Foto NPWP URL','fotoNpwpUrl'],['Foto KK URL','fotoKkUrl'],['Foto SIM URL','fotoSimUrl'],['Status Teknisi','statusKerja'],['Tanggal Masuk Kerja','tanggalMasukKerja'],['Tanggal Keluar','tanggalKeluarKerja'],['Masa Kerja','masaKerja']
   ];
   const head = columns.map(c => '<th>'+htmlCell(c[0])+'</th>').join('');
   const body = rows.map(d => '<tr>'+columns.map(c => '<td>'+htmlCell(d[c[1]])+'</td>').join('')+'</tr>').join('');
