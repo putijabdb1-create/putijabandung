@@ -221,63 +221,25 @@
     }
 
 
-    /* ===== TAHAP 4: KELENGKAPAN BIODATA ===== */
-    .completion-panel {
-      margin: 16px 0 18px;
-      padding: 14px 15px;
-      border: 1px solid #334155;
-      border-radius: 14px;
-      background: linear-gradient(135deg, rgba(30,41,59,.95), rgba(2,6,23,.98));
-    }
-    .completion-top {
-      display:flex; align-items:center; justify-content:space-between;
-      gap:12px; margin-bottom:10px; flex-wrap:wrap;
-    }
-    .completion-title { font-size:13px; font-weight:700; color:#f8fafc; }
-    .completion-count { font-size:12px; color:#bfdbfe; font-weight:600; }
-    .completion-track { height:8px; width:100%; border-radius:999px; overflow:hidden; background:#1e293b; }
-    .completion-fill { height:100%; width:0%; border-radius:999px; background:linear-gradient(90deg,#2563eb,#22c55e); transition:width .2s ease; }
-    .completion-note { margin-top:8px; color:#94a3b8; font-size:11px; line-height:1.5; }
-    .completion-groups { display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px; margin-top:12px; }
-    .completion-chip { border:1px solid #334155; background:#0f172a; border-radius:9px; padding:8px 9px; font-size:10px; color:#cbd5e1; }
-    .completion-chip strong { display:block; color:#f8fafc; font-size:11px; margin-bottom:3px; }
-    .section-title {
-      position:relative;
-      margin-top:22px;
-      padding:9px 11px 9px 14px;
-      border:1px solid #263449;
-      border-bottom-color:#334155;
-      border-radius:9px;
-      background:linear-gradient(90deg,rgba(37,99,235,.13),rgba(15,23,42,.25));
-      color:#f8fafc;
-      scroll-margin-top:20px;
-    }
-    .section-title:before {
-      content:""; position:absolute; left:0; top:8px; bottom:8px;
-      width:3px; border-radius:5px; background:#3b82f6;
-    }
-    .form-card input:not([type="file"]), .form-card select, .form-card textarea {
-      min-height:39px;
-    }
-    .form-card textarea { min-height:68px; resize:vertical; }
-    .form-card input[type="file"] {
-      padding:9px; min-height:42px; border-style:dashed; background:rgba(2,6,23,.7);
-    }
-    .form-card .preview-small { cursor:zoom-in; background:#fff; padding:2px; }
-    @media (max-width:600px) {
-      .completion-panel { padding:12px; }
-      .completion-groups { grid-template-columns:repeat(2,minmax(0,1fr)); }
-      .completion-top { align-items:flex-start; }
-      .form-card { padding:14px 12px 16px; }
-      .form-card input:not([type="file"]), .form-card select, .form-card textarea { font-size:16px; }
-      .form-card input[type="file"] { font-size:12px; max-width:100%; }
-      .form-card .btn-group { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
-      .form-card .btn-group .btn { justify-content:center; min-height:42px; }
-    }
-    @media (max-width:380px) {
-      .completion-groups { grid-template-columns:1fr; }
-      .form-card .btn-group { grid-template-columns:1fr; }
-    }
+    /* ===== TAHAP 4 FIX: INDIKATOR KELENGKAPAN BIODATA ===== */
+    .completion-panel{margin:16px 0 18px;padding:14px 15px;border:1px solid #334155;border-radius:14px;background:linear-gradient(135deg,rgba(30,41,59,.95),rgba(2,6,23,.98))}
+    .completion-top{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:10px;flex-wrap:wrap}
+    .completion-title{font-size:13px;font-weight:700;color:#f8fafc}.completion-count{font-size:12px;color:#bfdbfe;font-weight:600}
+    .completion-track{height:8px;width:100%;border-radius:999px;overflow:hidden;background:#1e293b}
+    .completion-fill{height:100%;width:0%;border-radius:999px;background:linear-gradient(90deg,#2563eb,#22c55e);transition:width .2s ease}
+    .completion-note{margin-top:8px;color:#94a3b8;font-size:11px;line-height:1.5}
+    .completion-groups{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin-top:12px}
+    .completion-chip{border:1px solid #334155;background:#0f172a;border-radius:9px;padding:8px 9px;font-size:10px;color:#cbd5e1}
+    .completion-chip strong{display:block;color:#f8fafc;font-size:11px;margin-bottom:3px}
+    .section-title{position:relative;margin-top:22px;padding:9px 11px 9px 14px;border:1px solid #263449;border-bottom-color:#334155;border-radius:9px;background:linear-gradient(90deg,rgba(37,99,235,.13),rgba(15,23,42,.25));color:#f8fafc;scroll-margin-top:20px}
+    .section-title:before{content:"";position:absolute;left:0;top:8px;bottom:8px;width:3px;border-radius:5px;background:#3b82f6}
+    .form-card input:not([type=file]),.form-card select,.form-card textarea{min-height:39px}
+    .form-card textarea{min-height:68px;resize:vertical}
+    .form-card input[type=file]{padding:9px;min-height:42px;border-style:dashed;background:rgba(2,6,23,.7)}
+    .form-card .preview-small{cursor:zoom-in;background:#fff;padding:2px;max-width:100%;object-fit:contain}
+    .grid-2 .form-card.is-expanded{grid-column:1/-1;width:100%;max-width:none}
+    @media(max-width:700px){.completion-panel{padding:12px}.completion-groups{grid-template-columns:repeat(2,minmax(0,1fr))}.form-card{padding:14px 12px 16px}.form-card input:not([type=file]),.form-card select,.form-card textarea{font-size:16px}.form-card input[type=file]{font-size:12px;max-width:100%}.form-card .btn-group{display:grid;grid-template-columns:1fr 1fr;gap:8px}.form-card .btn-group .btn{justify-content:center;min-height:42px}}
+    @media(max-width:380px){.completion-groups{grid-template-columns:1fr}.form-card .btn-group{grid-template-columns:1fr}}
 
     /* ==== PREVIEW BIODATA (A4) ==== */
     .biodata-wrapper { margin-top: 32px; }
@@ -442,21 +404,16 @@
         <small>Data berikut diisi oleh teknisi. Hasilnya akan dikirim ke Google Sheet &amp; bisa dicetak sebagai biodata pegawai.</small>
 
         <div class="completion-panel" id="biodataCompletionPanel" aria-live="polite">
-          <div class="completion-top">
-            <div class="completion-title">Kelengkapan Biodata</div>
-            <div class="completion-count" id="completionCount">0% terisi</div>
-          </div>
-          <div class="completion-track" role="progressbar" aria-label="Kelengkapan biodata" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="completionProgress">
-            <div class="completion-fill" id="completionFill"></div>
-          </div>
-          <div class="completion-note" id="completionNote">Isi data yang tersedia. Indikator akan berubah otomatis saat kamu mengisi formulir.</div>
+          <div class="completion-top"><div class="completion-title">Kelengkapan Biodata</div><div class="completion-count" id="completionCount">0% terisi</div></div>
+          <div class="completion-track" role="progressbar" aria-label="Kelengkapan biodata" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" id="completionProgress"><div class="completion-fill" id="completionFill"></div></div>
+          <div class="completion-note" id="completionNote">Indikator membaca data yang sudah terisi dan foto yang sudah tersimpan.</div>
           <div class="completion-groups">
             <div class="completion-chip"><strong>Data Pribadi</strong><span id="groupPersonal">0% terisi</span></div>
             <div class="completion-chip"><strong>Data Pekerjaan</strong><span id="groupWork">0% terisi</span></div>
             <div class="completion-chip"><strong>Alamat</strong><span id="groupAddress">0% terisi</span></div>
             <div class="completion-chip"><strong>Kontak &amp; Rekening</strong><span id="groupContact">0% terisi</span></div>
             <div class="completion-chip"><strong>BPJS &amp; Keluarga</strong><span id="groupFamily">0% terisi</span></div>
-            <div class="completion-chip"><strong>Foto &amp; Dokumen</strong><span id="groupPhotos">0% tersedia</span></div>
+            <div class="completion-chip"><strong>Foto &amp; Dokumen</strong><span id="groupPhotos">0 dari 7 tersedia</span></div>
           </div>
         </div>
 
@@ -1009,6 +966,11 @@ function loginTeknisi() {
   statusEl.textContent = "Login berhasil sebagai " + user.nama + ". Silakan isi biodata.";
   statusEl.style.color = "#bbf7d0";
 
+  const loginCard = document.querySelector(".login-card");
+  const formCard = document.getElementById("formCard");
+  if (loginCard) loginCard.style.display = "none";
+  if (formCard) formCard.classList.add("is-expanded");
+
   document.getElementById("namaPegawai").value = user.nama || "";
   document.getElementById("divisi").value = user.divisi || "";
   document.getElementById("lokasiKerja").value = user.defaultArea || "";
@@ -1401,61 +1363,46 @@ function collectFormData() {
   };  
 }
   
-/* ===== TAHAP 4: INDIKATOR KELENGKAPAN FORM =====
-   Hanya membaca field; tidak mengubah payload atau proses simpan. */
-(function initBiodataCompletion() {
-  const groups = {
-    groupPersonal: ["namaPegawai","ttl","jenisKelamin","pendidikanAkhir","pendFormal","pendNonFormal"],
-    groupWork: ["statusPerkawinan","lokasiKerja","posisiKerja","divisi"],
-    groupAddress: ["alamatDomisili","domKel","domKec","domKota","ktpAlamat","ktpKel","ktpKec","ktpKota"],
-    groupContact: ["noHp","email","noKtp","noNpwp","namaIbu","noRekening","namaBank"],
-    groupFamily: ["bpjsKet","bpjsKes","namaPasangan","bpjsPasangan","telpKerabat","dataAnak","namaFaskes","noKk","noSim"]
+
+/* ===== TAHAP 4 FIX: baca field aktual + foto lama/baru ===== */
+(function initBiodataCompletion(){
+  const groups={
+    groupPersonal:["namaPegawai","ttl","jenisKelamin","pendidikanAkhir","pendFormal","pendNonFormal"],
+    groupWork:["statusPerkawinan","lokasiKerja","posisiKerja","divisi"],
+    groupAddress:["alamatDomisili","domKel","domKec","domKota","ktpAlamat","ktpKel","ktpKec","ktpKota"],
+    groupContact:["noHp","email","noKtp","noNpwp","namaIbu","noRekening","namaBank"],
+    groupFamily:["bpjsKet","bpjsKes","namaPasangan","bpjsPasangan","telpKerabat","dataAnak","namaFaskes","noKk","noSim"]
   };
-  const photoIds = ["fotoTeknisi","fotoKtp","fotoNpwp","fotoBpjsKet","fotoBpjsKes","fotoKk","fotoSim"];
-  const labelFor = id => {
-    const el = document.getElementById(id);
-    if (!el) return id;
-    const label = document.querySelector('label[for="' + id + '"]');
-    return label ? label.textContent.trim() : id;
-  };
-  const pct = (done,total) => total ? Math.round(done/total*100) : 0;
-  function update() {
-    const allIds = Object.values(groups).flat();
-    let done = 0;
-    allIds.forEach(id => { const el=document.getElementById(id); if(el && String(el.value||"").trim()) done++; });
-    const photoDone = photoIds.filter(id => {
-      const el=document.getElementById(id);
-      return (el && el.files && el.files.length>0) ||
-        (typeof window[id+"DataUrl"] === "string" && window[id+"DataUrl"].length>0);
-    }).length;
-    const total = allIds.length + photoIds.length;
-    const percent = pct(done+photoDone,total);
-    const count = document.getElementById("completionCount");
-    const fill = document.getElementById("completionFill");
-    const bar = document.getElementById("completionProgress");
-    const note = document.getElementById("completionNote");
-    if(count) count.textContent = percent + "% terisi";
-    if(fill) fill.style.width = percent + "%";
-    if(bar) bar.setAttribute("aria-valuenow",String(percent));
-    if(note) note.textContent = percent===100
-      ? "Semua kolom dan foto pada formulir telah terisi. Periksa kembali kebenaran data sebelum menyimpan."
-      : "Terisi " + (done+photoDone) + " dari " + total + " item. Bagian dokumen bersifat opsional; pastikan data yang diperlukan sudah benar.";
-    Object.entries(groups).forEach(([target,ids]) => {
-      const filled=ids.filter(id=>{const el=document.getElementById(id);return el&&String(el.value||"").trim();}).length;
-      const el=document.getElementById(target);
-      if(el) el.textContent=pct(filled,ids.length)+"% terisi";
-    });
-    const photoTarget=document.getElementById("groupPhotos");
-    if(photoTarget) photoTarget.textContent=photoDone+" dari "+photoIds.length+" tersedia";
+  const photoPairs=[
+    ["fotoTeknisi","previewFotoForm","fotoDataUrl"],["fotoKtp","previewFotoKtp","fotoKtpDataUrl"],
+    ["fotoNpwp","previewFotoNpwp","fotoNpwpDataUrl"],["fotoBpjsKet","previewFotoBpjsKet","fotoBpjsKetDataUrl"],
+    ["fotoBpjsKes","previewFotoBpjsKes","fotoBpjsKesDataUrl"],["fotoKk","previewFotoKk","fotoKkDataUrl"],
+    ["fotoSim","previewFotoSim","fotoSimDataUrl"]
+  ];
+  const pct=(n,t)=>t?Math.round(n/t*100):0;
+  function photoExists(pair){
+    const [inputId,imgId,dataName]=pair;
+    const input=document.getElementById(inputId), img=document.getElementById(imgId);
+    let dataValue="";
+    try { dataValue=eval(dataName)||""; } catch(e) {}
+    return !!((input&&input.files&&input.files.length) || dataValue || (img&&img.getAttribute("src")&&img.getAttribute("src")!==""&&img.getAttribute("src")!==window.location.href));
   }
-  document.addEventListener("input", ev => { if(ev.target && ev.target.closest && ev.target.closest("#formCard")) update(); });
-  document.addEventListener("change", ev => { if(ev.target && ev.target.closest && ev.target.closest("#formCard")) update(); });
-  const formCard=document.getElementById("formCard");
-  if(formCard && typeof MutationObserver!=="undefined") {
-    new MutationObserver(update).observe(formCard,{attributes:true,attributeFilter:["style","class"]});
+  function update(){
+    const all=Object.values(groups).flat(); let done=0;
+    all.forEach(id=>{const el=document.getElementById(id);if(el&&String(el.value||"").trim())done++;});
+    const photoDone=photoPairs.filter(photoExists).length, total=all.length+photoPairs.length, percent=pct(done+photoDone,total);
+    const count=document.getElementById("completionCount"),fill=document.getElementById("completionFill"),bar=document.getElementById("completionProgress"),note=document.getElementById("completionNote");
+    if(count)count.textContent=percent+"% terisi";if(fill)fill.style.width=percent+"%";if(bar)bar.setAttribute("aria-valuenow",String(percent));
+    if(note)note.textContent="Terisi "+(done+photoDone)+" dari "+total+" item. Foto yang sudah tersimpan tetap dihitung; dokumen opsional tidak wajib diunggah jika belum tersedia.";
+    Object.entries(groups).forEach(([target,ids])=>{const n=ids.filter(id=>{const el=document.getElementById(id);return el&&String(el.value||"").trim();}).length;const el=document.getElementById(target);if(el)el.textContent=pct(n,ids.length)+" terisi";});
+    const pt=document.getElementById("groupPhotos");if(pt)pt.textContent=photoDone+" dari "+photoPairs.length+" tersedia";
   }
-  window.updateBiodataCompletion = update;
-  document.addEventListener("DOMContentLoaded",update);
+  document.addEventListener("input",e=>{if(e.target&&e.target.closest&&e.target.closest("#formCard"))update();});
+  document.addEventListener("change",e=>{if(e.target&&e.target.closest&&e.target.closest("#formCard"))update();});
+  // Run after existing async biodata load has had time to populate fields and image previews.
+  window.addEventListener("load",()=>{update();setTimeout(update,500);setTimeout(update,1500);});
+  const form=document.getElementById("formCard");if(form&&typeof MutationObserver!=="undefined")new MutationObserver(()=>{update();setTimeout(update,300);}).observe(form,{subtree:true,childList:true,attributes:true,attributeFilter:["src","style","value"]});
+  window.updateBiodataCompletion=update;
   update();
 })();
 
