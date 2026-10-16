@@ -11,8 +11,19 @@
 :root{--bg:#050816;--panel:#0b1224;--panel2:#101b32;--line:#24334d;--muted:#9aa9c2;--text:#f8fafc;--red:#e32636;--red2:#b91c1c;--blue:#2563eb;--green:#22c55e}
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:"Poppins",sans-serif;color:var(--text);min-height:100vh;background:radial-gradient(ellipse at 12% 10%,#dc262622,transparent 36%),radial-gradient(ellipse at 88% 90%,#2563eb20,transparent 42%),linear-gradient(135deg,#030712 0%,#071126 52%,#030712 100%);display:flex;flex-direction:column}
+.site-nav{width:100%;position:sticky;top:0;z-index:20;background:#030712eF;border-bottom:1px solid #26334b;backdrop-filter:blur(14px)}
+.nav-inner{width:min(1100px,100%);margin:auto;padding:10px 24px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.nav-brand{display:flex;align-items:center;gap:10px;min-width:0}
+.nav-brand .brand-logo{width:36px;height:36px;border-radius:11px;margin:0}
+.nav-brand .brand-copy strong{font-size:11px;letter-spacing:.05em}
+.nav-brand .brand-copy span{font-size:9px;letter-spacing:.08em}
+.nav-links{display:flex;align-items:center;justify-content:flex-end;gap:6px;flex-wrap:wrap}
+.nav-links a{color:#cbd5e1;text-decoration:none;font-size:11px;font-weight:600;padding:9px 11px;border-radius:999px;white-space:nowrap;transition:background .18s,color .18s}
+.nav-links a:hover{background:#17233a;color:#fff}
+.nav-links a.nav-login{background:#2563eb;color:white}
+.nav-links a.nav-admin{background:#e32636;color:white}
 .page{width:min(1100px,100%);margin:auto;padding:26px 24px 34px;flex:1;display:flex;flex-direction:column;justify-content:center}
-.brand{display:flex;align-items:center;gap:12px;margin-bottom:28px}
+.brand{display:none;align-items:center;gap:12px;margin-bottom:28px}
 .brand-logo{width:48px;height:48px;border-radius:15px;background:linear-gradient(145deg,#fff,#e2e8f0);display:grid;place-items:center;overflow:hidden;border:1px solid #ffffff50;box-shadow:0 8px 28px #0006;flex-shrink:0}
 .brand-logo img{width:100%;height:100%;object-fit:contain}
 .brand-mark{font-size:22px;font-weight:800;color:#16a34a}
@@ -50,12 +61,29 @@ input:focus{outline:none;border-color:#f05260;box-shadow:0 0 0 4px #e326361a}
 .cross{background:#ef444418;color:#fb7185}
 .info-foot{border-top:1px solid #293751;margin-top:25px;padding-top:16px;color:#8291aa;font-size:10px;line-height:1.7}
 .page-footer{text-align:center;color:#64748b;font-size:10px;padding:0 18px 18px}
-@media(max-width:760px){.page{padding:24px 16px 28px;justify-content:flex-start}.brand{margin-bottom:24px}.grid-2{grid-template-columns:1fr;gap:14px}.card{border-radius:18px;padding:21px}.info-card{min-height:280px}.page-heading h1{font-size:27px}}
-@media(max-width:380px){.page{padding:18px 12px 22px}.brand-logo{width:42px;height:42px}.brand-copy strong{font-size:12px}.page-heading h1{font-size:24px}.card{padding:18px}}
+@media(max-width:760px){.nav-inner{padding:9px 14px;align-items:flex-start;flex-direction:column;gap:8px}.nav-links{width:100%;justify-content:flex-start;gap:3px}.nav-links a{font-size:10px;padding:8px 9px}.page{padding:24px 16px 28px;justify-content:flex-start}.brand{margin-bottom:24px}.grid-2{grid-template-columns:1fr;gap:14px}.card{border-radius:18px;padding:21px}.info-card{min-height:280px}.page-heading h1{font-size:27px}}
+@media(max-width:380px){.page{padding:18px 12px 22px}.brand-logo{width:42px;height:42px}.brand-copy strong{font-size:12px}.page-heading h1{font-size:24px}.card{padding:18px}.nav-links a{padding:7px 8px}}
 </style>
 </head>
 
 <body>
+
+<nav class="site-nav" aria-label="Navigasi utama">
+  <div class="nav-inner">
+    <a class="nav-brand" href="index.html" style="text-decoration:none;color:inherit" aria-label="Kembali ke Beranda PUTIJA">
+      <div class="brand-logo"><img src="logo-pttj.png" alt="Logo PUTIJA" onerror="this.style.display='none';this.parentElement.innerHTML='<span class=&quot;brand-mark&quot;>P</span>'"></div>
+      <div class="brand-copy"><strong>PT PUTRA TIMUR JAYA</strong><span>BANDUNG BARAT 1 · PUTIJA BDB1</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="index.html">Beranda</a>
+      <a href="index.html#program">Program</a>
+      <a href="index.html#galeri">Galeri</a>
+      <a class="nav-login" href="teknisi.html">Login Teknisi</a>
+      <a class="nav-admin" href="admin.html" aria-current="page">Login Admin</a>
+      <a href="index.html#kontak">Kontak</a>
+    </div>
+  </div>
+</nav>
 
 <main class="page">
   <div class="brand">
