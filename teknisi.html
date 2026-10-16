@@ -121,24 +121,6 @@
       box-shadow: 0 16px 45px rgba(15,23,42,0.85);
     }
     .login-card { position: relative; }
-
-    /* Setelah login berhasil, sembunyikan panel login dan gunakan lebar penuh untuk biodata */
-    body.technician-logged-in main.page > h1,
-    body.technician-logged-in main.page > p,
-    body.technician-logged-in .login-card {
-      display: none !important;
-    }
-    body.technician-logged-in .grid-2 {
-      display: block;
-      width: 100%;
-      max-width: none;
-      margin: 12px auto 0;
-    }
-    body.technician-logged-in .form-card {
-      width: 100%;
-      max-width: none;
-      margin-top: 0;
-    }
     .form-card { border-color:#334155; }
     @media (max-width:900px){
       .form-card{ margin-top:14px; }
@@ -329,178 +311,65 @@
     }
 
 
-    /* ===== PUTIJA BDB1 CHECKPOINT 1: LOGIN TEKNISI UI ONLY ===== */
-    :root {
-      --putija-navy: #071426;
-      --putija-blue: #2563eb;
-      --putija-red: #dc2626;
-      --putija-muted: #9fb0c7;
-      --putija-border: rgba(148,163,184,.22);
+    /* ===== PUTIJA BIODATA UI REFRESH - STAGE 2 ===== */
+    :root { --pt-blue:#2563eb; --pt-red:#ef4444; --pt-line:#26364d; --pt-panel:#0b172a; }
+    body { background: radial-gradient(ellipse at 12% 0%, rgba(37,99,235,.16), transparent 36%), radial-gradient(ellipse at 95% 8%, rgba(239,68,68,.10), transparent 30%), #070d19; }
+    .page { max-width: 1440px; width:100%; padding:24px clamp(12px,2.4vw,34px) 48px; }
+    .page > h1 { font-size:clamp(21px,2.2vw,30px)!important; letter-spacing:-.035em; }
+    .page > p { max-width:850px; line-height:1.7; }
+    .grid-2 { grid-template-columns:minmax(280px,.72fr) minmax(0,1.65fr); gap:22px; align-items:start; }
+    .card { background:linear-gradient(155deg,rgba(15,29,51,.98),rgba(5,12,25,.98)); border:1px solid #26364d; border-radius:20px; padding:clamp(16px,2vw,28px); box-shadow:0 18px 55px rgba(0,0,0,.24); }
+    .login-card { overflow:hidden; }
+    .login-card:before { content:""; display:block; height:3px; position:absolute; top:0; left:0; right:0; background:linear-gradient(90deg,#3b82f6,#60a5fa,#ef4444); }
+    .form-card { min-width:0; background:linear-gradient(160deg,rgba(10,21,39,.98),rgba(5,11,23,.98)); }
+    .form-card h2 { font-size:clamp(18px,1.8vw,24px); letter-spacing:-.025em; margin-bottom:7px; }
+    .form-card > small { display:block; line-height:1.65; font-size:12px; color:#aab9ce; }
+    .section-title { display:flex; align-items:center; gap:10px; margin-top:24px; margin-bottom:13px; padding:0 0 9px; border-bottom:1px solid #2a3b54; color:#f8fafc; font-size:14px; font-weight:700; letter-spacing:.01em; }
+    .section-title:before { content:""; display:block; width:4px; height:19px; border-radius:8px; background:linear-gradient(#60a5fa,#2563eb); }
+    label { color:#d8e3f2; font-size:12px; font-weight:500; margin-bottom:6px; }
+    input:not([type=file]), select, textarea { min-height:42px; padding:10px 12px; margin-bottom:12px; border:1px solid #34445c; border-radius:11px; background:#07101f; color:#f8fafc; font-size:13px; transition:border-color .18s,box-shadow .18s,background .18s; }
+    input:not([type=file]):focus, select:focus, textarea:focus { border-color:#60a5fa; background:#0a172b; box-shadow:0 0 0 3px rgba(59,130,246,.15); }
+    input[type=file] { display:block; min-height:44px; padding:8px; border:1px dashed #40526b; border-radius:11px; background:#07101f; color:#cbd5e1; font-size:12px; margin-bottom:10px; }
+    input[type=file]::file-selector-button { border:0; border-radius:7px; padding:7px 10px; margin-right:10px; color:white; background:#263d5f; cursor:pointer; }
+    textarea { min-height:88px; line-height:1.55; }
+    .field-row-2 { grid-template-columns:repeat(2,minmax(0,1fr)); gap:0 14px; }
+    .preview-small { max-width:150px!important; max-height:170px; object-fit:contain; padding:4px; background:#fff; border:1px solid #40526b!important; border-radius:12px!important; }
+    .btn-group { gap:9px; margin-top:20px; }
+    .btn { min-height:42px; justify-content:center; padding:10px 16px; border-radius:11px; font-size:12px; }
+    .btn-primary { background:linear-gradient(135deg,#3b82f6,#1d4ed8); box-shadow:0 8px 22px rgba(37,99,235,.22); }
+    .btn-secondary { background:#111e31; border:1px solid #34445c; }
+    .btn-danger { background:#b91c1c; }
+    .status-text { line-height:1.65; }
+    body.technician-logged-in .page > h1,
+    body.technician-logged-in .page > p { display:none; }
+    body.technician-logged-in .grid-2 { display:block; margin-top:8px; }
+    body.technician-logged-in .login-card { display:none!important; }
+    body.technician-logged-in .form-card { width:100%; max-width:none; }
+    .biodata-wrapper { overflow-x:auto; padding:8px 0 24px; }
+    @media (min-width:1200px) {
+      .form-card { padding:30px 34px; }
+      .field-row-2 { column-gap:20px; }
     }
-    body {
-      background:
-        radial-gradient(ellipse at 15% 15%, rgba(37,99,235,.22), transparent 36%),
-        radial-gradient(ellipse at 88% 78%, rgba(220,38,38,.13), transparent 34%),
-        linear-gradient(135deg, #050b17 0%, #0b1830 52%, #071426 100%);
+    @media (max-width:900px) {
+      .page { padding:18px 14px 32px; }
+      .grid-2 { grid-template-columns:minmax(0,1fr); }
+      .form-card { margin-top:0; }
     }
-    .navbar {
-      background: rgba(3, 10, 24, .86);
-      border-bottom: 1px solid rgba(148,163,184,.18);
-      box-shadow: 0 8px 28px rgba(0,0,0,.16);
+    @media (max-width:600px) {
+      .nav-inner { padding:10px 14px; }
+      .nav-links { gap:5px; width:100%; font-size:11px; }
+      .nav-links a { display:block; padding:7px 9px; }
+      .page { padding:14px 10px 28px; }
+      .card { padding:17px 14px 20px; border-radius:16px; }
+      .field-row-2 { grid-template-columns:minmax(0,1fr); gap:0; }
+      .section-title { margin-top:21px; }
+      input:not([type=file]), select, textarea { font-size:16px; min-height:44px; }
+      input[type=file] { width:100%; font-size:11px; }
+      .btn-group { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); }
+      .btn-group .btn { width:100%; padding:10px 8px; font-size:11px; }
+      .preview-small { max-width:125px!important; }
+      .biodata-page { width:210mm; }
     }
-    .nav-brand-logo {
-      background: linear-gradient(145deg, #fff, #dbeafe);
-      border: 1px solid rgba(255,255,255,.8);
-      color: #12315d;
-      box-shadow: 0 4px 14px rgba(37,99,235,.24);
-    }
-    .nav-links { align-items:center; }
-    .nav-links a { padding: 8px 13px; font-weight: 500; }
-    .nav-links a.active {
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-      box-shadow: 0 5px 14px rgba(37,99,235,.25);
-    }
-    .nav-links a.admin {
-      background: linear-gradient(135deg, #ef4444, #b91c1c);
-      color: #fff;
-    }
-    main.page { padding-top: 36px; }
-    main.page > h1 {
-      font-size: clamp(25px, 3.4vw, 34px) !important;
-      font-weight: 700 !important;
-      letter-spacing: -.035em;
-      line-height: 1.2;
-    }
-    main.page > h1::after {
-      content: '';
-      display: block;
-      width: 58px;
-      height: 4px;
-      border-radius: 10px;
-      margin-top: 13px;
-      background: linear-gradient(90deg, #3b82f6, #ef4444);
-    }
-    main.page > p {
-      max-width: 620px;
-      color: #b4c3d8 !important;
-      line-height: 1.8;
-      margin-top: 12px !important;
-    }
-    .grid-2:has(#formCard[style*="display: none"]) {
-      display: block;
-      max-width: 560px;
-      margin: 28px auto 0;
-    }
-    .login-card {
-      position: relative;
-      overflow: hidden;
-      padding: clamp(22px, 4vw, 34px);
-      border: 1px solid rgba(148,163,184,.25);
-      border-radius: 24px;
-      background: linear-gradient(145deg, rgba(15,29,52,.96), rgba(5,13,28,.98));
-      box-shadow: 0 24px 70px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.04);
-    }
-    .login-card::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 0; right: 0;
-      height: 4px;
-      background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 48%, #ef4444 100%);
-    }
-    .login-card::after {
-      content: 'PUTIJA  •  BDB1';
-      display: inline-flex;
-      align-items: center;
-      margin-bottom: 16px;
-      padding: 6px 10px;
-      border: 1px solid rgba(96,165,250,.25);
-      border-radius: 999px;
-      color: #bfdbfe;
-      background: rgba(37,99,235,.10);
-      font-size: 10px;
-      font-weight: 700;
-      letter-spacing: .13em;
-    }
-    .login-card h2 {
-      font-size: 23px;
-      line-height: 1.3;
-      margin-bottom: 8px;
-      letter-spacing: -.025em;
-    }
-    .login-card small {
-      display: block;
-      font-size: 12px;
-      line-height: 1.8;
-      color: #a9bad1;
-    }
-    .login-card label {
-      margin: 16px 0 7px;
-      color: #e5edf8;
-      font-size: 12px;
-      font-weight: 600;
-    }
-    .login-card input {
-      min-height: 46px;
-      margin-bottom: 2px;
-      padding: 12px 14px;
-      border-radius: 12px;
-      border: 1px solid rgba(148,163,184,.32);
-      background: rgba(2,8,23,.72);
-      color: #f8fafc;
-      font-size: 14px;
-      transition: border-color .2s, box-shadow .2s, background .2s;
-    }
-    .login-card input::placeholder { color: #71839c; }
-    .login-card input:focus {
-      border-color: #60a5fa;
-      background: rgba(2,8,23,.95);
-      box-shadow: 0 0 0 4px rgba(59,130,246,.13);
-    }
-    .login-card .btn-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-top: 20px !important;
-    }
-    .login-card .btn {
-      min-height: 42px;
-      justify-content: center;
-      padding: 10px 17px;
-      font-size: 12px;
-      border-radius: 12px;
-    }
-    .login-card .btn-primary {
-      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
-      box-shadow: 0 8px 20px rgba(37,99,235,.24);
-    }
-    .login-card .btn-secondary {
-      border-color: rgba(148,163,184,.35);
-      background: rgba(15,23,42,.35);
-    }
-    .login-card .status-text {
-      color: #9fb0c7;
-      font-size: 11px;
-      line-height: 1.7;
-      margin-top: 14px;
-    }
-    #loginStatus { font-weight: 600; }
-    @media (max-width: 768px) {
-      .nav-inner { flex-direction: row; align-items: center; gap: 10px; }
-      .nav-brand-title span:first-child { font-size: 9px; }
-      .nav-brand-title span:last-child { font-size: 11px; }
-      .nav-links { gap: 5px; font-size: 10px; }
-      .nav-links a { padding: 7px 9px; }
-      main.page { padding: 28px 14px 34px; }
-      .grid-2:has(#formCard[style*="display: none"]) { margin-top: 22px; }
-      .login-card .btn-group { flex-direction: column; align-items: stretch; }
-      .login-card .btn { width: 100%; }
-    }
-    @media (max-width: 480px) {
-      .nav-inner { align-items: flex-start; flex-direction: column; }
-      .nav-links { width: 100%; flex-wrap: wrap; }
-      .nav-links a { padding: 6px 8px; }
-    }
-    /* ===== END CHECKPOINT 1 LOGIN UI ===== */
 
   </style>
 </head>
@@ -1121,8 +990,6 @@ function loginTeknisi() {
   }
 
   currentUser = user;
-  // Sembunyikan panel login setelah kredensial valid; form biodata memakai lebar penuh.
-  document.body.classList.add("technician-logged-in");
   statusEl.textContent = "Login berhasil sebagai " + user.nama + ". Silakan isi biodata.";
   statusEl.style.color = "#bbf7d0";
 
@@ -1130,6 +997,7 @@ function loginTeknisi() {
   document.getElementById("divisi").value = user.divisi || "";
   document.getElementById("lokasiKerja").value = user.defaultArea || "";
 
+  document.body.classList.add("technician-logged-in");
   document.getElementById("formCard").style.display = "block";
   document.getElementById("formCard").scrollIntoView({ behavior:"smooth" });
 
@@ -1437,6 +1305,7 @@ i("bioFotoSim", getFotoSafe(fotoSimDataUrl, "previewFotoSim"));
 
 function logoutTeknisi() {
   currentUser = null;
+  document.body.classList.remove("technician-logged-in");
 
   // reset login
   loginUser.value = "";
