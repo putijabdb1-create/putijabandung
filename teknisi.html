@@ -309,6 +309,181 @@
       .btn, .login-card, .form-card { display:none !important; }
 	  }
     }
+
+
+    /* ===== PUTIJA BDB1 CHECKPOINT 1: LOGIN TEKNISI UI ONLY ===== */
+    :root {
+      --putija-navy: #071426;
+      --putija-blue: #2563eb;
+      --putija-red: #dc2626;
+      --putija-muted: #9fb0c7;
+      --putija-border: rgba(148,163,184,.22);
+    }
+    body {
+      background:
+        radial-gradient(ellipse at 15% 15%, rgba(37,99,235,.22), transparent 36%),
+        radial-gradient(ellipse at 88% 78%, rgba(220,38,38,.13), transparent 34%),
+        linear-gradient(135deg, #050b17 0%, #0b1830 52%, #071426 100%);
+    }
+    .navbar {
+      background: rgba(3, 10, 24, .86);
+      border-bottom: 1px solid rgba(148,163,184,.18);
+      box-shadow: 0 8px 28px rgba(0,0,0,.16);
+    }
+    .nav-brand-logo {
+      background: linear-gradient(145deg, #fff, #dbeafe);
+      border: 1px solid rgba(255,255,255,.8);
+      color: #12315d;
+      box-shadow: 0 4px 14px rgba(37,99,235,.24);
+    }
+    .nav-links { align-items:center; }
+    .nav-links a { padding: 8px 13px; font-weight: 500; }
+    .nav-links a.active {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      box-shadow: 0 5px 14px rgba(37,99,235,.25);
+    }
+    .nav-links a.admin {
+      background: linear-gradient(135deg, #ef4444, #b91c1c);
+      color: #fff;
+    }
+    main.page { padding-top: 36px; }
+    main.page > h1 {
+      font-size: clamp(25px, 3.4vw, 34px) !important;
+      font-weight: 700 !important;
+      letter-spacing: -.035em;
+      line-height: 1.2;
+    }
+    main.page > h1::after {
+      content: '';
+      display: block;
+      width: 58px;
+      height: 4px;
+      border-radius: 10px;
+      margin-top: 13px;
+      background: linear-gradient(90deg, #3b82f6, #ef4444);
+    }
+    main.page > p {
+      max-width: 620px;
+      color: #b4c3d8 !important;
+      line-height: 1.8;
+      margin-top: 12px !important;
+    }
+    .grid-2:has(#formCard[style*="display: none"]) {
+      display: block;
+      max-width: 560px;
+      margin: 28px auto 0;
+    }
+    .login-card {
+      position: relative;
+      overflow: hidden;
+      padding: clamp(22px, 4vw, 34px);
+      border: 1px solid rgba(148,163,184,.25);
+      border-radius: 24px;
+      background: linear-gradient(145deg, rgba(15,29,52,.96), rgba(5,13,28,.98));
+      box-shadow: 0 24px 70px rgba(0,0,0,.34), inset 0 1px 0 rgba(255,255,255,.04);
+    }
+    .login-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #3b82f6 0%, #60a5fa 48%, #ef4444 100%);
+    }
+    .login-card::after {
+      content: 'PUTIJA  •  BDB1';
+      display: inline-flex;
+      align-items: center;
+      margin-bottom: 16px;
+      padding: 6px 10px;
+      border: 1px solid rgba(96,165,250,.25);
+      border-radius: 999px;
+      color: #bfdbfe;
+      background: rgba(37,99,235,.10);
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .13em;
+    }
+    .login-card h2 {
+      font-size: 23px;
+      line-height: 1.3;
+      margin-bottom: 8px;
+      letter-spacing: -.025em;
+    }
+    .login-card small {
+      display: block;
+      font-size: 12px;
+      line-height: 1.8;
+      color: #a9bad1;
+    }
+    .login-card label {
+      margin: 16px 0 7px;
+      color: #e5edf8;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    .login-card input {
+      min-height: 46px;
+      margin-bottom: 2px;
+      padding: 12px 14px;
+      border-radius: 12px;
+      border: 1px solid rgba(148,163,184,.32);
+      background: rgba(2,8,23,.72);
+      color: #f8fafc;
+      font-size: 14px;
+      transition: border-color .2s, box-shadow .2s, background .2s;
+    }
+    .login-card input::placeholder { color: #71839c; }
+    .login-card input:focus {
+      border-color: #60a5fa;
+      background: rgba(2,8,23,.95);
+      box-shadow: 0 0 0 4px rgba(59,130,246,.13);
+    }
+    .login-card .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 20px !important;
+    }
+    .login-card .btn {
+      min-height: 42px;
+      justify-content: center;
+      padding: 10px 17px;
+      font-size: 12px;
+      border-radius: 12px;
+    }
+    .login-card .btn-primary {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      box-shadow: 0 8px 20px rgba(37,99,235,.24);
+    }
+    .login-card .btn-secondary {
+      border-color: rgba(148,163,184,.35);
+      background: rgba(15,23,42,.35);
+    }
+    .login-card .status-text {
+      color: #9fb0c7;
+      font-size: 11px;
+      line-height: 1.7;
+      margin-top: 14px;
+    }
+    #loginStatus { font-weight: 600; }
+    @media (max-width: 768px) {
+      .nav-inner { flex-direction: row; align-items: center; gap: 10px; }
+      .nav-brand-title span:first-child { font-size: 9px; }
+      .nav-brand-title span:last-child { font-size: 11px; }
+      .nav-links { gap: 5px; font-size: 10px; }
+      .nav-links a { padding: 7px 9px; }
+      main.page { padding: 28px 14px 34px; }
+      .grid-2:has(#formCard[style*="display: none"]) { margin-top: 22px; }
+      .login-card .btn-group { flex-direction: column; align-items: stretch; }
+      .login-card .btn { width: 100%; }
+    }
+    @media (max-width: 480px) {
+      .nav-inner { align-items: flex-start; flex-direction: column; }
+      .nav-links { width: 100%; flex-wrap: wrap; }
+      .nav-links a { padding: 6px 8px; }
+    }
+    /* ===== END CHECKPOINT 1 LOGIN UI ===== */
+
   </style>
 </head>
 <body>
@@ -1325,5 +1500,4 @@ function collectFormData() {
   </script>
 </body>
 </html>
-
 
