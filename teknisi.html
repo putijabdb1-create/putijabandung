@@ -1195,16 +1195,50 @@ function normalizeDriveImage(url) {
 	if (!input || !img) return;
 
 	input.addEventListener("change", e => {
-		const file = e.target.files[0];
+		const file = e.target.files && e.target.files[0];
 		if (!file) return;
 
+		// Foto dari HP sering sangat besar. Perkecil hanya data upload,
+		// tanpa mengubah tampilan form atau fungsi lain.
 		const reader = new FileReader();
 		reader.onload = ev => {
-		const base64 = ev.target.result;
-		setter(base64);              // ⬅️ HANYA BASE64
-		img.src = base64;
-		img.style.display = "block";
+			const originalData = ev.target.result;
+			const image = new Image();
+			image.onload = () => {
+				try {
+					const maxSide = 1600;
+					const scale = Math.min(1, maxSide / Math.max(image.naturalWidth, image.naturalHeight));
+					const canvas = document.createElement("canvas");
+					canvas.width = Math.max(1, Math.round(image.naturalWidth * scale));
+					canvas.height = Math.max(1, Math.round(image.naturalHeight * scale));
+					const ctx = canvas.getContext("2d");
+					ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+					const compressed = canvas.toDataURL("image/jpeg", 0.78);
+					setter(compressed);
+					img.src = compressed;
+					img.style.display = "block";
+					input.dataset.photoReady = "1";
+				} catch (err) {
+					// Jika kompresi gagal, kirim file asli agar fungsi lama tetap bisa bekerja.
+					setter(originalData);
+					img.src = originalData;
+					img.style.display = "block";
+					input.dataset.photoReady = "1";
+				}
+			};
+			image.onerror = () => {
+				setter(originalData);
+				img.src = originalData;
+				img.style.display = "block";
+				input.dataset.photoReady = "1";
+			};
+			image.src = originalData;
 		};
+		reader.onerror = () => {
+			input.dataset.photoReady = "0";
+			alert("Foto gagal dibaca. Silakan pilih ulang foto tersebut.");
+		};
+		input.dataset.photoReady = "0";
 		reader.readAsDataURL(file);
 	});
 	}
@@ -1261,6 +1295,17 @@ function normalizeDriveImage(url) {
     noSim: noSim.value
   };
 
+  // Pastikan foto pilihan selesai dibaca/dikompres sebelum payload dikirim.
+  const photoInputIds = ["fotoTeknisi","fotoKtp","fotoNpwp","fotoBpjsKet","fotoBpjsKes","fotoKk","fotoSim"];
+  const pendingPhoto = photoInputIds.find(id => {
+    const el = document.getElementById(id);
+    return el && el.files && el.files.length && el.dataset.photoReady !== "1";
+  });
+  if (pendingPhoto) {
+    statusEl.textContent = "Foto masih diproses. Tunggu beberapa detik lalu tekan Simpan kembali.";
+    return;
+  }
+
   // 🚨 PAYLOAD AMAN (TIDAK TIMPA FOTO)
   const payload = {
     mode: "saveBiodata",
@@ -1301,9 +1346,18 @@ function normalizeDriveImage(url) {
       throw new Error((result && result.error) || "Server belum mengonfirmasi penyimpanan.");
     }
 
-    statusEl.textContent = result.photoWarning
-      ? "Biodata tersimpan, tetapi sebagian foto gagal diunggah: " + result.photoWarning
-      : "Biodata berhasil disimpan ke Google Sheets.";
+    const selectedPhotoCount = photoInputIds.filter(id => {
+      const el = document.getElementById(id);
+      return el && el.files && el.files.length > 0;
+    }).length;
+    if (result.photoWarning) {
+      statusEl.textContent = "Biodata tersimpan, tetapi sebagian foto gagal diunggah: " + result.photoWarning;
+    } else if (selectedPhotoCount > 0 && Number(result.photosReceived || 0) === 0) {
+      statusEl.textContent = "Biodata tersimpan, tetapi foto baru tidak diterima server. Jangan refresh; coba pilih foto lagi dan Simpan.";
+    } else {
+      statusEl.textContent = "Biodata berhasil disimpan ke Google Sheets. Foto tersimpan/tersedia: " +
+        Number(result.photosSavedOrRetained || 0) + " dari 7.";
+    }
   } catch (err) {
     console.error("Simpan biodata gagal:", err);
     statusEl.textContent = "GAGAL / BELUM TERKONFIRMASI: " + (err && err.message ? err.message : "Koneksi bermasalah") + ". Periksa koneksi dan Google Sheets sebelum mencoba lagi.";
