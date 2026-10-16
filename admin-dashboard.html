@@ -9,7 +9,10 @@
 :root{--bg:#020617;--panel:#0f172a;--line:#334155;--text:#f8fafc;--muted:#94a3b8;--blue:#2563eb}
 *{box-sizing:border-box} body{margin:0;font-family:Poppins,Arial,sans-serif;background:var(--bg);color:var(--text)}
 .page{max-width:1200px;margin:24px auto;padding:18px} h1{font-size:24px;margin:0 0 4px} .sub{color:var(--muted);font-size:13px}
-.toolbar{display:grid;grid-template-columns:minmax(220px,1.5fr) minmax(180px,1fr) auto;gap:10px;margin:20px 0 12px}
+.toolbar{display:grid;grid-template-columns:minmax(220px,1.4fr) minmax(200px,1fr) auto auto;gap:10px;margin:20px 0 12px}
+.division-box{display:flex;flex-direction:column;gap:5px}.division-hint{font-size:10px;color:var(--muted)}
+button.logout{background:#b91c1c}button.logout:hover{background:#991b1b}
+@media(max-width:900px){.toolbar{grid-template-columns:1fr 1fr}.toolbar #searchInput{grid-column:1/-1}}
 input,select{width:100%;min-width:0;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:#020617;color:var(--text);font:inherit;font-size:13px}
 button,.btn{border:0;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 12px;border-radius:7px;background:var(--blue);color:white;text-decoration:none;font:600 12px Poppins,Arial;cursor:pointer;white-space:nowrap}
 button.secondary{background:#334155} .summary{color:var(--muted);font-size:12px;margin:8px 0}
@@ -19,7 +22,7 @@ table{width:100%;min-width:720px;border-collapse:collapse} th,td{border-bottom:1
 .no-photo{width:48px;height:58px;border:1px dashed #475569;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:9px;text-align:center;padding:3px}
 .actions{display:flex;gap:6px;flex-wrap:wrap} .empty{padding:22px;text-align:center;color:var(--muted)}
 .modal{position:fixed;inset:0;background:#000d;display:none;align-items:center;justify-content:center;padding:20px;z-index:20} .modal.open{display:flex} .modal-card{max-width:min(92vw,760px);max-height:92vh;background:#0f172a;border:1px solid var(--line);border-radius:12px;overflow:hidden} .modal-head{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--line)} .modal-img{display:block;max-width:88vw;max-height:75vh;object-fit:contain;margin:auto} .modal-actions{display:flex;gap:8px;padding:10px 14px}
-@media(max-width:650px){.page{padding:12px;margin:10px auto}h1{font-size:20px}.toolbar{grid-template-columns:1fr}.toolbar button{width:100%}}
+@media(max-width:650px){.page{padding:12px;margin:10px auto}h1{font-size:20px}.toolbar{grid-template-columns:1fr}.toolbar #searchInput{grid-column:auto}.toolbar button{width:100%}}
 </style>
 </head>
 <body>
@@ -28,8 +31,12 @@ table{width:100%;min-width:720px;border-collapse:collapse} th,td{border-bottom:1
   <div class="sub">Data biodata teknisi · Foto · Filter divisi · Preview / Cetak · Ekspor Excel</div>
   <div class="toolbar">
     <input type="search" id="searchInput" placeholder="🔍 Cari username / nama pegawai..." autocomplete="off" aria-label="Cari username atau nama pegawai">
-    <select id="divisionFilter" aria-label="Filter divisi"><option value="">Semua Divisi</option></select>
-    <button id="downloadBtn" type="button">⬇ Download Excel (CSV)</button>
+    <div class="division-box">
+      <select id="divisionFilter" multiple size="3" aria-label="Pilih satu atau beberapa divisi"><option value="">Memuat divisi...</option></select>
+      <div class="division-hint">Pilih lebih dari satu divisi (Ctrl/⌘ klik di komputer; ketuk pilihan di HP).</div>
+    </div>
+    <button id="downloadBtn" type="button">⬇ Download Excel (.xls)</button>
+    <button id="logoutBtn" class="logout" type="button">Keluar / Logout</button>
   </div>
   <div class="summary" id="summary">Memuat data teknisi...</div>
   <div class="table-wrap">
@@ -55,7 +62,8 @@ const $ = id => document.getElementById(id);
 document.addEventListener('DOMContentLoaded', () => {
   $('searchInput').addEventListener('input', renderTable);
   $('divisionFilter').addEventListener('change', renderTable);
-  $('downloadBtn').addEventListener('click', downloadCsv);
+  $('downloadBtn').addEventListener('click', downloadExcel);
+  $('logoutBtn').addEventListener('click', logoutAdmin);
   $('closeModal').addEventListener('click', closePhoto);
   $('photoModal').addEventListener('click', e => { if (e.target === $('photoModal')) closePhoto(); });
   document.addEventListener('keydown', e => { if (e.key === 'Escape') closePhoto(); });
@@ -79,15 +87,16 @@ function loadAdmin() {
 function populateDivisions() {
   const select = $('divisionFilter');
   const vals = [...new Set(allData.map(d => String(d.divisi || '').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'id'));
-  select.innerHTML = '<option value="">Semua Divisi</option>';
+  select.innerHTML = '';
   vals.forEach(v => { const o=document.createElement('option'); o.value=v; o.textContent=v; select.appendChild(o); });
 }
 function filteredData() {
   const q = $('searchInput').value.trim().toLocaleLowerCase('id');
-  const div = $('divisionFilter').value;
+  const selectedDivisions = [...$('divisionFilter').selectedOptions].map(o => o.value).filter(Boolean);
   return allData.filter(d => {
     const matchesText = !q || [d.username,d.namaPegawai,d.divisi].some(v => String(v || '').toLocaleLowerCase('id').includes(q));
-    return matchesText && (!div || String(d.divisi || '').trim() === div);
+    const matchesDivision = selectedDivisions.length === 0 || selectedDivisions.includes(String(d.divisi || '').trim());
+    return matchesText && matchesDivision;
   });
 }
 function safeText(v) { return String(v == null ? '' : v); }
@@ -116,14 +125,41 @@ function openPhoto(d) {
   $('photoModal').classList.add('open');
 }
 function closePhoto() { $('photoModal').classList.remove('open'); $('modalImage').removeAttribute('src'); }
-function csvCell(value) { let s=String(value == null ? '' : value); if (/^[=+@\-]/.test(s)) s="'"+s; return '"'+s.replace(/"/g,'""')+'"'; }
-function downloadCsv() {
-  const rows=filteredData();
+function logoutAdmin() {
+  // Akhiri sesi tab admin dan kembali ke halaman login; data tidak dihapus.
+  sessionStorage.removeItem('putijaAdminLoggedIn');
+  window.location.replace('admin.html');
+}
+function htmlCell(value) {
+  const s = String(value == null ? '' : value);
+  return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+function downloadExcel() {
+  const rows = filteredData();
   if (!rows.length) { alert('Tidak ada data untuk diunduh.'); return; }
-  const data=[['Username','Nama Pegawai','Divisi','Foto URL'],...rows.map(d=>[d.username,d.namaPegawai,d.divisi,d.fotoUrl])];
-  const csv='\ufeff'+data.map(r=>r.map(csvCell).join(';')).join('\r\n');
-  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}); const url=URL.createObjectURL(blob);
-  const a=document.createElement('a'); a.href=url; a.download='PUTIJA_BDB1_Biodata_Teknisi.csv'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
+  // Kolom lengkap yang dikirim oleh Code.gs, termasuk URL semua dokumen.
+  const columns = [
+    ['Tanggal Input','tanggalInput'],['Username','username'],['NIK','nik'],['Nama Pegawai','namaPegawai'],
+    ['Tempat / Tanggal Lahir','ttl'],['Jenis Kelamin','jenisKelamin'],['Pendidikan Terakhir','pendidikanAkhir'],
+    ['Pendidikan Formal','pendFormal'],['Pendidikan Non Formal','pendNonFormal'],['Status Perkawinan','statusPerkawinan'],
+    ['Lokasi Kerja','lokasiKerja'],['Posisi Kerja','posisiKerja'],['Divisi','divisi'],['Alamat Domisili','alamatDomisili'],
+    ['Kelurahan / Desa','domKel'],['Kecamatan','domKec'],['Kota / Kabupaten','domKota'],['No HP','noHp'],['Email','email'],
+    ['No KTP','noKtp'],['No NPWP','noNpwp'],['Nama Ibu Kandung','namaIbu'],['No Rekening','noRekening'],['Nama Bank','namaBank'],
+    ['Alamat KTP','ktpAlamat'],['Kelurahan KTP','ktpKel'],['Kecamatan KTP','ktpKec'],['Kota KTP','ktpKota'],
+    ['No BPJS Ketenagakerjaan','bpjsKet'],['No BPJS Kesehatan','bpjsKes'],['Nama Pasangan','namaPasangan'],
+    ['BPJS Pasangan','bpjsPasangan'],['Telepon Kerabat','telpKerabat'],['Data Anak','dataAnak'],['Nama Faskes','namaFaskes'],
+    ['No KK','noKk'],['No SIM','noSim'],['Foto Teknisi URL','fotoUrl'],['Foto KTP URL','fotoKtpUrl'],
+    ['Foto BPJS Kesehatan URL','fotoBpjsKesUrl'],['Foto BPJS Ketenagakerjaan URL','fotoBpjsKetUrl'],
+    ['Foto NPWP URL','fotoNpwpUrl'],['Foto KK URL','fotoKkUrl'],['Foto SIM URL','fotoSimUrl']
+  ];
+  const head = columns.map(c => '<th>'+htmlCell(c[0])+'</th>').join('');
+  const body = rows.map(d => '<tr>'+columns.map(c => '<td>'+htmlCell(d[c[1]])+'</td>').join('')+'</tr>').join('');
+  const html = '<html><head><meta charset="UTF-8"></head><body><table border="1"><thead><tr>'+head+'</tr></thead><tbody>'+body+'</tbody></table></body></html>';
+  const blob = new Blob(['\ufeff',html], {type:'application/vnd.ms-excel;charset=utf-8;'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href=url; a.download='PUTIJA_BDB1_Biodata_Teknisi.xls';
+  document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(() => URL.revokeObjectURL(url), 1500);
 }
 </script>
 </body>
