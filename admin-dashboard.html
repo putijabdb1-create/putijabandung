@@ -9,12 +9,12 @@
 :root{--bg:#020617;--panel:#0f172a;--line:#334155;--text:#f8fafc;--muted:#94a3b8;--blue:#2563eb}
 *{box-sizing:border-box} body{margin:0;font-family:Poppins,Arial,sans-serif;background:var(--bg);color:var(--text)}
 .page{max-width:1200px;margin:24px auto;padding:18px} h1{font-size:24px;margin:0 0 4px} .sub{color:var(--muted);font-size:13px}
-.toolbar{display:grid;grid-template-columns:minmax(220px,1.4fr) minmax(200px,1fr) auto auto;gap:10px;margin:20px 0 12px}
+.toolbar{display:grid;grid-template-columns:minmax(190px,300px) minmax(180px,230px) auto auto;align-items:start;gap:8px;margin:14px 0 10px;max-width:100%}
 .division-box{display:flex;flex-direction:column;gap:5px}.division-hint{font-size:10px;color:var(--muted)}
 button.logout{background:#b91c1c}button.logout:hover{background:#991b1b}
-@media(max-width:900px){.toolbar{grid-template-columns:1fr 1fr}.toolbar #searchInput{grid-column:1/-1}}
-input,select{width:100%;min-width:0;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:#020617;color:var(--text);font:inherit;font-size:13px}
-button,.btn{border:0;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 12px;border-radius:7px;background:var(--blue);color:white;text-decoration:none;font:600 12px Poppins,Arial;cursor:pointer;white-space:nowrap}
+@media(max-width:900px){.toolbar{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.toolbar #searchInput{grid-column:1/-1}.division-box{min-width:0}}
+input,select{width:100%;min-width:0;padding:8px 10px;border:1px solid var(--line);border-radius:9px;background:#020617;color:var(--text);font:inherit;font-size:13px}
+button,.btn{border:0;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 10px;border-radius:7px;background:var(--blue);color:white;text-decoration:none;font:600 12px Poppins,Arial;cursor:pointer;white-space:nowrap}
 button.secondary{background:#334155} .summary{color:var(--muted);font-size:12px;margin:8px 0}
 .table-wrap{width:100%;overflow:auto;border:1px solid var(--line);border-radius:10px}
 table{width:100%;min-width:900px;border-collapse:collapse} th,td{border-bottom:1px solid var(--line);padding:8px 10px;font-size:12px;text-align:left;vertical-align:middle} th{background:var(--panel);position:sticky;top:0;z-index:1} tr:last-child td{border-bottom:0}
@@ -22,7 +22,8 @@ table{width:100%;min-width:900px;border-collapse:collapse} th,td{border-bottom:1
 .no-photo{width:48px;height:58px;border:1px dashed #475569;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:9px;text-align:center;padding:3px}
 .actions{display:flex;gap:6px;flex-wrap:wrap}.status-badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:700}.status-active{background:#064e3b;color:#a7f3d0}.status-inactive{background:#7f1d1d;color:#fecaca}.modal-form{padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px;min-width:min(92vw,520px)}.modal-form label{display:flex;flex-direction:column;gap:6px;font-size:12px;color:#cbd5e1}.modal-form .full{grid-column:1/-1}.modal-form input,.modal-form select{padding:10px}.modal-note{font-size:11px;color:var(--muted);grid-column:1/-1}.empty{padding:22px;text-align:center;color:var(--muted)}
 .modal{position:fixed;inset:0;background:#000d;display:none;align-items:center;justify-content:center;padding:20px;z-index:20} .modal.open{display:flex} .modal-card{max-width:min(92vw,760px);max-height:92vh;background:#0f172a;border:1px solid var(--line);border-radius:12px;overflow:hidden} .modal-head{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--line)} .modal-img{display:block;max-width:88vw;max-height:75vh;object-fit:contain;margin:auto} .modal-actions{display:flex;gap:8px;padding:10px 14px}
-@media(max-width:650px){.page{padding:12px;margin:10px auto}h1{font-size:20px}.toolbar{grid-template-columns:1fr}.toolbar #searchInput{grid-column:auto}.toolbar button{width:100%}}
+@media(max-width:650px){.page{padding:12px;margin:10px auto}h1{font-size:20px}.toolbar{grid-template-columns:1fr 1fr}.toolbar #searchInput{grid-column:1/-1}.toolbar button{width:100%;white-space:normal}.division-box{grid-column:1/-1}.division-box select{height:auto;min-height:76px}}
+.photo-gallery{width:min(94vw,900px);max-height:92vh;overflow:auto}.photo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;padding:14px}.photo-item{border:1px solid var(--line);background:#020617;border-radius:9px;padding:9px;min-width:0}.photo-item img{display:block;width:100%;height:170px;object-fit:contain;background:#0b1220;border-radius:6px;cursor:zoom-in}.photo-label{font-size:12px;font-weight:600;margin:8px 0;color:var(--text)}.photo-item .btn{width:100%;margin-top:4px}.gallery-empty{padding:20px;color:var(--muted)}
 </style>
 </head>
 <body>
@@ -46,10 +47,16 @@ table{width:100%;min-width:900px;border-collapse:collapse} th,td{border-bottom:1
     </table>
   </div>
 </main>
-<div class="modal" id="photoModal" role="dialog" aria-modal="true" aria-label="Foto teknisi">
+<div class="modal" id="photoModal" role="dialog" aria-modal="true" aria-label="Galeri foto dokumen teknisi">
+  <div class="modal-card photo-gallery">
+    <div class="modal-head"><div><strong id="galleryTitle">Galeri Foto Teknisi</strong><div class="sub" id="gallerySubtitle"></div></div><button type="button" class="secondary" id="closeModal">Tutup ✕</button></div>
+    <div class="photo-grid" id="photoGrid"></div>
+  </div>
+</div>
+<div class="modal" id="photoZoomModal" role="dialog" aria-modal="true" aria-label="Foto dokumen diperbesar">
   <div class="modal-card">
-    <div class="modal-head"><strong id="modalTitle">Foto Teknisi</strong><button type="button" class="secondary" id="closeModal">Tutup ✕</button></div>
-    <img class="modal-img" id="modalImage" alt="Foto teknisi diperbesar">
+    <div class="modal-head"><strong id="modalTitle">Foto Dokumen</strong><button type="button" class="secondary" id="closeZoomModal">Tutup ✕</button></div>
+    <img class="modal-img" id="modalImage" alt="Foto dokumen diperbesar">
     <div class="modal-actions"><a class="btn" id="openPhoto" target="_blank" rel="noopener">Buka Foto Asli</a></div>
   </div>
 </div>
@@ -83,9 +90,11 @@ document.addEventListener('DOMContentLoaded', () => {
   $('employmentForm').addEventListener('submit', saveEmployment);
   ['employmentStart','employmentEnd','employmentStatus'].forEach(id => $(id).addEventListener('change', updateTenurePreview));
   $('closeModal').addEventListener('click', closePhoto);
+  $('closeZoomModal').addEventListener('click', closePhotoZoom);
   $('photoModal').addEventListener('click', e => { if (e.target === $('photoModal')) closePhoto(); });
+  $('photoZoomModal').addEventListener('click', e => { if (e.target === $('photoZoomModal')) closePhotoZoom(); });
   $('employmentModal').addEventListener('click', e => { if (e.target === $('employmentModal')) closeEmployment(); });
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePhoto(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') { closePhotoZoom(); closePhoto(); } });
   loadAdmin();
 });
 
@@ -137,18 +146,46 @@ function renderTable() {
     const tenureTd=document.createElement('td'); tenureTd.textContent=safeText(d.masaKerja)||'-';
     const actionTd=document.createElement('td'); const actions=document.createElement('div'); actions.className='actions';
     const a=document.createElement('a'); a.className='btn'; a.target='_blank'; a.rel='noopener'; a.textContent='Preview / Cetak'; a.href='teknisi.html?admin=1&user='+encodeURIComponent(safeText(d.username)); actions.appendChild(a);
-    if (d.fotoUrl) { const open=document.createElement('button'); open.type='button'; open.className='secondary'; open.textContent='Lihat Foto'; open.addEventListener('click',()=>openPhoto(d)); actions.appendChild(open); }
+    if (getPhotoList(d).some(p=>p.url)) { const open=document.createElement('button'); open.type='button'; open.className='secondary'; open.textContent='Lihat Foto'; open.addEventListener('click',()=>openPhoto(d)); actions.appendChild(open); }
     const edit=document.createElement('button'); edit.type='button'; edit.textContent='Status / Masa Kerja'; edit.addEventListener('click',()=>openEmployment(d)); actions.appendChild(edit);
     actionTd.appendChild(actions); tr.append(photoTd,userTd,nameTd,divTd,statusTd,startTd,tenureTd,actionTd); tbody.appendChild(tr);
   });
 }
+function getPhotoList(d) {
+  return [
+    {label:'Foto Teknisi',url:d.fotoUrl},
+    {label:'Foto KTP',url:d.fotoKtpUrl},
+    {label:'Foto Kartu Keluarga (KK)',url:d.fotoKkUrl},
+    {label:'Foto SIM',url:d.fotoSimUrl},
+    {label:'Foto BPJS Kesehatan',url:d.fotoBpjsKesUrl},
+    {label:'Foto BPJS Ketenagakerjaan',url:d.fotoBpjsKetUrl},
+    {label:'Foto NPWP',url:d.fotoNpwpUrl}
+  ].filter(p=>String(p.url||'').trim());
+}
 function openPhoto(d) {
-  if (!d.fotoUrl) return;
-  $('modalTitle').textContent = safeText(d.namaPegawai || d.username || 'Foto Teknisi');
-  $('modalImage').src = d.fotoUrl; $('openPhoto').href = d.fotoUrl;
+  const photos=getPhotoList(d);
+  $('galleryTitle').textContent='Galeri Foto — '+safeText(d.namaPegawai || d.username || 'Teknisi');
+  $('gallerySubtitle').textContent=safeText(d.username)+' · '+photos.length+' foto tersedia';
+  const grid=$('photoGrid'); grid.replaceChildren();
+  if (!photos.length) { const empty=document.createElement('div'); empty.className='gallery-empty'; empty.textContent='Belum ada foto dokumen untuk teknisi ini.'; grid.appendChild(empty); }
+  photos.forEach(photo=>{
+    const card=document.createElement('div'); card.className='photo-item';
+    const img=document.createElement('img'); img.src=photo.url; img.alt=photo.label; img.loading='lazy'; img.addEventListener('click',()=>zoomPhoto(photo,d));
+    img.addEventListener('error',()=>{img.style.display='none'; const err=document.createElement('div'); err.className='gallery-empty'; err.textContent='Foto tidak dapat dimuat'; card.insertBefore(err,card.firstChild);});
+    const label=document.createElement('div'); label.className='photo-label'; label.textContent=photo.label;
+    const btn=document.createElement('button'); btn.type='button'; btn.className='secondary'; btn.textContent='Perbesar Foto'; btn.addEventListener('click',()=>zoomPhoto(photo,d));
+    const link=document.createElement('a'); link.className='btn'; link.href=photo.url; link.target='_blank'; link.rel='noopener'; link.textContent='Buka / Unduh';
+    card.append(img,label,btn,link); grid.appendChild(card);
+  });
   $('photoModal').classList.add('open');
 }
-function closePhoto() { $('photoModal').classList.remove('open'); $('modalImage').removeAttribute('src'); }
+function zoomPhoto(photo,d) {
+  $('modalTitle').textContent=photo.label+' — '+safeText(d.namaPegawai || d.username || 'Teknisi');
+  $('modalImage').src=photo.url; $('openPhoto').href=photo.url;
+  $('photoZoomModal').classList.add('open');
+}
+function closePhoto() { $('photoModal').classList.remove('open'); $('photoGrid').replaceChildren(); }
+function closePhotoZoom() { $('photoZoomModal').classList.remove('open'); $('modalImage').removeAttribute('src'); }
 function logoutAdmin() {
   // Akhiri sesi tab admin dan kembali ke halaman login; data tidak dihapus.
   sessionStorage.removeItem('putijaAdminLoggedIn');
