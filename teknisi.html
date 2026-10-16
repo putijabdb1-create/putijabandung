@@ -294,11 +294,44 @@
       .navbar, .page { box-shadow: none !important; background:#ffffff !important; }
       .card { box-shadow:none !important; background:#ffffff !important; border:none !important; }
       .biodata-page {
-        box-shadow:none;
-        margin:0;
-        width:auto;
-        min-height:auto;
-        padding:10mm 12mm;
+        box-shadow:none !important;
+        margin:0 !important;
+        width:auto !important;
+        min-height:0 !important;
+        padding:2mm 8mm 6mm !important;
+        position:static !important;
+        page-break-after: always;
+        break-after: page;
+      }
+      @page {
+        size: A4 portrait;
+        margin: 5mm 8mm;
+      }
+      html, body {
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+      #previewWrapper {
+        margin: 0 !important;
+        padding: 0 !important;
+      }
+      .biodata-header {
+        margin-top: 0 !important;
+        margin-bottom: 5px !important;
+      }
+      .biodata-header h1,
+      .biodata-header h2 {
+        margin-top: 0 !important;
+      }
+      .bio-section {
+        margin-top: 5px !important;
+        margin-bottom: 5px !important;
+      }
+      .biodata-footer-page {
+        margin-top: 5px !important;
       }
 	  /* 🔴 SEMBUNYIKAN JUDUL LOGIN SAAT PRINT */
 		main.page > h1,
@@ -1484,9 +1517,9 @@ function collectFormData() {
       downloadBtn.disabled = true;
       downloadBtn.textContent = 'Menyiapkan unduhan…';
       try {
-        // Untuk foto lokal/data URL atau server yang mengizinkan CORS, unduh sebagai file.
+        // Utamakan fetch/blob untuk file yang mengizinkan CORS.
         const response = await fetch(currentSrc, {mode:'cors'});
-        if(!response.ok) throw new Error('Unduhan tidak tersedia');
+        if(!response.ok) throw new Error('Unduhan langsung tidak tersedia');
         const blob = await response.blob();
         const objectUrl = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -1494,14 +1527,21 @@ function collectFormData() {
         const ext = (blob.type && blob.type.split('/')[1] || 'jpg').replace('jpeg','jpg').replace(/[^a-z0-9]/gi,'');
         a.download = currentName + '.' + (ext || 'jpg');
         document.body.appendChild(a); a.click(); a.remove();
-        setTimeout(()=>URL.revokeObjectURL(objectUrl),1500);
+        setTimeout(()=>URL.revokeObjectURL(objectUrl),2000);
       } catch(err) {
-        // Google Drive atau host eksternal mungkin memblokir unduhan lintas domain.
-        // Buka file asli; pengguna dapat menyimpan melalui menu browser.
+        // Untuk gambar Google Drive, gunakan endpoint unduhan berdasarkan ID file.
+        const match = currentSrc.match(/[?&]id=([^&]+)/) || currentSrc.match(/\/d\/([^/]+)/);
+        let downloadUrl = currentSrc;
+        if (match && match[1] && /drive\.google\.com/i.test(currentSrc)) {
+          downloadUrl = 'https://drive.google.com/uc?export=download&id=' + encodeURIComponent(decodeURIComponent(match[1]));
+        }
+        // Hindari alert browser yang mengganggu. Navigasi ke endpoint unduhan.
         const a = document.createElement('a');
-        a.href = currentSrc; a.target = '_blank'; a.rel = 'noopener';
-        a.click();
-        alert('Foto dibuka di tab baru. Jika unduhan otomatis tidak tersedia, gunakan menu browser lalu pilih Download/Simpan gambar.');
+        a.href = downloadUrl;
+        a.target = '_blank';
+        a.rel = 'noopener';
+        a.download = currentName + '.jpg';
+        document.body.appendChild(a); a.click(); a.remove();
       } finally { downloadBtn.disabled = false; downloadBtn.textContent = oldText; }
     });
   })();
