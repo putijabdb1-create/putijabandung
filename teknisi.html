@@ -121,6 +121,24 @@
       box-shadow: 0 16px 45px rgba(15,23,42,0.85);
     }
     .login-card { position: relative; }
+
+    /* Setelah login berhasil, sembunyikan panel login dan gunakan lebar penuh untuk biodata */
+    body.technician-logged-in main.page > h1,
+    body.technician-logged-in main.page > p,
+    body.technician-logged-in .login-card {
+      display: none !important;
+    }
+    body.technician-logged-in .grid-2 {
+      display: block;
+      width: 100%;
+      max-width: none;
+      margin: 12px auto 0;
+    }
+    body.technician-logged-in .form-card {
+      width: 100%;
+      max-width: none;
+      margin-top: 0;
+    }
     .form-card { border-color:#334155; }
     @media (max-width:900px){
       .form-card{ margin-top:14px; }
@@ -1103,6 +1121,8 @@ function loginTeknisi() {
   }
 
   currentUser = user;
+  // Sembunyikan panel login setelah kredensial valid; form biodata memakai lebar penuh.
+  document.body.classList.add("technician-logged-in");
   statusEl.textContent = "Login berhasil sebagai " + user.nama + ". Silakan isi biodata.";
   statusEl.style.color = "#bbf7d0";
 
