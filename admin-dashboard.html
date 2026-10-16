@@ -2,149 +2,129 @@
 <html lang="id">
 <head>
 <meta charset="UTF-8">
-<title>Dashboard Admin</title>
+<title>Dashboard Admin PUTIJA BDB1</title>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
-body{
-  font-family:Poppins,sans-serif;
-  background:#020617;
-  color:#fff;
-}
-.page{
-  max-width:1100px;
-  margin:30px auto;
-  padding:20px;
-}
-table{
-  width:100%;
-  border-collapse:collapse;
-  margin-top:14px;
-}
-th,td{
-  border:1px solid #374151;
-  padding:8px;
-  font-size:13px;
-}
-th{
-  background:#0f172a;
-}
-a.btn{
-  padding:6px 10px;
-  border-radius:6px;
-  background:#2563eb;
-  color:#fff;
-  text-decoration:none;
-  font-size:12px;
-}
-.search-box{
-  margin-top:12px;
-  margin-bottom:6px;
-}
-.search-box input{
-  width:100%;
-  max-width:360px;
-  padding:8px 12px;
-  border-radius:10px;
-  border:1px solid #334155;
-  background:#020617;
-  color:#f9fafb;
-  font-size:12px;
-}
-.search-box input:focus{
-  outline:none;
-  border-color:#2563eb;
-}
+:root{--bg:#020617;--panel:#0f172a;--line:#334155;--text:#f8fafc;--muted:#94a3b8;--blue:#2563eb}
+*{box-sizing:border-box} body{margin:0;font-family:Poppins,Arial,sans-serif;background:var(--bg);color:var(--text)}
+.page{max-width:1200px;margin:24px auto;padding:18px} h1{font-size:24px;margin:0 0 4px} .sub{color:var(--muted);font-size:13px}
+.toolbar{display:grid;grid-template-columns:minmax(220px,1.5fr) minmax(180px,1fr) auto;gap:10px;margin:20px 0 12px}
+input,select{width:100%;min-width:0;padding:11px 12px;border:1px solid var(--line);border-radius:9px;background:#020617;color:var(--text);font:inherit;font-size:13px}
+button,.btn{border:0;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:9px 12px;border-radius:7px;background:var(--blue);color:white;text-decoration:none;font:600 12px Poppins,Arial;cursor:pointer;white-space:nowrap}
+button.secondary{background:#334155} .summary{color:var(--muted);font-size:12px;margin:8px 0}
+.table-wrap{width:100%;overflow:auto;border:1px solid var(--line);border-radius:10px}
+table{width:100%;min-width:720px;border-collapse:collapse} th,td{border-bottom:1px solid var(--line);padding:8px 10px;font-size:12px;text-align:left;vertical-align:middle} th{background:var(--panel);position:sticky;top:0;z-index:1} tr:last-child td{border-bottom:0}
+.avatar{width:48px;height:58px;object-fit:cover;object-position:center top;border-radius:7px;border:1px solid #475569;background:#111827;cursor:zoom-in;display:block}
+.no-photo{width:48px;height:58px;border:1px dashed #475569;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:9px;text-align:center;padding:3px}
+.actions{display:flex;gap:6px;flex-wrap:wrap} .empty{padding:22px;text-align:center;color:var(--muted)}
+.modal{position:fixed;inset:0;background:#000d;display:none;align-items:center;justify-content:center;padding:20px;z-index:20} .modal.open{display:flex} .modal-card{max-width:min(92vw,760px);max-height:92vh;background:#0f172a;border:1px solid var(--line);border-radius:12px;overflow:hidden} .modal-head{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--line)} .modal-img{display:block;max-width:88vw;max-height:75vh;object-fit:contain;margin:auto} .modal-actions{display:flex;gap:8px;padding:10px 14px}
+@media(max-width:650px){.page{padding:12px;margin:10px auto}h1{font-size:20px}.toolbar{grid-template-columns:1fr}.toolbar button{width:100%}}
 </style>
 </head>
-
 <body>
-
-<div class="page">
-  <h1>📋 Dashboard Admin</h1>
-  <small>Preview & cetak biodata teknisi</small>
-
-  <!-- 🔍 SEARCH BAR -->
-  <div class="search-box">
-    <input
-      type="text"
-      id="searchInput"
-      placeholder="🔍 Cari username / nama pegawai..."
-      onkeyup="filterTable()"
-    />
+<main class="page">
+  <h1>📋 Dashboard Admin PUTIJA BDB1</h1>
+  <div class="sub">Data biodata teknisi · Foto · Filter divisi · Preview / Cetak · Ekspor Excel</div>
+  <div class="toolbar">
+    <input type="search" id="searchInput" placeholder="🔍 Cari username / nama pegawai..." autocomplete="off" aria-label="Cari username atau nama pegawai">
+    <select id="divisionFilter" aria-label="Filter divisi"><option value="">Semua Divisi</option></select>
+    <button id="downloadBtn" type="button">⬇ Download Excel (CSV)</button>
   </div>
-
-  <table id="adminTable">
-    <thead>
-      <tr>
-        <th>Username</th>
-        <th>Nama Pegawai</th>
-        <th>Aksi</th>
-      </tr>
-    </thead>
-    <tbody id="adminTableBody"></tbody>
-  </table>
+  <div class="summary" id="summary">Memuat data teknisi...</div>
+  <div class="table-wrap">
+    <table id="adminTable">
+      <thead><tr><th>Foto</th><th>Username</th><th>Nama Pegawai</th><th>Divisi</th><th>Aksi</th></tr></thead>
+      <tbody id="adminTableBody"><tr><td colspan="5" class="empty">Memuat data...</td></tr></tbody>
+    </table>
+  </div>
+</main>
+<div class="modal" id="photoModal" role="dialog" aria-modal="true" aria-label="Foto teknisi">
+  <div class="modal-card">
+    <div class="modal-head"><strong id="modalTitle">Foto Teknisi</strong><button type="button" class="secondary" id="closeModal">Tutup ✕</button></div>
+    <img class="modal-img" id="modalImage" alt="Foto teknisi diperbesar">
+    <div class="modal-actions"><a class="btn" id="openPhoto" target="_blank" rel="noopener">Buka Foto Asli</a></div>
+  </div>
 </div>
-
 <script>
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbzfYMYq83BYCNxITAK-CbGQ0uA5diRWuFw1-kyd7zzqmcFR_3hwWnHtNNDLTF4mUHc/exec";
-const ADMIN_KEY = "ADMIN_BIODATA_PTTJ";
+const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzfYMYq83BYCNxITAK-CbGQ0uA5diRWuFw1-kyd7zzqmcFR_3hwWnHtNNDLTF4mUHc/exec';
+const ADMIN_KEY = 'ADMIN_BIODATA_PTTJ';
+let allData = [];
+const $ = id => document.getElementById(id);
 
-document.addEventListener("DOMContentLoaded", loadAdmin);
+document.addEventListener('DOMContentLoaded', () => {
+  $('searchInput').addEventListener('input', renderTable);
+  $('divisionFilter').addEventListener('change', renderTable);
+  $('downloadBtn').addEventListener('click', downloadCsv);
+  $('closeModal').addEventListener('click', closePhoto);
+  $('photoModal').addEventListener('click', e => { if (e.target === $('photoModal')) closePhoto(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closePhoto(); });
+  loadAdmin();
+});
 
-/* ===== LOAD DATA ===== */
-function loadAdmin(){
-  fetch(WEB_APP_URL,{
-    method:"POST",
-    headers:{ "Content-Type":"text/plain;charset=utf-8" },
-    body:JSON.stringify({
-      mode:"getAllBiodata",
-      adminKey:ADMIN_KEY
+function loadAdmin() {
+  fetch(WEB_APP_URL, {method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({mode:'getAllBiodata',adminKey:ADMIN_KEY})})
+    .then(r => r.json())
+    .then(res => {
+      if (!res.ok) throw new Error(res.error || 'Gagal mengambil data');
+      allData = Array.isArray(res.data) ? res.data : [];
+      populateDivisions(); renderTable();
     })
-  })
-  .then(r=>r.json())
-  .then(res=>{
-    if(!res.ok){
-      alert("Gagal ambil data");
-      return;
-    }
-
-    const tbody = document.getElementById("adminTableBody");
-    tbody.innerHTML = "";
-
-    res.data.forEach(d=>{
-      const tr = document.createElement("tr");
-      tr.innerHTML = `
-        <td>${d.username || "-"}</td>
-        <td>${d.namaPegawai || "-"}</td>
-        <td>
-          <a class="btn" target="_blank"
-             href="teknisi.html?admin=1&user=${encodeURIComponent(d.username)}">
-             Preview / Cetak
-          </a>
-        </td>
-      `;
-      tbody.appendChild(tr);
+    .catch(err => {
+      $('summary').textContent = 'Data gagal dimuat: ' + err.message;
+      $('adminTableBody').innerHTML = '<tr><td colspan="5" class="empty">Gagal memuat data. Periksa koneksi Apps Script.</td></tr>';
+      console.error(err);
     });
-  })
-  .catch(e=>{
-    document.body.innerHTML="<h2 style='color:red'>ERROR DASHBOARD</h2>";
-    console.error(e);
+}
+function populateDivisions() {
+  const select = $('divisionFilter');
+  const vals = [...new Set(allData.map(d => String(d.divisi || '').trim()).filter(Boolean))].sort((a,b)=>a.localeCompare(b,'id'));
+  select.innerHTML = '<option value="">Semua Divisi</option>';
+  vals.forEach(v => { const o=document.createElement('option'); o.value=v; o.textContent=v; select.appendChild(o); });
+}
+function filteredData() {
+  const q = $('searchInput').value.trim().toLocaleLowerCase('id');
+  const div = $('divisionFilter').value;
+  return allData.filter(d => {
+    const matchesText = !q || [d.username,d.namaPegawai,d.divisi].some(v => String(v || '').toLocaleLowerCase('id').includes(q));
+    return matchesText && (!div || String(d.divisi || '').trim() === div);
   });
 }
-
-/* ===== SEARCH FILTER (REALTIME) ===== */
-function filterTable(){
-  const input = document.getElementById("searchInput").value.toLowerCase();
-  const rows  = document.querySelectorAll("#adminTableBody tr");
-
-  rows.forEach(row=>{
-    const text = row.innerText.toLowerCase();
-    row.style.display = text.includes(input) ? "" : "none";
+function safeText(v) { return String(v == null ? '' : v); }
+function renderTable() {
+  const rows = filteredData(); const tbody = $('adminTableBody'); tbody.replaceChildren();
+  $('summary').textContent = `Menampilkan ${rows.length} dari ${allData.length} teknisi`;
+  if (!rows.length) { const tr=document.createElement('tr'); const td=document.createElement('td'); td.colSpan=5; td.className='empty'; td.textContent='Data teknisi tidak ditemukan.'; tr.appendChild(td); tbody.appendChild(tr); return; }
+  rows.forEach(d => {
+    const tr=document.createElement('tr');
+    const photoTd=document.createElement('td');
+    if (d.fotoUrl) { const img=document.createElement('img'); img.className='avatar'; img.src=d.fotoUrl; img.alt='Foto '+safeText(d.namaPegawai); img.loading='lazy'; img.addEventListener('click',()=>openPhoto(d)); img.addEventListener('error',()=>{ const p=document.createElement('div'); p.className='no-photo'; p.textContent='Foto tidak tersedia'; photoTd.replaceChildren(p); }); photoTd.appendChild(img); }
+    else { const p=document.createElement('div'); p.className='no-photo'; p.textContent='Belum ada foto'; photoTd.appendChild(p); }
+    const userTd=document.createElement('td'); userTd.textContent=safeText(d.username)||'-';
+    const nameTd=document.createElement('td'); nameTd.textContent=safeText(d.namaPegawai)||'-';
+    const divTd=document.createElement('td'); divTd.textContent=safeText(d.divisi)||'-';
+    const actionTd=document.createElement('td'); const actions=document.createElement('div'); actions.className='actions';
+    const a=document.createElement('a'); a.className='btn'; a.target='_blank'; a.rel='noopener'; a.textContent='Preview / Cetak'; a.href='teknisi.html?admin=1&user='+encodeURIComponent(safeText(d.username)); actions.appendChild(a);
+    if (d.fotoUrl) { const open=document.createElement('button'); open.type='button'; open.className='secondary'; open.textContent='Lihat Foto'; open.addEventListener('click',()=>openPhoto(d)); actions.appendChild(open); }
+    actionTd.appendChild(actions); tr.append(photoTd,userTd,nameTd,divTd,actionTd); tbody.appendChild(tr);
   });
+}
+function openPhoto(d) {
+  if (!d.fotoUrl) return;
+  $('modalTitle').textContent = safeText(d.namaPegawai || d.username || 'Foto Teknisi');
+  $('modalImage').src = d.fotoUrl; $('openPhoto').href = d.fotoUrl;
+  $('photoModal').classList.add('open');
+}
+function closePhoto() { $('photoModal').classList.remove('open'); $('modalImage').removeAttribute('src'); }
+function csvCell(value) { let s=String(value == null ? '' : value); if (/^[=+@\-]/.test(s)) s="'"+s; return '"'+s.replace(/"/g,'""')+'"'; }
+function downloadCsv() {
+  const rows=filteredData();
+  if (!rows.length) { alert('Tidak ada data untuk diunduh.'); return; }
+  const data=[['Username','Nama Pegawai','Divisi','Foto URL'],...rows.map(d=>[d.username,d.namaPegawai,d.divisi,d.fotoUrl])];
+  const csv='\ufeff'+data.map(r=>r.map(csvCell).join(';')).join('\r\n');
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8;'}); const url=URL.createObjectURL(blob);
+  const a=document.createElement('a'); a.href=url; a.download='PUTIJA_BDB1_Biodata_Teknisi.csv'; document.body.appendChild(a); a.click(); a.remove(); URL.revokeObjectURL(url);
 }
 </script>
-
 </body>
 </html>
