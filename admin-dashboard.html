@@ -8,8 +8,10 @@
 <style>
 :root{--bg:#020617;--panel:#0f172a;--line:#334155;--text:#f8fafc;--muted:#94a3b8;--blue:#2563eb}
 *{box-sizing:border-box} body{margin:0;font-family:Poppins,Arial,sans-serif;background:var(--bg);color:var(--text)}
-.page{max-width:1200px;margin:24px auto;padding:18px} h1{font-size:24px;margin:0 0 4px} .sub{color:var(--muted);font-size:13px}
-.toolbar{display:grid;grid-template-columns:minmax(190px,300px) minmax(180px,230px) auto auto;align-items:start;gap:8px;margin:14px 0 10px;max-width:100%}
+.page{max-width:1200px;margin:0 auto;padding:0 18px 18px} h1{font-size:24px;margin:0 0 4px} .sub{color:var(--muted);font-size:13px}
+.admin-sticky{position:sticky;top:0;z-index:10;background:rgba(2,6,23,.97);backdrop-filter:blur(12px);padding:18px 0 8px;border-bottom:1px solid #1e293b;margin-bottom:10px}
+.sticky-title{padding:0 0 2px}.load-status{font-size:11px;color:var(--muted);margin-top:5px;min-height:16px}.load-status.error{color:#fca5a5}.load-status.ok{color:#86efac}
+.toolbar{display:grid;grid-template-columns:minmax(190px,260px) minmax(180px,220px) minmax(160px,1fr) auto auto;align-items:start;gap:8px;margin:14px 0 10px;max-width:100%}
 .division-box{display:flex;flex-direction:column;gap:5px}.division-hint{font-size:10px;color:var(--muted)}
 button.logout{background:#b91c1c}button.logout:hover{background:#991b1b}
 @media(max-width:900px){.toolbar{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.toolbar #searchInput{grid-column:1/-1}.division-box{min-width:0}}
@@ -22,14 +24,17 @@ table{width:100%;min-width:900px;border-collapse:collapse} th,td{border-bottom:1
 .no-photo{width:48px;height:58px;border:1px dashed #475569;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:9px;text-align:center;padding:3px}
 .actions{display:flex;gap:6px;flex-wrap:wrap}.status-badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:700}.status-active{background:#064e3b;color:#a7f3d0}.status-inactive{background:#7f1d1d;color:#fecaca}.modal-form{padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px;min-width:min(92vw,520px)}.modal-form label{display:flex;flex-direction:column;gap:6px;font-size:12px;color:#cbd5e1}.modal-form .full{grid-column:1/-1}.modal-form input,.modal-form select{padding:10px}.modal-note{font-size:11px;color:var(--muted);grid-column:1/-1}.empty{padding:22px;text-align:center;color:var(--muted)}
 .modal{position:fixed;inset:0;background:#000d;display:none;align-items:center;justify-content:center;padding:20px;z-index:20} .modal.open{display:flex} .modal-card{max-width:min(92vw,760px);max-height:92vh;background:#0f172a;border:1px solid var(--line);border-radius:12px;overflow:hidden} .modal-head{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--line)} .modal-img{display:block;max-width:88vw;max-height:75vh;object-fit:contain;margin:auto} .modal-actions{display:flex;gap:8px;padding:10px 14px}
-@media(max-width:650px){.page{padding:12px;margin:10px auto}h1{font-size:20px}.toolbar{grid-template-columns:1fr 1fr}.toolbar #searchInput{grid-column:1/-1}.toolbar button{width:100%;white-space:normal}.division-box{grid-column:1/-1}.division-box select{height:auto;min-height:76px}}
+@media(max-width:650px){.page{padding:0 12px 12px;margin:0 auto}.admin-sticky{padding:12px 0 8px}h1{font-size:20px}.toolbar{grid-template-columns:1fr 1fr}.toolbar #searchInput{grid-column:1/-1}.toolbar button{width:100%;white-space:normal}.division-box{grid-column:1/-1}.division-box select{height:auto;min-height:76px}}
 .photo-gallery{width:min(94vw,900px);max-height:92vh;overflow:auto}.photo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;padding:14px}.photo-item{border:1px solid var(--line);background:#020617;border-radius:9px;padding:9px;min-width:0}.photo-item img{display:block;width:100%;height:170px;object-fit:contain;background:#0b1220;border-radius:6px;cursor:zoom-in}.photo-label{font-size:12px;font-weight:600;margin:8px 0;color:var(--text)}.photo-item .btn{width:100%;margin-top:4px}.gallery-empty{padding:20px;color:var(--muted)}
 </style>
 </head>
 <body>
 <main class="page">
-  <h1>📋 Dashboard Admin PUTIJA BDB1</h1>
-  <div class="sub">Data biodata teknisi · Foto · Filter divisi · Preview / Cetak · Ekspor Excel</div>
+  <div class="admin-sticky">
+  <div class="sticky-title">
+    <h1>📋 Dashboard Admin PUTIJA BDB1</h1>
+    <div class="sub">Data biodata teknisi · Foto · Filter divisi · Preview / Cetak · Ekspor Excel</div>
+  </div>
   <div class="toolbar">
     <input type="search" id="searchInput" placeholder="🔍 Cari username / nama pegawai..." autocomplete="off" aria-label="Cari username atau nama pegawai">
     <div class="division-box">
@@ -37,9 +42,12 @@ table{width:100%;min-width:900px;border-collapse:collapse} th,td{border-bottom:1
       <div class="division-hint">Pilih lebih dari satu divisi (Ctrl/⌘ klik di komputer; ketuk pilihan di HP).</div>
     </div>
     <button id="downloadBtn" type="button">⬇ Download Excel (.xls)</button>
+    <button id="refreshBtn" class="secondary" type="button">↻ Muat Ulang Data</button>
     <button id="logoutBtn" class="logout" type="button">Keluar / Logout</button>
   </div>
   <div class="summary" id="summary">Memuat data teknisi...</div>
+  <div class="load-status" id="loadStatus" role="status" aria-live="polite"></div>
+  </div>
   <div class="table-wrap">
     <table id="adminTable">
       <thead><tr><th>Foto</th><th>Username</th><th>Nama Pegawai</th><th>Divisi</th><th>Status</th><th>Mulai Kerja</th><th>Masa Kerja</th><th>Aksi</th></tr></thead>
@@ -84,6 +92,7 @@ document.addEventListener('DOMContentLoaded', () => {
   $('searchInput').addEventListener('input', renderTable);
   $('divisionFilter').addEventListener('change', renderTable);
   $('downloadBtn').addEventListener('click', downloadExcel);
+  $('refreshBtn').addEventListener('click', () => loadAdmin(true));
   $('logoutBtn').addEventListener('click', logoutAdmin);
   $('closeEmployment').addEventListener('click', closeEmployment);
   $('cancelEmployment').addEventListener('click', closeEmployment);
@@ -98,19 +107,57 @@ document.addEventListener('DOMContentLoaded', () => {
   loadAdmin();
 });
 
-function loadAdmin() {
-  fetch(WEB_APP_URL, {method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({mode:'getAllBiodata',adminKey:ADMIN_KEY})})
-    .then(r => r.json())
-    .then(res => {
-      if (!res.ok) throw new Error(res.error || 'Gagal mengambil data');
-      allData = Array.isArray(res.data) ? res.data : [];
-      populateDivisions(); renderTable();
-    })
-    .catch(err => {
-      $('summary').textContent = 'Data gagal dimuat: ' + err.message;
-      $('adminTableBody').innerHTML = '<tr><td colspan="8" class="empty">Gagal memuat data. Periksa koneksi Apps Script.</td></tr>';
-      console.error(err);
+let loadController = null;
+async function loadAdmin(manual = false) {
+  if (loadController) loadController.abort();
+  loadController = new AbortController();
+  const signal = loadController.signal;
+  const refreshBtn = $('refreshBtn');
+  const status = $('loadStatus');
+  refreshBtn.disabled = true;
+  refreshBtn.textContent = 'Memuat...';
+  status.className = 'load-status';
+  status.textContent = manual ? 'Memperbarui data dari Google Sheets...' : 'Mengambil data terbaru dari Google Sheets...';
+  if (!allData.length) {
+    $('summary').textContent = 'Memuat data teknisi...';
+    $('adminTableBody').innerHTML = '<tr><td colspan="8" class="empty">Sedang mengambil data. Mohon tunggu...</td></tr>';
+  }
+  const timeout = setTimeout(() => loadController && loadController.abort(), 90000);
+  try {
+    const response = await fetch(WEB_APP_URL, {
+      method: 'POST',
+      headers: {'Content-Type':'text/plain;charset=utf-8'},
+      body: JSON.stringify({mode:'getAllBiodata', adminKey:ADMIN_KEY}),
+      cache: 'no-store',
+      signal
     });
+    if (!response.ok) throw new Error('HTTP ' + response.status);
+    const res = await response.json();
+    if (!res.ok) throw new Error(res.error || 'Gagal mengambil data');
+    allData = Array.isArray(res.data) ? res.data : [];
+    populateDivisions();
+    renderTable();
+    status.className = 'load-status ok';
+    status.textContent = 'Data berhasil diperbarui · ' + new Date().toLocaleTimeString('id-ID');
+  } catch (err) {
+    if (err.name === 'AbortError') {
+      status.className = 'load-status error';
+      status.textContent = 'Permintaan terlalu lama (90 detik) atau dibatalkan. Coba Muat Ulang Data; bila berulang, penyebabnya kemungkinan proses getAllBiodata di Code.gs.';
+    } else {
+      status.className = 'load-status error';
+      status.textContent = 'Gagal mengambil data: ' + err.message + '. Data yang sudah tampil tetap dipertahankan; tekan Muat Ulang Data untuk mencoba lagi.';
+    }
+    if (!allData.length) {
+      $('summary').textContent = 'Data belum berhasil dimuat.';
+      $('adminTableBody').innerHTML = '<tr><td colspan="8" class="empty">Gagal memuat data. Periksa koneksi dan eksekusi Apps Script, lalu tekan Muat Ulang Data.</td></tr>';
+    }
+    console.error(err);
+  } finally {
+    clearTimeout(timeout);
+    refreshBtn.disabled = false;
+    refreshBtn.textContent = '↻ Muat Ulang Data';
+    if (loadController && loadController.signal === signal) loadController = null;
+  }
 }
 function populateDivisions() {
   const select = $('divisionFilter');
