@@ -9,7 +9,8 @@
 :root{--bg:#020617;--panel:#0f172a;--line:#334155;--text:#f8fafc;--muted:#94a3b8;--blue:#2563eb}
 *{box-sizing:border-box} body{margin:0;font-family:Poppins,Arial,sans-serif;background:var(--bg);color:var(--text)}
 .page{max-width:1200px;margin:0 auto;padding:0 18px 18px} h1{font-size:24px;margin:0 0 4px} .sub{color:var(--muted);font-size:13px}
-.admin-sticky{position:sticky;top:0;z-index:10;background:rgba(2,6,23,.97);backdrop-filter:blur(12px);padding:18px 0 8px;border-bottom:1px solid #1e293b;margin-bottom:10px}
+.admin-sticky{position:fixed;top:0;left:50%;transform:translateX(-50%);width:min(1200px,100%);z-index:100;background:rgba(2,6,23,.98);backdrop-filter:blur(12px);padding:18px 18px 8px;border-bottom:1px solid #1e293b;margin:0;box-shadow:0 8px 24px rgba(0,0,0,.28)}
+.admin-sticky-spacer{width:100%;height:0;flex:none} body{scroll-padding-top:220px}
 .sticky-title{padding:0 0 2px}.load-status{font-size:11px;color:var(--muted);margin-top:5px;min-height:16px}.load-status.error{color:#fca5a5}.load-status.ok{color:#86efac}
 .toolbar{display:grid;grid-template-columns:minmax(190px,260px) minmax(180px,220px) minmax(160px,1fr) auto auto;align-items:start;gap:8px;margin:14px 0 10px;max-width:100%}
 .division-box{display:flex;flex-direction:column;gap:5px}.division-hint{font-size:10px;color:var(--muted)}
@@ -19,12 +20,12 @@ input,select{width:100%;min-width:0;padding:8px 10px;border:1px solid var(--line
 button,.btn{border:0;display:inline-flex;align-items:center;justify-content:center;gap:6px;padding:8px 10px;border-radius:7px;background:var(--blue);color:white;text-decoration:none;font:600 12px Poppins,Arial;cursor:pointer;white-space:nowrap}
 button.secondary{background:#334155} .summary{color:var(--muted);font-size:12px;margin:8px 0}
 .table-wrap{width:100%;overflow:auto;border:1px solid var(--line);border-radius:10px}
-table{width:100%;min-width:900px;border-collapse:collapse} th,td{border-bottom:1px solid var(--line);padding:8px 10px;font-size:12px;text-align:left;vertical-align:middle} th{background:var(--panel);position:sticky;top:0;z-index:1} tr:last-child td{border-bottom:0}
+table{width:100%;min-width:1020px;border-collapse:collapse} th,td{border-bottom:1px solid var(--line);padding:8px 10px;font-size:12px;text-align:left;vertical-align:middle} th{background:var(--panel);position:sticky;top:0;z-index:1} tr:last-child td{border-bottom:0}
 .avatar{width:48px;height:58px;object-fit:cover;object-position:center top;border-radius:7px;border:1px solid #475569;background:#111827;cursor:zoom-in;display:block}
 .no-photo{width:48px;height:58px;border:1px dashed #475569;border-radius:7px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:9px;text-align:center;padding:3px}
 .actions{display:flex;gap:6px;flex-wrap:wrap}.status-badge{display:inline-block;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:700}.status-active{background:#064e3b;color:#a7f3d0}.status-inactive{background:#7f1d1d;color:#fecaca}.modal-form{padding:14px;display:grid;grid-template-columns:1fr 1fr;gap:12px;min-width:min(92vw,520px)}.modal-form label{display:flex;flex-direction:column;gap:6px;font-size:12px;color:#cbd5e1}.modal-form .full{grid-column:1/-1}.modal-form input,.modal-form select{padding:10px}.modal-note{font-size:11px;color:var(--muted);grid-column:1/-1}.empty{padding:22px;text-align:center;color:var(--muted)}
 .modal{position:fixed;inset:0;background:#000d;display:none;align-items:center;justify-content:center;padding:20px;z-index:20} .modal.open{display:flex} .modal-card{max-width:min(92vw,760px);max-height:92vh;background:#0f172a;border:1px solid var(--line);border-radius:12px;overflow:hidden} .modal-head{display:flex;align-items:center;justify-content:space-between;padding:10px 14px;border-bottom:1px solid var(--line)} .modal-img{display:block;max-width:88vw;max-height:75vh;object-fit:contain;margin:auto} .modal-actions{display:flex;gap:8px;padding:10px 14px}
-@media(max-width:650px){.page{padding:0 12px 12px;margin:0 auto}.admin-sticky{padding:12px 0 8px}h1{font-size:20px}.toolbar{grid-template-columns:1fr 1fr}.toolbar #searchInput{grid-column:1/-1}.toolbar button{width:100%;white-space:normal}.division-box{grid-column:1/-1}.division-box select{height:auto;min-height:76px}}
+@media(max-width:650px){.page{padding:0 12px 12px;margin:0 auto}.admin-sticky{padding:12px 12px 8px;width:100%;left:0;transform:none}.admin-sticky-spacer{height:0}h1{font-size:20px}.toolbar{grid-template-columns:1fr 1fr}.toolbar #searchInput{grid-column:1/-1}.toolbar button{width:100%;white-space:normal}.division-box{grid-column:1/-1}.division-box select{height:auto;min-height:76px}}
 .photo-gallery{width:min(94vw,900px);max-height:92vh;overflow:auto}.photo-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(145px,1fr));gap:12px;padding:14px}.photo-item{border:1px solid var(--line);background:#020617;border-radius:9px;padding:9px;min-width:0}.photo-item img{display:block;width:100%;height:170px;object-fit:contain;background:#0b1220;border-radius:6px;cursor:zoom-in}.photo-label{font-size:12px;font-weight:600;margin:8px 0;color:var(--text)}.photo-item .btn{width:100%;margin-top:4px}.gallery-empty{padding:20px;color:var(--muted)}
 </style>
 </head>
@@ -48,10 +49,11 @@ table{width:100%;min-width:900px;border-collapse:collapse} th,td{border-bottom:1
   <div class="summary" id="summary">Memuat data teknisi...</div>
   <div class="load-status" id="loadStatus" role="status" aria-live="polite"></div>
   </div>
+  <div class="admin-sticky-spacer" id="adminStickySpacer" aria-hidden="true"></div>
   <div class="table-wrap">
     <table id="adminTable">
-      <thead><tr><th>Foto</th><th>Username</th><th>Nama Pegawai</th><th>Divisi</th><th>Status</th><th>Mulai Kerja</th><th>Masa Kerja</th><th>Aksi</th></tr></thead>
-      <tbody id="adminTableBody"><tr><td colspan="8" class="empty">Memuat data...</td></tr></tbody>
+      <thead><tr><th>Foto</th><th>Username</th><th>Nama Pegawai</th><th>Divisi</th><th>Status</th><th>Mulai Kerja</th><th>Tanggal Keluar</th><th>Masa Kerja</th><th>Aksi</th></tr></thead>
+      <tbody id="adminTableBody"><tr><td colspan="9" class="empty">Memuat data...</td></tr></tbody>
     </table>
   </div>
 </main>
@@ -87,6 +89,13 @@ const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzfYMYq83BYCNxITAK-
 const ADMIN_KEY = 'ADMIN_BIODATA_PTTJ';
 let allData = [];
 const $ = id => document.getElementById(id);
+const stickyHeader = $('adminStickySpacer') ? document.querySelector('.admin-sticky') : null;
+const stickySpacer = $('adminStickySpacer');
+function syncStickyHeader(){ if(stickyHeader && stickySpacer) stickySpacer.style.height = stickyHeader.offsetHeight + 'px'; }
+window.addEventListener('resize', syncStickyHeader);
+window.addEventListener('load', syncStickyHeader);
+if (stickyHeader && 'ResizeObserver' in window) new ResizeObserver(syncStickyHeader).observe(stickyHeader);
+requestAnimationFrame(syncStickyHeader);
 
 document.addEventListener('DOMContentLoaded', () => {
   $('searchInput').addEventListener('input', renderTable);
@@ -120,7 +129,7 @@ async function loadAdmin(manual = false) {
   status.textContent = manual ? 'Memperbarui data dari Google Sheets...' : 'Mengambil data terbaru dari Google Sheets...';
   if (!allData.length) {
     $('summary').textContent = 'Memuat data teknisi...';
-    $('adminTableBody').innerHTML = '<tr><td colspan="8" class="empty">Sedang mengambil data. Mohon tunggu...</td></tr>';
+    $('adminTableBody').innerHTML = '<tr><td colspan="9" class="empty">Sedang mengambil data. Mohon tunggu...</td></tr>';
   }
   const timeout = setTimeout(() => loadController && loadController.abort(), 90000);
   try {
@@ -149,7 +158,7 @@ async function loadAdmin(manual = false) {
     }
     if (!allData.length) {
       $('summary').textContent = 'Data belum berhasil dimuat.';
-      $('adminTableBody').innerHTML = '<tr><td colspan="8" class="empty">Gagal memuat data. Periksa koneksi dan eksekusi Apps Script, lalu tekan Muat Ulang Data.</td></tr>';
+      $('adminTableBody').innerHTML = '<tr><td colspan="9" class="empty">Gagal memuat data. Periksa koneksi dan eksekusi Apps Script, lalu tekan Muat Ulang Data.</td></tr>';
     }
     console.error(err);
   } finally {
@@ -190,12 +199,13 @@ function renderTable() {
     const statusTd=document.createElement('td'); const status=String(d.statusKerja || 'AKTIF').toUpperCase();
     const badge=document.createElement('span'); badge.className='status-badge '+(status==='NONAKTIF'?'status-inactive':'status-active'); badge.textContent=status; statusTd.appendChild(badge);
     const startTd=document.createElement('td'); startTd.textContent=formatDate(d.tanggalMasukKerja)||'-';
+    const endTd=document.createElement('td'); endTd.textContent=formatDate(d.tanggalKeluarKerja)||'-';
     const tenureTd=document.createElement('td'); tenureTd.textContent=safeText(d.masaKerja)||'-';
     const actionTd=document.createElement('td'); const actions=document.createElement('div'); actions.className='actions';
     const a=document.createElement('a'); a.className='btn'; a.target='_blank'; a.rel='noopener'; a.textContent='Preview / Cetak'; a.href='teknisi.html?admin=1&user='+encodeURIComponent(safeText(d.username)); actions.appendChild(a);
     if (getPhotoList(d).some(p=>p.url)) { const open=document.createElement('button'); open.type='button'; open.className='secondary'; open.textContent='Lihat Foto'; open.addEventListener('click',()=>openPhoto(d)); actions.appendChild(open); }
     const edit=document.createElement('button'); edit.type='button'; edit.textContent='Status / Masa Kerja'; edit.addEventListener('click',()=>openEmployment(d)); actions.appendChild(edit);
-    actionTd.appendChild(actions); tr.append(photoTd,userTd,nameTd,divTd,statusTd,startTd,tenureTd,actionTd); tbody.appendChild(tr);
+    actionTd.appendChild(actions); tr.append(photoTd,userTd,nameTd,divTd,statusTd,startTd,endTd,tenureTd,actionTd); tbody.appendChild(tr);
   });
 }
 function getPhotoList(d) {
