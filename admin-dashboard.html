@@ -52,8 +52,8 @@ table{width:100%;min-width:1020px;border-collapse:collapse} th,td{border-bottom:
   <div class="admin-sticky-spacer" id="adminStickySpacer" aria-hidden="true"></div>
   <div class="table-wrap">
     <table id="adminTable">
-      <thead><tr><th>Foto</th><th>Username</th><th>Nama Pegawai</th><th>Divisi</th><th>Status</th><th>Mulai Kerja</th><th>Tanggal Keluar</th><th>Masa Kerja</th><th>Aksi</th></tr></thead>
-      <tbody id="adminTableBody"><tr><td colspan="9" class="empty">Memuat data...</td></tr></tbody>
+      <thead><tr><th>Foto</th><th>Username</th><th>Nama Pegawai</th><th>Divisi</th><th>Status</th><th>Mulai Kerja</th><th>Tanggal Keluar</th><th>Masa Kerja</th><th>Mulai Kontrak</th><th>Akhir Kontrak</th><th>Masa Kontrak</th><th>Aksi</th></tr></thead>
+      <tbody id="adminTableBody"><tr><td colspan="12" class="empty">Memuat data...</td></tr></tbody>
     </table>
   </div>
 </main>
@@ -84,6 +84,19 @@ table{width:100%;min-width:1020px;border-collapse:collapse} th,td{border-bottom:
     </form>
   </div>
 </div>
+<div class="modal" id="contractModal" role="dialog" aria-modal="true" aria-label="Edit masa kontrak teknisi">
+  <div class="modal-card" style="width:min(94vw,560px)">
+    <div class="modal-head"><strong>Mulai & Masa Kontrak</strong><button type="button" class="secondary" id="closeContract">Tutup ✕</button></div>
+    <form id="contractForm" class="modal-form">
+      <label class="full">Username / Nama Teknisi<input id="contractPerson" readonly></label>
+      <label>Mulai Kontrak<input id="contractStart" type="date"></label>
+      <label>Akhir Kontrak<input id="contractEnd" type="date"></label>
+      <div class="modal-note" id="contractPreview">Masa kontrak dihitung otomatis dari tanggal mulai dan akhir kontrak.</div>
+      <div class="modal-note">Data disimpan ke kolom AY, AZ, dan BA. Kolom biodata dan status kerja yang sudah ada tidak diubah.</div>
+      <div class="full actions"><button id="saveContract" type="submit">Simpan Kontrak</button><button id="cancelContract" type="button" class="secondary">Batal</button></div>
+    </form>
+  </div>
+</div>
 <script>
 const WEB_APP_URL = 'https://script.google.com/macros/s/AKfycbzfYMYq83BYCNxITAK-CbGQ0uA5diRWuFw1-kyd7zzqmcFR_3hwWnHtNNDLTF4mUHc/exec';
 const ADMIN_KEY = 'ADMIN_BIODATA_PTTJ';
@@ -106,6 +119,11 @@ document.addEventListener('DOMContentLoaded', () => {
   $('closeEmployment').addEventListener('click', closeEmployment);
   $('cancelEmployment').addEventListener('click', closeEmployment);
   $('employmentForm').addEventListener('submit', saveEmployment);
+  $('closeContract').addEventListener('click', closeContract);
+  $('cancelContract').addEventListener('click', closeContract);
+  $('contractForm').addEventListener('submit', saveContract);
+  ['contractStart','contractEnd'].forEach(id => $(id).addEventListener('change', updateContractPreview));
+  $('contractModal').addEventListener('click', e => { if (e.target === $('contractModal')) closeContract(); });
   ['employmentStart','employmentEnd','employmentStatus'].forEach(id => $(id).addEventListener('change', updateTenurePreview));
   $('closeModal').addEventListener('click', closePhoto);
   $('closeZoomModal').addEventListener('click', closePhotoZoom);
@@ -129,7 +147,7 @@ async function loadAdmin(manual = false) {
   status.textContent = manual ? 'Memperbarui data dari Google Sheets...' : 'Mengambil data terbaru dari Google Sheets...';
   if (!allData.length) {
     $('summary').textContent = 'Memuat data teknisi...';
-    $('adminTableBody').innerHTML = '<tr><td colspan="9" class="empty">Sedang mengambil data. Mohon tunggu...</td></tr>';
+    $('adminTableBody').innerHTML = '<tr><td colspan="12" class="empty">Sedang mengambil data. Mohon tunggu...</td></tr>';
   }
   const timeout = setTimeout(() => loadController && loadController.abort(), 90000);
   try {
@@ -158,7 +176,7 @@ async function loadAdmin(manual = false) {
     }
     if (!allData.length) {
       $('summary').textContent = 'Data belum berhasil dimuat.';
-      $('adminTableBody').innerHTML = '<tr><td colspan="9" class="empty">Gagal memuat data. Periksa koneksi dan eksekusi Apps Script, lalu tekan Muat Ulang Data.</td></tr>';
+      $('adminTableBody').innerHTML = '<tr><td colspan="12" class="empty">Gagal memuat data. Periksa koneksi dan eksekusi Apps Script, lalu tekan Muat Ulang Data.</td></tr>';
     }
     console.error(err);
   } finally {
@@ -201,11 +219,15 @@ function renderTable() {
     const startTd=document.createElement('td'); startTd.textContent=formatDate(d.tanggalMasukKerja)||'-';
     const endTd=document.createElement('td'); endTd.textContent=formatDate(d.tanggalKeluarKerja)||'-';
     const tenureTd=document.createElement('td'); tenureTd.textContent=safeText(d.masaKerja)||'-';
+    const contractStartTd=document.createElement('td'); contractStartTd.textContent=formatDate(d.mulaiKontrak)||'-';
+    const contractEndTd=document.createElement('td'); contractEndTd.textContent=formatDate(d.akhirKontrak)||'-';
+    const contractTenureTd=document.createElement('td'); contractTenureTd.textContent=safeText(d.masaKontrak)||'-';
     const actionTd=document.createElement('td'); const actions=document.createElement('div'); actions.className='actions';
     const a=document.createElement('a'); a.className='btn'; a.target='_blank'; a.rel='noopener'; a.textContent='Preview / Cetak'; a.href='teknisi.html?admin=1&user='+encodeURIComponent(safeText(d.username)); actions.appendChild(a);
     if (getPhotoList(d).some(p=>p.url)) { const open=document.createElement('button'); open.type='button'; open.className='secondary'; open.textContent='Lihat Foto'; open.addEventListener('click',()=>openPhoto(d)); actions.appendChild(open); }
     const edit=document.createElement('button'); edit.type='button'; edit.textContent='Status / Masa Kerja'; edit.addEventListener('click',()=>openEmployment(d)); actions.appendChild(edit);
-    actionTd.appendChild(actions); tr.append(photoTd,userTd,nameTd,divTd,statusTd,startTd,endTd,tenureTd,actionTd); tbody.appendChild(tr);
+    const contract=document.createElement('button'); contract.type='button'; contract.className='secondary'; contract.textContent='Kontrak'; contract.addEventListener('click',()=>openContract(d)); actions.appendChild(contract);
+    actionTd.appendChild(actions); tr.append(photoTd,userTd,nameTd,divTd,statusTd,startTd,endTd,tenureTd,contractStartTd,contractEndTd,contractTenureTd,actionTd); tbody.appendChild(tr);
   });
 }
 function getPhotoList(d) {
@@ -303,6 +325,37 @@ async function saveEmployment(e) {
   finally {btn.disabled=false;btn.textContent='Simpan Perubahan';}
 }
 
+
+function openContract(d) {
+  $('contractPerson').value = `${safeText(d.username)} — ${safeText(d.namaPegawai)}`;
+  $('contractStart').value = normalizeDateInput(d.mulaiKontrak);
+  $('contractEnd').value = normalizeDateInput(d.akhirKontrak);
+  $('contractForm').dataset.username = safeText(d.username);
+  $('contractModal').classList.add('open'); updateContractPreview();
+}
+function closeContract() { $('contractModal').classList.remove('open'); }
+function updateContractPreview() {
+  const start=$('contractStart').value, end=$('contractEnd').value;
+  $('contractPreview').textContent = !start ? 'Isi tanggal mulai kontrak.' : (end && end < start ? 'Tanggal akhir kontrak tidak boleh sebelum tanggal mulai.' : 'Masa kontrak: ' + diffTenure(start,end||new Date().toISOString().slice(0,10)));
+}
+async function saveContract(e) {
+  e.preventDefault();
+  const username=$('contractForm').dataset.username;
+  const mulaiKontrak=$('contractStart').value;
+  const akhirKontrak=$('contractEnd').value;
+  if (!username) { alert('Username teknisi tidak ditemukan.'); return; }
+  if (akhirKontrak && (!mulaiKontrak || akhirKontrak < mulaiKontrak)) { alert('Tanggal akhir kontrak tidak boleh sebelum tanggal mulai kontrak.'); return; }
+  const btn=$('saveContract'); btn.disabled=true; btn.textContent='Menyimpan...';
+  try {
+    const r=await fetch(WEB_APP_URL,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify({mode:'updateContract',adminKey:ADMIN_KEY,username,mulaiKontrak,akhirKontrak})});
+    const res=await r.json(); if(!res.ok) throw new Error(res.error||'Gagal menyimpan kontrak');
+    const target=allData.find(d=>String(d.username)===username);
+    if(target){target.mulaiKontrak=mulaiKontrak;target.akhirKontrak=akhirKontrak;target.masaKontrak=res.masaKontrak|| (mulaiKontrak?diffTenure(mulaiKontrak,akhirKontrak||new Date().toISOString().slice(0,10)):'');}
+    closeContract(); renderTable(); alert('Data kontrak berhasil disimpan.');
+  } catch(err) { alert('Gagal menyimpan kontrak: '+err.message+'\nPastikan Code.gs sudah di-deploy sebagai versi baru.'); }
+  finally {btn.disabled=false;btn.textContent='Simpan Kontrak';}
+}
+
 function htmlCell(value) {
   const s = String(value == null ? '' : value);
   return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
@@ -323,7 +376,7 @@ function downloadExcel() {
     ['BPJS Pasangan','bpjsPasangan'],['Telepon Kerabat','telpKerabat'],['Data Anak','dataAnak'],['Nama Faskes','namaFaskes'],
     ['No KK','noKk'],['No SIM','noSim'],['Foto Teknisi URL','fotoUrl'],['Foto KTP URL','fotoKtpUrl'],
     ['Foto BPJS Kesehatan URL','fotoBpjsKesUrl'],['Foto BPJS Ketenagakerjaan URL','fotoBpjsKetUrl'],
-    ['Foto NPWP URL','fotoNpwpUrl'],['Foto KK URL','fotoKkUrl'],['Foto SIM URL','fotoSimUrl'],['Status Teknisi','statusKerja'],['Tanggal Masuk Kerja','tanggalMasukKerja'],['Tanggal Keluar','tanggalKeluarKerja'],['Masa Kerja','masaKerja']
+    ['Foto NPWP URL','fotoNpwpUrl'],['Foto KK URL','fotoKkUrl'],['Foto SIM URL','fotoSimUrl'],['Status Teknisi','statusKerja'],['Tanggal Masuk Kerja','tanggalMasukKerja'],['Tanggal Keluar','tanggalKeluarKerja'],['Masa Kerja','masaKerja'],['Mulai Kontrak','mulaiKontrak'],['Akhir Kontrak','akhirKontrak'],['Masa Kontrak','masaKontrak']
   ];
   const head = columns.map(c => '<th>'+htmlCell(c[0])+'</th>').join('');
   const body = rows.map(d => '<tr>'+columns.map(c => '<td>'+htmlCell(d[c[1]])+'</td>').join('')+'</tr>').join('');
